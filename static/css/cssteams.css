@@ -1,0 +1,551 @@
+body
+{
+	font-family: 'Lato', sans-serif;
+	overflow: hidden;
+	color: #00004f;
+
+}
+
+
+
+#container
+{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 1920px;
+	height: 1080px;
+}
+
+td
+{
+	min-width: 70px;
+	text-align: center;
+	padding-left: 5px;
+	font-size: 35px;
+}
+
+td.name
+
+{
+    text-align: right;
+    width: 50%;
+    vertical-align: top;
+}
+
+td.time
+{
+    vertical-align: top;
+    text-align: left;
+    padding-left: 20px;
+}
+
+table.strikersa{
+    text-align: left;
+}
+
+
+table.strikersb{
+    float: right;
+    text-align: right;
+    
+}
+
+
+
+#top_bar
+{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	image-width: 1920px;
+	font-size: 45px;
+    text-shadow: 0px 0px 10px darkgray;
+	font-weight: 900;
+}
+
+#bottom_bar
+{
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+}
+
+.team_logo{
+	top: 150px;	
+	width: 859px;
+	float: left;
+    filter: drop-shadow(0px 0px 40px rgba(0,0,0,0.6));
+}
+
+.team_logo>img
+{
+    height: 200px;
+    width: auto;
+}
+
+#team_a_logo
+{
+	position: absolute;
+	left: 100px;
+	text-align: left;
+}
+
+#team_b_logo
+{
+	position: absolute;
+	right: 100px;
+	text-align: right;
+
+}
+
+
+#img_bottom
+{
+	position: absolute;
+	bottom: 0px;
+}
+
+#img_top
+{
+	width: 1920px;
+	padding: 0;
+}
+
+.logo
+{
+	width: 350px;
+}
+
+#score_bg
+{
+	position: absolute;
+	left: 0px;
+	top: 120px;
+	width: 100%;
+}
+
+#team_screen_content
+{
+	font-size: 70px;
+	font-weight: 900;
+	color: white;
+	border: 2 solid red;
+	background-color: rgba(255,255,255,0.5);
+	height: 100%;
+	width: 100%;
+	color: #00004f;
+}
+
+#score_bar{
+	font-size: 80px;
+    text-shadow: 0px 0px 45px lightgray;
+	text-align: center;
+}
+
+#scorebarNlogos{
+    position: relative;
+	text-align: center;
+	animation: scorebarNlogosSpread 1s;
+	animation-fill-mode: Both;
+    perspective: 1000px;
+}
+
+@keyframes scorebarNlogosSpread
+{
+	0% {left: 50%; width: 0%; opacity: 0; color: rgba(0,0,0,0)}
+    10% {opacity: 0;}
+    99% {color: rgba(0,0,0,0)}
+	100% {left: 0px; width: 100%; opacity: 1; color: white;}
+}
+
+#score_a
+{
+	position: absolute;
+	left: 830px;
+	top: 170px;
+	width: 120px;
+	float: left;
+}
+	
+#score_b
+{
+	position: absolute;
+	right: 830px;
+	top: 170px;
+	width: 120px;
+	float: left;
+}
+
+#league
+{
+	position: absolute;
+	left: 200px;
+	top: 7px;
+}
+
+#division
+{
+	position: absolute;
+	left: 200px;
+	top: 50px;
+}
+
+#strikers
+{
+	position: relative;
+	font-size: 30px;
+	color: #00004f;
+	top: 380px;
+	left: 5%;
+    width: 90%;
+	text-shadow: 2px 2px 10px white;
+    animation-fill-mode: forwards;
+    animation: strikersShow 2s;
+}
+
+@keyframes strikersShow
+{
+    0% {opacity: 0;}
+    99% {opacity: 0;}
+    100% {opacity: 1;}
+}
+
+#strikers_a
+{
+	position:absolute;
+	left: 0px;
+	width: 50%;
+	text-align: c;
+}
+
+#strikers_b
+{
+	position:absolute;
+	right: 0px;
+	width: 50%;
+}
+
+.strikers_b_tab{
+    	text-align: right;
+    position:relative;
+	float: right;
+	padding-right: 10px;
+    right: opx;
+}
+
+.cleaner
+{
+	clear: both;
+}
+
+.time
+{
+	text-align: right;
+	
+}
+
+#screen_content
+{
+	min-height: 400px;
+
+}
+
+#logo_squad
+{	
+	opacity: 0;
+	position: absolute;
+	float: left;
+	left: 200px;
+	top: 80px;
+	width: 600px;
+	opacity: 1;
+	-webkit-animation: logo_squad_anim 10s;
+	-webkit-animation-fill-mode: Both;
+	-webkit-animation-delay: 0.5s;
+}
+
+#logoBackground
+{	
+	position: relative;
+	animation-fill-mode: both;
+	-webkit-animation-delay: 0.5s;
+	width: 50%;
+	height: 900px;
+	-webkit-animation: background_logo_anim 10s;
+	top: 114px;
+}
+
+.table_a
+{
+	position: absolute;
+	top: 180px;
+	margin-left: 230px;
+	margin-right: auto;
+	font-size: 35px;
+}
+
+.table_b
+{
+	position: absolute;
+	top: 120px;
+	margin-left: 250px;
+	margin-right: auto;
+	font-size: 500px;
+	text-align: center;
+
+}
+
+.class_first
+{
+	color: White;
+	background-color: #6666ff;
+}
+
+.class_second
+{
+	color: White;
+	background-color: #4d4dff;
+	
+}
+
+
+
+.team_name
+{
+	text-align: left;
+	font-weight: bold;
+	padding-left: 20px;
+	padding-right: 10px;
+	min-width: 300px;
+}
+
+.points
+{
+	font-weight: 900;
+	min-width: 45px;
+	background-color: #2d2d86;
+}
+
+.team_pos
+{
+	min-width: 35px;
+}
+
+.class_header
+{	
+	background-color: #000066;
+	color: White;
+	text-align: center;
+	font-weight: bold;
+	letter-spacing: 1px;
+	font-size: 20px;
+}
+
+@-webkit-keyframes squad_anim
+{
+  0%  {left:1000px; top:0px; opacity: 0;}
+  100% {left:600px; top:0px; opacity: 1;}
+}
+
+@-webkit-keyframes logo_squad_anim
+{
+  0% {opacity: 0;}
+  10% {opacity: 1;}
+  90% {opacity: 1;}
+  100% {opacity: 0;}
+}
+
+@-webkit-keyframes background_logo_anim
+{
+  0% {background-color: rgba(255,255,255,0);}
+  25% {background-color: rgba(255,255,255,0.4);}
+  90% {background-color: rgba(255,255,255,0.4);}
+  100% {background-color: rgba(255,255,255,0);}
+}
+
+#matchSquad{
+	position: relative;
+	border-spacing: 0px;
+	padding: 50px;
+}
+
+
+.row{
+	position:relative;
+	color: white;
+	text-align: left;
+	opacity: 0;
+	-webkit-animation-fill-mode: forwards;
+}
+
+#squad
+{
+	font-size: 30px;
+	position: absolute;
+	left: 0px;
+	top: -45px;
+	color: white;
+	/*background-color: rgba(56, 56, 56, 0.7);*/
+	/*-webkit-animation: squad_anim 1s;*/
+	-webkit-animation-fill-mode: Both;
+	-webkit-animation-delay: 0.5s;
+}
+
+.playerName{
+	text-align: left;
+	font-size: 38px;
+	font-weight: 900;
+}
+
+@keyframes fadeMe {
+  0%  {opacity: 0;}
+  10% {opacity: 0;}
+  20% {opacity: 1;}
+  100% {opacity: 1;}
+}
+
+@keyframes squadBackgroundSlideInOut {
+	0% {left: 100%; top: 114px;}
+	5% {left: 50%; top: 114px;}
+	95% {left: 50%; top: 114px;}
+	100% {left: 100%; top: 114px;}
+
+}
+
+#squadBackground {
+	position: absolute;
+	width: 50%;
+	height: 900px;
+	left: 50%;
+	top: 114px;
+	background-color: navy;
+	opacity: 0.7;
+	-webkit-animation: squadBackgroundSlideInOut 10s;
+	-webkit-animation-fill-mode: both;
+}
+
+#repeatInfo {
+	position: absolute;
+	-webkit-animation: repeatInfoSlide 7s;
+	-webkit-animation-fill-mode: Both;
+	-webkit-animation-delay: 1s;
+	padding-left: 20px;
+	padding-right: 20px;
+	background-color: rgba(255,100,100,0.7);
+	color: rgba(255,255,255,0.9);
+	font-size: 30px;
+}
+
+@keyframes repeatInfoSlide {
+	0% {right: -300px; top: 100px;}
+	10% {right: 0px; top: 100px;}
+	90% {right: 0px; top: 100px;}
+	100% {right: -300px; top: 100px;}
+}
+
+.bottom_info{
+        position:absolute;
+    bottom: 100px;
+    width: 100%;
+    color: white;
+/*    left: 30%;*/
+    text-align: center;
+    font-size: 30px;
+    height: 1.5em;
+    line-height: 1.5em;
+    font-weight: 700;
+}
+
+#referee {
+    -webkit-animation: bottom_info_slide_in_out 10s;
+    -webkit-animation-fill-mode: Both;
+    -webkit-animation-delay: 5s;
+}
+
+#commentator {
+    -webkit-animation: bottom_info_slide_in_out 10s;
+    -webkit-animation-fill-mode: Both;
+    -webkit-animation-delay: 16s;
+}
+
+#adress {
+    -webkit-animation: bottom_info_slide_in 1s;
+    -webkit-animation-fill-mode: Both;
+    -webkit-animation-delay: 27s;
+}
+
+.bottom_info_center_div{
+    display: inline-block;
+    min-width: 35%;
+/*    border: 1px solid red;*/
+}
+
+.bottom_info_left{
+/*    position: relative;*/
+    float: left;
+/*    padding: 0 10% 0 10%;*/
+    background-color: #01099a;
+    width: 50%;
+}
+
+.bottom_info_right{
+/*    position: relative;*/
+    float: left;
+    background-color: #111;
+/*    padding: 0 5% 0 5%;*/
+    min-width: 50%;
+}
+
+@keyframes bottom_info_slide_in_out{
+    0% {bottom: -50px;}
+    10% {bottom: 100px;}
+    90% {bottom: 100px;}
+    100% {bottom: -50px;}
+}
+
+@keyframes bottom_info_slide_in{
+    0% {bottom: -50px;}
+    100% {bottom: 100px;}
+}
+
+#teams_full_names{
+    position: relative;
+    width: 46%;
+    left: 27%;
+    text-align: center;
+    top: 30%;
+    line-height: 1.5em;
+    text-shadow: 5px 5px 20px gray;
+    font-size: 50px;
+    animation: team_full_name_show 0.5s;
+    animation-delay: 4s;
+    animation-fill-mode: both;
+}
+
+.team_full_name{
+    color: white;
+    background-color: #00004f;
+    box-shadow: 5px 5px 20px gray;
+
+}
+
+.match_date{
+    color: white;
+    background-color: red;
+}
+
+.clear_line{
+    opacity: 0;
+}
+
+#team_a_full_name{
+}
+
+#team_b_full_name{
+}
+
+@keyframes team_full_name_show{
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}

@@ -1,0 +1,323 @@
+body
+{
+	font-family: 'Lato', sans-serif;
+	overflow: hidden;
+/*    background-color: cadetblue;*/
+}
+
+#container
+{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 1920px;
+	height: 1080px;
+}
+
+#scoreboard
+{
+	position: absolute;
+	right: 39px;
+	top: 20px;
+	width: 423px;
+	height: 50px;
+	z-index: 0;
+	background-color;
+}
+
+
+
+#scoreboard_img
+{
+	position:absolute;
+	top: 12px;
+	z-index: 1;
+
+}
+
+#scoreboard_top
+{
+	position: absolute;
+	top: -6px;
+	left: 0px;
+	width: 282px;
+	height: 3px;
+	z-index: 3;
+	font-size: 18px;
+	text-shadow: 0, 0, 2px, gray;
+}
+
+#fouls_a
+{
+	position: absolute;
+	left: 107px;
+	width: 66px;
+	color: red;
+	padding-left: 8px;
+	text-align: left;
+}
+
+#fouls_b
+{
+	position: absolute;
+	left: 350px;
+	width: 66px;
+	color: red;
+	padding-left: 8px;
+	text-align:left;
+}
+
+
+
+
+#scoreboard_val
+{
+	position: absolute;
+	left: 0px;
+	top: 16px;
+	color: #DDDDDD;
+	text-shadow: 0px 0px 2px gray;
+	font-family: Lucida Console;
+	z-index: 2;
+}
+
+#time
+{
+	position: absolute;
+	left: 20px;
+	top: 10px;
+	width: 69px;
+	padding-left: 30px;
+	font-size: 28px;
+	color: #C0C0C0;
+}
+
+#team_a
+{
+	position: absolute;
+	top: 3px;
+	left: 112px;
+	min-width: 53px !important;
+	text-align: center;
+	font-size: 32px;
+}
+
+#score_a
+{
+	position: absolute;
+	left: 195px;
+	top: 7px;
+	width: 52px !important;
+	text-align: center;
+	font-weight: bold;
+	font-size: 37px;
+}
+
+#score_b
+{
+	position: absolute;
+	left: 275px;
+	top: 7px;
+	width: 53px !important;
+	text-align: center;
+	font-weight: bold;
+	font-size: 37px;
+}
+
+#team_b
+{
+	top: 3px;
+	position: absolute;
+	left: 355px;
+	width: 53px !important;
+	text-align: center;
+	font-size: 32px;
+}
+
+
+.cleaner
+{
+	clear: both;
+}
+
+#scoreboard_bottom
+{
+	position: absolute;
+	top: 48px;
+	z-index: 2;
+}
+
+
+#tricot_a
+{
+	position: absolute;
+	left:110px;
+	width: 65px;
+	height: 6px;
+	border-radius: 3px;
+	overflow: hidden;
+}
+
+#colors_a
+{
+	position: absolute;
+	left: 0px;
+	width: 65px;
+	height: 4px;
+}
+
+#shade_a
+{
+	position: absolute;
+	left: 0px;
+	width: 65px;
+	height: 6px;
+	z-index: 5;
+	border-radius: 2px;
+	background-image: linear-gradient(rgba(169, 169, 169, 0.7),rgba(169, 169, 169, 0),rgba(169, 169, 169, 0.7));
+}
+
+#tricot_b
+{
+	position: absolute;
+	left: 352px;
+	width: 65px;
+	height: 6px;
+	border-radius: 2px;
+	overflow: hidden;
+}
+
+#colors_b
+{
+	position: absolute;
+	left: 0px;
+	width: 65px;
+	height: 6px;
+}
+
+#shade_b
+{
+	position: absolute;
+	left: 0px;
+	width: 65px;
+	height: 6px;
+	z-index: 5;
+	border-radius: 3px;
+	background-image: linear-gradient(rgba(169, 169, 169, 0.7),rgba(169, 169, 169, 0),rgba(169, 169, 169, 0.7));
+}
+
+
+
+#info_bar
+{
+	width: 1860px;
+	height: 50px;
+	background-color: rgb(255,255,255, 0.5);
+	position:absolute;
+	line-height:3em;
+	margin-left:59px;
+	overflow:hidden;
+	bottom: 0px;
+}
+
+#info_bar_text
+{
+	color: #001a33;
+	font-size: 35px;
+	padding: 0px;
+	position: absolute;
+    white-space: pre;
+    animation:przesun 30s linear infinite;
+}
+
+@keyframes przesun
+{
+  0% { transform:translateX(0%); padding-left:100%; }
+  100% { transform:translateX(-100%); padding-left:110%; }
+}
+
+#action_info
+{
+/*    width: 1920px;*/
+	position: absolute;
+    left: 50%;
+    transform: translateX(-56%);
+	bottom: 100px;
+	height: 100px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.action_square{
+    display: inline-block;
+    position: relative;
+    height: 100%;
+    width: 100px;
+}
+
+
+
+#action_info_text
+{
+    position: relative;
+    display: inline-block;
+    margin-right: 20px;
+    margin-left: 20px;
+	font-weight: 500;
+	letter-spacing: 1px;
+    background-color: rgba(255,255,255,0.7);
+/*    margin: 0em 1em;*/
+
+/*	top: 3px;*/
+}
+
+.action_minute{
+/*    bottom: 10px;*/
+    float: left;
+    color: red;
+    position: relative;
+    top: 0px;
+    left: 0px;
+    font-size: 40px;
+    text-align: center;
+    transform: none;
+    padding: 0px 10px;
+}
+
+#player_name{
+    float: left;
+    position: relative;
+    font-size: 40px;
+    overflow: hidden;
+    height: 50px;
+    min-width: 500px;
+    padding: 0em 1em;
+}
+
+#player_team{
+    position: relative;
+    font-size: 35px;
+    color: white;
+    overflow: hidden;
+    height: 50px;
+    padding: 0em 1em;
+    background-color: rgba(255,0,0,0.8);
+
+}
+
+#action_icon{
+    position: relative;
+    display: inline-block;
+    height: 100%;
+    padding-right: 20px;
+/*    width: 133px;*/
+}
+
+#action_icon img{
+    width: 100%;
+    height: 100%;
+}
+
+.invisible_text{
+    color: rgba(255,255,255,0);
+}
