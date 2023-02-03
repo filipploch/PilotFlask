@@ -1,33 +1,73 @@
-from flask import Flask, render_template, jsonify, flash, request, redirect, url_for
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, render_template, jsonify, current_app, Blueprint
 from flask_cors import CORS
-import json
+from models import Team, Match
+from database import db
+import threading
+from timer import Timer
+from variables import MATCH_ID, TEAM_A_ID, TEAM_B_ID
+from flask_apscheduler import APScheduler
 
-app = Flask(__name__)
+monitor_blueprint = Blueprint('monitor', __name__)
+controller_blueprint = Blueprint('controller', __name__)
+timer_blueprint = Blueprint('timer', __name__)
 
-app.config['SECRET_KEY'] = 'hardsecretkey'
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:''@localhost/futsal'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-db = SQLAlchemy(app)
-CORS(app)
-
-TEAM_A_ID = 1
-TEAM_B_ID = 3
+apscheduler = APScheduler()
 
 
-@app.route('/match')
+def create_app():
+    app = Flask(__name__)
+    app.config['SECRET_KEY'] = 'hardsecretkey'
+
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:''@localhost/futsal'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.register_blueprint(monitor_blueprint)
+    app.register_blueprint(controller_blueprint)
+    app.register_blueprint(timer_blueprint)
+    db.init_app(app)
+    apscheduler.init_app(app)
+    apscheduler.start()
+    timer = Timer(app)
+    apscheduler.add_job(func=timer.start_timer, args=[app], id='timer')
+    CORS(app)
+    return app
+
+
+# def scheduled_task(task_id):
+#     for i in range(10):
+#         time.sleep(1)
+#         print('Task {} running iteration {}'.format(task_id, i))
+#     <other stuff>
+#     @app.before_first_request
+#     def load_tasks():
+#         from app import tasks
+
+
+
+
+
+
+@monitor_blueprint.route('/')
+def index():
+    return 'Hello World'
+
+@controller_blueprint.route('/start-timer/<is_act>')
+def start_timer(is_act):
+    Match.query.filter_by(id=MATCH_ID).first().is_timer_active = int(is_act)
+    db.session.commit()
+    return jsonify({'is_timer_active': Match.query.filter_by(id=MATCH_ID).first().is_timer_active})
+
+
+@monitor_blueprint.route('/match')
 def match():
     return render_template('match.html')
 
 
-@app.route('/teams')
+@monitor_blueprint.route('/teams')
 def teams():
     return render_template('teams.html')
 
 
-@app.route('/matchdata')
+@monitor_blueprint.route('/matchdata')
 def matchdata():
     team_a = Team.query.get(TEAM_A_ID)
     team_b = Team.query.get(TEAM_B_ID)
@@ -52,26 +92,5 @@ def get_tricot(team):
     return tricot
 
 
-class Team(db.Model):
-    __tablename__ = 'teams'
-    id = db.Column(db.Integer, primary_key=True)
-    full_name = db.Column(db.String, unique=True)
-    competitions = db.Column(db.Integer)
-    link = db.Column(db.String)
-    short_name = db.Column(db.String, unique=True)
-    home_tricot_color_number = db.Column(db.Integer)
-    home_color_one = db.Column(db.String)
-    home_color_two = db.Column(db.String)
-    home_color_three = db.Column(db.String)
-    color_for_ui = db.Column(db.String)
-    away_color_one = db.Column(db.String)
-    away_color_two = db.Column(db.String)
-    away_color_three = db.Column(db.String)
-    selected_tricot = db.Column(db.Integer)
-    bibs_color = db.Column(db.String)
-    away_tricot_color_number = db.Column(db.Integer)
-    logo_file = db.Column(db.String)
-
-
 if __name__ == '__main__':
-    app.run(port=5555)
+    create_app().run(port=5555, use_reloader=False, debug=True)
