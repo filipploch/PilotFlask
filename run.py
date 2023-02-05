@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, current_app, Blueprint
+from flask import Flask, render_template, jsonify, current_app, Blueprint, request
 from flask_cors import CORS
 from models import Team, Match
 from database import db
@@ -27,23 +27,9 @@ def create_app():
     apscheduler.init_app(app)
     apscheduler.start()
     timer = Timer(app)
-    apscheduler.add_job(func=timer.start_timer, args=[app], id='timer')
+    apscheduler.add_job(func=timer.control_timer, args=[app], id='timer')
     CORS(app)
     return app
-
-
-# def scheduled_task(task_id):
-#     for i in range(10):
-#         time.sleep(1)
-#         print('Task {} running iteration {}'.format(task_id, i))
-#     <other stuff>
-#     @app.before_first_request
-#     def load_tasks():
-#         from app import tasks
-
-
-
-
 
 
 @monitor_blueprint.route('/')
@@ -51,9 +37,9 @@ def index():
     return 'Hello World'
 
 
-@timer_blueprint.route('/start-timer/<is_act>')
-def start_timer(is_act):
-    Match.query.filter_by(id=MATCH_ID).first().is_timer_active = int(is_act)
+@timer_blueprint.route('/control-timer/<control_variable>')
+def control_timer(control_variable):
+    Match.query.filter_by(id=MATCH_ID).first().is_timer_active = int(control_variable)
     db.session.commit()
     return jsonify({'is_timer_active': Match.query.filter_by(id=MATCH_ID).first().is_timer_active})
 
@@ -68,21 +54,41 @@ def teams():
     return render_template('teams.html')
 
 
-@monitor_blueprint.route('/matchdata')
+@controller_blueprint.route('/matchdata')
 def matchdata():
-    team_a = Team.query.get(TEAM_A_ID)
-    team_b = Team.query.get(TEAM_B_ID)
+    match = Match.query.filter_by(id=MATCH_ID).first()
+    team_a = Team.query.filter_by(id=match.team_a).first()
+    team_b = Team.query.filter_by(id=match.team_b).first()
     return jsonify({'teama': {'id': team_a.id,
                                  'full_name': team_a.full_name,
                                  'short_name': team_a.short_name,
                                  'tricot': get_tricot(team_a)
                                  },
-                       'teamb': {'id': team_b.id,
+                    'teamb': {'id': team_b.id,
                                  'full_name': team_b.full_name,
                                  'short_name': team_b.short_name,
                                  'tricot': get_tricot(team_b)
                                  },
-                       })
+
+                    'match': {'id': match.id,
+                              'match_length': match.match_length,
+                              'seconds': match.seconds
+
+                             }
+                    })
+
+@controller_blueprint.route('/get-seconds')
+def get_seconds():
+    seconds = Match.query.filter_by(id=MATCH_ID).first().seconds
+    return jsonify(seconds)
+
+@timer_blueprint.route('/increment-seconds', methods=['GET', 'POST'])
+def increment_seconds():
+    if request.method == 'POST':
+        value = request.get_json()['value']
+        Match.query.filter_by(id=MATCH_ID).first().seconds += int(value)
+        db.session.commit()
+        return jsonify(Match.query.filter_by(id=MATCH_ID).first().seconds)
 
 
 def get_tricot(team):

@@ -3,38 +3,36 @@ import datetime
 from models import Match
 from database import db
 from variables import MATCH_ID
+from flask import current_app
 
 
 class Timer:
     def __init__(self, app):
         with app.app_context():
-            self.seconds = Match.query.get(MATCH_ID).seconds
+            self.actual_match = Match.query.filter_by(id=MATCH_ID).first()
+            self.start_time = time.time()
+            self.end_time = time.time()
 
-    def start_timer(self, app):
+    def control_timer(self, app):
         with app.app_context():
-            time_lapsed = 0.0
-            start_time = time.time()
-            actual_match = Match.query.filter_by(id=MATCH_ID).first()
+            self.start_time = time.time()
             while True:
                 if Match.query.filter_by(id=MATCH_ID).first().is_timer_active == 1:
-                    time.sleep(0.1)
-                    end_time = time.time()
-
-                    if end_time - start_time >= 0.5:
-                        time_lapsed += 0.5
-                        start_time = time.time()
-                        if time_lapsed.is_integer():
-                            self.seconds += 1
-                            actual_match.seconds = self.seconds
-                            db.session.commit()
+                    self.timer_add_seconds(seconds=1)
+                elif Match.query.filter_by(id=MATCH_ID).first().is_timer_active == 2:
+                    self.timer_add_seconds(seconds=0)
+                    self.timer_reset()
                 else:
-                    time.sleep(0.1)
-                    end_time = time.time()
+                    self.timer_add_seconds(seconds=0)
+                time.sleep(1)
 
-                    if end_time - start_time >= 0.5:
-                        time_lapsed += 0
-                        start_time = time.time()
-                        if time_lapsed.is_integer():
-                            self.seconds += 0
-                            actual_match.seconds = self.seconds
-                            db.session.commit()
+    def timer_add_seconds(self, seconds: int):
+        match_time = Match.query.filter_by(id=MATCH_ID).first().seconds
+        match_time += seconds
+        Match.query.filter_by(id=MATCH_ID).first().seconds = match_time
+        db.session.commit()
+        print(datetime.timedelta(seconds=match_time))
+
+    def timer_reset(self):
+        Match.query.filter_by(id=MATCH_ID).first().seconds = 0
+        db.session.commit()
