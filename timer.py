@@ -16,7 +16,6 @@ class Timer:
             start_time = time.time()
             actual_match = Match.query.filter_by(id=MATCH_ID).first()
             while True:
-                print('timer is_timer_active', Match.query.filter_by(id=MATCH_ID).first().is_timer_active)
                 if Match.query.filter_by(id=MATCH_ID).first().is_timer_active == 1:
                     time.sleep(0.1)
                     end_time = time.time()
@@ -28,7 +27,14 @@ class Timer:
                             self.seconds += 1
                             actual_match.seconds = self.seconds
                             db.session.commit()
-                            print(datetime.timedelta(seconds=self.seconds), flush=True)
                 else:
                     time.sleep(0.1)
-                    print('timer not active', flush=True)
+                    end_time = time.time()
+
+                    if end_time - start_time >= 0.5:
+                        time_lapsed += 0
+                        start_time = time.time()
+                        if time_lapsed.is_integer():
+                            self.seconds += 0
+                            actual_match.seconds = self.seconds
+                            db.session.commit()

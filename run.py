@@ -50,7 +50,8 @@ def create_app():
 def index():
     return 'Hello World'
 
-@controller_blueprint.route('/start-timer/<is_act>')
+
+@timer_blueprint.route('/start-timer/<is_act>')
 def start_timer(is_act):
     Match.query.filter_by(id=MATCH_ID).first().is_timer_active = int(is_act)
     db.session.commit()
