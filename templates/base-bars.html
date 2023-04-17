@@ -3,19 +3,17 @@
 <head>
 	<meta charset="ISO-8859" />
 	<meta http-equiv="X-UA-Compatible"/>
-	<link rel="stylesheet" href="css\cssteams.css">
-	<script src="js/base.js"></script>
+	{% block styles %}{% endblock %}
 	<script src="js/teams.js"></script>
 	<script src="js/processing.js"></script>
 
 </head>
 
-<body onload="repeater(500);;">
+<body onload="repeater(500);">
 	<div id="container">
 		<div id="top_bar">
-			<img src="gfx/belka_gora.png" id="img_top">
-			<div id="league"></div>
-			<div id="division"></div>
+			<img src="{{url_for('static', filename='images/belka_gora.png')}}" id="img_top">
+			{% block top_bar %}{% endblock %}
 		</div>
 		<div id="team_screen_content">
             {% block content %}
@@ -23,8 +21,9 @@
         </div>
 
 		<div id="bottom_bar">
-			<img src="gfx/druzyny-logo-belka.png" id="img_bottom">
+			<img src="{{url_for('static', filename='images/druzyny-logo-belka.png')}}" id="img_bottom">
 		</div>
 	</div>
+	<script src="{{url_for('static', filename='js/base.js')}}"></script>
 </body>
 </html>

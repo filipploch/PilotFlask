@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>My Website</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+  </head>
+  <body>
+    <main>
+        <h1>Mecze:</h1>
+        <table>
+            <thead>
+                <th>id</th>
+                <th>Gospodarze</th>
+                <th>Goście</th>
+                <th>Długość meczu</th>
+                <th>Faule</th>
+                <th>Stadion</th>
+                <th>Data</th>
+                <th>Aktualny</th>
+            </thead>
+            <tbody>
+                {% for match in matches %}
+                <tr>
+                    <td>{{ match.id }}</td>
+                    <td>{{ match.team_a.full_name }}</td>
+                    <td>{{ match.team_b }}</td>
+                    <td>{{ match.match_length }}</td>
+                    <td>{{ match.max_fouls }}</td>
+                    <td>{{ match.stadium }}</td>
+                    <td>{{ match.date }}</td>            
+                    <td>{{ match.actual }}</td>
+                    <td><a href="/match-settings/{{ match.id }}">&#9998;</a></td>
+                </tr>                    
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </main>
+	<script src="index.js"></script>
+  </body>
+</html>

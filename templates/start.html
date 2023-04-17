@@ -1,0 +1,59 @@
+{% extends "base-bars.html" %}
+{% block styles %}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/start.css')}}">
+{% endblock %}
+{% block top_bar %}
+    <div id="league">NOWOHUCKA AMATORSKA LIGA FUTSALU</div>
+    <div id="division"></div>
+{% endblock %}
+{% block content %}
+            <div id="scorebarNlogos">
+                <div id="score_bar">
+                    <img src="{{url_for('static', filename='images/belka_start.png')}}" id="score_bg"/>
+
+                    <div></div>
+                    <div></div>
+                </div>
+                <div class="team_logo" id="team_a_logo">
+					<img src="{{ logos['logo_a'] }}" class="logo">
+                </div>
+                <div class="team_logo" id="team_b_logo">
+					<img src="{{ logos['logo_b'] }}" class="logo">
+                </div>
+            </div>
+            <div id="teams_full_names">
+                <div class="team_full_name" id="team_a_full_name">{{ teams.team_a.full_name }}</div>
+                <div id="vs">vs</div>
+                <div class="team_full_name" id="team_b_full_name">{{ teams.team_b.full_name }}</div>
+            </div>
+            <div id="bottom_info_2" class="bottom_info">
+                <div class="bottom_info_center_div">
+                    <div class="bottom_info_left">Arbiter</div>
+                    <div class="bottom_info_right" id="referee_name">Krzysztof Patyk</div>
+                </div>
+            </div>
+                    <div id="bottom_info_3" class="bottom_info">
+                <div class="bottom_info_center_div">
+                    <div class="bottom_info_left">Komentator</div>
+                    <div class="bottom_info_right" id="commentator_name">Dawid Warszycki</div>
+                </div>
+            </div>
+            <div id="bottom_info_1" class="bottom_info">
+                <div class="bottom_info_center_div">
+                    <div class="bottom_info_left" id="stadium">Os.Handlowe 4</div>
+                    <div class="bottom_info_right" id="match_date"></div>
+                </div>
+            </div>
+            
+            <div id="hide-elements">
+                <div id="team_a"></div>
+                <div id="team_b"></div>
+                <div id="score_a"></div>
+                <div id="score_b"></div>
+                <div id="fouls_a"></div>
+                <div id="fouls_b"></div>
+                <div id="tricot_a"></div>
+                <div id="tricot_b"></div>
+                <div id="time"></div>
+            </div>
+{% endblock %}

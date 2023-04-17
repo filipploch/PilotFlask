@@ -1,0 +1,33 @@
+#row0 {animation: slideSquad 1s ease 1000ms 1 normal forwards;} 
+#row1 {animation: slideSquad 1s ease 1500ms 1 normal forwards;} 
+#row2 {animation: slideSquad 1s ease 2000ms 1 normal forwards;} 
+#row3 {animation: slideSquad 1s ease 2500ms 1 normal forwards;} 
+#row4 {animation: slideSquad 1s ease 3000ms 1 normal forwards;} 
+#row5 {animation: slideSquad 1s ease 3500ms 1 normal forwards;} 
+#row6 {animation: slideSquad 1s ease 4000ms 1 normal forwards;} 
+#row7 {animation: slideSquad 1s ease 4500ms 1 normal forwards;} 
+#row8 {animation: slideSquad 1s ease 5000ms 1 normal forwards;} 
+#row9 {animation: slideSquad 1s ease 5500ms 1 normal forwards;} 
+#row10 {animation: slideSquad 1s ease 6000ms 1 normal forwards;} 
+#row11 {animation: slideSquad 1s ease 6500ms 1 normal forwards;} 
+#row12 {animation: slideSquad 1s ease 7000ms 1 normal forwards;} 
+#row13 {animation: slideSquad 1s ease 7500ms 1 normal forwards;} 
+#row14 {animation: slideSquad 1s ease 8000ms 1 normal forwards;} 
+#row15 {animation: slideSquad 1s ease 8500ms 1 normal forwards;} 
+#row16 {animation: slideSquad 1s ease 9000ms 1 normal forwards;} 
+#row17 {animation: slideSquad 1s ease 9500ms 1 normal forwards;} 
+#row18 {animation: slideSquad 1s ease 10000ms 1 normal forwards;} 
+#row19 {animation: slideSquad 1s ease 10500ms 1 normal forwards;} 
+
+    @keyframes slideSquad {
+        0% {
+            opacity: 0;
+            transform: translateX(250px);
+        }
+    
+        100% {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    

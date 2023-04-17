@@ -15,7 +15,7 @@ class Timer:
 
     def control_timer(self, app):
         with app.app_context():
-            self.start_time = time.time()
+            # self.start_time = time.time()
             while True:
                 if Match.query.filter_by(id=MATCH_ID).first().is_timer_active == 1:
                     self.timer_add_seconds(seconds=1)
@@ -31,7 +31,6 @@ class Timer:
         match_time += seconds
         Match.query.filter_by(id=MATCH_ID).first().seconds = match_time
         db.session.commit()
-        print(datetime.timedelta(seconds=match_time))
 
     def timer_reset(self):
         Match.query.filter_by(id=MATCH_ID).first().seconds = 0

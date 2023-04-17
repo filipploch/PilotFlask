@@ -4,8 +4,7 @@
 	<meta charset="ISO-8859" />
 	<meta http-equiv="X-UA-Compatible"/>
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/match.css') }}">
-	<script src="{{url_for('static', filename='js/base.js')}}"></script>
-
+	<script src="{{url_for('static', filename='js/match.js')}}"></script>
 </head>
 
 <body onload="repeater();">
@@ -15,14 +14,14 @@
 				<img src="{{url_for('static', filename='images/scoreboard2.png')}}" />
 			</div>
 			<div id="scoreboard_top">
-				<div id="fouls_a">●●●●●</div>
-				<div id="fouls_b">●●●●●</div>
+				<div id="fouls_a"></div>
+				<div id="fouls_b"></div>
 			</div>
 			<div id="scoreboard_val">
-				<div id="time">15'</div>
+				<div id="time"></div>
 				<div id="team_a"></div>
-				<div id="score_a">0</div>
-				<div id="score_b">0</div>
+				<div id="score_a"></div>
+				<div id="score_b"></div>
 				<div id="team_b"></div>
 			</div>
 			<div id="scoreboard_bottom">

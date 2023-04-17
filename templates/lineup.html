@@ -1,0 +1,35 @@
+{% extends "base-bars.html" %}
+{% block styles %}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/squad.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/squad_animation.css')}}">
+{% block top_bar %}
+    <div id="league">NOWOHUCKA AMATORSKA LIGA FUTSALU</div>
+    <div id="division"></div>
+{% endblock %}
+{% endblock %}
+{% block content %}
+
+    <div id="screen_content">
+        <div id="logoBackground">
+            <img src="{{ _logo }}" id="logo_squad">
+        </div>
+        <div id="squadBackground">
+            <div id="squad">
+                <table id="matchSquad">
+                    {% for player in _lineup %}
+                        <tr class="row" id="row{{ loop.index }}">
+                            <td>{{ player.default_nr }}</td>
+                            <td class="playerName">{{ player.first_name }} {{ player.last_name }}</td>
+                            {% if player.position == "Bramkarz" %}
+                            <td> B </td>
+                            {% endif %}
+                            {% if player.captain == True %}
+                            <td> C </td>
+                            {% endif %}
+                        </tr>
+                    {%endfor%}
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

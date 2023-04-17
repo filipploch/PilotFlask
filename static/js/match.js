@@ -10,7 +10,7 @@ async function repeater(){
     document.getElementById('fouls_b').innerHTML = setFoulsDots(matchObj.teamb.fouls);
     document.getElementById('tricot_b').innerHTML = renderTricot(matchObj.teamb.tricot);
     document.getElementById('time').innerHTML = setMatchTime(matchObj.match.seconds, matchObj.match.match_lenght);
-    document.getElementById('match_date').innerHTML = getCurrentDate();
+//    document.getElementById('match_date').innerHTML = getCurrentDate();
     foulsDotsColor('fouls_a', setFoulsDots(matchObj.teama.fouls));
     foulsDotsColor('fouls_b', setFoulsDots(matchObj.teamb.fouls));
 

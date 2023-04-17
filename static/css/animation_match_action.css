@@ -1,0 +1,68 @@
+#action_icon img{
+    animation: matchActionBarImage 11s ease 0s 1 normal both;
+}
+
+
+@keyframes matchActionBarImage {
+	0% {
+		opacity: 0;
+	}
+
+	10% {
+		opacity: 1;
+	}
+	90% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+	}
+}
+
+#action_info_text {
+    animation: matchActionBarTextBackground 10s ease 200ms 1 normal both;
+}
+
+
+@keyframes matchActionBarTextBackground {
+	0% {
+		transform: scaleY(0);
+		opacity: 0;
+	}
+
+	5% {
+		transform: scaleY(1);
+		opacity: 1;
+	}
+	90% {
+		transform: scaleY(1);
+        opacity: 1;
+	}
+
+	100% {
+		transform: scaleY(0);
+        opacity: 0;
+	}
+}
+
+.action-content{
+    animation: matchActionBarText 500ms ease 8s 1 normal both;
+}
+
+@keyframes matchActionBarText {
+	0% {
+		opacity: 0;
+	}
+
+	5% {
+		opacity: 1;
+	}
+	95% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+	}
+}
