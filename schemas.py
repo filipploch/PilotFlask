@@ -1,6 +1,6 @@
 from flask_marshmallow import Marshmallow
 from marshmallow_sqlalchemy.fields import Nested
-from models import Player, Match, MatchesData, Team, MatchAction, Stadium, Referee, Cameraman, Commentator
+from models import Player, Match, MatchesData, Team, MatchAction, Stadium, Staff, Division
 
 ma = Marshmallow()
 
@@ -52,12 +52,34 @@ match_data_schema = MatchesDataSchema()
 match_datas_schema = MatchesDataSchema(many=True)
 
 
+class StaffSchema(ma.Schema):
+    class Meta:
+        model = Staff
+        fields = ('id', 'first_name', 'last_name')
+
+staff_schema = StaffSchema(many=True)
+
+
+class DivisionSchema(ma.Schema):
+    class Meta:
+        model = Division
+        fields = ('id', 'name')
+
+division_schema = DivisionSchema()
+
+
 class MatchesSchema(ma.Schema):
     class Meta:
         model = Match
-        fields = ('id', 'team_a', 'team_b', 'actual', 'match_length', 'max_fouls', 'actual', 'is_timer_countdown', 'stadium', 'date')
-    team_a = Nested(team_schema)
-    team_b = Nested(team_schema)
+        fields = ('id', 'team_a', 'team_b', 'actual', 'match_length', 'max_fouls', 'actual', 'is_timer_countdown',
+                  'stadium', 'date', 'commentator', 'cameraman', 'referee', 'division')
+
+    # team_a = Nested(team_schema)
+    # team_b = Nested(team_schema)
+    commentator = Nested(staff_schema, many=True)
+    cameraman = Nested(staff_schema, many=True)
+    referee = Nested(staff_schema, many=True)
+    division = Nested(division_schema)
 
 
 match_schema = MatchesSchema()
@@ -72,25 +94,10 @@ class StadiumSchema(ma.Schema):
 stadium_schema = StadiumSchema()
 
 
-class RefereeSchema(ma.Schema):
-    class Meta:
-        model = Referee
-        fields = ('id', 'first_name', 'last_name')
-
-referee_schema = RefereeSchema()
 
 
-class CameramanSchema(ma.Schema):
-    class Meta:
-        model = Cameraman
-        fields = ('id', 'first_name', 'last_name')
-
-cameraman_schema = CameramanSchema()
 
 
-class CommentatorSchema(ma.Schema):
-    class Meta:
-        model = Commentator
-        fields = ('id', 'first_name', 'last_name')
 
-commentator_schema = CommentatorSchema()
+
+

@@ -29,13 +29,21 @@
             <div id="bottom_info_2" class="bottom_info">
                 <div class="bottom_info_center_div">
                     <div class="bottom_info_left">Arbiter</div>
-                    <div class="bottom_info_right" id="referee_name">Krzysztof Patyk</div>
+                    <div class="bottom_info_right" id="referee_name">
+                        {% for referee in match.referee %}
+                        <span>{{ referee.first_name }} {{ referee.last_name }}</span><br>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
                     <div id="bottom_info_3" class="bottom_info">
                 <div class="bottom_info_center_div">
-                    <div class="bottom_info_left">Komentator</div>
-                    <div class="bottom_info_right" id="commentator_name">Dawid Warszycki</div>
+                    <div class="bottom_info_left">Komentarz</div>
+                    <div class="bottom_info_right" id="commentator_name">
+                        {% for commentator in match.commentator %}
+                        <span>{{ commentator.first_name }} {{ commentator.last_name }}</span><br>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
             <div id="bottom_info_1" class="bottom_info">
@@ -45,7 +53,7 @@
                 </div>
             </div>
             
-            <div id="hide-elements">
+            <!-- <div id="hide-elements">
                 <div id="team_a"></div>
                 <div id="team_b"></div>
                 <div id="score_a"></div>
@@ -55,5 +63,5 @@
                 <div id="tricot_a"></div>
                 <div id="tricot_b"></div>
                 <div id="time"></div>
-            </div>
+            </div> -->
 {% endblock %}

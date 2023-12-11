@@ -1,32 +1,892 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Przyciski</title>
-    <link rel="stylesheet" href="panel.css">
-  </head>
-  <body>
-    <div id="box-fouls-a" class="score-fouls-box">
-        <div class="label-fouls">0</div>
-        <button class="button square">+</button>
-        <button class="button rectangle"></button>
-    </div>
-    <div id="box-score-a" class="score-fouls-box">
-        <div class="label-score">0</div>
-        <button class="button square">+</button>
-        <button class="button rectangle"></button>
-    </div>
-    <div id="box-score-b" class="score-fouls-box">
-        <div class="label-score">0</div>
-        <button class="button square">+</button>
-        <button class="button rectangle"></button>
-    </div>
-    <div id="box-fouls-b" class="score-fouls-box">
-        <div class="label-fouls">0</div>
-        <button class="button square">+</button>
-        <button class="button rectangle"></button>
-    </div><div style="clear: both;"></div>
-    <div class="box-team"></div>
-    <div class="box-team"></div>
 
-  </body>
+<head>
+	<title>Stoper</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+		body {
+			height: 350px;
+			width: 340px;
+			border: 1px solid black;
+		}
+
+		button {
+			font-size: 11px;
+		}
+
+		#controller {
+			float: left;
+			width: 170px;
+		}
+
+		#changeSideBtn {
+			margin: 0 35%;
+			width: 30%;
+		}
+
+		#section-timer {
+			padding-bottom: 5px;
+			text-align: center;
+			margin: auto;
+		}
+
+		.timer {
+			margin: auto;
+			/* width: 50%; */
+		}
+
+		#sidebar {
+			float: left;
+			background-color: #c5c5c5;
+			width: 170px;
+			height: 100%;
+			overflow: auto;
+		}
+
+		#sidebar-body li {
+			list-style-type: none;
+			padding: 0;
+			margin: 0;
+		}
+
+		.invisible-text {
+			color: rgba(0,0,0,0);
+		}
+
+		.li-element {
+			padding-left: 5px;
+			cursor: pointer;
+		}
+
+		#sidebar-body {
+			font-size: 10px;
+		}
+
+		.small-button {
+			display: block;
+			width: 17px;
+			height: 17px;
+			border: 1px solid gray;
+			background-color: #a0a0a0;
+			color: black;
+			cursor: pointer;
+			text-align: center;
+		}
+
+		.action-button {
+			display: inline-block;
+			margin-top: 5px;
+		}
+
+		.red-card-button {
+			background-color: red;
+			color: red;
+		}
+
+		.yellow-card-button {
+			background-color: yellow;
+			color: yellow;
+		}
+
+		#timer-min-setting {
+			float: left;
+		}
+
+		#timer-sec-setting {
+			float: left;
+		}
+
+		#timer-display {
+			float: left;
+			background-color: #c2c2c2;
+			height: 34px;
+			font-size: 30px;
+			padding: 0 10px;
+			width: 85px;
+			text-align: center;
+		}
+
+		#scoreboard {
+			display: flex;
+		}
+
+		.scoreboard-group {
+			width: 100px;
+			/* height: 100px; */
+			border: 1px solid black;
+			margin: 0 5px;
+		}
+
+		.scoreboard-display {
+			width: 100%;
+			height: 33px;
+			text-align: center;
+			font-size: 30px;
+		}
+
+		.scoreboard-display-score {
+			background-color: #d3d3d3;
+			color: black;
+		}
+
+		.scoreboard-display-fouls {
+			background-color: black;
+			color: red;
+		}
+
+		.scoreboard-button {
+			display: block;
+			width: 100%;
+			border: none;
+			background-color: #a0a0a0;
+			color: black;
+			cursor: pointer;
+			text-align: center;
+		}
+
+
+		#teams {
+			display: flex;
+			text-align: center;
+		}
+
+		.team-short-name {
+			font-size: 25px;
+			text-align: center;
+		}
+
+		.team-button {
+			/* display: block; */
+			width: 60px;
+			border: 1px solid gray;
+			background-color: #a0a0a0;
+			color: black;
+			cursor: pointer;
+			text-align: center;
+		}
+
+		.reset {
+			background-color: rgba(0,0,0,0);
+		}
+
+		.start {
+			background-color: #63fa11;
+		}
+
+		.pause {
+			animation: pulse 500ms infinite;
+		}
+
+		@keyframes pulse {
+			0%, 100% {
+    			background-color: rgba(255, 0, 0, 1);
+			}
+			50% {
+				background-color: rgba(255, 0, 0, 0.3);
+			}
+		}
+	</style>
+	<script>
+
+
+	</script>
+</head>
+
+<body>
+	<div id="controller">
+		<div id="section-timer">
+			<input type="checkbox" id="countdown-timer" name="countdown-timer" checked><br>
+			<div class="timer">
+				<div id="timer-min-setting">
+					<button class="small-button" id="add-min-btn">+</button>
+					<button class="small-button" id="sub-min-btn">-</button>
+				</div>
+				<div id="timer-display">00:00</div>
+				<div id="timer-sec-setting">
+					<button class="small-button" id="add-sec-btn">+</button>
+					<button class="small-button" id="sub-sec-btn">-</button>
+				</div>
+			</div>
+			<button id="start-btn">Start</button>
+			<button id="pause-btn">Pause</button>
+			<button id="reset-btn">Reset</button>
+
+		</div>
+		<button id="changeSideBtn" onclick="changeSide()">
+			<<>>
+		</button><br>
+
+		<div id="scoreboard">
+			<div id="fouls-a-group" class="scoreboard-group">
+				<div class="scoreboard-display scoreboard-display-fouls" id="display-fouls-a">
+					{{ matchdata.teama.fouls }}
+				</div>
+				<button class="scoreboard-button scoreboard-button-plus" id="fouls-a-plus"
+					onclick="updateValue(1, 'display-fouls-a')">+</button>
+				<button class="scoreboard-button scoreboard-button-minus" id="fouls-a-minus"
+					onclick="updateValue(-1, 'display-fouls-a')">-</button>
+			</div>
+			<div id="score-a-group" class="scoreboard-group">
+				<div class="scoreboard-display scoreboard-display-score" id="display-score-a">
+					{{ matchdata.teama.scores }}
+				</div>
+				<button class="scoreboard-button scoreboard-button-plus" id="score-a-plus"
+					onclick="updateValue(1, 'display-score-a'); getSquad('teama', 1);">+</button>
+				<button class="scoreboard-button scoreboard-button-minus" id="score-a-minus"
+					onclick="updateValue(-1, 'display-score-a')">-</button>
+			</div>
+			<div id="score-b-group" class="scoreboard-group">
+				<div class="scoreboard-display scoreboard-display-score" id="display-score-b">
+					{{ matchdata.teamb.scores }}
+				</div>
+				<button class="scoreboard-button scoreboard-button-plus" id="score-b-plus"
+					onclick="updateValue(1, 'display-score-b'); getSquad('teamb', 1);">+</button>
+				<button class="scoreboard-button scoreboard-button-minus" id="score-b-minus"
+					onclick="updateValue(-1, 'display-score-b')">-</button>
+			</div>
+			<div id="fouls-b-group" class="scoreboard-group">
+				<div class="scoreboard-display scoreboard-display-fouls" id="display-fouls-b">
+					{{ matchdata.teamb.fouls }}
+				</div>
+				<button class="scoreboard-button scoreboard-button-plus" id="fouls-b-plus"
+					onclick="updateValue(1, 'display-fouls-b')">+</button>
+				<button class="scoreboard-button scoreboard-button-minus" id="fouls-b-minus"
+					onclick="updateValue(-1, 'display-fouls-b')">-</button>
+			</div>
+		</div>
+		<div id="teams">
+			<div id="team-a-group" class="teams-group">
+				<button class="small-button action-button yellow-card-button"
+					onclick="getSquad('teama', 2)">.</button>
+				<button class="small-button action-button red-card-button"
+					onclick="getSquad('teama', 3)">.</button>
+				<button class="small-button action-button">T</button>
+				<button class="small-button action-button" onclick="getSquad('teamb', 4)">S</button>
+				<div class="team-short-name" id="team-a-short-name">{{ matchdata.teama.short_name }}</div>
+				<button class="team-button" onclick="getSquad('teama', 0)">Skład</button>
+				<button class="team-button" onclick="getMatchData('teama')">Popraw</button>
+			</div>
+			<div id="team-b-group" class="teams-group">
+				<button class="small-button action-button yellow-card-button"
+					onclick="getSquad('teamb', 2)">.</button>
+				<button class="small-button action-button red-card-button"
+					onclick="getSquad('teamb', 3)">.</button>
+				<button class="small-button action-button">T</button>
+				<button class="small-button action-button" onclick="getSquad('teama', 4)">S</button>
+				<div class="team-short-name" id="team-b-short-name">{{ matchdata.teamb.short_name }}</div>
+				<button class="team-button" onclick="getSquad('teamb', 0)">Skład</button>
+				<button class="team-button" onclick="getMatchData('teamb')">Popraw</button>
+			</div>
+		</div>
+		<div id="bottom">
+			<button class="team-button" onclick="loadFiles()">Powtórki</button>
+		</div>
+	</div>
+	<div id="sidebar">
+		<div id="sidebar-head"></div>
+		<div id="action-id" class="invisible-text"></div>
+		<div id="sidebar-body">
+			<div id="sidebar-body-div"></div>
+			<table>
+				<tbody id="lista-elementow"></tbody>
+			</table>
+		</div>
+
+		<div id="sidebar-footer"></div>
+	</div>
+	<script>
+		var timerElement = document.getElementById("timer-display");
+		var countdownTimer = document.getElementById('countdown-timer');
+		var startButton = document.getElementById('start-btn');
+		var pauseButton = document.getElementById('pause-btn');
+		var intervalID;
+		var elapsedTime;
+		var timeLimit;
+		
+		function fetchDataFromAPI() {
+			var url = 'matchdata'; // Zastąp to odpowiednim adresem URL Twojego API
+
+			return new Promise(function (resolve, reject) {
+				fetch(url)
+					.then(function (response) {
+						if (response.ok) {
+							return response.json();
+						} else {
+							throw new Error('Błąd sieci');
+						}
+					})
+					.then(function (data) {
+						resolve(data); // Zwracanie danych po poprawnym ich pobraniu
+					})
+					.catch(function (error) {
+						reject(error); // Zwracanie błędu w przypadku niepowodzenia
+					});
+			});
+		}
+
+		// Wywołanie funkcji i przypisanie danych do zmiennej przed uruchomieniem innych skryptów
+		fetchDataFromAPI().then(function (data) {
+			var myData = data;
+			elapsedTime = myData.match.seconds;
+			timeLimit = myData.match.match_length;
+
+			// Tutaj możesz umieścić kod, który zależy od zmiennych otrzymanych z API
+		}).catch(function (error) {
+			console.error(error);
+		});
+
+
+		function pad(num) {
+			return ("0" + parseInt(num)).substr(-2);
+		}
+
+		function saveTime(elapsedTime) {
+			fetch('/update-time', {
+				method: 'POST',
+				headers: {
+				'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ 'seconds': elapsedTime }),
+			})
+				.then(response => {
+				if (response.ok) {
+					console.log('Czas zapisany w bazie danych.');
+				} else {
+					console.error('Wystąpił błąd podczas zapisywania czasu w bazie danych.');
+				}
+				})
+				.catch(error => {
+				console.error('Wystąpił błąd podczas komunikacji z serwerem:', error);
+				});
+			}
+
+
+		function runTimer() {
+			elapsedTime += 1;
+			if(elapsedTime === 1){
+				saveTime(elapsedTime);
+			} else if(elapsedTime % 10 === 0){
+				// console.log(elapsedTime);
+				saveTime(elapsedTime);
+			}
+			updateTimer();
+		}
+
+		function updateTimer() {
+			if (elapsedTime <= timeLimit) {
+				if (countdownTimer.checked) {
+					var minutes = Math.floor((timeLimit - elapsedTime) / 60);
+					var seconds = Math.floor((timeLimit - elapsedTime) % 60);
+
+				} else {
+					var minutes = Math.floor(elapsedTime / 60)
+					var seconds = Math.floor(elapsedTime % 60);
+				}
+				timerElement.innerHTML = pad(minutes) + ":" + pad(seconds);
+			}
+		}
+
+		function startTimer() {
+			intervalID = setInterval(runTimer, 1000);
+			saveTime(elapsedTime);
+			timerElement.className = "start"
+			timerElement.style.backgroundColor = "#63fa11";
+			pauseButton.disabled = false;
+			startButton.disabled = true;
+		}
+
+		function pauseTimer() {
+			clearInterval(intervalID);
+			saveTime(elapsedTime);
+			timerElement.className = "pause"
+			timerElement.style.backgroundColor = "#f73434";
+			startButton.disabled = false;
+			pauseButton.disabled = true;
+		}
+		
+		function resetTimer() {
+			clearInterval(intervalID);
+			elapsedTime = 0;
+			saveTime(elapsedTime);
+			updateTimer();
+			timerElement.className = "reset"
+			timerElement.style.backgroundColor = "#b5b5b5";
+		}
+
+		function addSeconds() {
+			if (countdownTimer.checked && elapsedTime > 0) {
+				elapsedTime -= 1;
+				updateTimer();
+			} else if (countdownTimer.checked == false && elapsedTime < timeLimit) {
+				elapsedTime += 1;
+				updateTimer();
+			}
+			saveTime(elapsedTime);
+		}
+
+		function addMinutes() {
+			if (countdownTimer.checked && elapsedTime > 60) {
+				elapsedTime -= 60;
+				updateTimer();
+			} else if (countdownTimer.checked == false && elapsedTime < timeLimit - 60) {
+				elapsedTime += 60;
+				updateTimer();
+			}
+			saveTime(elapsedTime);
+		}
+
+		function subSeconds() {
+			if (countdownTimer.checked && elapsedTime < timeLimit) {
+				elapsedTime += 1;
+				updateTimer();
+			} else if (countdownTimer.checked == false && elapsedTime > 0) {
+				elapsedTime -= 1;
+				updateTimer();
+			}
+			saveTime(elapsedTime);
+		}
+
+		function subMinutes() {
+			if (countdownTimer.checked && elapsedTime < timeLimit - 60) {
+				elapsedTime += 60;
+				updateTimer();
+			} else if (countdownTimer.checked == false && elapsedTime > 60) {
+				elapsedTime -= 60;
+				updateTimer();
+			}
+			saveTime(elapsedTime);
+		}
+
+		document.getElementById("start-btn").addEventListener("click", startTimer);
+		document.getElementById("pause-btn").addEventListener("click", pauseTimer);
+		document.getElementById("reset-btn").addEventListener("click", resetTimer);
+		document.getElementById("add-sec-btn").addEventListener("click", addSeconds);
+		document.getElementById("add-min-btn").addEventListener("click", addMinutes);
+		document.getElementById("sub-sec-btn").addEventListener("click", subSeconds);
+		document.getElementById("sub-min-btn").addEventListener("click", subMinutes);
+
+
+		function changeSide() {
+			var scoreboard = document.querySelector("#scoreboard");
+			var teams = document.querySelector("#teams");
+			var a = document.getElementById("fouls-a-group");
+			var b = document.getElementById("score-a-group");
+			var c = document.getElementById("score-b-group");
+			var d = document.getElementById("fouls-b-group");
+			var teamA = document.getElementById("team-a-group");
+			var teamB = document.getElementById("team-b-group");
+
+			var scoreboardChildren = Array.from(scoreboard.children);
+			scoreboardChildren.reverse();
+
+			scoreboardChildren.forEach(function (child) {
+				scoreboard.appendChild(child);
+			});
+
+			var teamChildren = Array.from(teams.children);
+			teamChildren.reverse();
+
+			teamChildren.forEach(function (child) {
+				teams.appendChild(child);
+			});
+
+		}
+
+		function updateValue(difference, divId) {
+			var divElement = document.getElementById(divId);
+			var actualValue = parseInt(divElement.innerText); // Pobierz aktualną wartość liczbową z diva
+
+			var newValue = actualValue + difference; // Dodaj lub odejmij wartość liczby
+
+			var data = {
+				'value': newValue,
+				'divId': divId
+			};
+
+
+			// Wywołaj żądanie POST do skryptu Python
+			fetch('http://127.0.0.1:5555/update-value', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(data)
+			})
+				.then(response => {
+					if (response.ok) {
+						console.log('Wartość została zapisana w bazie danych');
+						divElement.innerHTML = newValue;
+					} else {
+						console.error('Błąd podczas zapisywania wartości w bazie danych');
+					}
+				})
+				.catch(error => {
+					console.error('Błąd podczas wykonywania żądania:', error);
+				});
+		}
+
+		function getSquad(team, actionId) {
+			// Wykonaj żądanie do API lub serwera backendowego
+			clearSidebar();
+			fetch(`/controller-lineup/${team}`)
+				.then(response => response.json())
+				.then(data => {
+					// Po otrzymaniu danych, wygeneruj listę elementów
+					document.getElementById('sidebar-head').innerHTML = data[0]['team-full-name'];
+					prepareSquad(data);
+				})
+				.catch(error => {
+					console.error('Wystąpił błąd:', error);
+				});
+			document.getElementById('action-id').innerHTML = actionId;
+			const sidebarBody = document.getElementById('sidebar-body');
+			const cancelButton = document.createElement('button');
+			cancelButton.textContent = 'Zamknij';
+			cancelButton.addEventListener('click', () => {
+					clearSidebar();
+				});
+			sidebarFooter = document.getElementById('sidebar-footer');
+			cancelButton.setAttribute('id', 'sidebar-cancel-button')
+			sidebarFooter.appendChild(cancelButton);
+			
+		}
+
+		function prepareSquad(elementy) {
+			const tabela = document.getElementById('lista-elementow');
+			// Wyczyść listę przed dodaniem nowych elementów
+			tabela.innerHTML = '';
+			// Wygeneruj elementy listy
+			elementy.forEach(element => {
+				const wiersz = document.createElement('tr');
+				const playerId= document.createElement('td');
+				const playerNr= document.createElement('td');
+				const playerName = document.createElement('td');
+				const playerPosition = document.createElement('td');
+				const playerIsCaptain = document.createElement('td');
+				const teamId = document.createElement('td');
+				wiersz.setAttribute('class', 'li-element')
+				playerId.textContent = element['id'];
+				playerId.style.color = 'rgba(0,0,0,0)';
+				playerId.style.display = 'none';
+				playerNr.textContent = element['nr'];
+				playerName.textContent = element['first-name'] + ' ' + element['last-name'];
+				playerPosition.textContent = element['is-gk'];
+				playerIsCaptain.textContent = element['is-captain'];
+				teamId.textContent = element['team-id'];
+				teamId.style.display = 'none';
+
+
+
+				// style! captain: bold, goalkeeper: underline
+
+				if (element['is-captain']) {
+					wiersz.style.fontWeight = 700;
+				}
+
+				if (element['is-gk']) {
+					wiersz.style.textDecoration = 'underline';
+				}
+
+				// Dodaj obsługę zdarzenia kliknięcia elementu
+				wiersz.addEventListener('click', () => {
+					saveElement(element);
+					clearSidebar();
+				});
+					wiersz.appendChild(playerId);
+					wiersz.appendChild(playerNr);
+					wiersz.appendChild(playerName);
+					wiersz.appendChild(teamId);
+					tabela.appendChild(wiersz);
+				});
+		}
+
+		function saveElement(element) {
+			let actionId = document.getElementById('action-id').textContent;
+			let parsedNum = parseInt(actionId);
+				if(parsedNum !== 0){
+					// Wykonaj żądanie do API lub serwera backendowego, aby zapisać element w innej tabeli bazy danych
+					action_data = {
+						'seconds': elapsedTime,
+						'action_id': parseInt(document.getElementById("action-id").textContent),
+						'player_id': element['id'],
+						'team_id': element['team-id']
+					}
+					fetch(`/insert-match-action`, {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify(action_data)					})
+						// .then(response => response.json())
+						.then(action_data => {
+							console.log('Element został zapisany:', action_data);
+						})
+						.catch(error => {
+							console.error('Wystąpił błąd podczas zapisywania elementu:', error);
+						})
+						;
+					}
+				}
+
+		function getMatchData(team) {
+			// Wykonaj żądanie do API lub serwera backendowego
+			clearSidebar();
+			fetch(`/actual-match-data/${team}`)
+				.then(response => response.json())
+				.then(data => {
+					// Po otrzymaniu danych, wygeneruj listę elementów
+					document.getElementById('sidebar-head').innerHTML = data[0];
+					prepareMatchData(data[1]);
+				})
+				.catch(error => {
+					console.error('Wystąpił błąd:', error);
+				});
+			// document.getElementById('action-id').innerHTML = actionId;
+			const sidebarBody = document.getElementById('sidebar-body');
+			const cancelButton = document.createElement('button');
+			cancelButton.textContent = 'Zamknij';
+			cancelButton.addEventListener('click', () => {
+					clearSidebar();
+				});
+			sidebarFooter = document.getElementById('sidebar-footer');
+			cancelButton.setAttribute('id', 'sidebar-cancel-button')
+			sidebarFooter.appendChild(cancelButton);
+
+		}
+
+
+		function prepareMatchData(elementy) {
+			const tabela = document.getElementById('lista-elementow');
+			// Wyczyść listę przed dodaniem nowych elementów
+			tabela.innerHTML = '';
+			// Wygeneruj elementy listy
+			elementy.forEach(element => {
+				const wiersz = document.createElement('tr');
+				const dataId = document.createElement('td');
+				const playerId = document.createElement('td');
+				const actionType = document.createElement('td');
+				const time = document.createElement('td');
+				const playerName = document.createElement('td');
+				// const playerIsCaptain = document.createElement('td');
+				// const teamId = document.createElement('td');
+				wiersz.setAttribute('class', 'li-element')
+				dataId.textContent = element['data_id'];
+				dataId.style.color = 'rgba(0,0,0,0)';
+				dataId.style.display = 'none';
+				time.textContent = element['time']['minutes'] + ':' + element['time']['seconds'];
+				actionType.textContent = element['action_type'];
+				playerName.textContent = element['player_first_name'] + ' ' + element['player_last_name'];
+				playerId.textContent = element['player_id'];
+				playerId.style.display = 'none';
+
+				// Dodaj obsługę zdarzenia kliknięcia elementu
+				wiersz.addEventListener('click', () => {
+					editData(element['data_id']);
+					clearSidebar();
+				});
+					wiersz.appendChild(dataId);
+					wiersz.appendChild(playerId);
+					wiersz.appendChild(actionType);
+					wiersz.appendChild(time);
+					wiersz.appendChild(playerName);
+					tabela.appendChild(wiersz);
+				});
+		}
+
+
+function editData(dataId) {
+    // Pobierz dane z endpointa
+    fetch(`/prepare-data-to-edit/${dataId}`)
+        .then(response => response.json())
+        .then(data => {
+			// Wyciągnij potrzebne dane z obiektu JSON
+            const dropdownActions = data.actions;
+			const dropdownPlayers = (data.event.action_id === 4) ? data.players["og"] : data.players["normal"];
+            const selectedAction = data.event.action_id;
+            const selectedPlayer = data.event.player_id;
+            const selectedTime = data.event.time;
+			
+            // Utwórz listę rozwijaną 1
+            const actionsSelect = document.createElement('select');
+            Object.keys(dropdownActions).forEach(function(key) {
+                const optionElement = document.createElement('option');
+                optionElement.value = key;
+                optionElement.textContent = dropdownActions[key];
+                actionsSelect.appendChild(optionElement);
+            });
+            actionsSelect.value = selectedAction;
+
+            // Utwórz listę rozwijaną 2
+            const playerSelect = document.createElement('select');
+			dropdownPlayers.forEach(player => {
+					// console.log(value);
+				// console.log(value.full_name);
+                const optionElement2 = document.createElement('option');
+                optionElement2.value = player.id;
+                optionElement2.textContent = player.full_name;
+                playerSelect.appendChild(optionElement2);
+            });
+            playerSelect.value = selectedPlayer;
+
+            // Nasłuchuj zdarzenia zmiany wartości w actionsSelect
+            actionsSelect.addEventListener('change', function () {
+                const selectedActionValue = actionsSelect.value;
+                const updatedPlayers = (selectedActionValue === '4') ? data.players["og"] : data.players["normal"];
+                updatePlayerDropdown(playerSelect, updatedPlayers);
+            });
+
+            // Utwórz pole input dla czasu wewnątrz span
+            const timeInputSpan = createTimeInputSpan(selectedTime.minutes, selectedTime.seconds);
+
+			// Utwórz przycisk "Zapisz"
+            const saveButton = createSaveButton(data.event.data_id, actionsSelect, playerSelect, timeInputSpan);
+
+            // Wyczyść treść 'sidebar-body-div'
+            const sidebarBodyDiv = document.getElementById('sidebar-body-div');
+            sidebarBodyDiv.innerHTML = '';
+
+            // Dodaj nowe elementy do 'sidebar-body-div'
+            sidebarBodyDiv.appendChild(actionsSelect);
+            sidebarBodyDiv.appendChild(playerSelect);
+			sidebarBodyDiv.appendChild(timeInputSpan);
+			sidebarBodyDiv.appendChild(saveButton);
+			console.log('poszlo')
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+}
+
+		function updatePlayerDropdown(selectElement, players) {
+			// Wyczyść istniejące opcje
+			selectElement.innerHTML = '';
+
+			// Dodaj nowe opcje
+			players.forEach(player => {
+				const optionElement = document.createElement('option');
+				optionElement.value = player.id;
+				optionElement.textContent = player.full_name;
+				selectElement.appendChild(optionElement);
+			});
+		}
+
+
+		function createTimeInputSpan(selectedMinutes, selectedSeconds) {
+			const spanElement = document.createElement('span');
+			
+			// Utwórz pole input dla minut wewnątrz span
+			const minutesInput = document.createElement('input');
+			minutesInput.type = 'number';
+			minutesInput.name = 'minutes';
+			minutesInput.value = selectedMinutes;
+			minutesInput.min = 0;
+			minutesInput.style.width = '50px';
+
+			// Utwórz pole input dla sekund wewnątrz span
+			const secondsInput = document.createElement('input');
+			secondsInput.type = 'number';
+			secondsInput.name = 'seconds';
+			secondsInput.value = selectedSeconds;
+			secondsInput.min = 0;
+			secondsInput.style.width = '50px';
+
+			// Dodaj oba pola input do span
+			spanElement.appendChild(minutesInput);
+			spanElement.appendChild(secondsInput);
+
+			return spanElement;
+		}
+
+		function createSaveButton(dataId, actionsSelect, playerSelect, timeInputSpan) {
+			const button = document.createElement('button');
+			button.textContent = 'Zapisz';
+
+			// Dodaj obsługę zdarzenia kliknięcia przycisku
+			button.addEventListener('click', function () {
+				const selectedAction = actionsSelect.value;
+				const selectedPlayer = playerSelect.value;
+
+				// Pobierz wartości z pól input dla czasu
+				const minutesInputValue = parseInt(timeInputSpan.querySelector('[name="minutes"]').value, 10) || 0;
+				const secondsInputValue = parseInt(timeInputSpan.querySelector('[name="seconds"]').value, 10) || 0;
+
+				// Przekonwertuj czas z minut i sekund na sekundy
+				const timeInSeconds = minutesInputValue * 60 + secondsInputValue;
+
+				// Wyślij dane do serwera (możesz użyć tu fetch() do wysłania żądania do swojego API)
+				// Poniżej zakładam, że masz odpowiedni endpoint na serwerze do obsługi aktualizacji danych w bazie
+				fetch(`/update-data/${dataId}`, {
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						action: selectedAction,
+						player: selectedPlayer,
+						time: timeInSeconds,
+					}),
+				})
+				.then(response => response.json())
+				.then(data => {
+					console.log('Dane zaktualizowane:', data);
+					// Dodaj kod obsługi sukcesu lub ewentualne odświeżenie widoku
+				})
+				.catch(error => {
+					console.error('Błąd podczas aktualizacji danych:', error);
+					// Dodaj kod obsługi błędu
+				});
+			});
+
+			return button;
+		}
+
+		function clearSidebar() {
+			const lista = document.getElementById('lista-elementow');
+			lista.innerHTML = '';
+			document.getElementById('sidebar-head').innerHTML = '';
+			document.getElementById('action-id').innerHTML = '';
+			document.getElementById('sidebar-body-div').innerHTML = '';
+			document.getElementById('sidebar-footer').innerHTML = '';
+		}
+
+
+        function loadFiles() {
+			clearSidebar();
+            fetch('/get_files')
+                .then(response => response.json())
+                .then(data => {
+                    const fileListElement = document.getElementById('lista-elementow');
+                    fileListElement.innerHTML = '<ul>';
+                    data.files.forEach(file => {
+                        fileListElement.innerHTML += `<li><a href="#" onclick="processFile('${file}')">${file.slice(10, -4)}</a></li>`;
+
+                    });
+                    fileListElement.innerHTML += '</ul>';
+					const cancelButton = document.createElement('button');
+					cancelButton.textContent = 'Zamknij';
+					cancelButton.addEventListener('click', () => {
+							clearSidebar();
+						});
+					sidebarFooter = document.getElementById('sidebar-footer');
+					cancelButton.setAttribute('id', 'sidebar-cancel-button')
+					sidebarFooter.appendChild(cancelButton);
+						});
+        }
+
+        function processFile(filename) {
+            fetch(`/process_file/${filename}`)
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'replay.mp4';
+                    a.style.display = 'none';
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    clearSidebar();
+                });
+        }
+	</script>
+</body>
+
 </html>

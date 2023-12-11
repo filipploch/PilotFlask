@@ -1,22 +1,46 @@
 from database import db
 
+class MatchCommentator(db.Model):
+    __tablename__ = 'match_commentator'
+    match_id = db.Column(db.Integer, db.ForeignKey('matches.id'), primary_key=True)
+    staff_id = db.Column(db.Integer, db.ForeignKey('staff.id'), primary_key=True)
+
+class MatchCameraman(db.Model):
+    __tablename__ = 'match_cameraman'
+    match_id = db.Column(db.Integer, db.ForeignKey('matches.id'), primary_key=True)
+    staff_id = db.Column(db.Integer, db.ForeignKey('staff.id'), primary_key=True)
+
+class MatchReferee(db.Model):
+    __tablename__ = 'match_referee'
+    match_id = db.Column(db.Integer, db.ForeignKey('matches.id'), primary_key=True)
+    staff_id = db.Column(db.Integer, db.ForeignKey('staff.id'), primary_key=True)
+
+
+
+
+
 class Match(db.Model):
     __tablename__ = 'matches'
     id = db.Column(db.Integer, primary_key=True)
     team_a = db.Column(db.Integer)
     team_b = db.Column(db.Integer)
-    score_a = db.Column(db.Integer)
-    score_b = db.Column(db.Integer)
-    fouls_a = db.Column(db.Integer)
-    fouls_b = db.Column(db.Integer)
-    actual = db.Column(db.Integer)
-    match_length = db.Column(db.Integer)
-    max_fouls = db.Column(db.Integer)
-    seconds = db.Column(db.Integer)
-    is_timer_active = db.Column(db.Integer)
-    is_timer_countdown = db.Column(db.Integer)
+    score_a = db.Column(db.Integer, default=0)
+    score_b = db.Column(db.Integer, default=0)
+    fouls_a = db.Column(db.Integer, default=0)
+    fouls_b = db.Column(db.Integer, default=0)
+    actual = db.Column(db.Integer, default=0)
+    match_length = db.Column(db.Integer, default=2400)
+    max_fouls = db.Column(db.Integer, default=5)
+    seconds = db.Column(db.Integer, default=0)
+    is_timer_active = db.Column(db.Integer, default=0)
+    is_timer_countdown = db.Column(db.Integer, default=2)
     stadium = db.Column(db.Integer, db.ForeignKey('stadium.id'), nullable=False)
     date = db.Column(db.String)
+    commentator = db.relationship('Staff', secondary='match_commentator', backref='commentator_matches')
+    cameraman = db.relationship('Staff', secondary='match_cameraman', backref='cameraman_matches')
+    referee = db.relationship('Staff', secondary='match_referee', backref='referee_matches')
+    competitions = db.Column(db.Integer, db.ForeignKey('competitions.id'), nullable=False)
+    division = db.Column(db.Integer, db.ForeignKey('division.id'), nullable=False)
 
 
 class Team(db.Model):
@@ -73,6 +97,7 @@ class MatchesData(db.Model):
     action = db.relationship('MatchAction', backref='matches_data', lazy=True)
     actual = db.Column(db.Integer)
 
+
     def __init__(self, action_id, player_id, team_id, time, match_id, actual):
         self.action_id = action_id
         self.player_id = player_id
@@ -90,46 +115,34 @@ class MatchAction(db.Model):
     action = db.relationship('MatchesData', backref='match_action', lazy=True)
 
 
-class Commentator(db.Model):
-    __tablename__ = 'commentator'
+class Staff(db.Model):
+    __tablename__ = 'staff'
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String)
     last_name = db.Column(db.String)
 
-
-class Cameraman(db.Model):
-    __tablename__ = 'cameraman'
-    id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String)
-    last_name = db.Column(db.String)
-
-
-class Referee(db.Model):
-    __tablename__ = 'referee'
-    id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String)
-    last_name = db.Column(db.String)
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name
+        }
 
 
-class MatchReferee(db.Model):
-    __tablename__ = 'matchreferee'
-    id = db.Column(db.Integer, primary_key=True)
-    match_id = db.Column(db.Integer, db.ForeignKey('match.id'))
-    referee_id = db.Column(db.Integer, db.ForeignKey('referee.id'))
+# class Cameraman(db.Model):
+#     __tablename__ = 'cameraman'
+#     id = db.Column(db.Integer, primary_key=True)
+#     first_name = db.Column(db.String)
+#     last_name = db.Column(db.String)
+#
+#
+# class Referee(db.Model):
+#     __tablename__ = 'referee'
+#     id = db.Column(db.Integer, primary_key=True)
+#     first_name = db.Column(db.String)
+#     last_name = db.Column(db.String)
 
 
-class MatchCommentator(db.Model):
-    __tablename__ = 'matchcommentator'
-    id = db.Column(db.Integer, primary_key=True)
-    match_id = db.Column(db.Integer, db.ForeignKey('match.id'))
-    commentator_id = db.Column(db.Integer, db.ForeignKey('commentator.id'))
 
-
-class MatchCameraman(db.Model):
-    __tablename__ = 'matchcameraman'
-    id = db.Column(db.Integer, primary_key=True)
-    match_id = db.Column(db.Integer, db.ForeignKey('match.id'))
-    commentator_id = db.Column(db.Integer, db.ForeignKey('cameraman.id'))
 
 
 class Stadium(db.Model):
@@ -138,3 +151,15 @@ class Stadium(db.Model):
     name = db.Column(db.String)
     address = db.Column(db.String)
 
+
+class Competitions(db.Model):
+    __tablename__ = 'competitions'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+
+
+class Division(db.Model):
+    __tablename__ = 'division'
+    id = db.Column(db.Integer, primary_key=True)
+    competition_id = db.Column(db.Integer, db.ForeignKey('competitions.id'), nullable=False)
+    name = db.Column(db.String)

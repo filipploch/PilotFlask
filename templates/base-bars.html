@@ -4,12 +4,12 @@
 	<meta charset="ISO-8859" />
 	<meta http-equiv="X-UA-Compatible"/>
 	{% block styles %}{% endblock %}
-	<script src="js/teams.js"></script>
-	<script src="js/processing.js"></script>
+	<!-- <script src="js/teams.js"></script>
+	<script src="js/processing.js"></script> -->
 
 </head>
 
-<body onload="repeater(500);">
+<body onload="matchInfo();">
 	<div id="container">
 		<div id="top_bar">
 			<img src="{{url_for('static', filename='images/belka_gora.png')}}" id="img_top">

@@ -282,6 +282,7 @@ body
     text-align: center;
     transform: none;
     padding: 0px 10px;
+	width: 60px;
 }
 
 #player_name{

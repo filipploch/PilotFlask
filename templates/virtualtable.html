@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+    <style>
+        @keyframes slideIn {
+            0% {
+                transform: translateX(-120%);
+            }
+            5% {
+                transform: translateX(0);
+            }
+            95% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-120%);
+            }
+        }
+
+        div {
+            
+            /* margin-bottom: 10px;
+            padding: 5px; */
+            width: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: transform 1s ease, background-color 0.5s ease;
+            font-family: 'Varela Round', sans-serif;
+            font-size: 40px;
+        }
+
+        .table-div {
+            animation: slideIn 20s ease-in-out;
+            animation-fill-mode: both;
+        }
+
+        .span-container {
+            /* border: 1px solid #000; */
+            display: inline-block;
+            justify-content: space-between;
+            width: 100%;
+            background: linear-gradient(to top, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+        }
+
+        .shortname {
+            margin: 0;
+            width: 58%; /* zmniejszyłem minimalnie szerokość, aby zachować odstęp */
+            text-align: center;
+            display: inline-block;
+        }
+
+        .points {
+            margin: 0;
+            width: 38%; /* zmniejszyłem minimalnie szerokość, aby zachować odstęp */
+            text-align: center;
+            display: inline-block;
+        }
+
+        .invisible {
+            margin: 0;
+            display: none;
+        }
+
+        .green {
+            background-color: #05f205;
+        }
+
+        .red {
+            background-color: #f71b1b;
+        }
+
+        .blue {
+            background-color: #53a4f5;
+        }
+
+        .underline {
+
+        }
+    </style>
+    <title>Animacja przesuwania divów</title>
+</head>
+<body>
+    <script>
+
+
+
+        const listA = {{ base_table | tojson }};
+        const listB = {{ virtual_table | tojson }};
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const container = document.createElement("div");
+            container.classList.add("table-div")
+
+            function createDivsFromList(list) {
+                list.forEach(item => {
+                    const div = document.createElement("div");
+                    const spanContainer = document.createElement("div");
+                    spanContainer.classList.add("span-container");
+
+                    item.forEach((subItem, subIndex) => {
+                        const span = document.createElement("span");
+                        span.textContent = subItem;
+                        // Add classes for styling
+                        if (subIndex === 0) {
+                            span.classList.add('shortname');
+                        } else if (subIndex === 1) {
+                            span.classList.add('points');
+                        } else if (subIndex === 2) {
+                            span.classList.add('invisible');
+                        }
+                        spanContainer.appendChild(span);
+                    });
+
+                    div.appendChild(spanContainer);
+
+                    if (item[2] === true) {
+                        div.classList.add('blue');
+                    }
+                    // Add class for styling based on the initial position
+                    div.classList.add('initial');
+                    container.appendChild(div);
+                });
+            }
+
+            createDivsFromList(listA);
+
+            setTimeout(() => {
+                const divs = Array.from(container.children);
+
+                listB.forEach((itemB, indexB) => {
+                    const indexA = listA.findIndex(itemA => itemA[0] === itemB[0]);
+
+                    const divToChange = divs[indexA];
+                    divToChange.querySelector('.points').textContent = itemB[1];
+                    if (indexA !== -1 && indexA !== indexB) {
+                        const translateY = (indexB - indexA) * (divToChange.offsetHeight);
+                        divToChange.style.transform = `translateY(${translateY}px)`;
+
+                        // Add class for styling based on the final position
+                        if (indexB < indexA) {
+                            divToChange.classList.add('green');
+                            divToChange.classList.remove('red');
+                            divToChange.classList.remove('blue');
+                        } else if (indexB > indexA) {
+                            divToChange.classList.add('red');
+                            divToChange.classList.remove('green');
+                            divToChange.classList.remove('blue');
+                        } else {
+                            divToChange.classList.add('blue')
+                        }
+                    }
+                });
+            }, 5000);
+
+            document.body.appendChild(container);
+        });
+    </script>
+</body>
+</html>

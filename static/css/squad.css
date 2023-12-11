@@ -209,7 +209,8 @@ td
 	float: left;
 	left: 200px;
 	top: 80px;
-	width: 600px;
+	width: auto;
+    height: 700px;
 	opacity: 1;
 	-webkit-animation: logo_squad_anim 30s;
 	-webkit-animation-fill-mode: Both;

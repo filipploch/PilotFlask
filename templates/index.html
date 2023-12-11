@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base-settings.css') }}">
+{% endblock %}
+
+{% block sitename %}
+    ATS
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-3">
+      <a href="{{ url_for('settings.creatematch') }}"><div class="tile red">
+        <h3 class="title">Utwórz nowy mecz</h3>
+        <p>Hello Red, this is a colored tile.</p>
+      </div></a>
+    </div>
+    <div class="col-sm-3">
+      <a href="{{ url_for('settings.edit_match', match_id=actualMatch.id) }}">
+        <div class="tile purple">
+        <h3 class="title">Edytuj aktualny mecz</h3>
+        <p>Hello Purple, this is a colored tile.</p>
+      </div></a>
+    </div>
+    <div class="col-sm-3">
+      <a href="{{ url_for('settings.matches') }}">
+      <div class="tile orange">
+        <h3 class="title">Wybierz aktualny mecz</h3>
+        <p>Hello Orange, this is a colored tile.</p>
+      </div>
+    </a>
+    </div>
+    <div class="col-sm-3">
+      <a href="">
+      <div class="tile orange">
+        <h3 class="title">Pusty kafelek</h3>
+        <p>Hello Orange, this is a colored tile.</p>
+      </div>
+    </a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3">
+      <a href="{{ url_for('settings.edit_team', team_id=actualMatch.team_a) }}">
+      <div class="tile green">
+        <h3 class="title">Edytuj Team A</h3>
+        <p>{{ teamsNames.teama }}</p>
+      </div>
+    </a>
+    </div>
+    <div class="col-sm-3">
+      <a href="{{ url_for('settings.edit_team', team_id=actualMatch.team_b) }}">
+      <div class="tile yellow">
+        <h3 class="title">Edytuj Team B</h3>
+        <p>{{ teamsNames.teamb }}</p>
+      </div>
+    </a>
+    </div>
+    <div class="col-sm-3">
+      <a href="{{ url_for('settings.show_matches_by_date', division='a') }}">
+      <div class="tile yellow">
+        <h3 class="title">Wyniki Dywizji A</h3>
+        <p></p>
+      </div>
+    </a>
+    </div>
+    <div class="col-sm-3">
+      <a href="{{ url_for('settings.show_matches_by_date', division='b') }}">
+      <div class="tile yellow">
+        <h3 class="title">Wyniki Dywizji B</h3>
+        <p></p>
+      </div>
+    </a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block footer_script %}
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+{% endblock %}

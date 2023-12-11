@@ -31,7 +31,8 @@
 						{% for striker in strikers['strikers_a'] %}
 							<tr class="strikers-row{{ loop.index }}">
 								<td class="name">{{ striker[0].first_name[:1] }}. {{ striker[0].last_name }}</td>
-								<td class="time"> {{ striker[1] }} </td>
+								<td class="is-own-goal">{{ striker[1] }}</td>
+								<td class="time">{{ striker[2] }}</td>
 							</tr></td>
 							</tr>
 						{% endfor %}
@@ -46,7 +47,8 @@
 						{% for striker in strikers['strikers_b'] %}
 							<tr class="strikers-row{{ loop.index }}">
 								<td class="name">{{ striker[0].first_name[:1] }}. {{ striker[0].last_name }}</td>
-								<td class="time"> {{ striker[1] }} </td>
+								<td class="is-own-goal">{{ striker[1] }}</td>
+								<td class="time">{{ striker[2] }}</td>
 							</tr>
 						{% endfor %}
 

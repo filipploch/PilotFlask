@@ -1,0 +1,17 @@
+td.invisible{
+    width: 0;
+    color: rgba(0,0,0,0);
+    padding: 0;
+    overflow: hidden;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+td .visible{
+    width:1%;
+    white-space: nowrap;
+}
+
+.number{
+    width: 40px;
+}

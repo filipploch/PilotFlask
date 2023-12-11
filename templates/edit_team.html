@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/edit-team.css') }}">
+{% endblock %}
+
+{% block sitename %}
+  {{ team.full_name }}
+{% endblock %}
+
+{% block content %}
+  <form id="edit-team-form" method="POST" action="{{ url_for('settings.edit_team', team_id=team_id) }}">
+    <table>
+      <thead>
+        <tr>
+          <th class="invisible">Id</th>
+          <th>Squad</th>
+          <th>Nr</th>
+          <th>Imię</th>
+          <th>Nazwisko</th>
+          <th>Pozycja</th>
+          <th>Kapitan</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for player in players %}
+        <tr id="player_{{ player.id }}">
+          <td class="invisible"><input type="text" name="player_{{ player.id }}[player_id]" value="{{ player.id }}"></td>
+          <td><input type="checkbox" name="player_{{ player.id }}[squad]" value="1" {% if player.squad == 1 %}checked{% endif %}></td>
+          <td><input class="number" type="text" name="player_{{ player.id }}[default_nr]" value="{{ player.default_nr }}"></td>
+          <td><input type="text" name="player_{{ player.id }}[first_name]" value="{{ player.first_name }}"></td>
+          <td><input type="text" name="player_{{ player.id }}[last_name]" value="{{ player.last_name }}"></td>
+          <td><input type="checkbox" name="player_{{ player.id }}[position]" value="Bramkarz" {% if player.position == "Bramkarz" or player.position == 1 %}checked{% endif %}></td>
+          <td>
+            <input type="radio" id="player_{{ player.id }}[captain]" name="captain" value="1" {% if player.captain == 1 %}checked{% endif %}>
+<!--            <input type="hidden" name="player_{{ player.id }}[captain]" value="0" {% if player.captain == 0 %}checked{% endif %}>-->
+          </td>
+
+
+
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    
+
+    <div class="form-group">
+        <input class="btn btn-primary" id="submit" name="submit" type="submit" value="Save Changes">
+    </div>
+  </form>
+{% endblock %}
+
+{% block footer_script %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var form = document.getElementById("edit-team-form");
+
+        form.addEventListener("submit", function () {
+            var radios = document.getElementsByName("captain");
+
+            for (var i = 0; i < radios.length; i++) {
+                if (radios[i].checked) {
+                    radios[i].value = "1";
+                    radios[i].name = radios[i].id;
+                } else {
+                    radios[i].value = "0";
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}

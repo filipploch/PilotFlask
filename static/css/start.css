@@ -84,6 +84,10 @@ table.strikersb{
     filter: drop-shadow(0px 0px 40px rgba(0,0,0,0.6));
 }
 
+img .team_logo{
+    max-height: 249px;
+}
+
 #team_a_logo
 {
 	position: absolute;
@@ -114,7 +118,8 @@ table.strikersb{
 
 .logo
 {
-	width: 350px;
+	width: auto;
+    max-height: 350px;
 }
 
 #score_bg
@@ -130,7 +135,6 @@ table.strikersb{
 	font-size: 70px;
 	font-weight: 900;
 	color: white;
-	border: 2 solid red;
 	background-color: rgba(255,255,255,0.5);
 	height: 100%;
 	width: 100%;
@@ -221,23 +225,16 @@ table.strikersb{
     width: 46%;
     line-height: 1.5em;
     filter: drop-shadow(0px 0px 20px rgba(0,0,0,0.7));
-/*    border: 1px solid red;*/
 }
 
 .bottom_info_left{
-/*    position: relative;*/
-    float: left;
-/*    padding: 0 10% 0 10%;*/
     background-color: #00004f;
-    width: 50%;
+    height: inherit;
+    margin: auto;
 }
 
 .bottom_info_right{
-/*    position: relative;*/
-    float: left;
     background-color: #000;
-/*    padding: 0 5% 0 5%;*/
-    width: 50%;
 }
 
 @keyframes bottom_info_slide_in_out{
@@ -305,4 +302,5 @@ table.strikersb{
     animation: team_full_name_show 0.5s;
     animation-delay: 1s;
     animation-fill-mode: both;
+    bottom: -10px;
 }

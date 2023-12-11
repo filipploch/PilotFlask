@@ -1,0 +1,967 @@
+[
+  {
+    "id": 1,
+    "date": "2023-09-19 20:00:00",
+    "teams": [
+      "\u017bar\u0142acze",
+      "Z\u0142ote Ch\u0142opaki"
+    ],
+    "result": [
+      "3",
+      "11"
+    ],
+    "actual": false
+  },
+  {
+    "id": 2,
+    "date": "2023-09-19 21:30:00",
+    "teams": [
+      "Popalone Styki",
+      "Trivium S\u0142omniki Warriors"
+    ],
+    "result": [
+      "1",
+      "15"
+    ],
+    "actual": false
+  },
+  {
+    "id": 3,
+    "date": "2023-09-20 20:00:00",
+    "teams": [
+      "WKS Futsal Team",
+      "Nowy \u0141ad"
+    ],
+    "result": [
+      "5",
+      "3"
+    ],
+    "actual": false
+  },
+  {
+    "id": 4,
+    "date": "2023-09-20 20:00:00",
+    "teams": [
+      "Hattrick",
+      "Nowohucki Klub Sportowy"
+    ],
+    "result": [
+      "7",
+      "6"
+    ],
+    "actual": false
+  },
+  {
+    "id": 5,
+    "date": "2023-09-20 20:45:00",
+    "teams": [
+      "eNHa II",
+      "Galactik Futsal"
+    ],
+    "result": [
+      "1",
+      "19"
+    ],
+    "actual": false
+  },
+  {
+    "id": 6,
+    "date": "2023-09-26 20:00:00",
+    "teams": [
+      "Nowohucki Klub Sportowy",
+      "\u017bar\u0142acze"
+    ],
+    "result": [
+      "2",
+      "4"
+    ],
+    "actual": false
+  },
+  {
+    "id": 7,
+    "date": "2023-09-26 21:30:00",
+    "teams": [
+      "Trivium S\u0142omniki Warriors",
+      "WKS Futsal Team"
+    ],
+    "result": [
+      "11",
+      "1"
+    ],
+    "actual": false
+  },
+  {
+    "id": 8,
+    "date": "2023-09-27 20:00:00",
+    "teams": [
+      "Nowy \u0141ad",
+      "eNHa II"
+    ],
+    "result": [
+      "8",
+      "1"
+    ],
+    "actual": false
+  },
+  {
+    "id": 9,
+    "date": "2023-09-27 20:45:00",
+    "teams": [
+      "Galactik Futsal",
+      "Hattrick"
+    ],
+    "result": [
+      "6",
+      "3"
+    ],
+    "actual": false
+  },
+  {
+    "id": 10,
+    "date": "2023-09-27 21:30:00",
+    "teams": [
+      "Laga Bonito",
+      "Popalone Styki"
+    ],
+    "result": [
+      "8",
+      "1"
+    ],
+    "actual": false
+  },
+  {
+    "id": 11,
+    "date": "2023-10-03 20:00:00",
+    "teams": [
+      "Z\u0142ote Ch\u0142opaki",
+      "Laga Bonito"
+    ],
+    "result": [
+      "5",
+      "3"
+    ],
+    "actual": false
+  },
+  {
+    "id": 12,
+    "date": "2023-10-03 21:30:00",
+    "teams": [
+      "Nowohucki Klub Sportowy",
+      "Trivium S\u0142omniki Warriors"
+    ],
+    "result": [
+      "1",
+      "2"
+    ],
+    "actual": false
+  },
+  {
+    "id": 13,
+    "date": "2023-10-04 20:00:00",
+    "teams": [
+      "\u017bar\u0142acze",
+      "Popalone Styki"
+    ],
+    "result": [
+      "12",
+      "3"
+    ],
+    "actual": false
+  },
+  {
+    "id": 14,
+    "date": "2023-10-04 20:00:00",
+    "teams": [
+      "Galactik Futsal",
+      "Nowy \u0141ad"
+    ],
+    "result": [
+      "5",
+      "6"
+    ],
+    "actual": false
+  },
+  {
+    "id": 15,
+    "date": "2023-10-04 20:45:00",
+    "teams": [
+      "Hattrick",
+      "WKS Futsal Team"
+    ],
+    "result": [
+      "4",
+      "5"
+    ],
+    "actual": false
+  },
+  {
+    "id": 16,
+    "date": "2023-10-10 20:00:00",
+    "teams": [
+      "Z\u0142ote Ch\u0142opaki",
+      "Hattrick"
+    ],
+    "result": [
+      "7",
+      "4"
+    ],
+    "actual": false
+  },
+  {
+    "id": 17,
+    "date": "2023-10-11 20:00:00",
+    "teams": [
+      "Nowohucki Klub Sportowy",
+      "eNHa II"
+    ],
+    "result": [
+      "4",
+      "6"
+    ],
+    "actual": false
+  },
+  {
+    "id": 18,
+    "date": "2023-10-11 20:45:00",
+    "teams": [
+      "Nowy \u0141ad",
+      "Popalone Styki"
+    ],
+    "result": [
+      "6",
+      "3"
+    ],
+    "actual": false
+  },
+  {
+    "id": 19,
+    "date": "2023-10-11 20:45:00",
+    "teams": [
+      "Trivium S\u0142omniki Warriors",
+      "Laga Bonito"
+    ],
+    "result": [
+      "3",
+      "0"
+    ],
+    "actual": false
+  },
+  {
+    "id": 20,
+    "date": "2023-10-11 21:30:00",
+    "teams": [
+      "Galactik Futsal",
+      "WKS Futsal Team"
+    ],
+    "result": [
+      "3",
+      "4"
+    ],
+    "actual": false
+  },
+  {
+    "id": 21,
+    "date": "2023-10-17 20:00:00",
+    "teams": [
+      "Z\u0142ote Ch\u0142opaki",
+      "WKS Futsal Team"
+    ],
+    "result": [
+      "2",
+      "4"
+    ],
+    "actual": false
+  },
+  {
+    "id": 22,
+    "date": "2023-10-17 20:45:00",
+    "teams": [
+      "Nowohucki Klub Sportowy",
+      "Popalone Styki"
+    ],
+    "result": [
+      "5",
+      "8"
+    ],
+    "actual": false
+  },
+  {
+    "id": 23,
+    "date": "2023-10-18 20:00:00",
+    "teams": [
+      "\u017bar\u0142acze",
+      "eNHa II"
+    ],
+    "result": [
+      "7",
+      "2"
+    ],
+    "actual": false
+  },
+  {
+    "id": 24,
+    "date": "2023-10-18 20:00:00",
+    "teams": [
+      "Nowy \u0141ad",
+      "Trivium S\u0142omniki Warriors"
+    ],
+    "result": [
+      "2",
+      "2"
+    ],
+    "actual": false
+  },
+  {
+    "id": 25,
+    "date": "2023-10-18 20:45:00",
+    "teams": [
+      "Galactik Futsal",
+      "Laga Bonito"
+    ],
+    "result": [
+      "9",
+      "5"
+    ],
+    "actual": false
+  },
+  {
+    "id": 26,
+    "date": "2023-10-24 20:00:00",
+    "teams": [
+      "Nowy \u0141ad",
+      "\u017bar\u0142acze"
+    ],
+    "result": [
+      "2",
+      "5"
+    ],
+    "actual": false
+  },
+  {
+    "id": 27,
+    "date": "2023-10-24 20:45:00",
+    "teams": [
+      "Galactik Futsal",
+      "Z\u0142ote Ch\u0142opaki"
+    ],
+    "result": [
+      "8",
+      "6"
+    ],
+    "actual": false
+  },
+  {
+    "id": 28,
+    "date": "2023-10-25 20:00:00",
+    "teams": [
+      "Trivium S\u0142omniki Warriors",
+      "Hattrick"
+    ],
+    "result": [
+      "3",
+      "1"
+    ],
+    "actual": false
+  },
+  {
+    "id": 29,
+    "date": "2023-10-25 20:00:00",
+    "teams": [
+      "Nowohucki Klub Sportowy",
+      "Galactik Futsal"
+    ],
+    "result": [
+      "3",
+      "8"
+    ],
+    "actual": false
+  },
+  {
+    "id": 30,
+    "date": "2023-10-25 20:45:00",
+    "teams": [
+      "Popalone Styki",
+      "WKS Futsal Team"
+    ],
+    "result": [
+      "0",
+      "8"
+    ],
+    "actual": false
+  },
+  {
+    "id": 31,
+    "date": "2023-10-25 21:30:00",
+    "teams": [
+      "Laga Bonito",
+      "eNHa II"
+    ],
+    "result": [
+      "3",
+      "4"
+    ],
+    "actual": false
+  },
+  {
+    "id": 32,
+    "date": "2023-11-07 20:00:00",
+    "teams": [
+      "Z\u0142ote Ch\u0142opaki",
+      "Nowy \u0141ad"
+    ],
+    "result": [
+      "10",
+      "7"
+    ],
+    "actual": false
+  },
+  {
+    "id": 33,
+    "date": "2023-11-08 20:00:00",
+    "teams": [
+      "\u017bar\u0142acze",
+      "Trivium S\u0142omniki Warriors"
+    ],
+    "result": [
+      "3",
+      "5"
+    ],
+    "actual": false
+  },
+  {
+    "id": 34,
+    "date": "2023-11-08 21:30:00",
+    "teams": [
+      "Hattrick",
+      "Laga Bonito"
+    ],
+    "result": [
+      "4",
+      "6"
+    ],
+    "actual": false
+  },
+  {
+    "id": 35,
+    "date": "2023-11-14 20:00:00",
+    "teams": [
+      "Z\u0142ote Ch\u0142opaki",
+      "Nowohucki Klub Sportowy"
+    ],
+    "result": [
+      "8",
+      "3"
+    ],
+    "actual": false
+  },
+  {
+    "id": 36,
+    "date": "2023-11-14 21:30:00",
+    "teams": [
+      "eNHa II",
+      "Popalone Styki"
+    ],
+    "result": [
+      "2",
+      "4"
+    ],
+    "actual": false
+  },
+  {
+    "id": 37,
+    "date": "2023-11-15 20:00:00",
+    "teams": [
+      "\u017bar\u0142acze",
+      "Galactik Futsal"
+    ],
+    "result": [
+      "9",
+      "3"
+    ],
+    "actual": false
+  },
+  {
+    "id": 38,
+    "date": "2023-11-15 20:45:00",
+    "teams": [
+      "WKS Futsal Team",
+      "Laga Bonito"
+    ],
+    "result": [
+      "3",
+      "2"
+    ],
+    "actual": false
+  },
+  {
+    "id": 39,
+    "date": "2023-11-15 20:45:00",
+    "teams": [
+      "Hattrick",
+      "Nowy \u0141ad"
+    ],
+    "result": [
+      "3",
+      "6"
+    ],
+    "actual": false
+  },
+  {
+    "id": 40,
+    "date": "2023-11-15 21:30:00",
+    "teams": [
+      "eNHa II",
+      "Trivium S\u0142omniki Warriors"
+    ],
+    "result": [
+      "0",
+      "2"
+    ],
+    "actual": false
+  },
+  {
+    "id": 41,
+    "date": "2023-11-21 20:00:00",
+    "teams": [
+      "Popalone Styki",
+      "Z\u0142ote Ch\u0142opaki"
+    ],
+    "result": [
+      "1",
+      "18"
+    ],
+    "actual": false
+  },
+  {
+    "id": 42,
+    "date": "2023-11-22 20:00:00",
+    "teams": [
+      "Laga Bonito",
+      "Nowohucki Klub Sportowy"
+    ],
+    "result": [
+      "8",
+      "0"
+    ],
+    "actual": false
+  },
+  {
+    "id": 43,
+    "date": "2023-11-22 20:00:00",
+    "teams": [
+      "WKS Futsal Team",
+      "\u017bar\u0142acze"
+    ],
+    "result": [
+      "11",
+      "0"
+    ],
+    "actual": false
+  },
+  {
+    "id": 44,
+    "date": "2023-11-22 20:45:00",
+    "teams": [
+      "Trivium S\u0142omniki Warriors",
+      "Galactik Futsal"
+    ],
+    "result": [
+      "4",
+      "4"
+    ],
+    "actual": false
+  },
+  {
+    "id": 45,
+    "date": "2023-11-22 20:45:00",
+    "teams": [
+      "eNHa II",
+      "Hattrick"
+    ],
+    "result": [
+      "5",
+      "8"
+    ],
+    "actual": false
+  },
+  {
+    "id": 46,
+    "date": "2023-11-28 20:00:00",
+    "teams": [
+      "Trivium S\u0142omniki Warriors",
+      "Z\u0142ote Ch\u0142opaki"
+    ],
+    "result": [
+      "6",
+      "5"
+    ],
+    "actual": false
+  },
+  {
+    "id": 47,
+    "date": "2023-11-29 20:00:00",
+    "teams": [
+      "Laga Bonito",
+      "\u017bar\u0142acze"
+    ],
+    "result": [
+      "4",
+      "4"
+    ],
+    "actual": false
+  },
+  {
+    "id": 48,
+    "date": "2023-11-29 20:45:00",
+    "teams": [
+      "Nowy \u0141ad",
+      "Nowohucki Klub Sportowy"
+    ],
+    "result": [
+      "5",
+      "10"
+    ],
+    "actual": false
+  },
+  {
+    "id": 49,
+    "date": "2023-11-29 21:30:00",
+    "teams": [
+      "WKS Futsal Team",
+      "eNHa II"
+    ],
+    "result": [
+      "3",
+      "3"
+    ],
+    "actual": false
+  },
+  {
+    "id": 50,
+    "date": "2023-11-29 22:15:00",
+    "teams": [
+      "Popalone Styki",
+      "Hattrick"
+    ],
+    "result": [
+      "1",
+      "6"
+    ],
+    "actual": false
+  },
+  {
+    "id": 51,
+    "date": "2023-12-06 20:00:00",
+    "teams": [
+      "Laga Bonito",
+      "Nowy \u0141ad"
+    ],
+    "result": [
+      "9",
+      "6"
+    ],
+    "actual": false
+  },
+  {
+    "id": 52,
+    "date": "2023-12-06 20:00:00",
+    "teams": [
+      "Hattrick",
+      "\u017bar\u0142acze"
+    ],
+    "result": [
+      "4",
+      "3"
+    ],
+    "actual": false
+  },
+  {
+    "id": 53,
+    "date": "2023-12-06 20:45:00",
+    "teams": [
+      "WKS Futsal Team",
+      "Nowohucki Klub Sportowy"
+    ],
+    "result": [
+      "4",
+      "4"
+    ],
+    "actual": false
+  },
+  {
+    "id": 54,
+    "date": "2023-12-06 20:45:00",
+    "teams": [
+      "eNHa II",
+      "Z\u0142ote Ch\u0142opaki"
+    ],
+    "result": [
+      "3",
+      "3"
+    ],
+    "actual": false
+  },
+  {
+    "id": 55,
+    "date": "2023-12-06 22:15:00",
+    "teams": [
+      "Popalone Styki",
+      "Galactik Futsal"
+    ],
+    "result": [
+      "8",
+      "6"
+    ],
+    "actual": false
+  },
+  {
+    "id": 56,
+    "date": "2023-12-12 20:45:00",
+    "teams": [
+      "WKS Futsal Team",
+      "Galactik Futsal"
+    ],
+    "result": "",
+    "actual": false
+  },
+  {
+    "id": 57,
+    "date": "2023-12-13 20:00:00",
+    "teams": [
+      "Nowohucki Klub Sportowy",
+      "Nowy \u0141ad"
+    ],
+    "result": "",
+    "actual": false
+  },
+  {
+    "id": 58,
+    "date": "2023-12-13 20:45:00",
+    "teams": [
+      "Trivium S\u0142omniki Warriors",
+      "\u017bar\u0142acze"
+    ],
+    "result": "",
+    "actual": false
+  },
+  {
+    "id": 59,
+    "date": "2023-12-13 21:30:00",
+    "teams": [
+      "eNHa II",
+      "Laga Bonito"
+    ],
+    "result": "",
+    "actual": false
+  },
+  {
+    "id": 60,
+    "date": "2023-12-13 22:15:00",
+    "teams": [
+      "Hattrick",
+      "Popalone Styki"
+    ],
+    "result": "",
+    "actual": false
+  },
+  {
+    "id": 61,
+    "date": "2023-12-19 20:00:00",
+    "teams": [
+      "Z\u0142ote Ch\u0142opaki",
+      "WKS Futsal Team"
+    ],
+    "result": "",
+    "actual": false
+  },
+  {
+    "id": 62,
+    "date": "2023-12-20 20:45:00",
+    "teams": [
+      "Nowy \u0141ad",
+      "Laga Bonito"
+    ],
+    "result": "",
+    "actual": false
+  },
+  {
+    "id": 63,
+    "date": "2023-12-20 20:45:00",
+    "teams": [
+      "Nowohucki Klub Sportowy",
+      "Hattrick"
+    ],
+    "result": "",
+    "actual": false
+  },
+  {
+    "id": 64,
+    "date": "2023-12-20 21:30:00",
+    "teams": [
+      "Galactik Futsal",
+      "Trivium S\u0142omniki Warriors"
+    ],
+    "result": "",
+    "actual": false
+  },
+  {
+    "id": 65,
+    "date": "2023-12-20 21:30:00",
+    "teams": [
+      "Popalone Styki",
+      "eNHa II"
+    ],
+    "result": "",
+    "actual": false
+  },
+  {
+    "id": 66,
+    "date": "2024-01-09 20:45:00",
+    "teams": [
+      "Trivium S\u0142omniki Warriors",
+      "Z\u0142ote Ch\u0142opaki"
+    ],
+    "result": "",
+    "actual": false
+  },
+  {
+    "id": 67,
+    "date": "2024-01-10 20:00:00",
+    "teams": [
+      "\u017bar\u0142acze",
+      "Galactik Futsal"
+    ],
+    "result": "",
+    "actual": false
+  },
+  {
+    "id": 68,
+    "date": "2024-01-10 20:45:00",
+    "teams": [
+      "Hattrick",
+      "Nowy \u0141ad"
+    ],
+    "result": "",
+    "actual": false
+  },
+  {
+    "id": 69,
+    "date": "2024-01-10 21:30:00",
+    "teams": [
+      "eNHa II",
+      "Nowohucki Klub Sportowy"
+    ],
+    "result": "",
+    "actual": false
+  },
+  {
+    "id": 70,
+    "date": "2024-01-10 21:30:00",
+    "teams": [
+      "Laga Bonito",
+      "Popalone Styki"
+    ],
+    "result": "",
+    "actual": false
+  },
+  {
+    "id": 71,
+    "date": "2024-01-16 20:00:00",
+    "teams": [
+      "Nowy \u0141ad",
+      "Popalone Styki"
+    ],
+    "result": "",
+    "actual": false
+  },
+  {
+    "id": 72,
+    "date": "2024-01-16 20:45:00",
+    "teams": [
+      "Z\u0142ote Ch\u0142opaki",
+      "\u017bar\u0142acze"
+    ],
+    "result": "",
+    "actual": false
+  },
+  {
+    "id": 73,
+    "date": "2024-01-17 20:00:00",
+    "teams": [
+      "WKS Futsal Team",
+      "Trivium S\u0142omniki Warriors"
+    ],
+    "result": "",
+    "actual": false
+  },
+  {
+    "id": 74,
+    "date": "2024-01-17 20:00:00",
+    "teams": [
+      "Nowohucki Klub Sportowy",
+      "Laga Bonito"
+    ],
+    "result": "",
+    "actual": false
+  },
+  {
+    "id": 75,
+    "date": "2024-01-17 21:30:00",
+    "teams": [
+      "Hattrick",
+      "eNHa II"
+    ],
+    "result": "",
+    "actual": false
+  },
+  {
+    "id": 76,
+    "date": "2024-01-24 20:00:00",
+    "teams": [
+      "\u017bar\u0142acze",
+      "WKS Futsal Team"
+    ],
+    "result": "",
+    "actual": false
+  },
+  {
+    "id": 77,
+    "date": "2024-01-24 20:00:00",
+    "teams": [
+      "eNHa II",
+      "Nowy \u0141ad"
+    ],
+    "result": "",
+    "actual": false
+  },
+  {
+    "id": 78,
+    "date": "2024-01-24 21:30:00",
+    "teams": [
+      "Galactik Futsal",
+      "Z\u0142ote Ch\u0142opaki"
+    ],
+    "result": "",
+    "actual": false
+  },
+  {
+    "id": 79,
+    "date": "2024-01-24 21:30:00",
+    "teams": [
+      "Laga Bonito",
+      "Hattrick"
+    ],
+    "result": "",
+    "actual": false
+  },
+  {
+    "id": 80,
+    "date": "2024-01-24 22:15:00",
+    "teams": [
+      "Popalone Styki",
+      "Nowohucki Klub Sportowy"
+    ],
+    "result": "",
+    "actual": false
+  }
+]
