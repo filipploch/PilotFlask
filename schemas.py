@@ -8,8 +8,11 @@ class PlayerSchema(ma.Schema):
     class Meta:
         model = Player
         fields = ('id', 'full_name', 'team', 'position',
+                  'matches', 'goals', 'assists',
+                  'yellow_cards', 'red_cards', 'own_goals',
+                  'best_five', 'best_players',
                   'first_name', 'last_name', 'default_nr',
-                  'squad', 'is_active', 'captain')
+                  'squad', 'is_active', 'captain', 'link')
 
 
 player_schema = PlayerSchema()
@@ -20,9 +23,9 @@ class TeamSchema(ma.Schema):
     class Meta:
         model = Team
         fields = ('id', 'full_name', 'competitions', 'link', 'short_name',
-                  'home_tricot_color_number', 'home_color_one', 'home_color_two', 'home_color_three', 'color_for_ui',
-                  'away_color_one', 'away_color_two', 'away_color_three', 'selected_tricot', 'bibs_color',
-                  'away_tricot_color_number', 'logo_file', 'players')
+                  'home_tricot_color_number', 'home_color_1', 'home_color_2', 'home_color_3', 'color_for_ui',
+                  'away_color_1', 'away_color_2', 'away_color_3', 'selected_tricot', 'bibs_color',
+                  'away_tricot_color_number', 'logo_file', 'penalty_points', 'players')
 
     players = Nested(players_schema)
 

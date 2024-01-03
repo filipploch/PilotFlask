@@ -1,7 +1,6 @@
 body
 {
-	font-family: 'Lato', sans-serif;
-	overflow: hidden;
+
 	color: #00004f;
 
 }
@@ -59,23 +58,7 @@ table.strikersb{
 
 */
 
-#top_bar
-{
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	image-width: 1920px;
-	font-size: 45px;
-    text-shadow: 0px 0px 10px darkgray;
-	font-weight: 900;
-}
 
-#bottom_bar
-{
-	position: absolute;
-	bottom: 0px;
-	left: 0px;
-}
 
 .team_logo{
 	top: 150px;	
@@ -103,18 +86,6 @@ img .team_logo{
 
 }
 
-
-#img_bottom
-{
-	position: absolute;
-	bottom: 0px;
-}
-
-#img_top
-{
-	width: 1920px;
-	padding: 0;
-}
 
 .logo
 {
@@ -165,19 +136,7 @@ img .team_logo{
 	100% {left: 0px; width: 100%; opacity: 1; color: white;}
 }
 
-#league
-{
-	position: absolute;
-	left: 200px;
-	top: 7px;
-}
 
-#division
-{
-	position: absolute;
-	left: 200px;
-	top: 50px;
-}
 
 
 .cleaner
@@ -238,14 +197,14 @@ img .team_logo{
 }
 
 @keyframes bottom_info_slide_in_out{
-    0% {bottom: -50px;}
+    0% {bottom: -100px;}
     10% {bottom: 100px;}
     90% {bottom: 100px;}
-    100% {bottom: -50px;}
+    100% {bottom: -100px;}
 }
 
 @keyframes bottom_info_slide_in{
-    0% {bottom: -50px;}
+    0% {bottom: -100px;}
     100% {bottom: 100px;}
 }
 

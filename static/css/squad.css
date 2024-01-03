@@ -1,9 +1,6 @@
 body
 {
-	font-family: 'Lato', sans-serif;
-	overflow: hidden;
 	color: #00004f;
-
 }
 
 
@@ -26,22 +23,9 @@ td
 
 
 
-#top_bar
-{
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	image-width: 1920px;
-	font-size: 45px;
-	font-weight: 900;
-}
 
-#bottom_bar
-{
-	position: absolute;
-	bottom: 0px;
-	left: 0px;
-}
+
+
 
 .team_logo{
 	top: 150px;
@@ -64,17 +48,7 @@ td
 }
 
 
-#img_bottom
-{
-	position: absolute;
-	bottom: 0px;
-}
 
-#img_top
-{
-	width: 1920px;
-	padding: 0;
-}
 
 .logo
 {
@@ -294,27 +268,7 @@ td
 	font-size: 20px;
 }
 
-@-webkit-keyframes squad_anim
-{
-  0%  {left:1000px; top:0px; opacity: 0;}
-  100% {left:600px; top:0px; opacity: 1;}
-}
 
-@-webkit-keyframes logo_squad_anim
-{
-  0% {opacity: 0;}
-  6% {opacity: 1;}
-  94% {opacity: 1;}
-  100% {opacity: 0;}
-}
-
-@-webkit-keyframes background_logo_anim
-{
-  0% {background-color: rgba(255,255,255,0);}
-  50% {background-color: rgba(255,255,255,0.4);}
-  90% {background-color: rgba(255,255,255,0.4);}
-  100% {background-color: rgba(255,255,255,0);}
-}
 
 #matchSquad{
 	position: relative;
@@ -360,13 +314,7 @@ td
   100% {opacity: 1;}
 }
 
-@keyframes squadBackgroundSlideInOut {
-	0% {left: 100%; top: 114px;}
-	5% {left: 50%; top: 114px;}
-	95% {left: 50%; top: 114px;}
-	100% {left: 100%; top: 114px;}
 
-}
 
 #squadBackground {
 	position: absolute;

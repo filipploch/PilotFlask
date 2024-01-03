@@ -1,8 +1,8 @@
 body {
     width: 1920;
     height: 1080;
-    overflow: hidden;
     margin: 0;
+    overflow: hidden;
     font-family: 'Varela Round', sans-serif;
     background-color: white;
 }

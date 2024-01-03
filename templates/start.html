@@ -1,10 +1,6 @@
 {% extends "base-bars.html" %}
-{% block styles %}
+{% block style %}
     <link rel="stylesheet" href="{{url_for('static', filename='css/start.css')}}">
-{% endblock %}
-{% block top_bar %}
-    <div id="league">NOWOHUCKA AMATORSKA LIGA FUTSALU</div>
-    <div id="division"></div>
 {% endblock %}
 {% block content %}
             <div id="scorebarNlogos">
@@ -15,10 +11,10 @@
                     <div></div>
                 </div>
                 <div class="team_logo" id="team_a_logo">
-					<img src="{{ logos['logo_a'] }}" class="logo">
+					<img src="/static/images/logos/{{ logos['logo_a'] }}" class="logo">
                 </div>
                 <div class="team_logo" id="team_b_logo">
-					<img src="{{ logos['logo_b'] }}" class="logo">
+					<img src="/static/images/logos/{{ logos['logo_b'] }}" class="logo">
                 </div>
             </div>
             <div id="teams_full_names">
@@ -48,7 +44,10 @@
             </div>
             <div id="bottom_info_1" class="bottom_info">
                 <div class="bottom_info_center_div">
-                    <div class="bottom_info_left" id="stadium">Os.Handlowe 4</div>
+                    <div class="bottom_info_left" id="stadium">
+                        <span>{{ match.stadium.name }}</span><br>
+                        <span>{{ match.stadium.address }}</span>
+                    </div>
                     <div class="bottom_info_right" id="match_date"></div>
                 </div>
             </div>

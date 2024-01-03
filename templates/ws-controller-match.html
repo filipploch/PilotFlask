@@ -1,0 +1,83 @@
+<div class="row-small-buttons">
+    <div id="btn-var" class="button button-small">
+        <a href="{{ url_for('obswebsocketpy.replay_sequence', typeofaction='VAR') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/var.png') }}" alt="VAR">
+        </a>
+    </div>
+    <div id="btn-foul" class="button button-small">
+        <a href="{{ url_for('obswebsocketpy.replay_sequence', typeofaction='FAUL') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/faul.png') }}" alt="FAUL">
+        </a>
+    </div>
+    <div id="btn-gk-save" class="button button-small">
+        <a href="{{ url_for('obswebsocketpy.replay_sequence', typeofaction='OBRONA') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/obrona.png') }}" alt="OBRONA">
+        </a>
+    </div>
+    <div id="btn-missed" class="button button-small">
+        <a href="{{ url_for('obswebsocketpy.replay_sequence', typeofaction='PUDŁO') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/pudlo.png') }}" alt="PUDŁO">
+        </a>
+    </div>
+    <div id="btn-goal" class="button button-small">
+        <a href="{{ url_for('obswebsocketpy.replay_sequence', typeofaction='GOL') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/gol.png') }}" alt="GOL">
+        </a>
+    </div>
+</div>
+
+<div class="row-middle-buttons">
+
+    <div id="btn-replay" class="button button-middle">
+        <a href="{{ url_for('obswebsocketpy.play_replay_sequence') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/runReplay-horizontal.png') }}"
+                alt="PLAY">
+        </a>
+    </div>
+
+    <div class="button button-middle" id="btn-goal-replay">
+        <a href="{{ url_for('obswebsocketpy.goal_sequence') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/gol-r-horizontal.png') }}"
+                alt="GOL+R">
+        </a>
+    </div>
+</div>
+
+<div class="row-small-buttons">
+    <div id="btn-funny" class="button button-small">
+        <a href="{{ url_for('obswebsocketpy.replay_sequence', typeofaction='HAHA') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/hahaha.png') }}" alt="HAHAHA">
+        </a>
+    </div>
+    <div id="btn-boom" class="button button-small">
+        <a href="{{ url_for('obswebsocketpy.replay_sequence', typeofaction='BUM') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/bum.png') }}" alt="BUM">
+        </a>
+    </div>
+    <div id="btn-action" class="button button-small">
+        <a href="{{ url_for('obswebsocketpy.show_action') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/akcja.png') }}" alt="AKCJA">
+        </a>
+    </div>
+    <div id="btn-banner" class="button button-small">
+        <a href="{{ url_for('obswebsocketpy.show_banner') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/baner.png') }}" alt="BANER">
+        </a>
+    </div>
+</div>
+
+<div class="row-small-buttons">
+
+
+    <div id="btn-table-a" class="button button-small">
+        <a href="{{ url_for('obswebsocketpy.show_virtual_table', division='a') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/table_a.png') }}" alt="VIRTUAL A">
+        </a>
+    </div>
+
+    <div id="btn-table-b" class="button button-small">
+        <a href="{{ url_for('obswebsocketpy.show_virtual_table', division='b') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/table_b.png') }}" alt="VIRTUAL B">
+        </a>
+    </div>
+</div>

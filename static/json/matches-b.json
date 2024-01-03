@@ -7,10 +7,15 @@
       "Z\u0142ote Ch\u0142opaki"
     ],
     "result": [
-      "3",
-      "11"
+      3,
+      11
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 2,
@@ -20,10 +25,15 @@
       "Trivium S\u0142omniki Warriors"
     ],
     "result": [
-      "1",
-      "15"
+      1,
+      15
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 3,
@@ -33,10 +43,15 @@
       "Nowy \u0141ad"
     ],
     "result": [
-      "5",
-      "3"
+      5,
+      3
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 4,
@@ -46,10 +61,15 @@
       "Nowohucki Klub Sportowy"
     ],
     "result": [
-      "7",
-      "6"
+      7,
+      6
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 5,
@@ -59,10 +79,15 @@
       "Galactik Futsal"
     ],
     "result": [
-      "1",
-      "19"
+      1,
+      19
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 6,
@@ -72,10 +97,15 @@
       "\u017bar\u0142acze"
     ],
     "result": [
-      "2",
-      "4"
+      2,
+      4
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 7,
@@ -85,10 +115,15 @@
       "WKS Futsal Team"
     ],
     "result": [
-      "11",
-      "1"
+      11,
+      1
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 8,
@@ -98,10 +133,15 @@
       "eNHa II"
     ],
     "result": [
-      "8",
-      "1"
+      8,
+      1
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 9,
@@ -111,10 +151,15 @@
       "Hattrick"
     ],
     "result": [
-      "6",
-      "3"
+      6,
+      3
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 10,
@@ -124,10 +169,15 @@
       "Popalone Styki"
     ],
     "result": [
-      "8",
-      "1"
+      8,
+      1
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 11,
@@ -137,10 +187,15 @@
       "Laga Bonito"
     ],
     "result": [
-      "5",
-      "3"
+      5,
+      3
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 12,
@@ -150,10 +205,15 @@
       "Trivium S\u0142omniki Warriors"
     ],
     "result": [
-      "1",
-      "2"
+      1,
+      2
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 13,
@@ -163,10 +223,15 @@
       "Popalone Styki"
     ],
     "result": [
-      "12",
-      "3"
+      12,
+      3
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 14,
@@ -176,10 +241,15 @@
       "Nowy \u0141ad"
     ],
     "result": [
-      "5",
-      "6"
+      5,
+      6
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 15,
@@ -189,10 +259,15 @@
       "WKS Futsal Team"
     ],
     "result": [
-      "4",
-      "5"
+      4,
+      5
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 16,
@@ -202,10 +277,15 @@
       "Hattrick"
     ],
     "result": [
-      "7",
-      "4"
+      7,
+      4
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 17,
@@ -215,10 +295,15 @@
       "eNHa II"
     ],
     "result": [
-      "4",
-      "6"
+      4,
+      6
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 18,
@@ -228,10 +313,15 @@
       "Popalone Styki"
     ],
     "result": [
-      "6",
-      "3"
+      6,
+      3
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 19,
@@ -241,10 +331,15 @@
       "Laga Bonito"
     ],
     "result": [
-      "3",
-      "0"
+      3,
+      0
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 20,
@@ -254,10 +349,15 @@
       "WKS Futsal Team"
     ],
     "result": [
-      "3",
-      "4"
+      3,
+      4
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 21,
@@ -267,10 +367,15 @@
       "WKS Futsal Team"
     ],
     "result": [
-      "2",
-      "4"
+      2,
+      4
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 22,
@@ -280,10 +385,15 @@
       "Popalone Styki"
     ],
     "result": [
-      "5",
-      "8"
+      5,
+      8
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 23,
@@ -293,10 +403,15 @@
       "eNHa II"
     ],
     "result": [
-      "7",
-      "2"
+      7,
+      2
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 24,
@@ -306,10 +421,15 @@
       "Trivium S\u0142omniki Warriors"
     ],
     "result": [
-      "2",
-      "2"
+      2,
+      2
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 25,
@@ -319,10 +439,15 @@
       "Laga Bonito"
     ],
     "result": [
-      "9",
-      "5"
+      9,
+      5
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 26,
@@ -332,10 +457,15 @@
       "\u017bar\u0142acze"
     ],
     "result": [
-      "2",
-      "5"
+      2,
+      5
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 27,
@@ -345,10 +475,15 @@
       "Z\u0142ote Ch\u0142opaki"
     ],
     "result": [
-      "8",
-      "6"
+      8,
+      6
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 28,
@@ -358,10 +493,15 @@
       "Hattrick"
     ],
     "result": [
-      "3",
-      "1"
+      3,
+      1
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 29,
@@ -371,10 +511,15 @@
       "Galactik Futsal"
     ],
     "result": [
-      "3",
-      "8"
+      3,
+      8
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 30,
@@ -384,10 +529,15 @@
       "WKS Futsal Team"
     ],
     "result": [
-      "0",
-      "8"
+      0,
+      8
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 31,
@@ -397,10 +547,15 @@
       "eNHa II"
     ],
     "result": [
-      "3",
-      "4"
+      3,
+      4
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 32,
@@ -410,10 +565,15 @@
       "Nowy \u0141ad"
     ],
     "result": [
-      "10",
-      "7"
+      10,
+      7
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 33,
@@ -423,10 +583,15 @@
       "Trivium S\u0142omniki Warriors"
     ],
     "result": [
-      "3",
-      "5"
+      3,
+      5
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 34,
@@ -436,10 +601,15 @@
       "Laga Bonito"
     ],
     "result": [
-      "4",
-      "6"
+      4,
+      6
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 35,
@@ -449,10 +619,15 @@
       "Nowohucki Klub Sportowy"
     ],
     "result": [
-      "8",
-      "3"
+      8,
+      3
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 36,
@@ -462,10 +637,15 @@
       "Popalone Styki"
     ],
     "result": [
-      "2",
-      "4"
+      2,
+      4
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 37,
@@ -475,10 +655,15 @@
       "Galactik Futsal"
     ],
     "result": [
-      "9",
-      "3"
+      9,
+      3
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 38,
@@ -488,10 +673,15 @@
       "Laga Bonito"
     ],
     "result": [
-      "3",
-      "2"
+      3,
+      2
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 39,
@@ -501,10 +691,15 @@
       "Nowy \u0141ad"
     ],
     "result": [
-      "3",
-      "6"
+      3,
+      6
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 40,
@@ -514,10 +709,15 @@
       "Trivium S\u0142omniki Warriors"
     ],
     "result": [
-      "0",
-      "2"
+      0,
+      2
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 41,
@@ -527,10 +727,15 @@
       "Z\u0142ote Ch\u0142opaki"
     ],
     "result": [
-      "1",
-      "18"
+      1,
+      18
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 42,
@@ -540,10 +745,15 @@
       "Nowohucki Klub Sportowy"
     ],
     "result": [
-      "8",
-      "0"
+      8,
+      0
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 43,
@@ -553,10 +763,15 @@
       "\u017bar\u0142acze"
     ],
     "result": [
-      "11",
-      "0"
+      11,
+      0
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 44,
@@ -566,10 +781,15 @@
       "Galactik Futsal"
     ],
     "result": [
-      "4",
-      "4"
+      4,
+      4
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 45,
@@ -579,10 +799,15 @@
       "Hattrick"
     ],
     "result": [
-      "5",
-      "8"
+      5,
+      8
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 46,
@@ -592,10 +817,15 @@
       "Z\u0142ote Ch\u0142opaki"
     ],
     "result": [
-      "6",
-      "5"
+      6,
+      5
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 47,
@@ -605,10 +835,15 @@
       "\u017bar\u0142acze"
     ],
     "result": [
-      "4",
-      "4"
+      4,
+      4
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 48,
@@ -618,10 +853,15 @@
       "Nowohucki Klub Sportowy"
     ],
     "result": [
-      "5",
-      "10"
+      5,
+      10
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 49,
@@ -631,10 +871,15 @@
       "eNHa II"
     ],
     "result": [
-      "3",
-      "3"
+      3,
+      3
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 50,
@@ -644,10 +889,15 @@
       "Hattrick"
     ],
     "result": [
-      "1",
-      "6"
+      1,
+      6
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 51,
@@ -657,10 +907,15 @@
       "Nowy \u0141ad"
     ],
     "result": [
-      "9",
-      "6"
+      9,
+      6
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 52,
@@ -670,10 +925,15 @@
       "\u017bar\u0142acze"
     ],
     "result": [
-      "4",
-      "3"
+      4,
+      3
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 53,
@@ -683,10 +943,15 @@
       "Nowohucki Klub Sportowy"
     ],
     "result": [
-      "4",
-      "4"
+      4,
+      4
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 54,
@@ -696,10 +961,15 @@
       "Z\u0142ote Ch\u0142opaki"
     ],
     "result": [
-      "3",
-      "3"
+      3,
+      3
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 55,
@@ -709,10 +979,15 @@
       "Galactik Futsal"
     ],
     "result": [
-      "8",
-      "6"
+      8,
+      6
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 56,
@@ -721,8 +996,16 @@
       "WKS Futsal Team",
       "Galactik Futsal"
     ],
-    "result": "",
-    "actual": false
+    "result": [
+      5,
+      0
+    ],
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      1
+    ]
   },
   {
     "id": 57,
@@ -731,8 +1014,16 @@
       "Nowohucki Klub Sportowy",
       "Nowy \u0141ad"
     ],
-    "result": "",
-    "actual": false
+    "result": [
+      6,
+      7
+    ],
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 58,
@@ -741,8 +1032,16 @@
       "Trivium S\u0142omniki Warriors",
       "\u017bar\u0142acze"
     ],
-    "result": "",
-    "actual": false
+    "result": [
+      20,
+      1
+    ],
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 59,
@@ -751,8 +1050,16 @@
       "eNHa II",
       "Laga Bonito"
     ],
-    "result": "",
-    "actual": false
+    "result": [
+      4,
+      13
+    ],
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 60,
@@ -761,8 +1068,16 @@
       "Hattrick",
       "Popalone Styki"
     ],
-    "result": "",
-    "actual": false
+    "result": [
+      3,
+      1
+    ],
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 61,
@@ -771,8 +1086,16 @@
       "Z\u0142ote Ch\u0142opaki",
       "WKS Futsal Team"
     ],
-    "result": "",
-    "actual": false
+    "result": [
+      1,
+      4
+    ],
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 62,
@@ -781,8 +1104,16 @@
       "Nowy \u0141ad",
       "Laga Bonito"
     ],
-    "result": "",
-    "actual": false
+    "result": [
+      4,
+      4
+    ],
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 63,
@@ -791,8 +1122,16 @@
       "Nowohucki Klub Sportowy",
       "Hattrick"
     ],
-    "result": "",
-    "actual": false
+    "result": [
+      "4",
+      "6"
+    ],
+    "actual": true,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 64,
@@ -801,8 +1140,16 @@
       "Galactik Futsal",
       "Trivium S\u0142omniki Warriors"
     ],
-    "result": "",
-    "actual": false
+    "result": [
+      1,
+      11
+    ],
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 65,
@@ -811,28 +1158,46 @@
       "Popalone Styki",
       "eNHa II"
     ],
-    "result": "",
-    "actual": false
+    "result": [
+      4,
+      6
+    ],
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 66,
-    "date": "2024-01-09 20:45:00",
-    "teams": [
-      "Trivium S\u0142omniki Warriors",
-      "Z\u0142ote Ch\u0142opaki"
-    ],
-    "result": "",
-    "actual": false
-  },
-  {
-    "id": 67,
     "date": "2024-01-10 20:00:00",
     "teams": [
       "\u017bar\u0142acze",
       "Galactik Futsal"
     ],
     "result": "",
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
+  },
+  {
+    "id": 67,
+    "date": "2024-01-10 20:45:00",
+    "teams": [
+      "Trivium S\u0142omniki Warriors",
+      "Z\u0142ote Ch\u0142opaki"
+    ],
+    "result": "",
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 68,
@@ -842,7 +1207,12 @@
       "Nowy \u0141ad"
     ],
     "result": "",
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 69,
@@ -852,17 +1222,27 @@
       "Nowohucki Klub Sportowy"
     ],
     "result": "",
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 70,
-    "date": "2024-01-10 21:30:00",
+    "date": "2024-01-10 22:15:00",
     "teams": [
       "Laga Bonito",
       "Popalone Styki"
     ],
     "result": "",
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 71,
@@ -872,7 +1252,12 @@
       "Popalone Styki"
     ],
     "result": "",
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 72,
@@ -882,7 +1267,12 @@
       "\u017bar\u0142acze"
     ],
     "result": "",
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 73,
@@ -892,7 +1282,12 @@
       "Trivium S\u0142omniki Warriors"
     ],
     "result": "",
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 74,
@@ -902,7 +1297,12 @@
       "Laga Bonito"
     ],
     "result": "",
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 75,
@@ -912,7 +1312,12 @@
       "eNHa II"
     ],
     "result": "",
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 76,
@@ -922,7 +1327,12 @@
       "WKS Futsal Team"
     ],
     "result": "",
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 77,
@@ -932,7 +1342,12 @@
       "Nowy \u0141ad"
     ],
     "result": "",
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 78,
@@ -942,7 +1357,12 @@
       "Z\u0142ote Ch\u0142opaki"
     ],
     "result": "",
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 79,
@@ -952,7 +1372,12 @@
       "Hattrick"
     ],
     "result": "",
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 80,
@@ -962,6 +1387,11 @@
       "Nowohucki Klub Sportowy"
     ],
     "result": "",
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   }
 ]

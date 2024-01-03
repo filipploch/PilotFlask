@@ -51,17 +51,18 @@ class Team(db.Model):
     link = db.Column(db.String)
     short_name = db.Column(db.String, unique=True)
     home_tricot_color_number = db.Column(db.Integer)
-    home_color_one = db.Column(db.String)
-    home_color_two = db.Column(db.String)
-    home_color_three = db.Column(db.String)
+    home_color_1 = db.Column(db.String)
+    home_color_2 = db.Column(db.String)
+    home_color_3 = db.Column(db.String)
     color_for_ui = db.Column(db.String)
-    away_color_one = db.Column(db.String)
-    away_color_two = db.Column(db.String)
-    away_color_three = db.Column(db.String)
+    away_color_1 = db.Column(db.String)
+    away_color_2 = db.Column(db.String)
+    away_color_3 = db.Column(db.String)
     selected_tricot = db.Column(db.Integer)
     bibs_color = db.Column(db.String)
     away_tricot_color_number = db.Column(db.Integer)
     logo_file = db.Column(db.String)
+    penalty_points = db.Column(db.Integer)
     players = db.relationship('Player',
                               backref='teams',
                               lazy=True,
@@ -71,16 +72,25 @@ class Team(db.Model):
 class Player(db.Model):
     __tablename__ = 'players'
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     full_name = db.Column(db.String)
     team = db.Column(db.Integer, db.ForeignKey('teams.id'), nullable=False)
     position = db.Column(db.String)
+    matches = db.Column(db.Integer)
+    goals = db.Column(db.Integer)
+    assists = db.Column(db.Integer)
+    yellow_cards = db.Column(db.Integer)
+    red_cards = db.Column(db.Integer)
+    own_goals = db.Column(db.Integer)
+    best_five = db.Column(db.Integer)
+    best_player = db.Column(db.Integer)
     first_name = db.Column(db.String)
     last_name = db.Column(db.String)
     default_nr = db.Column(db.Integer)
     squad = db.Column(db.Integer)
     is_active = db.Column(db.Integer)
     captain = db.Column(db.Integer)
+    link = db.Column(db.String)
 
 
 class MatchesData(db.Model):

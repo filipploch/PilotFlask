@@ -1,42 +1,58 @@
 [
   [
+    null,
+    "Brotherm",
+    30,
+    "",
+    "non-divided-group"
+  ],
+  [
+    null,
     "MK Team",
     27,
-    true
+    "",
+    "non-divided-group"
   ],
   [
-    "Brotherm",
-    24,
-    true
-  ],
-  [
+    null,
     "Legion",
-    19,
-    null
+    22,
+    "",
+    "non-divided-group"
   ],
   [
-    "IGLOMEN&RodzinneRestauracje",
-    17,
-    null
-  ],
-  [
+    null,
     "Boanerges",
-    15,
-    null
+    21,
+    "",
+    "non-divided-group"
   ],
   [
+    null,
+    "IGLOMEN&RodzinneRestauracje",
+    20,
+    "",
+    "non-divided-group"
+  ],
+  [
+    null,
+    "DRUG-ony",
+    9,
+    "",
+    "non-divided-group"
+  ],
+  [
+    null,
     "eNHa",
     8,
-    null
+    "",
+    "non-divided-group"
   ],
   [
-    "DRUG-ony",
-    6,
-    null
-  ],
-  [
+    null,
     "Drink Team",
     4,
-    null
+    "",
+    "non-divided-group"
   ]
 ]

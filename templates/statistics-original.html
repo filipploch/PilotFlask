@@ -1,0 +1,508 @@
+{% extends "base-bars.html" %}
+{% block style %}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/statistics.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/statistics-animation.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/bc-colors.css')}}">
+    <!-- <link rel="stylesheet" href="{{url_for('static', filename='css/squad_animation.css')}}"> -->
+    <style>
+
+
+	.stats-container {
+        position: absolute;
+        top: 250px;
+        left: 150px;
+    }
+
+    .stats-tile {
+    	position: relative;
+    	background-color: rgb(13, 4, 46);
+        width: 650px;
+        margin-bottom: 50px;
+    }
+    .stats-tile-description {
+    	position: absolute;
+        background-color: white;
+        padding: 1px 10px;
+        top: -10px;
+        left: 10px;
+        font-size: 20px;
+    }
+    .stats-tile-footer {
+    	position: relative;
+    	bottom: 0;
+        width: 100%;
+        background-color: white;
+        text-align: right;
+        font-size: 20px;
+    }
+    .stats-tile-footer-text {
+    	padding: 5px 10px;
+    }
+    .stats-tile-value {
+    	position: absolute;
+        color: white;
+        font-size: 60px;
+        width: 90px;
+        text-align: center;
+        right: -50px;
+        top: -10px;
+        font-weight: bold;
+    }
+    .stats-tile-content {
+    	position: relative;
+        top: 20px;
+        padding-bottom: 30px;
+        font-size: 50px;
+        color: white;
+
+    }
+    .stats-tile-content-row {
+    	padding: 0px 20px;
+        text-align: center;
+    }
+        /* #stats {
+            width: 100%;
+            height: 100%;
+            margin: 50px;
+            font-size: 30px;
+        }
+        */
+         .team-name {
+            position: absolute;
+            float: left;
+            background-color: rgb(255, 255, 255);
+            padding: 10px 20px;
+            width: fit-content;
+            color: black;
+            font-size: 54px;
+            top: 20px;
+            right: 20px;
+        }
+
+        
+
+        .form-tile{
+            width: 40px;
+            aspect-ratio: 1/1;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .form-div {
+            background-color: #000160;
+            width: fit-content;
+            padding: 6px;
+            position: absolute;
+            top: 105px;
+            right: 20px;
+            font-size: 30px;
+            }
+
+        .form-lost {
+            background-color: red;
+            color: white;
+
+        }
+
+        .form-draw {
+            background-color: yellow;
+            color: black;
+        }
+
+        .form-win {
+            background-color: green;
+            color: white;
+        }
+
+    /*
+        .main-stat-value-description {
+            position: relative;
+            background-color: white;
+            top: -30px;
+            padding: 5px 20px;
+            left: -15px;
+            font-size: 20px;
+            }
+
+
+        #rank-div {
+            position: absolute;
+            top: 250px;
+            width: 50%;
+            left: 100px;
+            }
+
+        .rank-key {
+            width: 400px;
+            text-align: center;
+            font-size: 80px;
+            background-color: #2b00a4;
+            padding: 10px 20px 10px 20px;
+            color: white;
+            right: 40px;
+            position: absolute;
+        }
+
+        .rank-value {
+            text-align: center;
+            font-size: 103px;
+            background-color: red;
+            color: white;
+            position: absolute;
+            top: -20px;
+            right: -120px;
+            min-width: 180px;
+        }
+
+        #match-div {
+            position: absolute;
+            top: 450px;
+            left: 100px;
+            width: 50%;
+        }
+
+        #goals-div {
+            position: absolute;
+            top: 650px;
+            left: 100px;
+            width: 50%;
+        }
+
+        .highest-result {
+            position: absolute;
+        }
+
+        .highest-result-value {
+            width: 400px;
+            text-align: center;
+            font-size: 80px;
+            background-color: #2b00a4;
+            padding: 10px 20px 10px 20px;
+            color: white;
+            position: absolute;
+        }
+
+        .opponent-and-date {
+            position: inherit;
+            background-color: white;
+            top: 106px;
+            padding: 5px 10px;
+            left: 20px;
+            font-size: 16px;
+            width: 400px;
+            text-align: right;
+        }
+
+        #highest-result-win, #best-striker {
+            top: 250px;
+            left: 150px;
+        }
+
+        #highest-result-draw, #best-assistant {
+            top: 450px;
+            left: 150px;
+        }
+
+        #highest-result-lost, #best-canadian {
+            top: 650px;
+            left: 150px;
+        }
+
+        .player-name {
+            width: 400px;
+            text-align: left;
+            font-size: 30px;
+            background-color: #2b00a4;
+            padding: 10px 20px 10px 20px;
+            color: white;
+        }
+
+        .best-player {
+            font-size: 30px;
+            position: absolute;
+        }
+
+        .best-player-div {
+            position: absolute;
+        }
+*/
+        .stats-page {
+            position: relative;
+            animation-name: stats-page-in-out;
+            animation-duration: 15s;
+            animation-fill-mode: both;
+
+        }
+
+        #stats-page-1 {
+            animation-delay: 1s;
+        }
+
+        #stats-page-2 {
+            animation-delay: 15s;
+        }
+
+        #stats-page-3 {
+            animation-delay: 29s;
+        }
+        
+        #stats-page-4 {
+            animation-delay: 43s;
+        }
+
+        #stats-page-5 {
+            animation-delay: 57s;
+        }
+
+        #stats-page-6 {
+            animation-delay: 71s;
+        }
+
+        @keyframes stats-page-in-out {
+            0%   {right: -1000px;}
+            10%  {right: 0px;}
+            90%  {bottom: 0px;}
+            100% {bottom: -1000px;}
+            }
+
+
+    </style>
+{% endblock %}
+{% block content %}
+
+    <div id="screen_content">
+        <div id="logoBackground">
+            <img src="/static/images/logos/{{ _logo }}" id="logo_squad">
+        </div>
+        <div id="squadBackground">
+            <div id="stats">
+                <div class="team-name"><span class="stats-value">{{ data['table-data'][0].team_name }}</span></div>
+                <div class="form-div"></span>
+                    {% for forma in data['table-data'][0].form %}
+                    {% if forma == "W" %}
+                    <span class="form-win form-tile stats-value">W</span>
+                    {% elif forma == "R" %}
+                    <span class="form-draw form-tile stats-value">R</span>
+                    {% elif forma == "P" %}
+                    <span class="form-lost form-tile stats-value">P</span>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="stats-container">
+                    <div class="stats-page" id="stats-page-1">
+                        
+                        <div class="stats-tile">
+                            <div class="stats-tile-description">MIEJSCE W TABELI</div>
+                            <div class="stats-tile-value bc-green">{{ data['table-data'][0].rank }}</div>
+                            <div class="stats-tile-content">
+                                <div class="stats-tile-content-row">{{ data['table-data'][0].division }}</div>
+                            </div>
+                        </div>                
+                    
+                        <div class="stats-tile">
+                            <div class="stats-tile-description">MECZE I PUNKTY</div>
+                            <div class="stats-tile-value bc-green">{{ data['table-data'][0].points }}</div>
+                            <div class="stats-tile-content">
+                                <div class="stats-tile-content-row">{{ data['table-data'][0].matches }}
+                                ({{ data['table-data'][0].wins }}-{{ data['table-data'][0].draws }}-{{ data['table-data'][0].losts }})
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <div class="stats-tile">
+                            <div class="stats-tile-description">BRAMKI</div>
+                            <div class="stats-tile-content">
+                                <div class="stats-tile-content-row">{{ data['table-data'][0].goals_scored }}-{{ data['table-data'][0].goals_lost }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="stats-container">
+                    <div class="stats-page" id="stats-page-2">
+                        {% if data['average-points']%}
+                        <div class="stats-tile">
+                            <div class="stats-tile-description">ŚREDNIA PUNKTÓW NA MECZ</div>
+                            <div class="stats-tile-content">
+                                <div class="stats-tile-content-row">{{ data['average-points'] }}</div>
+                            </div>
+
+                        </div>
+                        {% else %}
+
+                        {% endif %}  
+
+                        {% if data['average-scored-goals']%}
+                        <div class="stats-tile">
+                            <div class="stats-tile-description">ŚREDNIA BRAMEK STRZELONYCH</div>
+                            <div class="stats-tile-content">
+                                <div class="stats-tile-content-row">{{ data['average-scored-goals'] }}</div>
+                            </div>
+
+                        </div>
+                        {% else %}
+
+                        {% endif %}                
+                        
+                        {% if data['average-lost-goals']%}
+                        <div class="stats-tile">
+                            <div class="stats-tile-description">ŚREDNIA BRAMEK STRACONYCH</div>
+                            <div class="stats-tile-content">
+                                <div class="stats-tile-content-row">{{ data['average-lost-goals'] }}</div>
+                            </div>
+
+                        </div>
+                        {% else %}
+
+                        {% endif %} 
+
+                    </div>
+                
+                </div>
+                <div class="stats-container">
+                    <div class="stats-page" id="stats-page-3">
+                        {% if data['highest-win'][0]['result'] is not none %}
+                        <div class="stats-tile">
+                            <div class="stats-tile-description">NAJWYŻSZE ZWYCIĘSTWO</div>
+                            <div class="stats-tile-content">
+                                <div class="stats-tile-content-row">{{ data['highest-win'][0].result[0] }}:{{ data['highest-win'][0].result[1] }}</div>
+                            </div>
+                            <div class="stats-tile-footer">
+                                <div class="stats-tile-footer-text">{{ data['highest-win'][0].teams[1] }} ({{ data['highest-win'][0].date[:-9] }})</div>
+                                
+                            </div>
+                        </div>
+                        {% endif %}                
+                        
+                        {% if data['highest-tie'][0]['result'] is not none %}
+                        <div class="stats-tile">
+                            <div class="stats-tile-description">NAJWYŻSZY REMIS</div>
+                            <div class="stats-tile-content">
+                                <div class="stats-tile-content-row">{{ data['highest-tie'][0].result[0] }}:{{ data['highest-tie'][0].result[1] }}</div>
+                            </div>
+                            <div class="stats-tile-footer">
+                                <div class="stats-tile-footer-text">{{ data['highest-tie'][0].teams[1] }} ({{ data['highest-tie'][0].date[:-9] }})</div>
+
+                            </div>
+                        </div>
+                        {% else %}
+
+                        {% endif %} 
+                        
+                        {% if data['highest-lost'][0]['result'] is not none %}
+                        <div class="stats-tile">
+                            <div class="stats-tile-description">NAJWYŻSZA PORAŻKA</div>
+                            <div class="stats-tile-content">
+                                <div class="stats-tile-content-row">{{ data['highest-lost'][0].result[0] }}:{{ data['highest-lost'][0].result[1] }}</div>
+                            </div>
+                            <div class="stats-tile-footer">
+                                <div class="stats-tile-footer-text">{{ data['highest-lost'][0].teams[1] }} ({{ data['highest-lost'][0].date[:-9] }})</div>
+                                
+                            </div>
+                        </div>
+                        {% endif %} 
+                    </div>
+                
+                </div>
+                <div class="stats-container">
+                    <div class="stats-page" id="stats-page-4">
+                        {% if data['best-strikers'] %}
+                        <div class="stats-tile">
+                            <div class="stats-tile-description">BRAMKI</div>
+                            <div class="stats-tile-value bc-green">{{ data['best-strikers'][0].goals }}</div>
+                            <div class="stats-tile-content">
+                                {% for player in data['best-strikers'] %}
+                                <div class="stats-tile-content-row">{{player.full_name}}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}                
+                    
+                        {% if data['best-assistants'] %}
+                        <div class="stats-tile">
+                            <div class="stats-tile-description">ASYSTY</div>
+                            <div class="stats-tile-value bc-green">{{ data['best-assistants'][0].goals }}</div>
+                            <div class="stats-tile-content">
+                                {% for player in data['best-assistants'] %}
+                                <div class="stats-tile-content-row">{{player.full_name}}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}  
+                    
+                        {% if data['best-canadians'] %}
+                        <div class="stats-tile">
+                            <div class="stats-tile-description">PUNKTY KANADYJSKIE</div>
+                            <div class="stats-tile-value bc-green">{{ data['best-canadians'][0].goals + data['best-canadians'][0].assists }}</div>
+                            <div class="stats-tile-content">
+                                {% for player in data['best-canadians'] %}
+                                <div class="stats-tile-content-row">{{player.full_name}}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}  
+                    </div>
+                
+                </div>
+                <div class="stats-container">
+                    <div class="stats-page" id="stats-page-5">
+                        {% if data['most-best-player'][0].best_player > 0 %}
+                        <div class="stats-tile">
+                            <div class="stats-tile-description">ZAWODNIK KOLEJKI</div>
+                            <div class="stats-tile-value bc-gold-medal">{{ data['most-best-player'][0].best_player }}</div>
+                            <div class="stats-tile-content">
+                                {% for player in data['most-best-player'] %}
+                                <div class="stats-tile-content-row">{{player.full_name}}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% if data['most-best-five'][0].best_five > 0 %}
+                        <div class="stats-tile">
+                            <div class="stats-tile-description">PIĄTKA KOLEJKI</div>
+                            <div class="stats-tile-value bc-silver-medal">{{ data['most-best-five'][0].best_five }}</div>
+                            <div class="stats-tile-content">
+                                {% for player in data['most-best-five'] %}
+                                <div class="stats-tile-content-row">{{player.full_name}}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}                
+
+                    </div>
+                
+                </div>
+
+                <div class="stats-container">
+                    <div class="stats-page" id="stats-page-6">
+                        {% if data['most-yellow-cards'][0].yellow_cards > 0 %}
+                        <div class="stats-tile">
+                            <div class="stats-tile-description">ŻÓŁTE KARTKI</div>
+                            <div class="stats-tile-value bc-yellow">{{ data['most-yellow-cards'][0].yellow_cards }}</div>
+                            <div class="stats-tile-content">
+                                {% for player in data['most-yellow-cards'] %}
+                                <div class="stats-tile-content-row">{{player.full_name}}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% if data['most-red-cards'][0].red_cards > 0 %}
+                        <div class="stats-tile">
+                            <div class="stats-tile-description">CZERWONE KARTKI</div>
+                            <div class="stats-tile-value bc-red">{{ data['most-red-cards'][0].red_cards }}</div>
+                            <div class="stats-tile-content">
+                                {% for player in data['most-red-cards'] %}
+                                <div class="stats-tile-content-row">{{player.full_name}}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

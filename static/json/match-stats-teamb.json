@@ -1,0 +1,237 @@
+{
+  "table-data": [
+    {
+      "division": "Dywizja B",
+      "rank": 8,
+      "team_name": "Nowy \u0141ad",
+      "matches": 12,
+      "wins": 5,
+      "draws": 2,
+      "losts": 5,
+      "goals_scored": 62,
+      "goals_lost": 63,
+      "points": 17,
+      "form": "W P P W R"
+    }
+  ],
+  "average-points": 1.42,
+  "average-scored-goals": 5.17,
+  "average-lost-goals": 5.25,
+  "best-strikers": [
+    {
+      "full_name": "Marsza\u0142ek Sebastian",
+      "link": "https://nalffutsal.pl/?sp_player=marszalek-sebastian",
+      "team": "https://nalffutsal.pl/?sp_team=nowy-lad-2",
+      "is_goalkeeper": 0,
+      "matches": 11,
+      "goals": 17,
+      "assists": 8,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 1,
+      "best_player": 0
+    }
+  ],
+  "best-assistants": [
+    {
+      "full_name": "Szczepan Grzegorz",
+      "link": "https://nalffutsal.pl/?sp_player=bryla-krzysztof",
+      "team": "https://nalffutsal.pl/?sp_team=nowy-lad-2",
+      "is_goalkeeper": 0,
+      "matches": 11,
+      "goals": 9,
+      "assists": 10,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 1,
+      "best_five": 2,
+      "best_player": 0
+    }
+  ],
+  "best-canadians": [
+    {
+      "full_name": "Marsza\u0142ek Sebastian",
+      "link": "https://nalffutsal.pl/?sp_player=marszalek-sebastian",
+      "team": "https://nalffutsal.pl/?sp_team=nowy-lad-2",
+      "is_goalkeeper": 0,
+      "matches": 11,
+      "goals": 17,
+      "assists": 8,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 1,
+      "best_player": 0
+    }
+  ],
+  "most-yellow-cards": [
+    {
+      "full_name": "Gibas Pawe\u0142",
+      "link": "https://nalffutsal.pl/?sp_player=pawel-gibas",
+      "team": "https://nalffutsal.pl/?sp_team=nowy-lad-2",
+      "is_goalkeeper": 1,
+      "matches": 12,
+      "goals": 0,
+      "assists": 2,
+      "yellow_cards": 1,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 2,
+      "best_player": 1
+    },
+    {
+      "full_name": "Krzywda Patryk",
+      "link": "https://nalffutsal.pl/?sp_player=krzywda-patryk",
+      "team": "https://nalffutsal.pl/?sp_team=nowy-lad-2",
+      "is_goalkeeper": 0,
+      "matches": 12,
+      "goals": 3,
+      "assists": 3,
+      "yellow_cards": 1,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    }
+  ],
+  "most-red-cards": [
+    {
+      "full_name": "Bujas Hubert",
+      "link": "https://nalffutsal.pl/?sp_player=hubert-bujas",
+      "team": "https://nalffutsal.pl/?sp_team=nowy-lad-2",
+      "is_goalkeeper": 0,
+      "matches": 11,
+      "goals": 11,
+      "assists": 8,
+      "yellow_cards": 0,
+      "red_cards": 1,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    }
+  ],
+  "most-best-five": [
+    {
+      "full_name": "Gibas Pawe\u0142",
+      "link": "https://nalffutsal.pl/?sp_player=pawel-gibas",
+      "team": "https://nalffutsal.pl/?sp_team=nowy-lad-2",
+      "is_goalkeeper": 1,
+      "matches": 12,
+      "goals": 0,
+      "assists": 2,
+      "yellow_cards": 1,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 2,
+      "best_player": 1
+    },
+    {
+      "full_name": "Szczepan Grzegorz",
+      "link": "https://nalffutsal.pl/?sp_player=bryla-krzysztof",
+      "team": "https://nalffutsal.pl/?sp_team=nowy-lad-2",
+      "is_goalkeeper": 0,
+      "matches": 11,
+      "goals": 9,
+      "assists": 10,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 1,
+      "best_five": 2,
+      "best_player": 0
+    }
+  ],
+  "most-best-player": [
+    {
+      "full_name": "Gibas Pawe\u0142",
+      "link": "https://nalffutsal.pl/?sp_player=pawel-gibas",
+      "team": "https://nalffutsal.pl/?sp_team=nowy-lad-2",
+      "is_goalkeeper": 1,
+      "matches": 12,
+      "goals": 0,
+      "assists": 2,
+      "yellow_cards": 1,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 2,
+      "best_player": 1
+    },
+    {
+      "full_name": "Kopera Piotr",
+      "link": "https://nalffutsal.pl/?sp_player=kopera-piotr",
+      "team": "https://nalffutsal.pl/?sp_team=nowy-lad-2",
+      "is_goalkeeper": 0,
+      "matches": 10,
+      "goals": 6,
+      "assists": 8,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 1,
+      "best_five": 1,
+      "best_player": 1
+    }
+  ],
+  "highest-win": [
+    {
+      "id": 8,
+      "date": "2023-09-27 20:00:00",
+      "teams": [
+        "Nowy \u0141ad",
+        "eNHa II"
+      ],
+      "result": [
+        8,
+        1
+      ],
+      "actual": false,
+      "parallel": false,
+      "penalty_points": [
+        0,
+        0
+      ],
+      "sum_goals": 9
+    }
+  ],
+  "highest-tie": [
+    {
+      "id": 62,
+      "date": "2023-12-20 20:45:00",
+      "teams": [
+        "Nowy \u0141ad",
+        "Laga Bonito"
+      ],
+      "result": [
+        4,
+        4
+      ],
+      "actual": false,
+      "parallel": false,
+      "penalty_points": [
+        0,
+        0
+      ],
+      "sum_goals": 8
+    }
+  ],
+  "highest-lost": [
+    {
+      "id": 48,
+      "date": "2023-11-29 20:45:00",
+      "teams": [
+        "Nowy \u0141ad",
+        "Nowohucki Klub Sportowy"
+      ],
+      "result": [
+        5,
+        10
+      ],
+      "actual": false,
+      "parallel": false,
+      "penalty_points": [
+        0,
+        0
+      ],
+      "sum_goals": 15
+    }
+  ]
+}

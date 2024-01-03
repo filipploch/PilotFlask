@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tabela Dywizji {{ division.upper() }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            font-family: 'Varela Round', sans-serif;
+        }
+
+        #table-container {
+            padding: 7% 10%;
+            width: 850px;
+            background-image: url('/static/images/socialmedia-table/socialmedia-body-background.png');
+            background-size: 100% 100%;
+            background-repeat: no-repeat; /* Wyłączenie powtarzania obrazka */
+            justify-content: center;
+
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        td, th {
+            margin: 0;
+            padding: 0.3em 0;
+        }
+
+        tr {
+            height: 1.5em;
+        }
+
+        #table-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        td.square {
+            width: 50px;
+            height: 50px;
+            padding-left: 0.5em;
+        }
+
+        #nalf-logo {
+            width: 40vw;
+        }
+
+        #nalf-logo img {
+            width: 22vw;
+        }
+
+        #nalf-division {
+            width: 40vw;
+            text-align: right;
+            font-size: 3vw;
+            color: #13003e;
+            font-weight: bold;
+            padding-right: 20px;
+        }
+
+        .table-header {
+            color: white;
+            font-size: 1vw;
+        }
+
+        #table-body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .table-content {
+            font-size: 35px;
+            background: linear-gradient(to bottom, rgba(100, 100, 100, 1), rgba(255, 255, 255, 1));
+        }
+
+        .promotion {
+            background: linear-gradient(to bottom, rgb(3, 44, 252), rgb(146, 163, 247));
+        }
+
+        .demotion {
+            background: linear-gradient(to bottom, rgb(252, 61, 61), rgb(255, 117, 117));
+        }
+
+        .promotion-group {
+            background: linear-gradient(to bottom, rgb(162, 178, 255), rgb(244, 246, 255));
+        }
+
+        .demotion-group {
+            background: linear-gradient(to bottom, rgb(255, 177, 177), rgb(255, 238, 238));
+        }
+
+        td.team-logo{
+            overflow: hidden;
+            display: flex; /* Dodaj flexbox */
+            align-items: center; /* Wyśrodkuj zawartość w pionie */
+        }
+
+        td.team-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .team-name {
+            width: 40vw;
+            padding: 0 0.3em;
+        }
+
+        .table-data {
+            min-width: 7.5vh;
+            padding: 0 0.3em;
+        }
+    </style>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/bc-colors.css')}}">
+</head>
+<body>
+    <div id="table-container">
+        <div id="table-header">
+            <div id="nalf-logo" class="block-content"><img src="{{url_for('static', filename='images/socialmedia-table/NALFlogoWhite.png')}}"></div>
+            <div id="nalf-division" class="block-content">DYWIZJA <span id=division>{{ division.upper() }}</span></div>
+        </div>
+        <div id="table-body">
+
+            <table>
+                <tr class="table-header">
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th>MECZE</th>
+                    <th>BRAMKI</th>
+                    <th>PUNKTY</th>
+                </tr>
+
+                {% for item in table %}
+                <tr class="table-content
+                    {% if settings['table']['table_dividers'] is not none and loop.index is not in settings['table']['table_special_fields']['promotion'] and loop.index <= settings['table']['table_dividers'][0] %} promotion-group {% endif %}
+                    {% if settings['table']['table_dividers'] is not none and loop.index is not in settings['table']['table_special_fields']['demotion'] and loop.index > settings['table']['table_dividers'][0] %} demotion-group {% endif %}
+                    {% if loop.index in settings['table']['table_special_fields']['promotion'] %} promotion {% endif %}
+                    {% if loop.index in settings['table']['table_special_fields']['demotion'] %} demotion {% endif %}
+                    {% if loop.index in settings['table']['table_special_fields']['first-place'] %} bc-gold {% endif %}
+                    {% if loop.index in settings['table']['table_special_fields']['second-place'] %} bc-silver {% endif %}
+                    {% if loop.index in settings['table']['table_special_fields']['third-place'] %} bc-bronze {% endif %}
+                ">
+                    <td class="team-rank center square">{{ item.rank }}</td>
+                    <td class="team-logo square"><img src="{{ url_for('static', filename='images/socialmedia-table/logos/' ~ item.team_logo) ~ '.png'}}"></td>
+                    <td class="team-name">{{ item.team_name }}</td>
+                    <td class="team-matches center table-data">{{ item.matches }}</td>
+                    <td class="team-goals center table-data">{{ item.goals_scored }}-{{ item.goals_lost }}</td>
+                    <td class="team-points center table-data">{{ item.points }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+<button id="download-as-png">Pobierz</button>
+<script src="{{ url_for('static', filename='js/html2canvas.min.js') }}"></script>
+<script>
+    document.getElementById('download-as-png').onclick = function() {
+        const screenshotTarget = document.getElementById('table-container');
+
+        html2canvas(screenshotTarget, { logging: true, letterRendering: 1, allowTaint: false, useCORS: true }).then((canvas) => {
+            const base64image = canvas.toDataURL("image/png");
+            var anchor = document.createElement('a');
+            var division = document.getElementById('division').textContent;
+            var dateNow = getCurrentDateTime();
+            var filename = `${dateNow}_tabela_dywizji_${division}.png`;
+            anchor.setAttribute('href', base64image);
+            anchor.setAttribute('download', filename);
+            anchor.click();
+            anchor.remove();
+        });
+    };
+
+    function getCurrentDateTime() {
+        const now = new Date();
+
+        // Pobierz rok, miesiąc i dzień
+        const year = now.getFullYear();
+        const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Dodaj zero z przodu, jeśli miesiąc jest jednocyfrowy
+        const day = now.getDate().toString().padStart(2, '0'); // Dodaj zero z przodu, jeśli dzień jest jednocyfrowy
+
+        // Pobierz godzinę, minutę i sekundę
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const seconds = now.getSeconds().toString().padStart(2, '0');
+
+        // Utwórz sformatowaną datę
+        const formattedDateTime = `${year}-${month}-${day}_${hours}-${minutes}-${seconds}`;
+
+        return formattedDateTime;
+        };
+</script>
+</body>
+</html>

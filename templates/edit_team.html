@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block title %}
+<title>Edycja zespołu</title>
+{% endblock %}
+
 {% block style %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/edit-team.css') }}">
 {% endblock %}
@@ -9,17 +13,74 @@
 {% endblock %}
 
 {% block content %}
-  <form id="edit-team-form" method="POST" action="{{ url_for('settings.edit_team', team_id=team_id) }}">
+        
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+  <form id="edit-tricots-form" method="POST" action="{{ url_for('settings.edit_team', team_id=team_id, edit_type=edit_type) }}">
+    <div id="tricot-home" class="tricot-container">
+      <span><input type="radio" name="selected_tricot" value="1" {% if team.selected_tricot == 1 %} checked {% endif %}></span>
+      <span>
+        <input
+          type="number"
+          class="nr-of-tricot-colors"
+          name="home_tricot_color_number"
+          id="home_tricot_color_number"
+          min="1"
+          max="3"
+          oninput="renderColorInputs('home',
+                                     {{ [team['home_color_1'], team['home_color_2'], team['home_color_3']] }})"
+          value="{{ team.home_tricot_color_number }}">
+        </span>
+      <span id="home_tricot_colors" class="tricot-colors">
+        {% for i in range(team.home_tricot_color_number) %}
+        
+          <input type="color" name="home_color_{{ (i+1)|string }}" id="home_color_{{ (i+1)|string }}" class="tricot-color" value="{{ team['home_color_' + (i+1)|string] }}">
+        {% endfor %}
+      </span>
+    </div>
+
+    <div id="tricot-away" class="tricot-container">
+      <span><input type="radio" name="selected_tricot" value="2" {% if team.selected_tricot == 2 %} checked {% endif %}></span>
+      <span><input 
+        type="number" 
+        class="nr-of-tricot-colors" 
+        name="away_tricot_color_number" 
+        id="away_tricot_color_number" 
+        min="1" 
+        max="3"
+        oninput="renderColorInputs('away',
+                                     {{ [team['away_color_1'], team['away_color_2'], team['away_color_3']] }})"
+        value="{{ team.away_tricot_color_number }}"></span>
+      <span id="away_tricot_colors" class="tricot-colors">
+        {% for i in range(team.away_tricot_color_number) %}
+        
+          <input type="color" name="away_color_{{ (i+1)|string }}" id="away_color_{{ (i+1)|string }}" class="tricot-color" value="{{ team['away_color_' + (i+1)|string] }}">
+        {% endfor %}
+      </span>
+    </div>
+    <div id="tricot-bibs" class="tricot-container">
+      <span><input type="radio" name="selected_tricot" value="3" {% if team.selected_tricot == 3 %} checked {% endif %}></span>
+      <span id="bibs_tricot_colors" class="tricot-colors">
+          <input type="color" name="bibs_color" id="bibs_tricot_color" class="tricot-color" value="{{ team['bibs_color'] }}">
+      </span>
+    </div><br>
+    <div class="form-group">
+      <input class="btn btn-primary" id="submit_tricot_colors" name="submit_colors" type="submit" value="Zapisz kolory">
+  </div>
+  </form>
+
+  <form id="edit-team-form" method="POST" action="{{ url_for('settings.edit_team', team_id=team_id, edit_type=edit_type) }}">
     <table>
       <thead>
         <tr>
           <th class="invisible">Id</th>
-          <th>Squad</th>
+          <th>&#160 Gra &#160</th>
           <th>Nr</th>
           <th>Imię</th>
           <th>Nazwisko</th>
-          <th>Pozycja</th>
-          <th>Kapitan</th>
+          <th>&#160 B &#160</th>
+          <th>&#160 K &#160</th>
         </tr>
       </thead>
       <tbody>
@@ -30,10 +91,9 @@
           <td><input class="number" type="text" name="player_{{ player.id }}[default_nr]" value="{{ player.default_nr }}"></td>
           <td><input type="text" name="player_{{ player.id }}[first_name]" value="{{ player.first_name }}"></td>
           <td><input type="text" name="player_{{ player.id }}[last_name]" value="{{ player.last_name }}"></td>
-          <td><input type="checkbox" name="player_{{ player.id }}[position]" value="Bramkarz" {% if player.position == "Bramkarz" or player.position == 1 %}checked{% endif %}></td>
+          <td><input type="checkbox" name="player_{{ player.id }}[position]" value="{{ player.position }}" {% if player.position == '1' %}checked{% endif %}></td>
           <td>
             <input type="radio" id="player_{{ player.id }}[captain]" name="captain" value="1" {% if player.captain == 1 %}checked{% endif %}>
-<!--            <input type="hidden" name="player_{{ player.id }}[captain]" value="0" {% if player.captain == 0 %}checked{% endif %}>-->
           </td>
 
 
@@ -45,9 +105,15 @@
     
 
     <div class="form-group">
-        <input class="btn btn-primary" id="submit" name="submit" type="submit" value="Save Changes">
+        <input class="btn btn-primary" id="submit_players" name="submit_players" type="submit" value="Zapisz">
     </div>
   </form>
+  <div>
+      <input class="btn btn-primary" type="button" onclick="updatePlayers({{ team.id }})" value="Update">
+  </div>
+</div>
+</div>
+</div>
 {% endblock %}
 
 {% block footer_script %}
@@ -55,7 +121,7 @@
     document.addEventListener("DOMContentLoaded", function () {
         var form = document.getElementById("edit-team-form");
 
-        form.addEventListener("submit", function () {
+        form.addEventListener("submit-players", function () {
             var radios = document.getElementsByName("captain");
 
             for (var i = 0; i < radios.length; i++) {
@@ -68,5 +134,47 @@
             }
         });
     });
+
+    async function updatePlayers(teamId) {
+        var teamData = {"teamId": teamId};
+        const response = await fetch(`/update_players/edit/${teamId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(teamData),
+    });
+
+    // Sprawdzamy, czy żądanie było udane (status 200)
+    if (response.ok) {
+        // Odświeżamy stronę po pomyślnym zapisie
+        location.reload();
+        handleServerResponse(response)
+    } else {
+        console.error('Wystąpił błąd podczas zapisywania wyników.');
+    }
+    }
+
+    function renderColorInputs(homeAway, tricot_colors) {
+    // Pobierz wartość pola number
+    var numberOfFields = document.getElementById(homeAway + '_tricot_color_number').value;
+
+    // Pobierz kontener, gdzie będą generowane pola input
+    var container = document.getElementById(homeAway + '_tricot_colors');
+
+    // Wyczyść zawartość kontenera
+    container.innerHTML = '';
+
+    // Generuj nowe pola input na podstawie wartości number
+    for (var i = 0; i < numberOfFields; i++) {
+        var newInput = document.createElement('input');
+        newInput.type = 'color';
+        newInput.name=`home_color_{i+1}`;
+        newInput.id=`home_color_{i+1}`;
+        newInput.class='tricot-color';
+        newInput.value=tricot_colors[i+1];
+        container.appendChild(newInput);
+    }
+}
 </script>
 {% endblock %}

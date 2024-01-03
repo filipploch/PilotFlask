@@ -29,6 +29,10 @@ class OBSWebsocket:
     def close_websocket(self):
         self.ws.disconnect()
 
+    def get_current_scene(self):
+        current_scene = self.ws.call(requests.GetCurrentProgramScene()).datain
+        return current_scene
+
     def show_scene(self, scene_name):
         self.ws.call(requests.SetCurrentProgramScene(**{'sceneName': scene_name}))
 
@@ -103,6 +107,21 @@ class OBSWebsocket:
             sleep(5)
             self.show_scene('START')
 
+    def start_stream_cascade(self):
+        self.show_scene('PUSTA')
+        sleep(1)
+        self.start_stream()
+        sleep(1)
+        self.show_source('Muzyka', 'muzyka2', visible=False)
+        self.show_scene('KAMERA')
+        self.show_source('Muzyka', 'muzyka')
+        sleep(5)
+        self.show_scene('START')
+
+    def stop_stream_cascade(self):
+        self.show_scene('Napisy-koncowe')
+        sleep(10)
+        self.stop_stream()
 
     def start_stream(self):
         self.ws.call(requests.StartStream())

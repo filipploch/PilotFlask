@@ -1,0 +1,62 @@
+{% extends 'base-staff.html' %}
+
+{% block title %}
+<title>Panel komentatora</title>
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base-settings.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base-staff.css') }}">
+{% endblock %}
+
+{% block sitename %}
+    Panel komentatora
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+      <a href="{{ url_for('settings.edit_team', team_id=actualMatch.team_a, edit_type='set') }}">
+      <div class="tile green">
+        <p class="title">Edytuj</p>
+        <p>{{ teamsNames.teama }}</p>
+      </div>
+    </a>
+    </div>
+    <div class="col-sm-6">
+      <a href="{{ url_for('settings.edit_team', team_id=actualMatch.team_b, edit_type='set') }}">
+      <div class="tile green">
+        <p class="title">Edytuj</p>
+        <p>{{ teamsNames.teamb }}</p>
+      </div>
+    </a>
+    </div>
+  </div>
+      <div class="row">
+
+    <div class="col-sm-6">
+      <a href="{{ url_for('settings.statistics_staff', team='teama') }}">
+      <div class="tile yellow">
+        <p class="title">Statystyki </p>
+        <p>{{ teamsNames.teama }}</p>
+      </div>
+    </a>
+    </div>
+    <div class="col-sm-6">
+      <a href="{{ url_for('settings.statistics_staff', team='teamb') }}">
+      <div class="tile yellow">
+        <p class="title">Statystyki </p>
+        <p>{{ teamsNames.teamb }}</p>
+      </div>
+    </a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block footer_script %}
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+{% endblock %}

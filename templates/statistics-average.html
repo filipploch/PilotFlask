@@ -1,0 +1,38 @@
+<div class="stats-page-in" id="stats-page">
+    {% if data['average-points']%}
+    <div class="stats-tile">
+        <div class="stats-tile-description">ŚREDNIA PUNKTÓW NA MECZ</div>
+        <div class="stats-tile-content">
+            <div class="stats-tile-content-row">{{ data['average-points'] }}</div>
+        </div>
+
+    </div>
+    {% else %}
+
+    {% endif %}  
+
+    {% if data['average-scored-goals']%}
+    <div class="stats-tile">
+        <div class="stats-tile-description">ŚREDNIA BRAMEK STRZELONYCH</div>
+        <div class="stats-tile-content">
+            <div class="stats-tile-content-row">{{ data['average-scored-goals'] }}</div>
+        </div>
+
+    </div>
+    {% else %}
+
+    {% endif %}                
+    
+    {% if data['average-lost-goals']%}
+    <div class="stats-tile">
+        <div class="stats-tile-description">ŚREDNIA BRAMEK STRACONYCH</div>
+        <div class="stats-tile-content">
+            <div class="stats-tile-content-row">{{ data['average-lost-goals'] }}</div>
+        </div>
+
+    </div>
+    {% else %}
+
+    {% endif %} 
+
+</div>

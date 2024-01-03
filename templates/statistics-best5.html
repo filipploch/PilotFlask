@@ -1,0 +1,26 @@
+<div class="stats-page-in" id="stats-page">
+    {% if data['most-best-player'][0].best_player > 0 %}
+    <div class="stats-tile">
+        <div class="stats-tile-description">ZAWODNIK KOLEJKI</div>
+        <div class="stats-tile-value bc-gold-medal">{{ data['most-best-player'][0].best_player }}</div>
+        <div class="stats-tile-content">
+            {% for player in data['most-best-player'] %}
+            <div class="stats-tile-content-row">{{player.full_name}}</div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if data['most-best-five'][0].best_five > 0 %}
+    <div class="stats-tile">
+        <div class="stats-tile-description">PIĄTKA KOLEJKI</div>
+        <div class="stats-tile-value bc-silver-medal">{{ data['most-best-five'][0].best_five }}</div>
+        <div class="stats-tile-content">
+            {% for player in data['most-best-five'] %}
+            <div class="stats-tile-content-row">{{player.full_name}}</div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}                
+
+</div>

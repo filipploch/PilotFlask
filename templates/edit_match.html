@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+
+{% block title %}
+<title>Edycja meczu</title>
+{% endblock %}
+
 {% block style %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/match-settings.css') }}">
 {% endblock %}
@@ -40,20 +45,21 @@
         <div class="col-lg-6">
           <div class="form-group">
             {{ form.match_length.label(class="form-label") }}
-            {{ form.match_length(class="form-control", value="2400") }}
+            {{ form.match_length(class="form-control", value=match.match_length) }}
           </div>
         </div>
           <div class="col-lg-6">
-              {{ form.date_time.label }}
 
-              <div class="input-group date">
-                  <input id="date_time" name="date_time" required="" type="text" value="" class="form-control">
+            <div class="form-group date">
+              <label class="form-label">data i godzina:</label>
+                  {{ form.date_time.date_time(class="form-control") }}
               </div>
           </div>
         </div>
       </div>
       <div class="row">
-          {{ form.is_actual.label }} {{ form.is_actual }}
+          {{ form.is_actual.label }}
+        <input id="is_actual" name="is_actual" type="checkbox" value="y" {% if match.actual %} checked {% endif %}>
       </div>
       <div class="row">
         <div class="col-lg-4">

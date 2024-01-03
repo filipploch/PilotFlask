@@ -1,0 +1,46 @@
+  <div id="sidebar-head"><span>Mecze dywizji </span><span id="division">{{ division }}</span></div>
+  <div id="action-id"></div>
+  <div class="table-responsive" id="sidebar-body">
+    <div id="sidebar-body-div"></div>
+  <table class="table">
+
+        <tbody id="lista-elementow">
+            {% for entry in data %}
+                <tr>
+                    <td></td><td colspan="7" class="match-date center-text">{{ entry.date }}</td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"
+                               id="actual_{{ entry.id }}"
+                               value="{{ 1 if checked else 0 }}"
+                               onchange="saveResult('{{ entry.id }}')"
+                               {% if entry.actual %}
+                                checked="True"
+                                {% endif %}></td>
+                    <td class="invisible">{{ entry.id }}</td>
+                    <!-- <td></td> -->
+                    <td>{{ entry.teams[0]['short_name'] }}</td>
+                    <td class="invisible team-a-name">{{ entry.teams[0]['full_name'] }}</td>
+                    <td><input class="team-result"
+                               type="number"
+                               id="result_home_{{ entry.id }}"
+                               onchange="saveResult('{{ entry.id }}')"
+                               value="{{ entry.result[0] if entry.result|length > 1 else '' }}"></td>
+                    <td><input class="team-result" 
+                               type="number" 
+                               id="result_away_{{ entry.id }}"
+                               onchange="saveResult('{{ entry.id }}')"
+                               value="{{ entry.result[1] if entry.result|length > 1 else '' }}"></td>
+                    <td>{{ entry.teams[1]['short_name'] }}</td>
+                    <td class="invisible team-b-name">{{ entry.teams[1]['full_name'] }}</td>
+                    <td><button style="color: red;" onclick="clearResult('{{ entry.id }}')">X</button></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+  </table>
+
+  </div>
+  <div id="sidebar-footer">
+    <button id="sidebar-cancel-button" onclick="clearSidebar();">Zamknij</button>
+  </div>
+

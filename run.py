@@ -1,6 +1,13 @@
 import json
+import imgkit
 from utils.createeditmatch import CEM
 from utils.table_generator import TableGenerator
+from utils.players_updater import NALFplayersUpdater
+from utils.nalf_team_scraper import NALFteamScraper
+from utils.nalf_matches_scraper import NALFmatchesScraper
+from utils.nalf_table_scraper import NALFtableScraper
+from utils.json_file_generator import JSONFileGenerator
+from env.settings import _get_settings
 from flask import Flask, render_template, jsonify, current_app, Blueprint, request, redirect, url_for, send_file
 from flask_cors import CORS
 from wtforms import BooleanField, StringField
@@ -19,12 +26,14 @@ from flask_apscheduler import APScheduler
 from collections import OrderedDict
 from forms import MatchForm, EditTeamForm
 import os
+from sqlalchemy import create_engine
 
 monitor_blueprint = Blueprint('monitor', __name__)
 controller_blueprint = Blueprint('controller', __name__)
 timer_blueprint = Blueprint('timer', __name__)
 settings_blueprint = Blueprint('settings', __name__)
 obswebsocketpy_blueprint = Blueprint('obswebsocketpy', __name__)
+socialmedia_blueprint = Blueprint('socialmedia', __name__)
 
 apscheduler = APScheduler()
 
@@ -33,13 +42,16 @@ def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'hardsecretkey'
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:''@localhost/futsal'
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:''@localhost/futsal'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///futsal.sqlite3'
+    # engine = create_engine('sqlite:///futsal.sqlite3')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.register_blueprint(monitor_blueprint)
     app.register_blueprint(controller_blueprint)
     app.register_blueprint(timer_blueprint)
     app.register_blueprint(settings_blueprint)
     app.register_blueprint(obswebsocketpy_blueprint)
+    app.register_blueprint(socialmedia_blueprint)
     db.init_app(app)
     ma.init_app(app)
     apscheduler.init_app(app)
@@ -47,18 +59,36 @@ def create_app():
     timer = Timer(app)
     obs_ws = OBSWebsocket(app)
     app.config['obs_ws'] = obs_ws
+    # players_updater = NALFplayersUpdater(app)
+    # app.config['players_updater'] = players_updater
     apscheduler.add_job(func=timer.control_timer, args=[app], id='timer')
     apscheduler.add_job(func=obs_ws.connect_websocket, args=[app], id='obswebsocketpy')
     CORS(app)
     return app
 
 
-@monitor_blueprint.route('/')
+@settings_blueprint.route('/nalf')
 def index():
     _actual_match = Match.query.filter_by(actual=1).first()
+    if not _actual_match:
+        return redirect(url_for('settings.matches'))
     _teams_names = {'teama': Team.query.filter_by(id=_actual_match.team_a).first().full_name,
                     'teamb': Team.query.filter_by(id=_actual_match.team_b).first().full_name}
     return render_template('index.html', actualMatch=_actual_match, teamsNames=_teams_names)
+
+
+@settings_blueprint.route('/')
+def staff():
+    _actual_match = Match.query.filter_by(actual=1).first()
+    if not _actual_match:
+        return redirect(url_for('settings.failure_actual_match'))
+    _teams_names = {'teama': Team.query.filter_by(id=_actual_match.team_a).first().full_name,
+                    'teamb': Team.query.filter_by(id=_actual_match.team_b).first().full_name}
+    return render_template('staff.html', actualMatch=_actual_match, teamsNames=_teams_names)
+
+@settings_blueprint.route('/failure-actual-match')
+def failure_actual_match():
+    return render_template('failure-actual-match.html')
 
 
 @timer_blueprint.route('/control-timer/<control_variable>')
@@ -250,31 +280,73 @@ def virtualtable(division):
     with open(json_file_virtual_table_path, 'r') as json_file:
         data_v = json.load(json_file)
 
-    short_names = skroty = {'Brotherm': 'BRO',
-                            'MK Team': 'MKT',
-                            'Legion': 'LEG',
-                            'IGLOMEN&RodzinneRestauracje': 'IGL',
-                            'Boanerges': 'BOA',
-                            'eNHa': 'ENH',
-                            'DRUG-ony': 'DRU',
-                            'Drink Team': 'DRI',
-                            'Trivium Słomniki Warriors': 'SŁO',
-                            'WKS Futsal Team': 'WKS',
-                            'Złote Chłopaki': 'ZŁO',
-                            'Żarłacze': 'ŻAR',
-                            'Galactik Futsal': 'GAL',
-                            'Nowy Ład': 'NŁD',
-                            'Laga Bonito': 'LAG',
-                            'Hattrick': 'HAT',
-                            'eNHa II': 'EN2',
-                            'Popalone Styki': 'STY',
-                            'Nowohucki Klub Sportowy': 'NKS'
-                            }
+    short_names = {'Brotherm': 'Brotherm',
+                    'MK Team': 'MK Team',
+                    'Legion': 'Legion',
+                    'IGLOMEN&RodzinneRestauracje': 'IGLOMEN&RR',
+                    'Boanerges': 'Boanerges',
+                    'eNHa': 'eNHa',
+                    'DRUG-ony': 'DRUG-ony',
+                    'Drink Team': 'Drink Team',
+                    'Trivium Słomniki Warriors': 'Warriors',
+                    'WKS Futsal Team': 'WKS',
+                    'Złote Chłopaki': 'Złote Chłopaki',
+                    'Żarłacze': 'Żarłacze',
+                    'Galactik Futsal': 'Galactik',
+                    'Nowy Ład': 'Nowy Ład',
+                    'Laga Bonito': 'Laga Bonito',
+                    'Hattrick': 'Hattrick',
+                    'eNHa II': 'eNHa II',
+                    'Popalone Styki': 'Popalone Styki',
+                    'Nowohucki Klub Sportowy': 'Nowohucki KS'
+                    }
     _base_table = data_b
-    _base_table = [[short_names[nazwa], wartosc, actual] for nazwa, wartosc, actual in _base_table]
+    _base_table = [[actual,
+                    short_names[nazwa],
+                    wartosc,
+                    promo,
+                    group] for actual, nazwa, wartosc, promo, group in _base_table]
     _virtual_table = data_v
-    _virtual_table = [[short_names[nazwa], wartosc, actual] for nazwa, wartosc, actual in _virtual_table]
-    return render_template('virtualtable.html', division=division, base_table=_base_table, virtual_table=_virtual_table)
+    _virtual_table = [[actual,
+                       short_names[nazwa],
+                       wartosc,
+                       promo,
+                       group] for actual, nazwa, wartosc, promo, group in _virtual_table]
+    return render_template('virtualtable.html', division=division.upper(), base_table=_base_table, virtual_table=_virtual_table)
+
+
+def _get_short_team_name(full_name):
+    team = Team.query.filter_by(full_name=full_name).first()
+    return team.short_name
+
+
+@monitor_blueprint.route('/show-stats/<team>')
+def show_stats(team):
+    with open(f'static/json/match-stats-{team}.json', 'r') as json_file:
+        _data = json.load(json_file)
+    _team_id = matchdata().get_json()[team]['id']
+    _team = Team.query.filter_by(id=_team_id).first()
+    _logo = _team.logo_file
+    return render_template('statistics.html', data=_data, logo=_logo, team=team)
+
+@monitor_blueprint.route('/render-statistics/<stats_content>', methods=['GET'])
+def render_statistics(stats_content):
+    obs_ws = current_app.config['obs_ws']
+    current_scene = obs_ws.get_current_scene()
+    if current_scene['currentProgramSceneName'] == 'STATYSTYKI_A':
+        team = 'teama'
+    elif current_scene['currentProgramSceneName'] == 'STATYSTYKI_B':
+        team = 'teamb'
+    else: return jsonify({'message': 'no team!'})
+    with open(f'static/json/match-stats-{team}.json', 'r') as json_file:
+        _data = json.load(json_file)
+    rendered_html = render_template(f'statistics-{stats_content}.html', data=_data)
+    with open(f'static/txt/statistics-{team}.txt', 'w', encoding='utf-8') as txt_file:
+        txt_file.write(rendered_html)
+        
+    return jsonify({'message': 'OK'})
+
+
 
 
 @controller_blueprint.route('/panel')
@@ -545,13 +617,13 @@ def update_tricots():
     if request.method == 'POST':
         _team = request.get_json()
         team = Team.query.filter_by(id=_team['id']).first()
-        team.home_color_one = _team['home_color_one']
-        team.home_color_two = _team['home_color_two']
-        team.home_color_three = _team['home_color_three']
+        team.home_color_1 = _team['home_color_1']
+        team.home_color_2 = _team['home_color_2']
+        team.home_color_3 = _team['home_color_3']
         team.home_tricot_color_number = _team['home_tricot_color_number']
-        team.away_color_one = _team['away_color_one']
-        team.away_color_two = _team['away_color_two']
-        team.away_color_three = _team['away_color_three']
+        team.away_color_1 = _team['away_color_1']
+        team.away_color_2 = _team['away_color_2']
+        team.away_color_3 = _team['away_color_3']
         team.away_tricot_color_number = _team['away_tricot_color_number']
         team.bibs_color = _team['bibs_color']
         team.color_for_ui = _team['color_for_ui']
@@ -562,9 +634,9 @@ def update_tricots():
 
 def get_tricot(team):
     if team.selected_tricot == 1:
-        tricot = [team.home_color_one, team.home_color_two, team.home_color_three][:team.home_tricot_color_number]
+        tricot = [team.home_color_1, team.home_color_2, team.home_color_3][:team.home_tricot_color_number]
     elif team.selected_tricot == 2:
-        tricot = [team.away_color_one, team.away_color_two, team.away_color_three][:team.away_tricot_color_number]
+        tricot = [team.away_color_1, team.away_color_2, team.away_color_3][:team.away_tricot_color_number]
     else:
         tricot = [team.bibs_color]
     return tricot
@@ -585,6 +657,12 @@ def get_files():
     files = [file for file in os.listdir(directory) if file.endswith('.mp4')]
     return {'files': files}
 
+@controller_blueprint.route('/get_replays')
+def get_replays():
+    directory = 'static/video/replays'
+    files = [file for file in os.listdir(directory) if file.endswith('.mp4')]
+    new_content = render_template('replays-controller.html', files=files)
+    return jsonify({'content': new_content})
 
 @controller_blueprint.route('/process_file/<filename>')
 def process_file(filename):
@@ -691,6 +769,11 @@ def update_data(data_id):
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@controller_blueprint.route('/render-content/<content_name>')
+def render_content(content_name):
+    new_content = render_template(f'ws-controller-{content_name}.html')
+    return jsonify({'content': new_content})
+
 @settings_blueprint.route('/matches-settings', methods=['GET'])
 def matches_settings():
     matches = Match.query.all()
@@ -761,7 +844,7 @@ def creatematch():
         # Zapisz zmiany w bazie danych
         db.session.commit()
 
-        return redirect(url_for('monitor.index'))
+        return redirect(url_for('settings.index'))
 
     return render_template('creatematch.html', form=form, form_content=form_content)
 
@@ -789,19 +872,19 @@ def edit_match(match_id):
     form_content = CEM.form_content
 
     if request.method == 'POST':
-        team_a = form.team_a.data
-        team_b = form.team_b.data
-        match_length = form.match_length.data
-        is_actual = form.is_actual.data
+        match.team_a = form.team_a.data
+        match.team_b = form.team_b.data
+        match.match_length = form.match_length.data
+        match.actual = form.is_actual.data
         cameramen = form.cameramen.data
         commentators = form.commentators.data
         referees = form.referees.data
-        stadium = form.stadium.data
-        date_time = form.date_time.data
+        match.stadium = form.stadium.data
+        match.date_time = form.date_time.data
 
         # Utwórz nowy mecz
         # match = Match(team_a=team_a, team_b=team_b, match_length=match_length, stadium=stadium, date=date_time)
-        if is_actual:
+        if match.actual:
             db.session.query(Match).update({Match.actual: 0})
             match.actual = 1
         # db.session.flush()
@@ -827,16 +910,15 @@ def edit_match(match_id):
 
         # Aktualizacja danych meczu
         # form.populate_obj(match)
-
         # Zapisanie zmian w bazie danych
         db.session.add(match)
         db.session.commit()
 
-        return redirect(url_for('monitor.index'))
+        return redirect(url_for('settings.index'))
 
     return render_template('edit_match.html', form=form, match=match, selected_commentators=selected_commentators,
                            selected_cameramen=selected_cameramen, selected_referees=selected_referees,
-                           form_content=form_content)
+                           form_content=form_content, date_time=date_time)
 
 
 @settings_blueprint.route('/matches')
@@ -867,18 +949,42 @@ def competition_teams():
     return render_template('competition-teams.html', teams=_competition_teams)
 
 
-@settings_blueprint.route('/edit-team/<int:team_id>', methods=['GET', 'POST'])
-def edit_team(team_id):
+@settings_blueprint.route('/edit-team/<edit_type>/<int:team_id>', methods=['GET', 'POST'])
+def edit_team(edit_type, team_id):
     if request.method == 'POST':
-        player_data = request.form.to_dict()
-        save_data_to_database(player_data)
-        return redirect(url_for('settings.edit_team', team_id=team_id))
+        _data = request.form.to_dict()
+        if 'submit_players' in _data:
+            save_players_to_database(_data)
+        elif 'submit_colors' in _data:
+            save_tricots_colors_to_database(team_id, _data)
+        if edit_type == 'edit':
+            return redirect(url_for('settings.edit_team', edit_type=edit_type, team_id=team_id))
+        elif edit_type == 'set':
+            return redirect(url_for('settings.edit_team', edit_type='set', team_id=team_id))
     team = Team.query.filter_by(id=team_id).first()
     players = Player.query.filter_by(team=team_id)  # Pobierz graczy z bazy danych
-    return render_template('edit_team.html', team_id=team_id, team=team, players=players)
+    if edit_type == 'edit':
+        return render_template('edit_team.html', edit_type=edit_type, team_id=team_id, team=team, players=players)
+    elif edit_type == 'set':
+        return render_template('set-lineup.html', edit_type=edit_type, team_id=team_id, team=team, players=players)
 
+# @settings_blueprint.route('/set-lineup/<int:team_id>', methods=['GET', 'POST'])
+# def set_lineup(team_id):
+#     if request.method == 'POST':
+#         _data = request.form.to_dict()
+#         if 'submit_players' in _data:
+#             print('submit_players', _data, flush=True)
+#             save_players_to_database(_data)
+#         elif 'submit_colors' in _data:
+#             print('submit_colors', _data, flush=True)
+#             save_tricots_colors_to_database(team_id, _data)
 
-def save_data_to_database(player_data):
+#         return redirect(url_for('settings.set_lineup', team_id=team_id))
+#     team = Team.query.filter_by(id=team_id).first()
+#     players = Player.query.filter_by(team=team_id)  # Pobierz graczy z bazy danych
+#     return render_template('set-lineup.html', team_id=team_id, team=team, players=players)
+
+def save_players_to_database(player_data):
     players_ids = []
     players_data = {}
 
@@ -912,6 +1018,43 @@ def save_data_to_database(player_data):
             player.captain = players_data[key].get('captain', 0)
 
         db.session.commit()
+
+def save_tricots_colors_to_database(team_id, tricots_data):
+    # players_ids = []
+    # players_data = {}
+
+    # for key, value in player_data.items():
+    #     # Sprawdź, czy pole zawiera dane gracza
+    #     if '[' in key and ']' in key:
+    #         player_id = key.split('[')[0].split('_')[1]
+    #         players_ids.append(player_id)
+    # players_ids = set(players_ids)
+    #
+    # for plyr_id in players_ids:
+    #     _plyr_data = {}
+    #
+    #     for key, value in player_data.items():
+    #         if f'player_{plyr_id}' in key:
+    #             key = key.split('[')[1][:-1]
+    #             _plyr_data.update({key: value})
+    #     players_data.update({plyr_id: _plyr_data})
+
+    # # Zapisz dane do bazy danych
+    team = Team.query.filter_by(id=team_id).first()
+
+    if team:
+        team.selected_tricot = tricots_data.get('selected_tricot', 1)
+        team.home_tricot_color_number = tricots_data.get('home_tricot_color_number', 1)
+        team.away_tricot_color_number = tricots_data.get('away_tricot_color_number', 1)
+        team.home_color_1 = tricots_data.get('home_color_1', team.home_color_1)
+        team.home_color_2 = tricots_data.get('home_color_2', team.home_color_2)
+        team.home_color_3 = tricots_data.get('home_color_3', team.home_color_3)
+        team.away_color_1 = tricots_data.get('away_color_1', team.away_color_1)
+        team.away_color_2 = tricots_data.get('away_color_2', team.away_color_2)
+        team.away_color_3 = tricots_data.get('away_color_3', team.away_color_3)
+        team.bibs_color = tricots_data.get('bibs_color', team.bibs_color)
+
+    db.session.commit()
 
 @settings_blueprint.route('/set-actual-match', methods=['POST'])
 def set_actual_match():
@@ -954,11 +1097,10 @@ def show_empty_result(division):
     except FileNotFoundError:
         return "Error: File 'matches.json' not found."
 
-@settings_blueprint.route('/show-matches-by-date/<division>', methods=['GET'])
-def show_matches_by_date(division):
-    print(division, flush=True)
+@settings_blueprint.route('/show-matches-by-date/<target>/<division>', methods=['GET'])
+def show_matches_by_date(target, division):
     # Pobieramy parametr 'days' z zapytania lub używamy domyślnej wartości +1/-1 dni
-    days = int(request.args.get('days', 14))
+    days = int(request.args.get('days', 4))
 
     # Obliczamy daty
     today = datetime.now()
@@ -971,14 +1113,51 @@ def show_matches_by_date(division):
 
     # Filtrujemy dane, aby pokazać tylko te w określonym przedziale dat
     filtered_data = [entry for entry in data if start_date <= datetime.strptime(entry['date'], '%Y-%m-%d %H:%M:%S') <= end_date]
-
+    if target == 'controller':
+        for dta in filtered_data:
+            dta.update({'date': dta['date']})
+            dta.update({'teams': [{'short_name': _get_short_team_name(dta['teams'][0]),
+                                   'full_name': dta['teams'][0]}, 
+                                   {'short_name': _get_short_team_name(dta['teams'][1]),
+                                    'full_name': dta['teams'][1]}]
+                        })
+        new_content = render_template('update_results_controller.html', data=filtered_data, division=division)
+        return jsonify({'content': new_content})
     return render_template('update_results.html', data=filtered_data, division=division)
 
-@settings_blueprint.route('/save-result/<division>', methods=['POST'])
-def save_result(division):
+@settings_blueprint.route('/show-all-matches/<target>/<division>', methods=['GET'])
+def show_all_matches(target, division):
+
+    with open(f'static/json/matches-{division}.json', 'r') as json_matches_file:
+        data = json.load(json_matches_file)
+
+    # Filtrujemy dane, aby pokazać tylko te w określonym przedziale dat
+    if target == 'controller':
+        new_content = render_template('update_results_controller.html', data=data, division=division)
+        return jsonify({'content': new_content})
+    return render_template('update_results.html', data=data, division=division)
+
+@settings_blueprint.route('/scrape-matches/<page_id>', methods=['GET'])
+def scrape_matches(page_id):
+    scraper = NALFmatchesScraper(page_id)
+    data_objects = scraper.scrape_matches()
+    matches = data_objects['matches']
+    division = data_objects['division'].split()[1].lower()
+    with open(f'static/json/penalty-{division}-points.json', 'r') as json_penalty_file:
+        penalties_points = json.load(json_penalty_file)
+    for _match in matches:
+        for _penalty in penalties_points:
+            if _match['id'] == _penalty['id']:
+                _match['penalty_points'] = _penalty['penalty_points']
+
+    file_generator = JSONFileGenerator(matches)
+    file_generator.generate_and_save_file(f'matches-{division}.json')
+    return jsonify({'message': f'Pobrano mecze Dywizji {division.upper()}'})
+
+@settings_blueprint.route('/save-result/<target>/<division>', methods=['POST'])
+def save_result(target, division):
     # Pobierz dane JSON przesłane z przeglądarki
     match_data = request.json
-    print(match_data, flush=True)
 
     # Aktualizuj plik JSON
     with open(f'static/json/matches-{division}.json', 'r') as json_file:
@@ -997,57 +1176,54 @@ def save_result(division):
     with open(f'static/json/matches-{division}.json', 'w') as json_file:
         json.dump(data, json_file, indent=2)
 
+    if target == 'controller':
+        return jsonify({'function': division})
     return redirect(url_for('settings.show_matches_by_date', division=division))
 
+
 @settings_blueprint.route('/generate_base_table/<division>', methods=['GET', 'POST'])
-def generate_base_table(division):
+def generate_table(division):
     if request.method == 'POST':
         _actual_played_teams = request.get_json()
-        if division == 'b':
-            table_generator = TableGenerator(division=division)
+        table_generator = TableGenerator(division=division)
 
-            virtual_table = table_generator.generate_table(_actual=True, _divided=True)
-            _virtual_tbl = [[x['team_name'], x['points'], x['actual']] for x in virtual_table]
-            # for item in _virtual_tbl:
-            #     print('v_tab:', item, flush=True)
-            for item in _virtual_tbl:
-                if item[0] in _actual_played_teams:
-                    item[2] = True
-            with open(f'static/json/virtual-table-{division}.json', 'w') as json_file:
-                json.dump(_virtual_tbl, json_file, indent=2)
-
-            base_table = table_generator.generate_table(_divided=True)
-            _base_tbl = [[x['team_name'], x['points'], x['actual']] for x in base_table]
-            # for item in _base_tbl:
-                # print('b_tab:', item, flush=True)
-            for item in _base_tbl:
-                if item[0] in _actual_played_teams:
-                    item[2] = True
-
-            with open(f'static/json/base-table-{division}.json', 'w') as json_file:
-                json.dump(_base_tbl, json_file, indent=2)
+        if division == 'a':
+            to_divide = False
+        elif division == 'b':
+            to_divide = True
         else:
+            to_divide = False
 
-            table_generator = TableGenerator(division=division)
+        virtual_table = table_generator.generate_table(_virtual=True, _to_divide=to_divide)
+        _virtual_tbl = style_table(virtual_table, _actual_played_teams, division)
+        with open(f'static/json/virtual-table-{division}.json', 'w') as json_file:
+            json.dump(_virtual_tbl, json_file, indent=2)
 
-            virtual_table = table_generator.generate_table(_actual=True)
-            _virtual_tbl = [[x['team_name'], x['points'], x['actual']] for x in virtual_table]
-            _actual_played_teams = [team['team_name'] for team in virtual_table if team['actual']]
-
-            with open(f'static/json/virtual-table-{division}.json', 'w') as json_file:
-                json.dump(_virtual_tbl, json_file, indent=2)
-
-            base_table = table_generator.generate_table()
-            _base_tbl = [[x['team_name'], x['points'], x['actual']] for x in base_table]
-            for item in _base_tbl:
-                if item[0] in _actual_played_teams:
-                    item[2] = True
-
-            with open(f'static/json/base-table-{division}.json', 'w') as json_file:
-                json.dump(_base_tbl, json_file, indent=2)
+        base_table = table_generator.generate_table(_to_divide=to_divide)
+        _base_tbl = style_table(base_table, _actual_played_teams, division)
+        with open(f'static/json/base-table-{division}.json', 'w') as json_file:
+            json.dump(_base_tbl, json_file, indent=2)
 
         return jsonify({'status': 'success', 'message': 'Plik base-table.json został wygenerowany.'})
 
+
+def style_table(_table, _actual_played_teams, division):
+    divide_index = None
+    for i in _table:
+        if i == 'divide':
+            divide_index = _table.index(i)
+    if divide_index is not None:
+        _promotion_group = _table[:divide_index]
+        _demotion_group = _table[divide_index + 1:]
+        promotion_group = [[x['actual'], x['team_name'], x['points'], '', 'promotion-group'] for x in _promotion_group]
+        demotion_group = [[x['actual'], x['team_name'], x['points'], '', 'demotion-group'] for x in _demotion_group]
+        _tbl = promotion_group + demotion_group
+    else:
+        _tbl = [[x['actual'], x['team_name'], x['points'], '', 'non-divided-group'] for x in _table]
+    for item in _tbl:
+        if item[1] in _actual_played_teams:
+            item[0] = True
+    return _tbl
 
 @settings_blueprint.route('/generate_virtual_table/<division>', methods=['GET'])
 def generate_virtual_table(division):
@@ -1058,6 +1234,120 @@ def generate_virtual_table(division):
         json.dump(_tbl, json_file, indent=2)
 
     return jsonify({'status': 'success', 'message': 'Plik virtual-table.json został wygenerowany.'})
+
+@settings_blueprint.route('/update_players/<edit_type>/<team_id>', methods=['POST'])
+def update_players(edit_type, team_id):
+    if request.method == 'POST':
+        team = Team.query.filter_by(id=team_id).first()
+        scraper = NALFteamScraper(team.link)
+        nalffutsal_players = scraper.scrape_team_players()
+        players_updater = NALFplayersUpdater()
+        players_updater.update_players(nalffutsal_players, team_id)
+        return redirect(url_for('settings.edit_team', team_id=team_id, edit_type=edit_type))
+
+
+@settings_blueprint.route('/get-statistics/<team>')
+def get_statistics(team):
+    _actual_match = Match.query.filter_by(actual=1).first()
+    _team_id = get_team_id_by_description(team, _actual_match)
+    _team = Team.query.filter_by(id=_team_id).first()
+    _team_scraper = NALFteamScraper(_team.link)
+    _scraped_team = _team_scraper.scrape_team_players()
+    _scraped_table = _team_scraper.scrape_team_table()
+    _division = _scraped_table[0]['division']
+    content = {
+        'table-data': _scraped_table,
+        'average-points': _get_average_per_match('points', _scraped_table),
+        'average-scored-goals': _get_average_per_match('goals_scored', _scraped_table),
+        'average-lost-goals': _get_average_per_match('goals_lost', _scraped_table),
+        'best-strikers': _get_best_players('goals', _scraped_team),
+        'best-assistants': _get_best_players('assists', _scraped_team),
+        'best-canadians': _get_best_canadians(_scraped_team),
+        'most-yellow-cards': _get_best_players('yellow_cards', _scraped_team),
+        'most-red-cards': _get_best_players('red_cards', _scraped_team),
+        'most-best-five': _get_best_players('best_five', _scraped_team),
+        'most-best-player': _get_best_players('best_player', _scraped_team),
+        'highest-win': _get_higest_results(_team.full_name, _division, 'wins'),
+        'highest-tie': _get_higest_results(_team.full_name, _division, 'ties'),
+        'highest-lost': _get_higest_results(_team.full_name, _division, 'loses')
+    }
+    with open(f'static/json/match-stats-{team}.json', 'w') as json_file:
+        json.dump(content, json_file, indent=2)
+    return jsonify({'status': 'success', 'message': f'match-stats-{team}.json został wygenerowany.'})
+
+def _get_average_per_match(_type, _data):
+    _goals = _data[0][_type]
+    _matches = _data[0]['matches']
+    return round(_goals/_matches, 2)
+
+def _get_best_players(_type, _data):
+    sorted_players = sorted(_data, key=lambda x: x[_type], reverse=True)
+    _max = sorted_players[0][_type]
+    return [player for player in sorted_players if player[_type] == _max]
+
+
+def _get_best_canadians(_data):
+    for player in _data:
+        player['canadian_points'] = player['goals'] + player['assists']
+    sorted_players = sorted(_data, key=lambda x: x['canadian_points'], reverse=True)
+    _max = sorted_players[0]['canadian_points']
+    _best_canadians = [player for player in sorted_players if player["canadian_points"] == _max]
+    for player in _data:
+        del player["canadian_points"]
+    return _best_canadians
+
+
+def _get_higest_results(team_name, division, _type):
+    with open(f'static/json/matches-{division[-1].lower()}.json') as json_file:
+        matches = json.load(json_file)
+    _matches = []
+    results = {
+        'wins': [],
+        'ties': [],
+        'loses': []
+    }
+    for match in matches:
+        if len(match['result']) == 2:
+            if team_name in match['teams']:
+                if team_name == match['teams'][1]:
+                    match['teams'][0], match['teams'][1] = match['teams'][1], match['teams'][0]
+                    match['result'][0], match['result'][1] = match['result'][1], match['result'][0]
+                    match['penalty_points'][0], \
+                    match['penalty_points'][1] = match['penalty_points'][1], match['penalty_points'][0]
+                    _matches.append(match)
+                else:
+                    _matches.append(match)
+    for match in _matches:
+        if match['result'][0] == match['result'][1]:
+            results['ties'].append(match)
+        elif match['result'][0] > match['result'][1]:
+            results['wins'].append(match)
+        else:
+            results['loses'].append(match)
+
+    return _calculate_highest_result(results, _type)
+
+def _calculate_highest_result(_matches, _type):
+    for _match in _matches[_type]:
+        _match['difference_goals'] = abs(int(_match['result'][0]) - int(_match['result'][1]))
+        _match['sum_goals'] = int(_match['result'][0]) + int(_match['result'][1])
+    sorted_matches = sorted(_matches[_type], key=lambda x: (x['difference_goals'], x['sum_goals']), reverse=True)
+    if not sorted_matches:
+        return [{'result': None}]
+    _max_difference = sorted_matches[0]['difference_goals']
+    _max_goals = sorted_matches[0]['sum_goals']
+    _highest_result = [_match for _match in sorted_matches if _match["difference_goals"] == _max_difference and
+                       _match["sum_goals"] == _max_goals]
+    for _match in _matches[_type]:
+        del _match["difference_goals"]
+    return _highest_result
+
+
+@settings_blueprint.route('/statistics-staff/<team>')
+def statistics_staff(team):
+    with open(f'static/json/match-stats-{team}.json', 'r') as json_file:
+        _data = json.load(json_file)
+    return render_template('statistics-staff.html', data=_data, team=team)
 
 
 
@@ -1095,6 +1385,18 @@ def start_stop_stream():
     obs_ws.start_stop_stream()
     return redirect(url_for('obswebsocketpy.ws_controller'))
 
+@obswebsocketpy_blueprint.route('/start-stream')
+def start_stream():
+    obs_ws = current_app.config['obs_ws']
+    obs_ws.start_stream_cascade()
+    return redirect(url_for('obswebsocketpy.ws_controller'))
+
+@obswebsocketpy_blueprint.route('/stop-stream')
+def stop_stream():
+    obs_ws = current_app.config['obs_ws']
+    obs_ws.stop_stream_cascade()
+    return redirect(url_for('obswebsocketpy.ws_controller'))
+
 @obswebsocketpy_blueprint.route('/showbanner')
 def show_banner():
     obs_ws = current_app.config['obs_ws']
@@ -1113,5 +1415,13 @@ def show_virtual_table(division):
     obs_ws.show_virtual_table(division)
     return redirect(url_for('obswebsocketpy.ws_controller'))
 
+@socialmedia_blueprint.route('/maketableimg/<division>')
+def maketableimg(division):
+    _settings = _get_settings(division)
+    table_screaper = NALFtableScraper(_settings['table']['link_to_table'])
+    _table = table_screaper.scrape_league_table()
+    return render_template('table-img.html', table=_table, division=division, settings=_settings)
+
+
 if __name__ == '__main__':
-    create_app().run(port=5555, use_reloader=False, debug=True)
+    create_app().run(host='0.0.0.0', port=5555, use_reloader=False, debug=True)

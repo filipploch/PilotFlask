@@ -1,0 +1,42 @@
+body {
+  font-size: 60px;  
+}
+
+main {
+  padding-top: 200px;
+}
+
+footer{
+  font-size: 30px;
+}
+
+.navbar {
+  position: fixed;
+  z-index: 999;
+  width: 100%;
+}
+
+  
+.navbar-brand {
+  float: left;
+  height: 70px;
+  padding: 25px 25px;
+  font-size: 60px;
+  line-height: 20px;
+}
+
+.navbar-nav {
+  height: 70px;
+  padding-top: 10px;
+  font-size: 60px;
+  line-height: 20px;
+}
+
+.form-control {
+	font-size: 50px;
+	height: 80px;
+}
+
+.container {
+  width: 100%;
+}

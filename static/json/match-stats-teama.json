@@ -1,0 +1,249 @@
+{
+  "table-data": [
+    {
+      "division": "Dywizja B",
+      "rank": 6,
+      "team_name": "Hattrick",
+      "matches": 12,
+      "wins": 6,
+      "draws": 0,
+      "losts": 6,
+      "goals_scored": 53,
+      "goals_lost": 53,
+      "points": 18,
+      "form": "W W W W W"
+    }
+  ],
+  "average-points": 1.5,
+  "average-scored-goals": 4.42,
+  "average-lost-goals": 4.42,
+  "best-strikers": [
+    {
+      "full_name": "Kasprzyk Kacper",
+      "link": "https://nalffutsal.pl/?sp_player=kasprzyk-kacper",
+      "team": "https://nalffutsal.pl/?sp_team=hattrick",
+      "is_goalkeeper": 0,
+      "matches": 11,
+      "goals": 12,
+      "assists": 7,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 1,
+      "best_player": 0
+    }
+  ],
+  "best-assistants": [
+    {
+      "full_name": "Fischer Miko\u0142aj",
+      "link": "https://nalffutsal.pl/?sp_player=mikolaj-fischer",
+      "team": "https://nalffutsal.pl/?sp_team=hattrick",
+      "is_goalkeeper": 0,
+      "matches": 9,
+      "goals": 7,
+      "assists": 10,
+      "yellow_cards": 2,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 1,
+      "best_player": 0
+    }
+  ],
+  "best-canadians": [
+    {
+      "full_name": "Kasprzyk Kacper",
+      "link": "https://nalffutsal.pl/?sp_player=kasprzyk-kacper",
+      "team": "https://nalffutsal.pl/?sp_team=hattrick",
+      "is_goalkeeper": 0,
+      "matches": 11,
+      "goals": 12,
+      "assists": 7,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 1,
+      "best_player": 0
+    }
+  ],
+  "most-yellow-cards": [
+    {
+      "full_name": "Fischer Miko\u0142aj",
+      "link": "https://nalffutsal.pl/?sp_player=mikolaj-fischer",
+      "team": "https://nalffutsal.pl/?sp_team=hattrick",
+      "is_goalkeeper": 0,
+      "matches": 9,
+      "goals": 7,
+      "assists": 10,
+      "yellow_cards": 2,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 1,
+      "best_player": 0
+    }
+  ],
+  "most-red-cards": [
+    {
+      "full_name": "Gajoch Micha\u0142",
+      "link": "https://nalffutsal.pl/?sp_player=michal-gajoch",
+      "team": "https://nalffutsal.pl/?sp_team=hattrick",
+      "is_goalkeeper": 1,
+      "matches": 11,
+      "goals": 0,
+      "assists": 1,
+      "yellow_cards": 0,
+      "red_cards": 1,
+      "own_goals": 0,
+      "best_five": 1,
+      "best_player": 0
+    }
+  ],
+  "most-best-five": [
+    {
+      "full_name": "Czepiec Jakub",
+      "link": "https://nalffutsal.pl/?sp_player=czepiec-jakub",
+      "team": "https://nalffutsal.pl/?sp_team=hattrick",
+      "is_goalkeeper": 0,
+      "matches": 6,
+      "goals": 7,
+      "assists": 3,
+      "yellow_cards": 1,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 1,
+      "best_player": 1
+    },
+    {
+      "full_name": "Fischer Miko\u0142aj",
+      "link": "https://nalffutsal.pl/?sp_player=mikolaj-fischer",
+      "team": "https://nalffutsal.pl/?sp_team=hattrick",
+      "is_goalkeeper": 0,
+      "matches": 9,
+      "goals": 7,
+      "assists": 10,
+      "yellow_cards": 2,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 1,
+      "best_player": 0
+    },
+    {
+      "full_name": "Gajoch Micha\u0142",
+      "link": "https://nalffutsal.pl/?sp_player=michal-gajoch",
+      "team": "https://nalffutsal.pl/?sp_team=hattrick",
+      "is_goalkeeper": 1,
+      "matches": 11,
+      "goals": 0,
+      "assists": 1,
+      "yellow_cards": 0,
+      "red_cards": 1,
+      "own_goals": 0,
+      "best_five": 1,
+      "best_player": 0
+    },
+    {
+      "full_name": "Kasprzyk Kacper",
+      "link": "https://nalffutsal.pl/?sp_player=kasprzyk-kacper",
+      "team": "https://nalffutsal.pl/?sp_team=hattrick",
+      "is_goalkeeper": 0,
+      "matches": 11,
+      "goals": 12,
+      "assists": 7,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 1,
+      "best_player": 0
+    },
+    {
+      "full_name": "Nesterak Marcin",
+      "link": "https://nalffutsal.pl/?sp_player=nesterak-marcin",
+      "team": "https://nalffutsal.pl/?sp_team=hattrick",
+      "is_goalkeeper": 0,
+      "matches": 8,
+      "goals": 6,
+      "assists": 3,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 1,
+      "best_player": 0
+    },
+    {
+      "full_name": "Turek Cyprian",
+      "link": "https://nalffutsal.pl/?sp_player=turek-cyprian",
+      "team": "https://nalffutsal.pl/?sp_team=hattrick",
+      "is_goalkeeper": 0,
+      "matches": 6,
+      "goals": 7,
+      "assists": 2,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 1,
+      "best_player": 0
+    }
+  ],
+  "most-best-player": [
+    {
+      "full_name": "Czepiec Jakub",
+      "link": "https://nalffutsal.pl/?sp_player=czepiec-jakub",
+      "team": "https://nalffutsal.pl/?sp_team=hattrick",
+      "is_goalkeeper": 0,
+      "matches": 6,
+      "goals": 7,
+      "assists": 3,
+      "yellow_cards": 1,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 1,
+      "best_player": 1
+    }
+  ],
+  "highest-win": [
+    {
+      "id": 50,
+      "date": "2023-11-29 22:15:00",
+      "teams": [
+        "Hattrick",
+        "Popalone Styki"
+      ],
+      "result": [
+        6,
+        1
+      ],
+      "actual": false,
+      "parallel": false,
+      "penalty_points": [
+        0,
+        0
+      ],
+      "sum_goals": 7
+    }
+  ],
+  "highest-tie": [
+    {
+      "result": null
+    }
+  ],
+  "highest-lost": [
+    {
+      "id": 16,
+      "date": "2023-10-10 20:00:00",
+      "teams": [
+        "Hattrick",
+        "Z\u0142ote Ch\u0142opaki"
+      ],
+      "result": [
+        4,
+        7
+      ],
+      "actual": false,
+      "parallel": false,
+      "penalty_points": [
+        0,
+        0
+      ],
+      "sum_goals": 11
+    }
+  ]
+}

@@ -1,3 +1,7 @@
+table {
+    width: 100%;
+}
+
 td.invisible{
     width: 0;
     color: rgba(0,0,0,0);
@@ -14,4 +18,22 @@ td .visible{
 
 .number{
     width: 40px;
+}
+
+td {
+    text-align: center;
+}
+
+.nr-of-tricot-colors {
+    width: 50px;
+}
+
+.tricot-color {
+    position: relative;
+    top: 7px;
+}
+
+.big-box {
+    width: 80px;
+    height: 80px;
 }

@@ -7,10 +7,15 @@
       "Brotherm"
     ],
     "result": [
-      "1",
-      "8"
+      1,
+      8
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 2,
@@ -20,10 +25,15 @@
       "MK Team"
     ],
     "result": [
-      "2",
-      "4"
+      2,
+      4
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 3,
@@ -33,10 +43,15 @@
       "Legion"
     ],
     "result": [
-      "3",
-      "10"
+      3,
+      10
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 4,
@@ -46,10 +61,15 @@
       "eNHa"
     ],
     "result": [
-      "3",
-      "1"
+      3,
+      1
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 5,
@@ -59,10 +79,15 @@
       "Boanerges"
     ],
     "result": [
-      "5",
-      "3"
+      5,
+      3
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 6,
@@ -72,10 +97,15 @@
       "DRUG-ony"
     ],
     "result": [
-      "6",
-      "1"
+      6,
+      1
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 7,
@@ -85,10 +115,15 @@
       "eNHa"
     ],
     "result": [
-      "3",
-      "3"
+      3,
+      3
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 8,
@@ -98,10 +133,15 @@
       "MK Team"
     ],
     "result": [
-      "2",
-      "4"
+      2,
+      4
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 9,
@@ -111,10 +151,15 @@
       "IGLOMEN&RodzinneRestauracje"
     ],
     "result": [
-      "2",
-      "4"
+      2,
+      4
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 10,
@@ -124,10 +169,15 @@
       "eNHa"
     ],
     "result": [
-      "1",
-      "3"
+      1,
+      3
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 11,
@@ -137,10 +187,15 @@
       "Boanerges"
     ],
     "result": [
-      "4",
-      "2"
+      4,
+      2
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 12,
@@ -150,10 +205,15 @@
       "DRUG-ony"
     ],
     "result": [
-      "5",
-      "4"
+      5,
+      4
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 13,
@@ -163,10 +223,15 @@
       "Brotherm"
     ],
     "result": [
-      "3",
-      "6"
+      3,
+      6
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 14,
@@ -176,10 +241,15 @@
       "IGLOMEN&RodzinneRestauracje"
     ],
     "result": [
-      "3",
-      "5"
+      3,
+      5
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 15,
@@ -189,10 +259,15 @@
       "Legion"
     ],
     "result": [
-      "3",
-      "4"
+      3,
+      4
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 16,
@@ -202,10 +277,15 @@
       "Drink Team"
     ],
     "result": [
-      "5",
-      "3"
+      5,
+      3
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 17,
@@ -215,10 +295,15 @@
       "Boanerges"
     ],
     "result": [
-      "6",
-      "3"
+      6,
+      3
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 18,
@@ -228,10 +313,15 @@
       "Legion"
     ],
     "result": [
-      "4",
-      "7"
+      4,
+      7
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 19,
@@ -241,10 +331,15 @@
       "MK Team"
     ],
     "result": [
-      "4",
-      "7"
+      4,
+      7
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 20,
@@ -254,10 +349,15 @@
       "eNHa"
     ],
     "result": [
-      "2",
-      "3"
+      2,
+      3
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 21,
@@ -267,10 +367,15 @@
       "Brotherm"
     ],
     "result": [
-      "4",
-      "10"
+      4,
+      10
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 22,
@@ -280,10 +385,15 @@
       "IGLOMEN&RodzinneRestauracje"
     ],
     "result": [
-      "4",
-      "2"
+      4,
+      2
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 23,
@@ -293,10 +403,15 @@
       "Drink Team"
     ],
     "result": [
-      "5",
-      "2"
+      5,
+      2
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 24,
@@ -306,10 +421,15 @@
       "DRUG-ony"
     ],
     "result": [
-      "5",
-      "4"
+      5,
+      4
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 25,
@@ -319,10 +439,15 @@
       "Brotherm"
     ],
     "result": [
-      "0",
-      "8"
+      0,
+      8
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 26,
@@ -332,10 +457,15 @@
       "MK Team"
     ],
     "result": [
-      "2",
-      "3"
+      2,
+      3
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 27,
@@ -345,10 +475,15 @@
       "Drink Team"
     ],
     "result": [
-      "14",
-      "2"
+      14,
+      2
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 28,
@@ -358,10 +493,15 @@
       "Legion"
     ],
     "result": [
-      "3",
-      "4"
+      3,
+      4
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 29,
@@ -371,10 +511,15 @@
       "Drink Team"
     ],
     "result": [
-      "19",
-      "3"
+      19,
+      3
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 30,
@@ -384,10 +529,15 @@
       "DRUG-ony"
     ],
     "result": [
-      "4",
-      "3"
+      4,
+      3
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 31,
@@ -397,10 +547,15 @@
       "Boanerges"
     ],
     "result": [
-      "1",
-      "3"
+      1,
+      3
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 32,
@@ -410,10 +565,15 @@
       "IGLOMEN&RodzinneRestauracje"
     ],
     "result": [
-      "4",
-      "4"
+      4,
+      4
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 33,
@@ -423,10 +583,15 @@
       "Brotherm"
     ],
     "result": [
-      "1",
-      "3"
+      1,
+      3
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 34,
@@ -436,10 +601,15 @@
       "IGLOMEN&RodzinneRestauracje"
     ],
     "result": [
-      "2",
-      "4"
+      2,
+      4
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 35,
@@ -449,10 +619,15 @@
       "Drink Team"
     ],
     "result": [
-      "3",
-      "2"
+      3,
+      2
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 36,
@@ -462,10 +637,15 @@
       "Legion"
     ],
     "result": [
-      "8",
-      "4"
+      8,
+      4
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 37,
@@ -475,10 +655,15 @@
       "Brotherm"
     ],
     "result": [
-      "6",
-      "11"
+      6,
+      11
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 38,
@@ -488,10 +673,15 @@
       "MK Team"
     ],
     "result": [
-      "5",
-      "4"
+      5,
+      4
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 39,
@@ -501,10 +691,15 @@
       "Drink Team"
     ],
     "result": [
-      "4",
-      "4"
+      4,
+      4
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 40,
@@ -514,10 +709,15 @@
       "Legion"
     ],
     "result": [
-      "6",
-      "5"
+      6,
+      5
     ],
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 41,
@@ -527,10 +727,15 @@
       "MK Team"
     ],
     "result": [
-      "0",
-      "2"
+      10,
+      2
     ],
-    "actual": true
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 42,
@@ -539,8 +744,16 @@
       "Legion",
       "eNHa"
     ],
-    "result": "",
-    "actual": false
+    "result": [
+      8,
+      2
+    ],
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 43,
@@ -549,8 +762,16 @@
       "Drink Team",
       "Boanerges"
     ],
-    "result": "",
-    "actual": false
+    "result": [
+      3,
+      10
+    ],
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 44,
@@ -559,8 +780,16 @@
       "IGLOMEN&RodzinneRestauracje",
       "DRUG-ony"
     ],
-    "result": "",
-    "actual": false
+    "result": [
+      6,
+      5
+    ],
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 45,
@@ -569,8 +798,16 @@
       "IGLOMEN&RodzinneRestauracje",
       "Boanerges"
     ],
-    "result": "",
-    "actual": false
+    "result": [
+      3,
+      8
+    ],
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 46,
@@ -579,8 +816,16 @@
       "Legion",
       "Brotherm"
     ],
-    "result": "",
-    "actual": false
+    "result": [
+      3,
+      8
+    ],
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 47,
@@ -589,8 +834,16 @@
       "eNHa",
       "DRUG-ony"
     ],
-    "result": "",
-    "actual": false
+    "result": [
+      1,
+      4
+    ],
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 48,
@@ -599,8 +852,16 @@
       "MK Team",
       "Drink Team"
     ],
-    "result": "",
-    "actual": false
+    "result": [
+      "5",
+      "2"
+    ],
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 49,
@@ -610,7 +871,12 @@
       "eNHa"
     ],
     "result": "",
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 50,
@@ -620,7 +886,12 @@
       "MK Team"
     ],
     "result": "",
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 51,
@@ -630,7 +901,12 @@
       "Boanerges"
     ],
     "result": "",
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 52,
@@ -640,7 +916,12 @@
       "Legion"
     ],
     "result": "",
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 53,
@@ -650,7 +931,12 @@
       "DRUG-ony"
     ],
     "result": "",
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 54,
@@ -660,7 +946,12 @@
       "eNHa"
     ],
     "result": "",
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 55,
@@ -670,7 +961,12 @@
       "IGLOMEN&RodzinneRestauracje"
     ],
     "result": "",
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   },
   {
     "id": 56,
@@ -680,6 +976,11 @@
       "Boanerges"
     ],
     "result": "",
-    "actual": false
+    "actual": false,
+    "parallel": false,
+    "penalty_points": [
+      0,
+      0
+    ]
   }
 ]

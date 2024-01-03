@@ -1,11 +1,8 @@
 {% extends "base-bars.html" %}
-{% block styles %}
+{% block style %}
 <link rel="stylesheet" href="{{url_for('static', filename='css/cssteams.css')}}">
 {% endblock %}
-{% block top_bar %}
-    <div id="league">NOWOHUCKA AMATORSKA LIGA FUTSALU</div>
-    <div id="division"></div>
-{% endblock %}
+
 {% block content %}
         <div id="scorebarNlogos">
             <div id="score_bar">
@@ -14,10 +11,10 @@
                 <div id="score_b">{{ matchdata['teamb']['scores'] }}</div>
             </div>
 				<div class="team_logo" id="team_a_logo">
-					<img src="{{ matchdata['teama']['logo_file'] }}" class="logo">
+					<img src="/static/images/logos/{{ matchdata['teama']['logo_file'] }}" class="logo">
 				</div>
 				<div class="team_logo" id="team_b_logo" >
-					<img src="{{ matchdata['teamb']['logo_file'] }}" class="logo">
+					<img src="/static/images/logos/{{ matchdata['teamb']['logo_file'] }}" class="logo">
                 </div>
         </div>
 

@@ -1,0 +1,48 @@
+    .bc-red {
+        background-color: red;
+    }
+
+    .bc-yellow {
+        background-color: yellow;
+        color: black !important;
+    }
+
+    .bc-green {
+        background-color: rgb(0, 168, 0);
+    }
+
+    .bc-blue {
+        background-color: blue;
+    }
+
+    .bc-gold-medal2 {
+    background: radial-gradient(ellipse farthest-corner at right bottom, #FEDB37 0%, #FDB931 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%),
+                radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #5d4a1f 62.5%, #5d4a1f 100%);
+    }
+
+    .bc-gold-medal {
+    background: radial-gradient(ellipse farthest-corner at right bottom, #ffff4a 0%, #ffe043 8%, #b5a200 30%, #a08b00 40%, transparent 80%),
+                radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #ffffd1 8%, #fbda7e 25%, #9d9013 62.5%, #9d9013 100%);
+    }
+
+    .bc-silver-medal {
+    background: radial-gradient(ellipse farthest-corner at right bottom, #dedede 0%, #c7c7c7 8%, #808080 30%, #737373 40%, transparent 80%),
+                radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #fbfbfb 8%, #b8b8b8 25%, #4d4d4d 62.5%, #4d4d4d 100%);
+    }
+
+    .bc-bronze-medal {
+    background: radial-gradient(ellipse farthest-corner at right bottom, #b68311 0%, #a1740f 8%, #694c0a 30%, #5e4409 40%, transparent 80%),
+                radial-gradient(ellipse farthest-corner at left top, #c8b582 0%, #d29814 8%, #986e0e 25%, #3f2e06 62.5%, #3f2e06 100%);
+    }
+
+    .bc-gold {
+        background-color: gold;
+    }
+
+    .bc-silver {
+        background-color: silver;
+    }
+
+    .bc-bronze {
+        background-color: bronze;
+    }

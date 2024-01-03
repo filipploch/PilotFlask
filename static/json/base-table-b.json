@@ -1,57 +1,79 @@
 [
   [
+    null,
     "Trivium S\u0142omniki Warriors",
-    26,
-    null
+    32,
+    "",
+    "promotion-group"
   ],
   [
+    null,
     "WKS Futsal Team",
-    23,
-    null
+    29,
+    "",
+    "promotion-group"
   ],
   [
+    null,
     "Z\u0142ote Ch\u0142opaki",
     19,
-    null
+    "",
+    "promotion-group"
   ],
   [
+    null,
     "\u017bar\u0142acze",
     16,
-    null
+    "",
+    "promotion-group"
   ],
   [
+    null,
     "Galactik Futsal",
-    16,
-    null
+    15,
+    "",
+    "promotion-group"
   ],
   [
+    null,
     "Laga Bonito",
-    13,
-    null
+    17,
+    "",
+    "demotion-group"
   ],
   [
+    null,
     "Nowy \u0141ad",
-    13,
-    null
+    17,
+    "",
+    "demotion-group"
   ],
   [
+    true,
     "Hattrick",
-    12,
-    null
+    15,
+    "",
+    "demotion-group"
   ],
   [
+    null,
+    "eNHa II",
+    11,
+    "",
+    "demotion-group"
+  ],
+  [
+    null,
     "Popalone Styki",
     9,
-    null
+    "",
+    "demotion-group"
   ],
   [
-    "eNHa II",
-    8,
-    null
-  ],
-  [
+    true,
     "Nowohucki Klub Sportowy",
     4,
-    null
+    "",
+    "demotion-group"
   ]
 ]

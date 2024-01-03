@@ -1,0 +1,18 @@
+<div class="row-small-buttons">
+    <div id="btn-stream" class="button button-small" ondblclick="startStream()">
+        <img src="{{ url_for('static', filename='images/ws-controller/stream-off.png') }}" alt="STREAM">
+    </div>
+
+</div>
+<div class="row-small-buttons">
+    <div id="btn-team-a-lineup" class="button button-small">
+        <a href="{{ url_for('obswebsocketpy.show_scene', scenename='Skład A') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/team-a-lineup.png') }}" alt="A">
+        </a>
+    </div>
+    <div id="btn-team-b-lineup" class="button button-small">
+        <a href="{{ url_for('obswebsocketpy.show_scene', scenename='Skład B') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/team-b-lineup.png') }}" alt="B">
+        </a>
+    </div>
+</div>

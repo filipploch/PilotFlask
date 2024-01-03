@@ -23,10 +23,10 @@
                 <div class="clear_line">*</div>
                 <div class="match-teams">
                     <div class="team-logo" id="team_a_logo">
-                        <img src="{{ logos['logo_a'] }}" class="logo">
+                        <img src="{{ url_for('static', filename='images/logos/' ~ logos['logo_a']) }}" class="logo">
                     </div>
                     <div class="team-logo" id="team_b_logo">
-                        <img src="{{ logos['logo_b'] }}" class="logo">
+                        <img src="{{ url_for('static', filename='images/logos/' ~ logos['logo_b']) }}" class="logo">
                     </div>
                     <div style="clear: both;"></div>
                 </div>

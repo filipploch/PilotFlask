@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/table_animation.css">
+    <style>
+        @keyframes slideIn {
+            0% {
+                transform: translateX(120%);
+            }
+
+            5% {
+                transform: translateX(0);
+            }
+
+            95% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(120%);
+            }
+        }
+
+        body {
+            overflow: hidden;
+        }
+
+        div {
+
+            /* margin-bottom: 10px;
+        padding: 5px; */
+            width: 370px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: transform 1s ease, background-color 0.5s ease;
+            font-family: 'Varela Round', sans-serif;
+            font-size: 40px;
+        }
+
+        .table-div {
+            position: absolute;
+            top: 100px;
+            right: 40px;
+            /* animation: slideIn 20s ease-in-out;
+        animation-fill-mode: both; */
+        }
+
+        .span-container span-container- {
+            /* border: 1px solid #000; */
+            display: inline-block;
+            justify-content: space-between;
+            width: 100%;
+            background: linear-gradient(to top, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+        }
+
+        .shortname {
+            margin: 0;
+            width: 80%;
+            text-align: right;
+            display: inline-block;
+        }
+
+        .points {
+            margin: 0;
+            width: 20%;
+            text-align: center;
+            display: inline-block;
+            font-weight: bold;
+        }
+
+        .invisible {
+            margin: 0;
+            display: none;
+        }
+
+        .green {
+            background-color: #05f205;
+        }
+
+        .red {
+            background-color: #f71b1b;
+        }
+
+        .blue {
+            background-color: #53a4f5;
+        }
+
+        .underline {}
+    </style>
+    <title>Animacja przesuwania divów</title>
+</head>
+
+<body>
+    <script>
+
+
+
+        const listA = [["Warriors", 29, null], ["WKS", 26, null], ["Z\u0142ote Ch\u0142opaki", 19, null], ["\u017bar\u0142acze", 16, null], ["Galactik", 15, null], ["Laga Bonito", 16, true], ["Nowy \u0141ad", 16, true], ["Hattrick", 15, null], ["Popalone Styki", 9, null], ["eNHa II", 8, null], ["Nowohucki KS", 4, null]];
+        const listB = [["Warriors", 29, null], ["WKS", 26, null], ["Z\u0142ote Ch\u0142opaki", 19, null], ["\u017bar\u0142acze", 16, null], ["Galactik", 15, null], ["Nowy \u0141ad", 19, true], ["Laga Bonito", 16, true], ["Hattrick", 15, null], ["Popalone Styki", 9, null], ["eNHa II", 8, null], ["Nowohucki KS", 4, null]];
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const container = document.createElement("div");
+            container.classList.add("table-div")
+
+            function createDivsFromList(list) {
+                list.forEach((item, subIndex) => {
+                    const div = document.createElement("div");
+                    const spanContainer = document.createElement("div");
+                    spanContainer.classList.add(`span-container span-container-${subIndex}`);
+
+                    item.forEach((subItem, subIndex) => {
+                        const span = document.createElement("span");
+                        span.textContent = subItem;
+                        // Add classes for styling
+                        if (subIndex === 0) {
+                            span.classList.add('is-promo');
+                        } else if (subIndex === 1) {
+                            span.classList.add('shortname');
+                        } else if (subIndex === 2) {
+                            span.classList.add('points');
+                        } else if (subIndex === 3) {
+                            span.classList.add('invisible');
+                        }
+                        spanContainer.appendChild(span);
+                    });
+
+                    div.appendChild(spanContainer);
+                    console.log(item[3]);
+                    if (item[3] === true) {
+                        div.classList.add('blue');
+                    }
+                    // Add class for styling based on the initial position
+                    div.classList.add(`table-item-${subIndex}`);
+                    div.classList.add('initial');
+                    container.appendChild(div);
+                });
+            }
+
+            createDivsFromList(listA);
+
+            setTimeout(() => {
+                const divs = Array.from(container.children);
+
+                listB.forEach((itemB, indexB) => {
+                    const indexA = listA.findIndex(itemA => itemA[0] === itemB[0]);
+
+                    const divToChange = divs[indexA];
+                    divToChange.querySelector('.points').textContent = itemB[2];
+                    if (indexA !== -1 && indexA !== indexB) {
+                        const translateY = (indexB - indexA) * (divToChange.offsetHeight);
+                        divToChange.style.transform = `translateY(${translateY}px)`;
+                        divToChange.style.setProperty('transform', `translateY(${translateY}px)`, 'important');
+                        console.log(indexA, indexB)
+                        // Add class for styling based on the final position
+                        if (indexB < indexA) {
+                            divToChange.classList.add('green');
+                            divToChange.classList.remove('red');
+                            divToChange.classList.remove('blue');
+                        } else if (indexB > indexA) {
+                            divToChange.classList.add('red');
+                            divToChange.classList.remove('green');
+                            divToChange.classList.remove('blue');
+                        } else {
+                            divToChange.classList.remove('red');
+                            divToChange.classList.remove('green');
+                            divToChange.classList.add('blue')
+                        }
+                    }
+                });
+            }, 12000);
+
+            document.body.appendChild(container);
+        });
+    </script>
+
+    <div class="table-div">
+        <div class="table-item-0 initial">
+            <div class="span-container span-container-0"><span class="shortname">Warriors</span><span class="points">29</span><span
+                    class="invisible"></span></div>
+        </div>
+        <div class="table-item-1 initial">
+            <div class="span-container span-container-1"><span class="shortname">WKS</span><span class="points">26</span><span
+                    class="invisible"></span></div>
+        </div>
+        <div class="table-item-2 initial">
+            <div class="span-container span-container-2"><span class="shortname">Złote Chłopaki</span><span class="points">19</span><span
+                    class="invisible"></span></div>
+        </div>
+        <div class="table-item-3 initial">
+            <div class="span-container span-container-3"><span class="shortname">Żarłacze</span><span class="points">16</span><span
+                    class="invisible"></span></div>
+        </div>
+        <div class="table-item-4 initial">
+            <div class="span-container span-container-4"><span class="shortname">Galactik</span><span class="points">15</span><span
+                    class="invisible"></span></div>
+        </div>
+        <div class="table-item-5 initial red" style="transform: translateY(49px) !important;">
+            <div class="span-container span-container-5"><span class="shortname">Laga Bonito</span><span class="points">16</span><span
+                    class="invisible">true</span></div>
+        </div>
+        <div class="table-item-6 initial green" style="transform: translateY(-49px) !important;">
+            <div class="span-container span-container-6"><span class="shortname">Nowy Ład</span><span class="points">19</span><span
+                    class="invisible">true</span></div>
+        </div>
+        <div class="table-item-7 initial">
+            <div class="span-container span-container-7"><span class="shortname">Hattrick</span><span class="points">15</span><span
+                    class="invisible"></span></div>
+        </div>
+        <div class="table-item-8 initial">
+            <div class="span-container span-container-8"><span class="shortname">Popalone Styki</span><span class="points">9</span><span
+                    class="invisible"></span></div>
+        </div>
+        <div class="table-item-9 initial">
+            <div class="span-container span-container-9"><span class="shortname">eNHa II</span><span class="points">8</span><span
+                    class="invisible"></span></div>
+        </div>
+        <div class="table-item-10 initial">
+            <div class="span-container span-container-10"><span class="shortname">Nowohucki KS</span><span class="points">4</span><span
+                    class="invisible"></span></div>
+        </div>
+    </div>
+</body>
+
+</html>

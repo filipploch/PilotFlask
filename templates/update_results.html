@@ -6,7 +6,7 @@
 
 {% block content %}
     <span>Mecze dywizji </span><span id="division">{{ division }}</span>
-  <div class="table-responsive">
+  <div class="table-responsive" id="sidebar-body">
   <table class="table">
         <thead>
             <tr>
@@ -27,17 +27,24 @@
                     <td><input type="checkbox"
                                id="actual_{{ entry.id }}"
                                value="{{ 1 if checked else 0 }}"
+                               onchange="saveResult('{{ entry.id }}')"
                                {% if entry.actual %}
                                 checked="True"
                                 {% endif %}></td>
                     <td>{{ entry.id }}</td>
                     <td>{{ entry.date }}</td>
-                    <td>{{ entry.teams[0] }}</td>
-                    <td><input type="number" id="result_home_{{ entry.id }}" value="{{ entry.result[0] if entry.result[1] else '' }}"></td>
-                    <td><input type="number" id="result_away_{{ entry.id }}" value="{{ entry.result[1] if entry.result[1] else '' }}"></td>
-                    <td>{{ entry.teams[1] }}</td>
+                    <td class="team-a-name">{{ entry.teams[0] }}</td>
+                    <td><input type="number"
+                               id="result_home_{{ entry.id }}"
+                               onchange="saveResult('{{ entry.id }}')"
+                               value="{{ entry.result[0] if entry.result|length > 1 else '' }}">
+                    </td>
+                    <td><input type="number"
+                               id="result_away_{{ entry.id }}"
+                               onchange="saveResult('{{ entry.id }}')"
+                               value="{{ entry.result[1] if entry.result|length > 1 else '' }}"></td>
+                    <td class="team-b-name">{{ entry.teams[1] }}</td>
                     <td><button onclick="clearResult('{{ entry.id }}')">Wyczyść</button></td>
-                    <td><button onclick="saveResult('{{ entry.id }}')">Zapisz</button></td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -45,135 +52,11 @@
   </div>
 
   <div>
-      <button onclick="generateBaseTable('parametr')">Generuj Base Table</button>
-      <button onclick="generateVirtualTable('inny_parametr')">Generuj Virtual Table</button>
+      <!-- <button onclick="generateBaseTable('parametr')">Generuj Base Table</button> -->
+      <!-- <button onclick="generateVirtualTable('inny_parametr')">Generuj Virtual Table</button> -->
   </div>
 {% endblock %}
 
 {% block footer_script %}
-    <script>
-    async function clearResult(matchId) {
-        var number1 = '';
-        var number2 = '';
-        var division = document.getElementById('division').innerText;
-        var isChecked = document.getElementById('actual_' + matchId).checked;
-
-        // Wysyłamy żądanie POST
-        const response = await fetch(`/save-result/${division}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                id: matchId,
-                result_home: number1,
-                result_away: number2,
-                actual: false
-            }),
-        });
-
-        // Sprawdzamy, czy żądanie było udane (status 200)
-        if (response.ok) {
-            // Odświeżamy stronę po pomyślnym zapisie
-            location.reload();
-        } else {
-            console.error('Wystąpił błąd podczas zapisywania wyników.');
-        }
-    }
-
-    async function saveResult(matchId) {
-        var number1 = document.getElementById('result_home_' + matchId).value;
-        var number2 = document.getElementById('result_away_' + matchId).value;
-        var division = document.getElementById('division').innerText;
-        var isChecked = document.getElementById('actual_' + matchId).checked;
-
-
-        // Wysyłamy żądanie POST
-        const response = await fetch(`/save-result/${division}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                id: matchId,
-                result_home: number1,
-                result_away: number2,
-                actual: isChecked
-            }),
-        });
-
-        // Sprawdzamy, czy żądanie było udane (status 200)
-        if (response.ok) {
-            // Odświeżamy stronę po pomyślnym zapisie
-            location.reload();
-        } else {
-            console.error('Wystąpił błąd podczas zapisywania wyników.');
-        }
-    }
-
-
-    function generateBaseTable() {
-        // Pobierz wartość division ze span o id="division"
-        var division = document.getElementById('division').innerText;
-
-        // Zbierz zaznaczone elementy <tr>
-        var selectedRows = document.querySelectorAll('input[type="checkbox"]:checked');
-
-        // Przygotuj tablicę do przechowywania danych
-        var selectedData = [];
-
-        // Iteruj przez zaznaczone wiersze i zbieraj dane
-        selectedRows.forEach(function (row) {
-            var teams0 = row.closest('tr').querySelectorAll('td')[3].innerText; // 4. element <td>
-            var teams1 = row.closest('tr').querySelectorAll('td')[6].innerText; // 7. element <td>
-            selectedData.push(teams0, teams1);
-        });
-
-        // Oto twoja lista z wybranymi elementami entry.teams[0] i entry.teams[1]
-        console.log(selectedData);
-
-        // Wysyłasz zapytanie do serwera (np. za pomocą AJAX) z parametrem division i danymi
-        fetch(`/generate_base_table/${division}`, {
-            method: 'POST', // Użyj metody POST, aby przesłać dane w ciele zapytania
-            headers: {
-                'Content-Type': 'application/json'
-                // Możesz dodać inne nagłówki, jeśli są potrzebne
-            },
-            body: JSON.stringify(selectedData) // Przekaż dane jako ciało zapytania
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Odpowiedź od serwera (możesz coś z nią zrobić, np. wyświetlić komunikat)
-            console.log(data);
-        })
-        .catch(error => {
-            // Obsługa błędu (możesz wyświetlić komunikat o błędzie)
-            console.error('Błąd podczas generowania Base Table:', error);
-        });
-    }
-
-
-    function generateVirtualTable() {
-        // Pobierz wartość division ze span o id="division"
-        var division = document.getElementById('division').innerText;
-
-        // Wysyłasz zapytanie do serwera (np. za pomocą AJAX) z parametrem division
-        fetch(`/generate_virtual_table/${division}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-                // Możesz dodać inne nagłówki, jeśli są potrzebne
-            },
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Odpowiedź od serwera (możesz coś z nią zrobić, np. wyświetlić komunikat)
-            console.log(data);
-        })
-        .catch(error => {
-            // Obsługa błędu (możesz wyświetlić komunikat o błędzie)
-            console.error('Błąd podczas generowania Base Table:', error);
-        });
-    }
-    </script>
+    <script src="{{ url_for('static', filename='js/virtualtable.js') }}"></script>
 {% endblock %}

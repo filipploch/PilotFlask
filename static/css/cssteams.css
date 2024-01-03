@@ -1,7 +1,6 @@
 body
 {
-	font-family: 'Lato', sans-serif;
-	overflow: hidden;
+
 	color: #00004f;
 
 }
@@ -59,23 +58,7 @@ table.strikersb{
 
 
 
-#top_bar
-{
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	image-width: 1920px;
-	font-size: 45px;
-    text-shadow: 0px 0px 10px darkgray;
-	font-weight: 900;
-}
 
-#bottom_bar
-{
-	position: absolute;
-	bottom: 0px;
-	left: 0px;
-}
 
 .team_logo{
 	top: 150px;	
@@ -106,18 +89,6 @@ table.strikersb{
 }
 
 
-#img_bottom
-{
-	position: absolute;
-	bottom: 0px;
-}
-
-#img_top
-{
-	width: 1920px;
-	padding: 0;
-}
-
 .logo
 {
 	width: 350px;
@@ -144,7 +115,7 @@ table.strikersb{
 }
 
 #score_bar{
-	font-size: 80px;
+	font-size: 90px;
     text-shadow: 0px 0px 45px lightgray;
 	text-align: center;
 }
@@ -183,19 +154,6 @@ table.strikersb{
 	float: left;
 }
 
-#league
-{
-	position: absolute;
-	left: 200px;
-	top: 7px;
-}
-
-#division
-{
-	position: absolute;
-	left: 200px;
-	top: 50px;
-}
 
 #strikers
 {

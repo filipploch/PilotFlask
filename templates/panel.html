@@ -5,15 +5,51 @@
 	<title>Stoper</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
 	<style>
 		body {
-			height: 350px;
-			width: 340px;
+			height: 250px;
+			width: 585px;
 			border: 1px solid black;
+			margin: 1px;
+			padding: 0;
+			background-color: #2b2e38;
+			font-family: 'Varela Round', sans-serif;
+			overflow: hidden;
+		}
+
+		a {
+			text-decoration: none;
+		}
+
+		a:link, a:visited {
+			color: white;
+		}
+
+		a:hover {
+			color: rgb(255, 112, 112);
+		}
+
+		.center-text {
+			text-align: center;
 		}
 
 		button {
 			font-size: 11px;
+		}
+
+		#menu-sidebar {
+			float: left;
+			padding-left: 5px;
+		}
+
+		#league-buttons {
+			float: left;
+		}
+
+		#match-buttons {
+			float: left;
+			padding-left: 2px;
 		}
 
 		#controller {
@@ -27,7 +63,7 @@
 		}
 
 		#section-timer {
-			padding-bottom: 5px;
+			padding: 0 13px 8px 13px;
 			text-align: center;
 			margin: auto;
 		}
@@ -39,10 +75,12 @@
 
 		#sidebar {
 			float: left;
-			background-color: #c5c5c5;
-			width: 170px;
+			background-color: #505050;
+			color: white;
+			width: 263px;
 			height: 100%;
 			overflow: auto;
+			padding-left: 9px;
 		}
 
 		#sidebar-body li {
@@ -61,7 +99,7 @@
 		}
 
 		#sidebar-body {
-			font-size: 10px;
+			font-size: 14px;
 		}
 
 		.small-button {
@@ -155,11 +193,12 @@
 		.team-short-name {
 			font-size: 25px;
 			text-align: center;
+			color: white;
 		}
 
 		.team-button {
 			/* display: block; */
-			width: 60px;
+			width: 65px;
 			border: 1px solid gray;
 			background-color: #a0a0a0;
 			color: black;
@@ -177,6 +216,26 @@
 
 		.pause {
 			animation: pulse 500ms infinite;
+		}
+
+		th.invisible, td.invisible {
+			visibility: hidden;
+			width: 0;
+			padding: 0;
+			font-size: 0;
+		}
+
+		.score-td {
+			width: 40px;
+		}
+
+		.team-result{
+			width: 35px;
+		}
+
+		.menu-description {
+			color: white;
+			text-align: center;
 		}
 
 		@keyframes pulse {
@@ -197,7 +256,6 @@
 <body>
 	<div id="controller">
 		<div id="section-timer">
-			<input type="checkbox" id="countdown-timer" name="countdown-timer" checked><br>
 			<div class="timer">
 				<div id="timer-min-setting">
 					<button class="small-button" id="add-min-btn">+</button>
@@ -214,6 +272,7 @@
 			<button id="reset-btn">Reset</button>
 
 		</div>
+		
 		<button id="changeSideBtn" onclick="changeSide()">
 			<<>>
 		</button><br>
@@ -276,12 +335,12 @@
 				<button class="small-button action-button">T</button>
 				<button class="small-button action-button" onclick="getSquad('teama', 4)">S</button>
 				<div class="team-short-name" id="team-b-short-name">{{ matchdata.teamb.short_name }}</div>
-				<button class="team-button" onclick="getSquad('teamb', 0)">Skład</button>
-				<button class="team-button" onclick="getMatchData('teamb')">Popraw</button>
+				<button class="team-button" href="#"  onclick="getSquad('teamb', 0)">Skład</button>
+				<button class="team-button" href="#"  onclick="getMatchData('teamb')">Popraw</button>
 			</div>
 		</div>
-		<div id="bottom">
-			<button class="team-button" onclick="loadFiles()">Powtórki</button>
+		<div id="bottom"><br>
+
 		</div>
 	</div>
 	<div id="sidebar">
@@ -296,14 +355,46 @@
 
 		<div id="sidebar-footer"></div>
 	</div>
+	<div id=menu-sidebar>
+		<div id="countdown-timer-div">
+			<input type="checkbox" id="countdown-timer" name="countdown-timer" checked><br>
+		</div>
+		<div id="menu-buttons">
+			<button class="team-button" onclick="loadFiles()">Powtórki</button>
+			<button class="team-button" onclick="loadContent('get_replays', 'sidebar')">Powtórki</button><br>
+			<div class="menu-description">Pobierz wyniki</div>
+			<button class="team-button" onclick="scrapeMatches(34)">Dyw. A</button>
+			<button class="team-button" onclick="scrapeMatches(52)">Dyw. B</button><br>
+			<div class="menu-description">Wyświetl wyniki</div>
+			<button class="team-button" onclick="loadContent('/show-matches-by-date/controller/', 'sidebar', 'a')">Dyw. A</button>
+			<button class="team-button" onclick="loadContent('/show-matches-by-date/controller/', 'sidebar', 'b')">Dyw. B</button><br>
+		</div>
+	</div>
+
+	<script src="{{ url_for('static', filename='js/timer.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/virtualtable.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/load-content.js') }}"></script>
 	<script>
-		var timerElement = document.getElementById("timer-display");
-		var countdownTimer = document.getElementById('countdown-timer');
-		var startButton = document.getElementById('start-btn');
-		var pauseButton = document.getElementById('pause-btn');
-		var intervalID;
-		var elapsedTime;
-		var timeLimit;
+		
+
+		// function loadContent(endpoint, optionalArg) {
+		// 	// Sprawdź, czy optionalArg został przekazany
+		// 	if (typeof optionalArg !== 'undefined') {
+		// 		console.log('Opcjonalny argument:', optionalArg);
+		// 		endpoint = endpoint + optionalArg;
+		// 		// Tutaj możesz dostosować zachowanie funkcji w zależności od optionalArg
+		// 	}
+
+		// 	// Wyślij żądanie na serwer Flask po kliknięciu przycisku
+		// 	fetch(endpoint)
+		// 		.then(response => response.json())
+		// 		.then(data => {
+		// 			// Zaktualizuj zawartość diva id="second"
+		// 			document.getElementById('sidebar').innerHTML = data.content;
+		// 		})
+		// 		.catch(error => console.error('Błąd:', error));
+		// }
+
 		
 		function fetchDataFromAPI() {
 			var url = 'matchdata'; // Zastąp to odpowiednim adresem URL Twojego API
@@ -338,134 +429,7 @@
 		});
 
 
-		function pad(num) {
-			return ("0" + parseInt(num)).substr(-2);
-		}
 
-		function saveTime(elapsedTime) {
-			fetch('/update-time', {
-				method: 'POST',
-				headers: {
-				'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({ 'seconds': elapsedTime }),
-			})
-				.then(response => {
-				if (response.ok) {
-					console.log('Czas zapisany w bazie danych.');
-				} else {
-					console.error('Wystąpił błąd podczas zapisywania czasu w bazie danych.');
-				}
-				})
-				.catch(error => {
-				console.error('Wystąpił błąd podczas komunikacji z serwerem:', error);
-				});
-			}
-
-
-		function runTimer() {
-			elapsedTime += 1;
-			if(elapsedTime === 1){
-				saveTime(elapsedTime);
-			} else if(elapsedTime % 10 === 0){
-				// console.log(elapsedTime);
-				saveTime(elapsedTime);
-			}
-			updateTimer();
-		}
-
-		function updateTimer() {
-			if (elapsedTime <= timeLimit) {
-				if (countdownTimer.checked) {
-					var minutes = Math.floor((timeLimit - elapsedTime) / 60);
-					var seconds = Math.floor((timeLimit - elapsedTime) % 60);
-
-				} else {
-					var minutes = Math.floor(elapsedTime / 60)
-					var seconds = Math.floor(elapsedTime % 60);
-				}
-				timerElement.innerHTML = pad(minutes) + ":" + pad(seconds);
-			}
-		}
-
-		function startTimer() {
-			intervalID = setInterval(runTimer, 1000);
-			saveTime(elapsedTime);
-			timerElement.className = "start"
-			timerElement.style.backgroundColor = "#63fa11";
-			pauseButton.disabled = false;
-			startButton.disabled = true;
-		}
-
-		function pauseTimer() {
-			clearInterval(intervalID);
-			saveTime(elapsedTime);
-			timerElement.className = "pause"
-			timerElement.style.backgroundColor = "#f73434";
-			startButton.disabled = false;
-			pauseButton.disabled = true;
-		}
-		
-		function resetTimer() {
-			clearInterval(intervalID);
-			elapsedTime = 0;
-			saveTime(elapsedTime);
-			updateTimer();
-			timerElement.className = "reset"
-			timerElement.style.backgroundColor = "#b5b5b5";
-		}
-
-		function addSeconds() {
-			if (countdownTimer.checked && elapsedTime > 0) {
-				elapsedTime -= 1;
-				updateTimer();
-			} else if (countdownTimer.checked == false && elapsedTime < timeLimit) {
-				elapsedTime += 1;
-				updateTimer();
-			}
-			saveTime(elapsedTime);
-		}
-
-		function addMinutes() {
-			if (countdownTimer.checked && elapsedTime > 60) {
-				elapsedTime -= 60;
-				updateTimer();
-			} else if (countdownTimer.checked == false && elapsedTime < timeLimit - 60) {
-				elapsedTime += 60;
-				updateTimer();
-			}
-			saveTime(elapsedTime);
-		}
-
-		function subSeconds() {
-			if (countdownTimer.checked && elapsedTime < timeLimit) {
-				elapsedTime += 1;
-				updateTimer();
-			} else if (countdownTimer.checked == false && elapsedTime > 0) {
-				elapsedTime -= 1;
-				updateTimer();
-			}
-			saveTime(elapsedTime);
-		}
-
-		function subMinutes() {
-			if (countdownTimer.checked && elapsedTime < timeLimit - 60) {
-				elapsedTime += 60;
-				updateTimer();
-			} else if (countdownTimer.checked == false && elapsedTime > 60) {
-				elapsedTime -= 60;
-				updateTimer();
-			}
-			saveTime(elapsedTime);
-		}
-
-		document.getElementById("start-btn").addEventListener("click", startTimer);
-		document.getElementById("pause-btn").addEventListener("click", pauseTimer);
-		document.getElementById("reset-btn").addEventListener("click", resetTimer);
-		document.getElementById("add-sec-btn").addEventListener("click", addSeconds);
-		document.getElementById("add-min-btn").addEventListener("click", addMinutes);
-		document.getElementById("sub-sec-btn").addEventListener("click", subSeconds);
-		document.getElementById("sub-min-btn").addEventListener("click", subMinutes);
 
 
 		function changeSide() {
@@ -748,7 +712,6 @@ function editData(dataId) {
             sidebarBodyDiv.appendChild(playerSelect);
 			sidebarBodyDiv.appendChild(timeInputSpan);
 			sidebarBodyDiv.appendChild(saveButton);
-			console.log('poszlo')
         })
         .catch(error => {
             console.error('Error fetching data:', error);
@@ -886,6 +849,98 @@ function editData(dataId) {
                     clearSidebar();
                 });
         }
+
+        function scrapeMatches(matchId) {
+			clearSidebar();
+            fetch(`/scrape-matches/${matchId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const message = data.message;
+                    const sidebarHeader = document.getElementById('sidebar-head');
+            		sidebarHeader.innerHTML = `<span>${message}</span>`;
+					const cancelButton = document.createElement('button');
+            		cancelButton.textContent = 'Zamknij';
+            		cancelButton.addEventListener('click', () => {clearSidebar();});
+            		cancelButton.setAttribute('id', 'sidebar-cancel-button');
+            		sidebarFooter = document.getElementById('sidebar-footer');
+		            sidebarFooter.appendChild(cancelButton);
+                });
+        }
+
+	// function loadMatches(division) {
+	// 	console.log('poszło', division);
+    // clearSidebar();
+    // fetch(`/show-matches-by-date/controller/${division}`)
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         console.log('loadMatches data', data);
+    //         const division = data.division;
+    //         const sidebarHeader = document.getElementById('sidebar-head');
+    //         sidebarHeader.innerHTML = '<span>Mecze dywizji </span><span id="division">${division}</span>';
+    //         const divisionSpan = document.getElementById('division');
+    //         divisionSpan.textContent = division;
+    //         const fileListElement = document.getElementById('lista-elementow');
+    //         fileListElement.innerHTML = '<table><tbody>';
+
+    //         data.data.forEach(dta => {
+    //             // Utwórz nowy wiersz (tr)
+    //             var row = document.createElement('tr');
+
+    //             // Dodaj komórkę do wiersza
+    //             fileListElement.appendChild(row);
+
+    //             // Dodaj komórkę z checkboxem
+    //             var tdCheckboxContainer = document.createElement('td');
+    //             tdCheckboxContainer.id = `checkboxContainer_${dta.id}`;
+    //             var checkbox = document.createElement('input');
+	// 			var actual = dta.actual;
+	// 			var date = dta.date;
+    //             checkbox.type = 'checkbox';
+    //             checkbox.id = `actual_${dta.id}`;
+    //             // checkbox.checked = dta.actual; // Zaznacz checkbox, jeśli 'actual' jest true
+    //             tdCheckboxContainer.appendChild(checkbox);
+    //             row.appendChild(tdCheckboxContainer);
+
+    //             // Dodaj pozostałe komórki do wiersza
+    //             row.innerHTML += `<td>${dta.id}</td>\
+    //                 <td>${dta.date}</td>\
+    //                 <td>${dta.teams[0]}</td>\
+    //                 <td><input type="number" class="score-td" id="result_home_${dta.id}" value="${dta.result[0]}"></td>\
+    //                 <td><input type="number" class="score-td" id="result_away_${dta.id}" value="${dta.result[1]}"></td>\
+    //                 <td>${dta.teams[1]}</td>\
+    //                 <td><button onclick="clearResult(${dta.id})">W</button></td>`;
+	// 			setChecked(checkbox.id, actual);
+    //         });
+
+    //         fileListElement.innerHTML += '</tbody></table>';
+
+    //         const generateBaseTableButton = document.createElement('button');
+    //         generateBaseTableButton.textContent = 'Tabela';
+    //         generateBaseTableButton.addEventListener('click', () => {
+    //             generateBaseTable();
+    //         });
+    //         const cancelButton = document.createElement('button');
+    //         cancelButton.textContent = 'Zamknij';
+    //         cancelButton.addEventListener('click', () => {
+    //             clearSidebar();
+    //         });
+    //         cancelButton.setAttribute('id', 'sidebar-cancel-button');
+    //         sidebarFooter = document.getElementById('sidebar-footer');
+	// 		generateBaseTableButton.setAttribute('id', 'generate-table-button');
+    //         sidebarFooter.appendChild(generateBaseTableButton);
+    //         sidebarFooter.appendChild(cancelButton);
+    //     });
+// }
+
+function setChecked(checkboxId, actual) {
+	if (actual == true) {
+		console.log('funkcja', checkboxId, actual);
+        checkbox = document.getElementById(checkboxId);
+		checkbox.setAttribute("checked", "checked");
+    }
+}
+
+
 	</script>
 </body>
 

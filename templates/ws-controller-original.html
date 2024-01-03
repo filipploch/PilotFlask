@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<!--    <link rel="stylesheet" href="{{ url_for('static', filename='css/ws-controller.css') }}">-->
+    <title>Kontroler</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+      background-color: #2b2e38;
+    }
+
+    .row {
+      display: flex;
+      width: calc(100% - 2vw);
+      margin: 0.5vw;
+      
+    }
+
+    .button {
+
+      overflow: hidden;
+      border-radius: 10px;
+      margin: 0.5vw;
+      padding: 0;
+        border: 0.5vw solid black;
+    }
+    .button-small {
+        width: calc(22% - 1vw);
+        height: calc(22% - 1vw);
+        aspect-ratio: 1/1;
+}
+
+    .button-middle {
+        width: calc(45% - 1vw);
+        height: calc(15% - 1vw);
+        /* aspect-ratio: 1/1; */
+    }
+
+    .button-large {
+        width: calc(36% - 1vw);
+        height: calc(36% - 1vw);
+        aspect-ratio: 1/1;
+    }
+
+    .button img {
+      width: 100%;
+      height: 100%;
+      object-fit: scale-down;
+    }
+
+    .button-horizontal {
+        width: calc(39% - 1vw);
+        height: calc(18% - 1vw);
+        aspect-ratio: 2/0.9;
+      overflow: hidden;
+      border-radius: 10px;
+      margin: 0;
+      padding: 0;
+        border: 0.5vw solid
+    }
+
+    #left-buttons {
+        width: 100%;
+        height: 100%;
+    }
+
+    .left-buttons-div{
+        width: calc(16vw);
+        height: calc(18% - 1vw);
+        justify-content: space-between;
+    }
+
+    .button-left{
+        width: 100%;
+        height: 100%;
+        aspect-ratio: 1/1;
+    }
+
+    #btn-var{
+    background-color: blue;}
+    #btn-foul{
+    background-color: orange;}
+    #btn-gk-save{
+    background-color: green;}
+    #btn-missed{
+    background-color: yellow;}
+    #btn-goal{
+    background-color: violet;}
+    #btn-replay{
+    background-color: lightgreen;}
+    #btn-goal-replay{
+    background-color: red;}
+    #btn-boom{
+    background-color: red;}
+    #btn-funny{
+    background-color: yellow;}
+    #btn-stream{
+    background-color: red;}
+    #btn-fuse_stream{
+    background-color: red;}
+  </style>
+</head>
+<body>
+    
+<div class="row">
+    <div id="btn-stream" class="button button-small" disabled>
+        <a href="{{ url_for('obswebsocketpy.start_stop_stream') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/stream.png') }}" alt="STREAM">
+        </a>
+    </div>
+    <div id="btn-foul" class="button button-small">
+        <a href="{{ url_for('obswebsocketpy.replay_sequence', typeofaction='FAUL') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/faul.png') }}" alt="FAUL">
+        </a>
+    </div>
+    <div id="btn-gk-save" class="button button-small">
+        <a href="{{ url_for('obswebsocketpy.replay_sequence', typeofaction='OBRONA') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/obrona.png') }}" alt="OBRONA">
+        </a>
+    </div>
+    <div id="btn-actiona" class="button button-small">
+        <a href="{{ url_for('obswebsocketpy.show_action') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/akcja.png') }}" alt="VIRTUAL A">
+        </a>
+      </div>
+</div>
+<div class="row">
+  <div id="btn-var" class="button button-small">
+      <a href="{{ url_for('obswebsocketpy.replay_sequence', typeofaction='VAR') }}">
+          <img src="{{ url_for('static', filename='images/ws-controller/var.png') }}" alt="VAR">
+      </a>
+  </div>
+
+  <div id="btn-missed" class="button button-small">
+      <a href="{{ url_for('obswebsocketpy.replay_sequence', typeofaction='PUDŁO') }}">
+          <img src="{{ url_for('static', filename='images/ws-controller/pudlo.png') }}" alt="PUDŁO">
+      </a>
+  </div>
+  <div id="btn-goal" class="button button-small">
+      <a href="{{ url_for('obswebsocketpy.replay_sequence', typeofaction='GOL') }}">
+          <img src="{{ url_for('static', filename='images/ws-controller/gol.png') }}" alt="GOL">
+      </a>
+  </div>
+  <div id="btn-banner" class="button button-small">
+    <a href="{{ url_for('obswebsocketpy.show_banner') }}">
+        <img src="{{ url_for('static', filename='images/ws-controller/baner.png') }}" alt="BANER">
+    </a>
+</div>
+</div>
+
+<div class="row">
+
+    <div id="btn-replay" class="button button-middle">
+        <a href="{{ url_for('obswebsocketpy.play_replay_sequence') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/runReplay-horizontal.png') }}" alt="PLAY">
+        </a>
+    </div>
+   
+     <div class="button button-middle" id="btn-goal-replay">
+         <a href="{{ url_for('obswebsocketpy.goal_sequence') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/gol-r-horizontal.png') }}" alt="GOL+R">
+         </a>
+     </div>
+   </div>
+
+<div class="row">
+    <div id="btn-funny" class="button button-small">
+        <a href="{{ url_for('obswebsocketpy.replay_sequence', typeofaction='HAHA') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/hahaha.png') }}" alt="HAHAHA">
+        </a>
+    </div>
+    <div id="btn-boom" class="button button-small">
+        <a href="{{ url_for('obswebsocketpy.replay_sequence', typeofaction='BUM') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/bum.png') }}" alt="BUM">
+        </a>
+    </div>
+</div>
+
+<div class="row">
+
+
+  <div id="btn-team-a-lineup" class="button button-small">
+      <a href="{{ url_for('obswebsocketpy.show_scene', scenename='Skład A') }}">
+          <img src="{{ url_for('static', filename='images/ws-controller/team-a-lineup.png') }}" alt="A">
+      </a>
+  </div>
+  <div id="btn-team-b-lineup" class="button button-small">
+      <a href="{{ url_for('obswebsocketpy.show_scene', scenename='Skład B') }}">
+          <img src="{{ url_for('static', filename='images/ws-controller/team-b-lineup.png') }}" alt="B">
+      </a>
+  </div>
+  <div id="btn-table-a" class="button button-small">
+    <a href="{{ url_for('obswebsocketpy.show_virtual_table', division='a') }}">
+        <img src="{{ url_for('static', filename='images/ws-controller/table_a.png') }}" alt="VIRTUAL A">
+    </a>
+  </div>
+  
+  <div id="btn-table-b" class="button button-small">
+    <a href="{{ url_for('obswebsocketpy.show_virtual_table', division='b') }}">
+        <img src="{{ url_for('static', filename='images/ws-controller/table_b.png') }}" alt="VIRTUAL B">
+    </a>
+  </div>
+</div>
+<script>
+  function activateOnOff() {
+  console.log("ddddd");
+    document.getElementById('btn-stream').removeAttribute('disabled');
+    setTimeout(function() {
+      document.getElementById('btn-stream').setAttribute('disabled', 'true');
+    }, 5000);
+  }
+
+</script>
+</body>
+</html>

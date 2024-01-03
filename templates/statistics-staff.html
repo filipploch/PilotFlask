@@ -1,0 +1,310 @@
+{% extends 'base-staff.html' %}
+
+{% block title %}
+<title>Statystyki {{ data['table-data'][0].team_name }}</title>
+{% endblock %}
+{% block style %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/statistics.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/bc-colors.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/statistics-staff.css')}}">
+{% endblock %}
+
+{% block sitename %}
+{{ data['table-data'][0].team_name }}
+{% endblock %}
+
+{% block content %}
+<div id="screen_content">
+    <div class="invisible" id="this-team">{{ team }}</div>
+    <div class="statsBackground">
+        <div id="stats">
+            <div class="stats-container">
+                <div class="stats-page"><div class="stats-page-title">Tabela, Mecze, Forma Bramki</div>
+                    <div class="stats-tile">
+                        <div class="stats-tile-description">MIEJSCE W TABELI</div>
+                        <div class="stats-tile-value bc-green">{{ data['table-data'][0].rank }}</div>
+                        <div class="stats-tile-content">
+                            <div class="stats-tile-content-row">{{ data['table-data'][0].division }}</div>
+                        </div>
+                    </div>
+
+                    <div class="stats-tile">
+                        <div class="stats-tile-description">MECZE I PUNKTY</div>
+                        <div class="stats-tile-value bc-green">{{ data['table-data'][0].points }}</div>
+                        <div class="stats-tile-content">
+                            <div class="stats-tile-content-row">{{ data['table-data'][0].matches }}
+                                ({{ data['table-data'][0].wins }}-{{ data['table-data'][0].draws }}-{{
+                                data['table-data'][0].losts }})
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stats-tile">
+                        <div class="stats-tile-description">FORMA</div>
+                        <div class="stats-tile-content">
+                            <div class="stats-tile-content-row">
+                                {% for forma in data['table-data'][0].form %}
+                                {% if forma == "W" %}
+                                <span class="form-win form-tile stats-value">W</span>
+                                {% elif forma == "R" %}
+                                <span class="form-draw form-tile stats-value">R</span>
+                                {% elif forma == "P" %}
+                                <span class="form-lost form-tile stats-value">P</span>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stats-tile">
+                        <div class="stats-tile-description">BRAMKI</div>
+                        <div class="stats-tile-content">
+                            <div class="stats-tile-content-row">{{ data['table-data'][0].goals_scored }}-{{
+                                data['table-data'][0].goals_lost }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="stats-page"><div class="stats-page-title">Najwyższe wyniki</div>
+                    {% if data['highest-win'][0]['result'] is not none %}
+                    <div class="stats-tile">
+                        <div class="stats-tile-description">NAJWYŻSZE ZWYCIĘSTWO</div>
+                        <div class="stats-tile-content">
+                            <div class="stats-tile-content-row">{{ data['highest-win'][0].result[0] }}:{{
+                                data['highest-win'][0].result[1] }}
+                            </div>
+                        </div>
+                        <div class="stats-tile-footer">
+                            <div class="stats-tile-footer-text">{{ data['highest-win'][0].teams[1] }} ({{
+                                data['highest-win'][0].date[:-9] }})
+                            </div>
+
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if data['highest-tie'][0]['result'] is not none %}
+                    <div class="stats-tile">
+                        <div class="stats-tile-description">NAJWYŻSZY REMIS</div>
+                        <div class="stats-tile-content">
+                            <div class="stats-tile-content-row">{{ data['highest-tie'][0].result[0] }}:{{
+                                data['highest-tie'][0].result[1] }}
+                            </div>
+                        </div>
+                        <div class="stats-tile-footer">
+                            <div class="stats-tile-footer-text">{{ data['highest-tie'][0].teams[1] }} ({{
+                                data['highest-tie'][0].date[:-9] }})
+                            </div>
+
+                        </div>
+                    </div>
+                    {% else %}
+
+                    {% endif %}
+
+                    {% if data['highest-lost'][0]['result'] is not none %}
+                    <div class="stats-tile">
+                        <div class="stats-tile-description">NAJWYŻSZA PORAŻKA</div>
+                        <div class="stats-tile-content">
+                            <div class="stats-tile-content-row">{{ data['highest-lost'][0].result[0] }}:{{
+                                data['highest-lost'][0].result[1] }}
+                            </div>
+                        </div>
+                        <div class="stats-tile-footer">
+                            <div class="stats-tile-footer-text">{{ data['highest-lost'][0].teams[1] }} ({{
+                                data['highest-lost'][0].date[:-9] }})
+                            </div>
+
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="stats-page"><div class="stats-page-title">Średnie punktów i bramek</div>
+                    {% if data['average-points']%}
+                    <div class="stats-tile">
+                        <div class="stats-tile-description">ŚREDNIA PUNKTÓW NA MECZ</div>
+                        <div class="stats-tile-content">
+                            <div class="stats-tile-content-row">{{ data['average-points'] }}</div>
+                        </div>
+
+                    </div>
+                    {% else %}
+
+                    {% endif %}
+
+                    {% if data['average-scored-goals']%}
+                    <div class="stats-tile">
+                        <div class="stats-tile-description">ŚREDNIA BRAMEK STRZELONYCH</div>
+                        <div class="stats-tile-content">
+                            <div class="stats-tile-content-row">{{ data['average-scored-goals'] }}</div>
+                        </div>
+
+                    </div>
+                    {% else %}
+
+                    {% endif %}
+
+                    {% if data['average-lost-goals']%}
+                    <div class="stats-tile">
+                        <div class="stats-tile-description">ŚREDNIA BRAMEK STRACONYCH</div>
+                        <div class="stats-tile-content">
+                            <div class="stats-tile-content-row">{{ data['average-lost-goals'] }}</div>
+                        </div>
+
+                    </div>
+                    {% else %}
+
+                    {% endif %}
+
+                </div>
+                <div class="stats-page"><div class="stats-page-title">Najlepsi strzelcy itd</div>
+                    {% if data['best-strikers'] %}
+                    <div class="stats-tile">
+                        <div class="stats-tile-description">BRAMKI</div>
+                        <div class="stats-tile-value bc-green">{{ data['best-strikers'][0].goals }}</div>
+                        <div class="stats-tile-content">
+                            {% for player in data['best-strikers'] %}
+                            <div class="stats-tile-content-row">{{player.full_name}}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if data['best-assistants'] %}
+                    <div class="stats-tile">
+                        <div class="stats-tile-description">ASYSTY</div>
+                        <div class="stats-tile-value bc-green">{{ data['best-assistants'][0].goals }}</div>
+                        <div class="stats-tile-content">
+                            {% for player in data['best-assistants'] %}
+                            <div class="stats-tile-content-row">{{player.full_name}}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if data['best-canadians'] %}
+                    <div class="stats-tile">
+                        <div class="stats-tile-description">PUNKTY KANADYJSKIE</div>
+                        <div class="stats-tile-value bc-green">{{ data['best-canadians'][0].goals +
+                            data['best-canadians'][0].assists }}
+                        </div>
+                        <div class="stats-tile-content">
+                            {% for player in data['best-canadians'] %}
+                            <div class="stats-tile-content-row">{{player.full_name}}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="stats-page"><div class="stats-page-title">Najwięcej w 5 kolejki</div>
+                    {% if data['most-best-player'][0].best_player > 0 %}
+                    <div class="stats-tile">
+                        <div class="stats-tile-description">ZAWODNIK KOLEJKI</div>
+                        <div class="stats-tile-value bc-gold-medal">{{ data['most-best-player'][0].best_player }}</div>
+                        <div class="stats-tile-content">
+                            {% for player in data['most-best-player'] %}
+                            <div class="stats-tile-content-row">{{player.full_name}}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if data['most-best-five'][0].best_five > 0 %}
+                    <div class="stats-tile">
+                        <div class="stats-tile-description">PIĄTKA KOLEJKI</div>
+                        <div class="stats-tile-value bc-silver-medal">{{ data['most-best-five'][0].best_five }}</div>
+                        <div class="stats-tile-content">
+                            {% for player in data['most-best-five'] %}
+                            <div class="stats-tile-content-row">{{player.full_name}}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="stats-page"><div class="stats-page-title">Kartki</div>
+                    {% if data['most-yellow-cards'][0].yellow_cards > 0 %}
+                    <div class="stats-tile">
+                        <div class="stats-tile-description">ŻÓŁTE KARTKI</div>
+                        <div class="stats-tile-value bc-yellow">{{ data['most-yellow-cards'][0].yellow_cards }}</div>
+                        <div class="stats-tile-content">
+                            {% for player in data['most-yellow-cards'] %}
+                            <div class="stats-tile-content-row">{{player.full_name}}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if data['most-red-cards'][0].red_cards > 0 %}
+                    <div class="stats-tile">
+                        <div class="stats-tile-description">CZERWONE KARTKI</div>
+                        <div class="stats-tile-value bc-red">{{ data['most-red-cards'][0].red_cards }}</div>
+                        <div class="stats-tile-content">
+                            {% for player in data['most-red-cards'] %}
+                            <div class="stats-tile-content-row">{{player.full_name}}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/load-content.js') }}"></script>
+<script>
+    // Funkcja do sprawdzania zmian w pliku content.txt
+    async function checkForChanges() {
+        try {
+            let currentContent = document.getElementById('stats-container').innerHTML;
+            var _team = document.getElementById('this-team').innerHTML;
+            const response = await fetch(`../static/txt/statistics-${_team}.txt`);
+            const newContent = await response.text();
+
+
+
+            if (newContent.replaceAll(/\s/g,'') !== currentContent.replaceAll(/\s/g,'')) {
+                var statsPage = document.getElementById('stats-page');
+                statsPage.classList.remove('stats-page-in');
+                statsPage.classList.add('stats-page-out');
+                sleep(500).then(() => {
+                    updateContent(newContent);
+                });
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    // Funkcja do aktualizacji treści elementu div
+    function updateContent(newContent) {
+        document.getElementById('stats-container').innerHTML = newContent;
+        currentContent = newContent;
+    }
+
+    async function fetchDataAndRender(statsContent) {
+            try {
+                // Wykonanie żądania do endpointu Flask
+                const response = await fetch(`/render-statistics/${statsContent}`);
+
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        function sleep (time) {
+        return new Promise((resolve) => setTimeout(resolve, time));
+        }
+
+    // Uruchomienie funkcji po załadowaniu strony
+    window.onload = function () {
+        var _team = document.getElementById('this-team').innerHTML;
+        fetchDataAndRender('table');
+        setInterval(checkForChanges, 2000);
+    };
+
+
+</script>
+{% endblock %}
