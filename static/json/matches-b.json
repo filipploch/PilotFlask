@@ -1123,10 +1123,10 @@
       "Hattrick"
     ],
     "result": [
-      "4",
-      "6"
+      4,
+      6
     ],
-    "actual": true,
+    "actual": false,
     "parallel": false,
     "penalty_points": [
       0,

@@ -768,11 +768,23 @@ def update_data(data_id):
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+    
+@controller_blueprint.route('/delete-data/<int:data_id>', methods=['DELETE'])
+def delete_data(data_id):
+    try:
+        data_to_delete = MatchesData.query.get(data_id)
 
-@controller_blueprint.route('/render-content/<content_name>')
-def render_content(content_name):
-    new_content = render_template(f'ws-controller-{content_name}.html')
-    return jsonify({'content': new_content})
+        if data_to_delete:
+            db.session.delete(data_to_delete)
+            db.session.commit()
+
+            return '', 204
+        else:
+            return jsonify({'error': 'Rekord o podanym ID nie istnieje'}), 404
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 
 @settings_blueprint.route('/matches-settings', methods=['GET'])
 def matches_settings():
@@ -1125,6 +1137,38 @@ def show_matches_by_date(target, division):
         return jsonify({'content': new_content})
     return render_template('update_results.html', data=filtered_data, division=division)
 
+@settings_blueprint.route('/edit-match-action/<action_id>')
+def edit_match_action(action_id):
+    _match_data = MatchesData.query.filter_by(id=action_id).first()
+    event = {}
+    _event = {
+        'data_id': _match_data.id,
+        'time': sec_to_secmin(_match_data.time),
+        'action_id': _match_data.action_id,
+        'player_id': _match_data.player_id,
+        'team_id': _match_data.team_id,
+        'match_id': _match_data.match_id
+    }
+    event.update({'event': _event})
+    _match = Match.query.filter_by(id=event['event']['match_id']).first()
+    _teams_ids = {'normal': _match_data.team_id}
+    if int(_match_data.team_id) == int(_match.team_a):
+        _teams_ids.update({'og': _match.team_b})
+    else:
+        _teams_ids.update({'og': _match.team_a})
+    event.update({'teams_ids': _teams_ids})
+    _actions_types = MatchAction.query.all()
+    _actions = {}
+    for _action in _actions_types:
+        _actions.update({_action.id: _action.desc_polish})
+    event.update({'actions': _actions})
+    _players = {'normal': players_schema.dump(Player.query.filter_by(team=_teams_ids['normal']).all()),
+                'og': players_schema.dump(Player.query.filter_by(team=_teams_ids['og']).all())
+                }
+    event.update({'players': _players})
+    new_content = render_template('panel-sidebar-edit-action.html', data=event)
+    return jsonify({'content': new_content})
+
 @settings_blueprint.route('/show-all-matches/<target>/<division>', methods=['GET'])
 def show_all_matches(target, division):
 
@@ -1152,7 +1196,7 @@ def scrape_matches(page_id):
 
     file_generator = JSONFileGenerator(matches)
     file_generator.generate_and_save_file(f'matches-{division}.json')
-    return jsonify({'message': f'Pobrano mecze Dywizji {division.upper()}'})
+    return jsonify({'message': f'Pobrano wyniki Dywizji {division.upper()}'})
 
 @settings_blueprint.route('/save-result/<target>/<division>', methods=['POST'])
 def save_result(target, division):
@@ -1327,6 +1371,7 @@ def _get_higest_results(team_name, division, _type):
 
     return _calculate_highest_result(results, _type)
 
+
 def _calculate_highest_result(_matches, _type):
     for _match in _matches[_type]:
         _match['difference_goals'] = abs(int(_match['result'][0]) - int(_match['result'][1]))
@@ -1350,64 +1395,85 @@ def statistics_staff(team):
     return render_template('statistics-staff.html', data=_data, team=team)
 
 
-
 @obswebsocketpy_blueprint.route('/ws-controller')
 def ws_controller():
-    return render_template('ws-controller.html')
+    return render_template('ws-controller-main.html')
+
+@obswebsocketpy_blueprint.route('/render-content/<content_name>')
+def render_content(content_name):
+    _actual_match = Match.query.filter_by(actual=1).first()
+    _teams = {'teama': Team.query.filter_by(id=_actual_match.team_a).first(),
+              'teamb': Team.query.filter_by(id=_actual_match.team_b).first()}
+    return render_template(f'ws-controller-{content_name}.html', teams=_teams)
 
 @obswebsocketpy_blueprint.route('/showscene/<scenename>')
 def show_scene(scenename):
     obs_ws = current_app.config['obs_ws']
     obs_ws.show_scene(scenename)
-    return redirect(url_for('obswebsocketpy.ws_controller'))
+    return '', 204
+
 
 @obswebsocketpy_blueprint.route('/goal-sequence')
 def goal_sequence():
     obs_ws = current_app.config['obs_ws']
     obs_ws.save_replay_buffer()
-    return redirect(url_for('obswebsocketpy.ws_controller'))
+    return '', 204
+
 
 @obswebsocketpy_blueprint.route('/replay-sequence/<typeofaction>')
 def replay_sequence(typeofaction):
     obs_ws = current_app.config['obs_ws']
     obs_ws.save_replay(typeofaction)
-    return redirect(url_for('obswebsocketpy.ws_controller'))
+    return '', 204
+
 
 @obswebsocketpy_blueprint.route('/play-replay-sequence')
 def play_replay_sequence():
     obs_ws = current_app.config['obs_ws']
     obs_ws.play_replay()
-    return redirect(url_for('obswebsocketpy.ws_controller'))
+    return '', 204
+
 
 @obswebsocketpy_blueprint.route('/start-stop-stream')
 def start_stop_stream():
     obs_ws = current_app.config['obs_ws']
     obs_ws.start_stop_stream()
-    return redirect(url_for('obswebsocketpy.ws_controller'))
+    return '', 204
+
 
 @obswebsocketpy_blueprint.route('/start-stream')
 def start_stream():
     obs_ws = current_app.config['obs_ws']
     obs_ws.start_stream_cascade()
-    return redirect(url_for('obswebsocketpy.ws_controller'))
+    _status = obs_ws.get_stream_status()
+    return _status
+
+
+@obswebsocketpy_blueprint.route('/get-stream-status')
+def get_stream_status():
+    obs_ws = current_app.config['obs_ws']
+    _status = obs_ws.get_stream_status()
+    return _status
+
 
 @obswebsocketpy_blueprint.route('/stop-stream')
 def stop_stream():
     obs_ws = current_app.config['obs_ws']
     obs_ws.stop_stream_cascade()
-    return redirect(url_for('obswebsocketpy.ws_controller'))
+    return '', 204
+
 
 @obswebsocketpy_blueprint.route('/showbanner')
 def show_banner():
     obs_ws = current_app.config['obs_ws']
     obs_ws.show_banner()
-    return redirect(url_for('obswebsocketpy.ws_controller'))
+    return '', 204
 
 @obswebsocketpy_blueprint.route('/showaction')
 def show_action():
     obs_ws = current_app.config['obs_ws']
     obs_ws.show_action()
-    return redirect(url_for('obswebsocketpy.ws_controller'))
+    return '', 204
 
 @obswebsocketpy_blueprint.route('/showvirtualtable/<division>')
 def show_virtual_table(division):

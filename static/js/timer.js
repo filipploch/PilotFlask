@@ -5,6 +5,7 @@
 		var intervalID;
 		var elapsedTime;
 		var timeLimit;
+
 		function pad(num) {
 			return ("0" + parseInt(num)).substr(-2);
 		}
@@ -80,6 +81,8 @@
 			updateTimer();
 			timerElement.className = "reset"
 			timerElement.style.backgroundColor = "#b5b5b5";
+            startButton.disabled = false;
+			pauseButton.disabled = false;
 		}
 
 		function addSeconds() {

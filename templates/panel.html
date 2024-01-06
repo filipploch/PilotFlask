@@ -79,7 +79,8 @@
 			color: white;
 			width: 263px;
 			height: 100%;
-			overflow: auto;
+			overflow-y: auto;
+			overflow-x: hidden;
 			padding-left: 9px;
 		}
 
@@ -116,6 +117,14 @@
 		.action-button {
 			display: inline-block;
 			margin-top: 5px;
+		}
+
+		#action_id {
+			display: none;
+		}
+
+		.invisible {
+			display: none;
 		}
 
 		.red-card-button {
@@ -374,7 +383,9 @@
 	<script src="{{ url_for('static', filename='js/timer.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/virtualtable.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/load-content.js') }}"></script>
-	<script>
+	<script src="{{ url_for('static', filename='js/update-data.js') }}"></script>
+</body>
+<script>
 		
 
 		// function loadContent(endpoint, optionalArg) {
@@ -597,6 +608,7 @@
 				.then(response => response.json())
 				.then(data => {
 					// Po otrzymaniu danych, wygeneruj listę elementów
+					console.log(data);
 					document.getElementById('sidebar-head').innerHTML = data[0];
 					prepareMatchData(data[1]);
 				})
@@ -643,7 +655,7 @@
 
 				// Dodaj obsługę zdarzenia kliknięcia elementu
 				wiersz.addEventListener('click', () => {
-					editData(element['data_id']);
+					loadContent('/edit-match-action/', 'sidebar', element['data_id']);
 					clearSidebar();
 				});
 					wiersz.appendChild(dataId);
@@ -719,7 +731,7 @@ function editData(dataId) {
 }
 
 		function updatePlayerDropdown(selectElement, players) {
-			// Wyczyść istniejące opcje
+			// Wyczyść istniejące opcjedata
 			selectElement.innerHTML = '';
 
 			// Dodaj nowe opcje
@@ -733,7 +745,7 @@ function editData(dataId) {
 
 
 		function createTimeInputSpan(selectedMinutes, selectedSeconds) {
-			const spanElement = document.createElement('span');
+			const spanElement = document.createElement('div');
 			
 			// Utwórz pole input dla minut wewnątrz span
 			const minutesInput = document.createElement('input');
@@ -940,8 +952,12 @@ function setChecked(checkboxId, actual) {
     }
 }
 
+    window.onload = function () {
+        updateTimer();
+    	console.log('omniomniom');
+    };
+
 
 	</script>
-</body>
 
 </html>

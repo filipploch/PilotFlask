@@ -2,6 +2,10 @@ main {
  font-size: 35px; 
 }
 
+table {
+  width: 100%;
+}
+
 .btn {
   font-size: 50px;
 }

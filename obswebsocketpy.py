@@ -129,6 +129,10 @@ class OBSWebsocket:
     def stop_stream(self):
         self.ws.call(requests.StopStream())
 
+    def get_stream_status(self):
+        _status = self.ws.call(requests.GetStreamStatus()).datain
+        return _status
+
     def start_replay_buffer(self):
         self.ws.call(requests.StartReplayBuffer())
 

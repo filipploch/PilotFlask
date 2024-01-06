@@ -1,3 +1,38 @@
+{% extends 'base-ws-controller.html' %}
+
+{% block content %}
+
+<div class="radio-buttons" style="color: white;">
+    <div class="radiobutton-div">
+
+        <label for="option1" onclick="sendRequest(document.getElementById('option1').getAttribute('data-url'))">
+            {{ teams['teama'].short_name }}
+        </label>
+        <input
+            type="radio" 
+            id="option1" 
+            name="options" 
+            class="radio-button"
+            data-url="{{ url_for('obswebsocketpy.show_scene', scenename='STATYSTYKI_A') }}"
+            onchange="sendRequest(this.getAttribute('data-url'))"
+        >
+
+    </div>
+  
+    <div class="radiobutton-div"`>
+        <input
+            type="radio" 
+            id="option1" 
+            name="options" 
+            class="radio-button"
+            data-url="{{ url_for('obswebsocketpy.show_scene', scenename='STATYSTYKI_B') }}"
+            onchange="sendRequest(this.getAttribute('data-url'))"
+        >
+        <label for="option2">
+            {{ teams['teamb'].short_name }}
+        </label>
+    </div>
+</div>
 <div class="team-stats-buttons-container">
     <button class="stats-button" onclick="fetchDataAndRender('table')">Tabela, Mecze, Forma Bramki</button><br>
     <button class="stats-button" onclick="fetchDataAndRender('results')">Najwyższe wyniki</button><br>
@@ -6,3 +41,9 @@
     <button class="stats-button" onclick="fetchDataAndRender('best5')">Najwięcej w 5 kolejki</button><br>
     <button class="stats-button" onclick="fetchDataAndRender('cards')">Kartki</button><br>
 </div>
+
+{% endblock %}
+
+{% block footer_script %}
+
+{% endblock %}

@@ -1,37 +1,64 @@
 <div class="stats-page-in" id="stats-page">
     
     <div class="stats-tile">
+        <div class="stats-tile-description">MIEJSCE W TABELI</div>
+        <div class="stats-tile-value bc-green">6</div>
+        <div class="stats-tile-content">
+            <div class="stats-tile-content-row">Dywizja B</div>
+        </div>
+    </div>   
+
+    <div class="stats-tile">
+        <div class="stats-tile-description">MECZE I PUNKTY</div>
+        <div class="stats-tile-value bc-green">18</div>
+        <div class="stats-tile-content">
+            <div class="stats-tile-content-row">12
+            (6-0-6)
+            </div>
+        </div>
+    </div>
+
+    <div class="stats-tile">
+        <div class="stats-tile-description">FORMA</div>
+        <div class="stats-tile-content">
+            <div class="stats-tile-content-row">
+                
+                
+                <span class="form-win form-tile stats-value">W</span>
+                
+                
+                
+                
+                
+                <span class="form-win form-tile stats-value">W</span>
+                
+                
+                
+                
+                
+                <span class="form-win form-tile stats-value">W</span>
+                
+                
+                
+                
+                
+                <span class="form-win form-tile stats-value">W</span>
+                
+                
+                
+                
+                
+                <span class="form-win form-tile stats-value">W</span>
+                
+                
+            </div>
+        </div>
+    </div> 
+    
+    <div class="stats-tile">
         <div class="stats-tile-description">BRAMKI</div>
-        <div class="stats-tile-value bc-green">12</div>
         <div class="stats-tile-content">
-            
-            <div class="stats-tile-content-row">Kasprzyk Kacper</div>
-            
+            <div class="stats-tile-content-row">53-53</div>
         </div>
     </div>
-                    
-
-    
-    <div class="stats-tile">
-        <div class="stats-tile-description">ASYSTY</div>
-        <div class="stats-tile-value bc-green">7</div>
-        <div class="stats-tile-content">
-            
-            <div class="stats-tile-content-row">Fischer Mikołaj</div>
-            
-        </div>
-    </div>
-      
-
-    
-    <div class="stats-tile">
-        <div class="stats-tile-description">PUNKTY KANADYJSKIE</div>
-        <div class="stats-tile-value bc-green">19</div>
-        <div class="stats-tile-content">
-            
-            <div class="stats-tile-content-row">Kasprzyk Kacper</div>
-            
-        </div>
-    </div>
-      
 </div>

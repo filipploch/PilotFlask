@@ -1,3 +1,7 @@
+{% extends 'base-ws-controller.html' %}
+
+{% block content %}
+
 <div class="row-small-buttons">
     <div id="btn-var" class="button button-small">
         <a href="{{ url_for('obswebsocketpy.replay_sequence', typeofaction='VAR') }}">
@@ -81,3 +85,10 @@
         </a>
     </div>
 </div>
+
+
+{% endblock %}
+
+{% block footer_script %}
+
+{% endblock %}
