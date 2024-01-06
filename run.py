@@ -1463,6 +1463,13 @@ def stop_stream():
     return '', 204
 
 
+@obswebsocketpy_blueprint.route('/show-half-time-scene')
+def show_half_time_scene():
+    obs_ws = current_app.config['obs_ws']
+    obs_ws.show_half_time_scene()
+    return '', 204
+
+
 @obswebsocketpy_blueprint.route('/showbanner')
 def show_banner():
     obs_ws = current_app.config['obs_ws']

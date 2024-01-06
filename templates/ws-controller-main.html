@@ -7,6 +7,20 @@
     </div>
 
 </div>
+
+<div class="row-small-buttons">
+    <div id="btn-match" class="button button-small">
+        <a href="{{ url_for('obswebsocketpy.show_scene', scenename='MECZ') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/match.png') }}" alt="MECZ">
+        </a>
+    </div>
+    <div id="btn-team-b-lineup" class="button button-small">
+        <a href="{{ url_for('obswebsocketpy.show_half_time_scene') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/half-time.png') }}" alt="PRZERWA">
+        </a>
+    </div>
+</div>
+
 <div class="row-small-buttons">
     <div id="btn-team-a-lineup" class="button button-small">
         <a href="{{ url_for('obswebsocketpy.show_scene', scenename='Skład A') }}">

@@ -45,7 +45,7 @@ class OBSWebsocket:
         source_id = self.get_source_id(scene_name, source_name)
         self.ws.call(requests.SetSceneItemEnabled(**{'sceneName': scene_name, "sceneItemId": source_id, "sceneItemEnabled": visible}))
 
-    def mute_source(self, source_name, is_muted=True):
+    def mute_input(self, source_name, is_muted=True):
         self.ws.call(requests.SetInputMute(**{'inputName': source_name, 'inputMuted': is_muted}))
 
     def save_replay(self, type_of_action):
@@ -55,7 +55,7 @@ class OBSWebsocket:
 
     def play_replay(self):
         self.show_scene('POWTÓRKA')
-        self.mute_source('Replay')
+        self.mute_input('Replay')
         sleep(9)
         self.show_scene('MECZ')
 
@@ -115,10 +115,16 @@ class OBSWebsocket:
         self.show_source('Muzyka', 'muzyka2', visible=False)
         self.show_scene('KAMERA')
         self.show_source('Muzyka', 'muzyka')
+        self.mute_input('muzyka', False)
         sleep(5)
         self.show_scene('START')
+        sleep(5)
+        self.mute_input('Komentator', False)
+        self.mute_input('Komentator2', False)
 
     def stop_stream_cascade(self):
+        self.mute_input('Komentator')
+        self.mute_input('Komentator2')
         self.show_scene('Napisy-koncowe')
         sleep(10)
         self.stop_stream()
@@ -132,6 +138,17 @@ class OBSWebsocket:
     def get_stream_status(self):
         _status = self.ws.call(requests.GetStreamStatus()).datain
         return _status
+
+    def show_match_scene(self):
+        self.show_scene('MECZ')
+        self.show_source('Muzyka', 'muzyka', False)
+        self.show_source('Muzyka', 'muzyka2', False)
+
+    def show_half_time_scene(self):
+        self.show_scene('PRZERWA')
+        self.show_source('Muzyka', 'muzyka', False)
+        self.show_source('Muzyka', 'muzyka2')
+        self.mute_input('muzyka2', False)
 
     def start_replay_buffer(self):
         self.ws.call(requests.StartReplayBuffer())
