@@ -93,8 +93,18 @@
         <div id="current-date" class="invisible"></div>
         <div id="edit-frame-title">Kto strzelał/faulował?</div>
         <div id="teams-buttons">
-            <button id="select-team-a-btn" class="select-team-buttons" type="button">{{ matchdata['teama'].short_name }}</button>
-            <button id="select-team-b-btn" class="select-team-buttons" type="button">{{ matchdata['teamb'].short_name }}</button>
+            <button
+                id="select-team-a-btn"
+                class="select-team-buttons"
+                type="button"
+                data-teamid="{{ matchdata['teama'].id }}">{{ matchdata['teama'].short_name }}
+            </button>
+            <button
+                id="select-team-b-btn"
+                class="select-team-buttons"
+                type="button"
+                data-teamid="{{ matchdata['teamb'].id }}">{{ matchdata['teamb'].short_name }}
+            </button>
         </div>
     </div>
 </div>
