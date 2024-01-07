@@ -1,6 +1,5 @@
 import json
-import imgkit
-from utils.createeditmatch import CEM
+from utils.createeditmatch import CreateEditMatch
 from utils.table_generator import TableGenerator
 from utils.players_updater import NALFplayersUpdater
 from utils.nalf_team_scraper import NALFteamScraper
@@ -10,9 +9,7 @@ from utils.json_file_generator import JSONFileGenerator
 from env.settings import _get_settings
 from flask import Flask, render_template, jsonify, current_app, Blueprint, request, redirect, url_for, send_file
 from flask_cors import CORS
-from wtforms import BooleanField, StringField
 from datetime import datetime, timedelta
-import pyautogui
 from models import Team, Match, Player, MatchesData, Stadium, Staff, MatchCommentator, MatchCameraman, MatchReferee, \
     MatchAction, Division
 from database import db
@@ -21,15 +18,13 @@ from schemas import ma, player_schema, players_schema, match_datas_schema, team_
 import re
 from timer import Timer
 from obswebsocketpy import OBSWebsocket
-# from variables import MATCH_ID, TEAM_A_ID, TEAM_B_ID
 from flask_apscheduler import APScheduler
 from collections import OrderedDict
-from forms import MatchForm, EditTeamForm
+from forms import MatchForm
 import os
-from sqlalchemy import create_engine
 
-monitor_blueprint = Blueprint('monitor', __name__)
-controller_blueprint = Blueprint('controller', __name__)
+stream_blueprint = Blueprint('stream', __name__)
+panel_blueprint = Blueprint('panel', __name__)
 timer_blueprint = Blueprint('timer', __name__)
 settings_blueprint = Blueprint('settings', __name__)
 obswebsocketpy_blueprint = Blueprint('obswebsocketpy', __name__)
@@ -42,12 +37,10 @@ def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'hardsecretkey'
 
-    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:''@localhost/futsal'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///futsal.sqlite3'
-    # engine = create_engine('sqlite:///futsal.sqlite3')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.register_blueprint(monitor_blueprint)
-    app.register_blueprint(controller_blueprint)
+    app.register_blueprint(stream_blueprint)
+    app.register_blueprint(panel_blueprint)
     app.register_blueprint(timer_blueprint)
     app.register_blueprint(settings_blueprint)
     app.register_blueprint(obswebsocketpy_blueprint)
@@ -59,8 +52,6 @@ def create_app():
     timer = Timer(app)
     obs_ws = OBSWebsocket(app)
     app.config['obs_ws'] = obs_ws
-    # players_updater = NALFplayersUpdater(app)
-    # app.config['players_updater'] = players_updater
     apscheduler.add_job(func=timer.control_timer, args=[app], id='timer')
     apscheduler.add_job(func=obs_ws.connect_websocket, args=[app], id='obswebsocketpy')
     CORS(app)
@@ -68,7 +59,7 @@ def create_app():
 
 
 @settings_blueprint.route('/nalf')
-def index():
+def nalf():
     _actual_match = Match.query.filter_by(actual=1).first()
     if not _actual_match:
         return redirect(url_for('settings.matches'))
@@ -78,7 +69,7 @@ def index():
 
 
 @settings_blueprint.route('/')
-def staff():
+def index():
     _actual_match = Match.query.filter_by(actual=1).first()
     if not _actual_match:
         return redirect(url_for('settings.failure_actual_match'))
@@ -98,7 +89,7 @@ def control_timer(control_variable):
     return jsonify({'is_timer_active': Match.query.filter_by(actual=1).first().is_timer_active})
 
 
-@monitor_blueprint.route('/start')
+@stream_blueprint.route('/start')
 def start():
     _match = matchdata().get_json()
     _match_details = _match['match']
@@ -111,7 +102,7 @@ def start():
     return render_template('start.html', logos=_logos, teams=_teams, match=_match_details)
 
 
-@monitor_blueprint.route('/match-preview')
+@stream_blueprint.route('/match-preview')
 def match_preview():
     _match = matchdata().get_json()
     _match_details = _match['match']
@@ -124,7 +115,7 @@ def match_preview():
     return render_template('match-preview.html', logos=_logos, teams=_teams, match=_match_details)
 
 
-@monitor_blueprint.route('/match-preview-x26')
+@stream_blueprint.route('/match-preview-x26')
 def match_preview_x26():
     _match = matchdata().get_json()
     _match_details = _match['match']
@@ -142,22 +133,22 @@ def decode_date(date_to_decode):
     return re.split(re_pattern, date_to_decode)
 
 
-@monitor_blueprint.route('/match')
+@stream_blueprint.route('/match')
 def match():
     return render_template('match.html')
 
 
-@monitor_blueprint.route('/action')
+@stream_blueprint.route('/action')
 def action():
     _action = MatchesData.query.filter_by(actual=1).first()
     if _action:
         _time = int(int(_action.time) / 60 + 1)
 
         return render_template('action.html', action=match_data_schema.dump(_action), time_minutes=_time)
-    return redirect(url_for('monitor.match'))
+    return redirect(url_for('stream.match'))
 
 
-@monitor_blueprint.route('/teams')
+@stream_blueprint.route('/teams')
 def teams():
     _match = matchdata().get_json()
     _goals = {'goals_a': MatchesData.query.filter_by(match_id=_match['match']['id']
@@ -213,7 +204,7 @@ def get_players_by_id(data):
     return new_data
 
 
-@monitor_blueprint.route('/lineup/<team>')
+@stream_blueprint.route('/lineup/<team>')
 def lineup(team):
     _team_id = matchdata().get_json()[team]['id']
     _team = Team.query.filter_by(id=_team_id).first()
@@ -222,8 +213,8 @@ def lineup(team):
     return render_template('lineup.html', _lineup=_lineup, _logo=_logo)
 
 
-@monitor_blueprint.route('/controller-lineup/<team>')
-def controller_lineup(team):
+@stream_blueprint.route('/controller-lineup/<team>')
+def panel_lineup(team):
     _team_id = matchdata().get_json()[team]['id']
     _team = Team.query.filter_by(id=_team_id).first()
     _lineup = [{'id': player.id,
@@ -239,8 +230,8 @@ def controller_lineup(team):
     return jsonify(_lineup)
 
 
-@monitor_blueprint.route('/controller-lineup-edit/<team>')
-def controller_lineup_edit(team):
+@stream_blueprint.route('/controller-lineup-edit/<team>')
+def panel_lineup_edit(team):
     _team_id = matchdata().get_json()[team]['id']
     _team = Team.query.filter_by(id=_team_id).first()
     _lineup = [{'id': player.id,
@@ -257,7 +248,7 @@ def controller_lineup_edit(team):
     return jsonify(_lineup)
 
 
-@monitor_blueprint.route('/end-screen')
+@stream_blueprint.route('/end-screen')
 def end_screen():
     _actual_match = Match.query.filter_by(actual=1).first()
     _match_schema = match_schema.dump(_actual_match)
@@ -270,7 +261,7 @@ def end_screen():
     return render_template('endscreen.html', staff=_staff)
 
 
-@monitor_blueprint.route('/virtualtable/<division>')
+@stream_blueprint.route('/virtualtable/<division>')
 def virtualtable(division):
     _division = division
     json_file_base_table_path = os.path.join(settings_blueprint.root_path, 'static', 'json', f'base-table-{division}.json')
@@ -324,7 +315,7 @@ def _get_short_team_name(full_name):
     return team.short_name
 
 
-@monitor_blueprint.route('/show-stats/<team>')
+@stream_blueprint.route('/show-stats/<team>')
 def show_stats(team):
     with open(f'static/json/match-stats-{team}.json', 'r') as json_file:
         _data = json.load(json_file)
@@ -333,7 +324,7 @@ def show_stats(team):
     _logo = _team.logo_file
     return render_template('statistics.html', data=_data, logo=_logo, team=team)
 
-@monitor_blueprint.route('/render-statistics/<stats_content>', methods=['GET'])
+@stream_blueprint.route('/render-statistics/<stats_content>', methods=['GET'])
 def render_statistics(stats_content):
     obs_ws = current_app.config['obs_ws']
     current_scene = obs_ws.get_current_scene()
@@ -353,13 +344,13 @@ def render_statistics(stats_content):
 
 
 
-@controller_blueprint.route('/panel')
+@panel_blueprint.route('/panel')
 def panel():
     _matchdata = matchdata().get_json()
     return render_template('panel.html', matchdata=_matchdata)
 
 
-@controller_blueprint.route('/matchdata')
+@panel_blueprint.route('/matchdata')
 def matchdata():
     match = Match.query.filter_by(actual=1).first()
     team_a = Team.query.filter_by(id=match.team_a).first()
@@ -406,7 +397,7 @@ def matchdata():
                     })
 
 
-@controller_blueprint.route('/update-value', methods=['POST'])
+@panel_blueprint.route('/update-value', methods=['POST'])
 def update_value():
     if request.method == 'POST':
         value = request.get_json()['value']
@@ -423,19 +414,19 @@ def update_value():
         return jsonify({'value': value})
 
 
-@controller_blueprint.route('/get-seconds')
+@panel_blueprint.route('/get-seconds')
 def get_seconds():
     seconds = Match.query.filter_by(actual=1).first().seconds
     return jsonify(seconds)
 
 
-@controller_blueprint.route('/get-actual-match')
+@panel_blueprint.route('/get-actual-match')
 def get_actual_match_id():
     actual_match_id = Match.query.filter_by(actual=1).first().id
     return jsonify(actual_match_id)
 
 
-@controller_blueprint.route('/set-timer-countdown', methods=['GET', 'POST'])
+@panel_blueprint.route('/set-timer-countdown', methods=['GET', 'POST'])
 def set_timer_countdown():
     if request.method == 'POST':
         value = request.get_json()['is_timer_countdown']
@@ -444,7 +435,7 @@ def set_timer_countdown():
         return jsonify(Match.query.filter_by(actual=1).first().seconds)
 
 
-@controller_blueprint.route('/get-match-actions/<team_id>')
+@panel_blueprint.route('/get-match-actions/<team_id>')
 def get_match_actions(team_id):
     actual_match = matchdata().get_json()['match']
     actual_match_id = actual_match['id']
@@ -452,7 +443,7 @@ def get_match_actions(team_id):
     return match_datas_schema.dump(match_actions)
 
 
-@controller_blueprint.route('/set-match-actions-non-actual', methods=['POST'])
+@panel_blueprint.route('/set-match-actions-non-actual', methods=['POST'])
 def set_match_actions_non_actual():
     if request.method == 'POST':
         actual_match_id = matchdata().get_json()['match']['id']
@@ -463,7 +454,7 @@ def set_match_actions_non_actual():
         return ''
 
 
-@controller_blueprint.route('/update-match-actions', methods=['POST'])
+@panel_blueprint.route('/update-match-actions', methods=['POST'])
 def update_match_actions():
     if request.method == 'POST':
         response = request.get_json()
@@ -476,7 +467,7 @@ def update_match_actions():
         return 'match actions updated'
 
 
-@controller_blueprint.route('/add-match-action', methods=['POST'])
+@panel_blueprint.route('/add-match-action', methods=['POST'])
 def add_match_action():
     if request.method == 'POST':
         response = request.get_json()
@@ -495,7 +486,7 @@ def add_match_action():
         return 'match action added'
 
 
-@controller_blueprint.route('/insert-match-action', methods=['POST'])
+@panel_blueprint.route('/insert-match-action', methods=['POST'])
 def insert_match_action():
     if request.method == 'POST':
         response = request.get_json()
@@ -536,7 +527,7 @@ def get_team_id_by_description(description, actual_match):
         return actual_match.team_b
 
 
-@controller_blueprint.route('/delete-match-action', methods=['POST'])
+@panel_blueprint.route('/delete-match-action', methods=['POST'])
 def delete_match_action():
     action_id = request.get_json()['action_id']
     action = MatchesData.query.filter_by(id=action_id).first()
@@ -545,7 +536,7 @@ def delete_match_action():
     return ''
 
 
-@controller_blueprint.route('/get-player/<player_id>')
+@panel_blueprint.route('/get-player/<player_id>')
 def get_player(player_id):
     player = Player.query.filter_by(id=player_id).first()
     return player_schema.dump(player)
@@ -560,7 +551,7 @@ def increment_seconds():
         return jsonify(Match.query.filter_by(actual=1).first().seconds)
 
 
-@controller_blueprint.route('/change-score-a', methods=['POST'])
+@panel_blueprint.route('/change-score-a', methods=['POST'])
 def change_score_a():
     if request.method == 'POST':
         value = request.get_json()['value']
@@ -569,7 +560,7 @@ def change_score_a():
         return jsonify(Match.query.filter_by(actual=1).first().score_a)
 
 
-@controller_blueprint.route('/change-score-b', methods=['POST'])
+@panel_blueprint.route('/change-score-b', methods=['POST'])
 def change_score_b():
     if request.method == 'POST':
         value = request.get_json()['value']
@@ -578,7 +569,7 @@ def change_score_b():
         return jsonify(Match.query.filter_by(actual=1).first().score_b)
 
 
-@controller_blueprint.route('/change-fouls-a', methods=['POST'])
+@panel_blueprint.route('/change-fouls-a', methods=['POST'])
 def change_fouls_a():
     if request.method == 'POST':
         value = request.get_json()['value']
@@ -587,7 +578,7 @@ def change_fouls_a():
         return jsonify(Match.query.filter_by(actual=1).first().fouls_a)
 
 
-@controller_blueprint.route('/change-fouls-b', methods=['POST'])
+@panel_blueprint.route('/change-fouls-b', methods=['POST'])
 def change_fouls_b():
     if request.method == 'POST':
         value = request.get_json()['value']
@@ -596,19 +587,19 @@ def change_fouls_b():
         return jsonify(Match.query.filter_by(actual=1).first().fouls_b)
 
 
-@controller_blueprint.route('/get-all-teams/<competition_id>')
+@panel_blueprint.route('/get-all-teams/<competition_id>')
 def get_all_teams(competition_id):
     teams = Team.query.filter_by(competitions=competition_id).order_by(Team.full_name).all()
     return teams_schema.dump(teams)
 
 
-@controller_blueprint.route('/get-team/<team_id>')
+@panel_blueprint.route('/get-team/<team_id>')
 def get_team(team_id):
     team = Team.query.filter_by(id=team_id).first()
     return team_schema.dump((team))
 
 
-@controller_blueprint.route('/update-lineup', methods=['POST'])
+@panel_blueprint.route('/update-lineup', methods=['POST'])
 def update_lineup():
     _player = request.get_json()
     player = Player.query.filter_by(id=_player['id']).first()
@@ -629,7 +620,7 @@ def set_position(position):
         return ''
 
 
-@controller_blueprint.route('/update-tricots', methods=['POST'])
+@panel_blueprint.route('/update-tricots', methods=['POST'])
 def update_tricots():
     if request.method == 'POST':
         _team = request.get_json()
@@ -659,7 +650,7 @@ def get_tricot(team):
     return tricot
 
 
-@controller_blueprint.route('/update-time', methods=['POST'])
+@panel_blueprint.route('/update-time', methods=['POST'])
 def update_time():
     if request.method == 'POST':
         seconds = request.get_json()['seconds']
@@ -668,20 +659,20 @@ def update_time():
         return jsonify(Match.query.filter_by(actual=1).first().seconds)
 
 
-@controller_blueprint.route('/get_files')
+@panel_blueprint.route('/get_files')
 def get_files():
     directory = 'static/video/replays'
     files = [file for file in os.listdir(directory) if file.endswith('.mp4')]
     return {'files': files}
 
-@controller_blueprint.route('/get_replays')
+@panel_blueprint.route('/get_replays')
 def get_replays():
     directory = 'static/video/replays'
     files = [file for file in os.listdir(directory) if file.endswith('.mp4')]
-    new_content = render_template('replays-controller.html', files=files)
+    new_content = render_template('replays-panel.html', files=files)
     return jsonify({'content': new_content})
 
-@controller_blueprint.route('/process_file/<filename>')
+@panel_blueprint.route('/process_file/<filename>')
 def process_file(filename):
     replay_name = 'replay.mp4'
     source_path = os.path.join('static/video/replays', filename)
@@ -693,7 +684,7 @@ def process_file(filename):
     return send_file(target_path, as_attachment=True)
 
 
-@controller_blueprint.route('/actual-match-data/<team>', methods=['GET', 'POST'])
+@panel_blueprint.route('/actual-match-data/<team>', methods=['GET', 'POST'])
 def actual_match_data(team):
     _team_id = matchdata().get_json()[team]['id']
     _team_name = Team.query.filter_by(id=_team_id).first().full_name
@@ -730,7 +721,7 @@ def set_action_type(action_id):
     return _actions[action_id]
 
 
-@controller_blueprint.route('/prepare-data-to-edit/<int:dataId>')
+@panel_blueprint.route('/prepare-data-to-edit/<int:dataId>')
 def prepare_data_to_edit(dataId):
     _match_data = MatchesData.query.filter_by(id=dataId).first()
     data = {}
@@ -762,7 +753,7 @@ def prepare_data_to_edit(dataId):
     return jsonify(data)
 
 
-@controller_blueprint.route('/update-data/<int:data_id>', methods=['PUT'])
+@panel_blueprint.route('/update-data/<int:data_id>', methods=['PUT'])
 def update_data(data_id):
     try:
         # Pobierz dane z żądania
@@ -789,7 +780,7 @@ def update_data(data_id):
     except Exception as e:
         return jsonify({'error': str(e)}), 500
     
-@controller_blueprint.route('/delete-data/<int:data_id>', methods=['DELETE'])
+@panel_blueprint.route('/delete-data/<int:data_id>', methods=['DELETE'])
 def delete_data(data_id):
     try:
         data_to_delete = MatchesData.query.get(data_id)
@@ -827,7 +818,7 @@ def creatematch():
     form.competitions.default = 1
     form.process()
 
-    form_content = CEM.form_content
+    form_content = CreateEditMatch.form_content
 
     # if request.method == 'POST' and form.validate():
     if request.method == 'POST':
@@ -876,7 +867,7 @@ def creatematch():
         # Zapisz zmiany w bazie danych
         db.session.commit()
 
-        return redirect(url_for('settings.index'))
+        return redirect(url_for('settings.nalf'))
 
     return render_template('creatematch.html', form=form, form_content=form_content)
 
@@ -901,7 +892,7 @@ def edit_match(match_id):
     form = MatchForm(obj=match)
     form.date_time = MatchForm(date_time=date_time)
 
-    form_content = CEM.form_content
+    form_content = CreateEditMatch.form_content
 
     if request.method == 'POST':
         match.team_a = form.team_a.data
@@ -946,7 +937,7 @@ def edit_match(match_id):
         db.session.add(match)
         db.session.commit()
 
-        return redirect(url_for('settings.index'))
+        return redirect(url_for('settings.nalf'))
 
     return render_template('edit_match.html', form=form, match=match, selected_commentators=selected_commentators,
                            selected_cameramen=selected_cameramen, selected_referees=selected_referees,
@@ -1153,7 +1144,7 @@ def show_matches_by_date(target, division):
                                    {'short_name': _get_short_team_name(dta['teams'][1]),
                                     'full_name': dta['teams'][1]}]
                         })
-        new_content = render_template('update_results_controller.html', data=filtered_data, division=division)
+        new_content = render_template('update_results_panel.html', data=filtered_data, division=division)
         return jsonify({'content': new_content})
     return render_template('update_results.html', data=filtered_data, division=division)
 
@@ -1198,7 +1189,7 @@ def show_all_matches(target, division):
 
     # Filtrujemy dane, aby pokazać tylko te w określonym przedziale dat
     if target == 'controller':
-        new_content = render_template('update_results_controller.html', data=data, division=division)
+        new_content = render_template('update_results_panel.html', data=data, division=division)
         return jsonify({'content': new_content})
     return render_template('update_results.html', data=data, division=division)
 

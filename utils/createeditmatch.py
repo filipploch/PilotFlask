@@ -1,4 +1,4 @@
-class CEM:
+class CreateEditMatch:
 
   form_content = '''{{ form.hidden_tag() }}
     <div class="container">
