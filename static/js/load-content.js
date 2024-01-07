@@ -1,7 +1,6 @@
 function loadContent(endpoint, elementToChange, optionalArg) {
     // Sprawdź, czy optionalArg został przekazany
     if (typeof optionalArg !== 'undefined') {
-        console.log('Opcjonalny argument:', optionalArg);
         endpoint = endpoint + optionalArg;
         // Tutaj możesz dostosować zachowanie funkcji w zależności od optionalArg
     }
@@ -13,5 +12,5 @@ function loadContent(endpoint, elementToChange, optionalArg) {
             // Zaktualizuj zawartość diva id="second"
             document.getElementById(elementToChange).innerHTML = data.content;
         })
-        .catch(error => console.error('Błąd:', error));
+        .catch(error => console.error('Error:', error));
 }

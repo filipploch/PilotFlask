@@ -5,6 +5,9 @@ function updateData(dataId) {
     var minutesInputValue = parseInt(document.getElementById('action-minute').value, 10) || 0;
     var secondsInputValue = parseInt(document.getElementById('action-second').value, 10) || 0;
     var timeInSeconds = minutesInputValue * 60 + secondsInputValue;
+    var isActionHidedCheckbox = document.getElementById('action-hide');
+    var isActionHidedValue = isActionHidedCheckbox.checked ? 1 : 0;
+    console.log(isActionHidedValue);
 
     fetch(`/update-data/${dataId}`, {
         method: 'PUT',
@@ -15,6 +18,7 @@ function updateData(dataId) {
             action: selectedAction,
             player: selectedPlayer,
             time: timeInSeconds,
+            is_hided: isActionHidedValue,
         }),
     })
     .then(response => response.json())

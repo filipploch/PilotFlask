@@ -1,0 +1,120 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    font-family: 'Varela Round', sans-serif;
+}
+
+#table-container {
+    padding: 7% 10%;
+    width: 850px;
+    background-image: url('/static/images/socialmedia-table/socialmedia-body-background.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat; /* Wyłączenie powtarzania obrazka */
+    justify-content: center;
+
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+td, th {
+    margin: 0;
+    padding: 0.3em 0;
+}
+
+tr {
+    height: 1.5em;
+}
+
+#table-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.center {
+    text-align: center;
+}
+
+td.square {
+    width: 50px;
+    height: 50px;
+    padding-left: 0.5em;
+}
+
+#nalf-logo {
+    width: 40vw;
+}
+
+#nalf-logo img {
+    width: 22vw;
+}
+
+#nalf-division {
+    width: 40vw;
+    text-align: right;
+    font-size: 3vw;
+    color: #13003e;
+    font-weight: bold;
+    padding-right: 20px;
+}
+
+.table-header {
+    color: white;
+    font-size: 1vw;
+}
+
+#table-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.table-content {
+    font-size: 35px;
+    background: linear-gradient(to bottom, rgba(100, 100, 100, 1), rgba(255, 255, 255, 1));
+}
+
+.promotion {
+    background: linear-gradient(to bottom, rgb(3, 44, 252), rgb(146, 163, 247));
+}
+
+.demotion {
+    background: linear-gradient(to bottom, rgb(252, 61, 61), rgb(255, 117, 117));
+}
+
+.promotion-group {
+    background: linear-gradient(to bottom, rgb(162, 178, 255), rgb(244, 246, 255));
+}
+
+.demotion-group {
+    background: linear-gradient(to bottom, rgb(255, 177, 177), rgb(255, 238, 238));
+}
+
+td.team-logo{
+    overflow: hidden;
+    display: flex; /* Dodaj flexbox */
+    align-items: center; /* Wyśrodkuj zawartość w pionie */
+}
+
+td.team-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.team-name {
+    width: 40vw;
+    padding: 0 0.3em;
+}
+
+.table-data {
+    min-width: 7.5vh;
+    padding: 0 0.3em;
+}

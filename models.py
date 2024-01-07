@@ -106,15 +106,17 @@ class MatchesData(db.Model):
     team = db.relationship('Team', backref='matches_data', lazy=True)
     action = db.relationship('MatchAction', backref='matches_data', lazy=True)
     actual = db.Column(db.Integer)
+    is_hided = db.Column(db.Integer)
 
 
-    def __init__(self, action_id, player_id, team_id, time, match_id, actual):
+    def __init__(self, action_id, player_id, team_id, time, match_id, actual, is_hided):
         self.action_id = action_id
         self.player_id = player_id
         self.team_id = team_id
         self.time = time
         self.match_id = match_id
         self.actual = actual
+        self.is_hided = is_hided
 
 
 class MatchAction(db.Model):

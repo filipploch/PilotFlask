@@ -143,6 +143,8 @@ class OBSWebsocket:
         self.show_scene('MECZ')
         self.show_source('Muzyka', 'muzyka', False)
         self.show_source('Muzyka', 'muzyka2', False)
+        self.mute_input('muzyka')
+        self.mute_input('muzyka2')
 
     def show_half_time_scene(self):
         self.show_scene('PRZERWA')

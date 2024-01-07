@@ -37,8 +37,16 @@
                 <input id="action-minute" type="number" name="minutes" min="0" style="width: 50px;" value="{{ data.event.time.minutes }}">
                 <input id="action-second" type="number" name="seconds" min="0" style="width: 50px;" value="{{ data.event.time.seconds }}">
             </div>
+            <div>
+                <input 
+                    id="action-hide" 
+                    type="checkbox" 
+                    name="hide" 
+                    value="1" 
+                    {% if data.event.is_hided == 1 %}checked{% endif %}> Ukryj zdarzenie
+            </div>
             <button onclick="updateData({{ data.event.data_id }})">Zapisz</button>
-            <button onclick="deleteData({{ data.event.data_id }})">Usuń</button>
+            <button ondblclick="deleteData({{ data.event.data_id }})">Usuń</button>
             <button onclick="clearSidebar()">Zamknij</button>
         </div>
         <table>

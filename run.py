@@ -163,23 +163,27 @@ def teams():
     _goals = {'goals_a': MatchesData.query.filter_by(match_id=_match['match']['id']
                                                      , team_id=_match['teama']['id']
                                                      , action_id=1
+                                                     , is_hided=0
                                                      ).all(),
               'goals_b': MatchesData.query.filter_by(match_id=_match['match']['id']
                                                      , team_id=_match['teamb']['id']
                                                      , action_id=1
+                                                     , is_hided=0
                                                      ).all(),
               'own_goals_a': MatchesData.query.filter_by(match_id=_match['match']['id']
                                                          , team_id=_match['teamb']['id']
                                                          , action_id=4
+                                                         , is_hided=0
                                                          ).all(),
               'own_goals_b': MatchesData.query.filter_by(match_id=_match['match']['id']
                                                          , team_id=_match['teama']['id']
                                                          , action_id=4
+                                                         , is_hided=0
                                                          ).all()
               }
 
-    _strikers = {'strikers_a': get_strikers(_goals['goals_a'] + _goals['own_goals_a']),
-                 'strikers_b': get_strikers(_goals['goals_b'] + _goals['own_goals_b'])}
+    _strikers = {'strikers_a': get_strikers(_goals['goals_a'] + _goals['own_goals_b']),
+                 'strikers_b': get_strikers(_goals['goals_b'] + _goals['own_goals_a'])}
     return render_template('teams.html', matchdata=_match, strikers=_strikers)
 
 
@@ -495,21 +499,34 @@ def add_match_action():
 def insert_match_action():
     if request.method == 'POST':
         response = request.get_json()
-        actual_match = Match.query.filter_by(actual=1).first()
+        _actual_match = Match.query.filter_by(actual=1).first()
+        _action_id = response['action_id']
+        _team_id = response['team_id']
         all_match_data = MatchesData.query.all()
         for data in all_match_data:
             data.actual = 0
+        team_id = get_action_team_id(_actual_match, _action_id, _team_id)
         match_data = MatchesData(
-            action_id=response['action_id'],
+            action_id=_action_id,
             player_id=response['player_id'],
-            team_id=response['team_id'],
+            team_id=team_id,
             time=response['seconds'],
-            match_id=actual_match.id,
-            actual=1
+            match_id=_actual_match.id,
+            actual=1,
+            is_hided=0
         )
         db.session.add(match_data)
         db.session.commit()
         return 'match action added'
+
+
+def get_action_team_id(actual_match, action_id, team_id):
+    if action_id == 4:
+        if team_id == actual_match.team_a:
+            return actual_match.team_b
+        else:
+            return actual_match.team_a
+    return team_id
 
 
 def get_team_id_by_description(description, actual_match):
@@ -682,6 +699,7 @@ def actual_match_data(team):
     _team_name = Team.query.filter_by(id=_team_id).first().full_name
     _match_id = get_actual_match_id().get_json()
     _match_data = MatchesData.query.filter_by(match_id=_match_id).filter_by(team_id=_team_id).all()
+    print(_match_data, flush=True)
     match_data = []
     match_data.append(_team_name)
     event_data = []
@@ -694,6 +712,7 @@ def actual_match_data(team):
             'player_id': _player.id,
             'player_first_name': _player.first_name,
             'player_last_name': _player.last_name,
+            'is_hided': _data.is_hided
         })
     match_data.append(event_data)
 
@@ -760,6 +779,7 @@ def update_data(data_id):
         # Przekonwertuj czas z minut i sekund na sekundy
         time_in_seconds = data['time']
         obj_to_update.time = time_in_seconds
+        obj_to_update.is_hided = data['is_hided']
 
         # Zapisz zmiany w bazie danych
         db.session.commit()
@@ -1147,7 +1167,8 @@ def edit_match_action(action_id):
         'action_id': _match_data.action_id,
         'player_id': _match_data.player_id,
         'team_id': _match_data.team_id,
-        'match_id': _match_data.match_id
+        'match_id': _match_data.match_id,
+        'is_hided': _match_data.is_hided
     }
     event.update({'event': _event})
     _match = Match.query.filter_by(id=event['event']['match_id']).first()
@@ -1467,6 +1488,13 @@ def stop_stream():
 def show_half_time_scene():
     obs_ws = current_app.config['obs_ws']
     obs_ws.show_half_time_scene()
+    return '', 204
+
+
+@obswebsocketpy_blueprint.route('/show-match-scene')
+def show_match_scene():
+    obs_ws = current_app.config['obs_ws']
+    obs_ws.show_match_scene()
     return '', 204
 
 

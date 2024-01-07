@@ -10,19 +10,8 @@ async function repeater(){
     document.getElementById('fouls_b').innerHTML = setFoulsDots(matchObj.teamb.fouls);
     document.getElementById('tricot_b').innerHTML = renderTricot(matchObj.teamb.tricot);
     document.getElementById('time').innerHTML = setMatchTime(matchObj.match.seconds, matchObj.match.match_lenght);
-//    document.getElementById('match_date').innerHTML = getCurrentDate();
     foulsDotsColor('fouls_a', setFoulsDots(matchObj.teama.fouls));
     foulsDotsColor('fouls_b', setFoulsDots(matchObj.teamb.fouls));
-
-	// readTextFile("bramkia.txt", "score_a");
-	// readTextFile("bramkib.txt", "score_b");
-	// readTextFile("faulea.txt", "fouls_a");
-	// readTextFile("fauleb.txt", "fouls_b");
-	// readTextFile("pasek.txt", "info_bar_text");
-	// readTextFile("czasmin.txt", "time");
-	// readTextFile("Akcja.txt", "action_info");
-	// readTextFile("strikers_a.txt", "strikers_a");
-	// readTextFile("strikers_b.txt", "strikers_b");
 
 	setTimeout(repeater ,500);
 }

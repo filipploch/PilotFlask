@@ -247,6 +247,11 @@
 			text-align: center;
 		}
 
+		.not-visible {
+			text-decoration-line: line-through;
+			color: red;
+		}
+
 		@keyframes pulse {
 			0%, 100% {
     			background-color: rgba(255, 0, 0, 1);
@@ -387,28 +392,8 @@
 </body>
 <script>
 		
-
-		// function loadContent(endpoint, optionalArg) {
-		// 	// Sprawdź, czy optionalArg został przekazany
-		// 	if (typeof optionalArg !== 'undefined') {
-		// 		console.log('Opcjonalny argument:', optionalArg);
-		// 		endpoint = endpoint + optionalArg;
-		// 		// Tutaj możesz dostosować zachowanie funkcji w zależności od optionalArg
-		// 	}
-
-		// 	// Wyślij żądanie na serwer Flask po kliknięciu przycisku
-		// 	fetch(endpoint)
-		// 		.then(response => response.json())
-		// 		.then(data => {
-		// 			// Zaktualizuj zawartość diva id="second"
-		// 			document.getElementById('sidebar').innerHTML = data.content;
-		// 		})
-		// 		.catch(error => console.error('Błąd:', error));
-		// }
-
-		
 		function fetchDataFromAPI() {
-			var url = 'matchdata'; // Zastąp to odpowiednim adresem URL Twojego API
+			var url = 'matchdata';
 
 			return new Promise(function (resolve, reject) {
 				fetch(url)
@@ -420,10 +405,10 @@
 						}
 					})
 					.then(function (data) {
-						resolve(data); // Zwracanie danych po poprawnym ich pobraniu
+						resolve(data);
 					})
 					.catch(function (error) {
-						reject(error); // Zwracanie błędu w przypadku niepowodzenia
+						reject(error);
 					});
 			});
 		}
@@ -610,6 +595,7 @@
 					// Po otrzymaniu danych, wygeneruj listę elementów
 					console.log(data);
 					document.getElementById('sidebar-head').innerHTML = data[0];
+					console.log(data[1]);
 					prepareMatchData(data[1]);
 				})
 				.catch(error => {
@@ -643,7 +629,10 @@
 				const playerName = document.createElement('td');
 				// const playerIsCaptain = document.createElement('td');
 				// const teamId = document.createElement('td');
-				wiersz.setAttribute('class', 'li-element')
+				wiersz.setAttribute('class', 'li-element');
+				if (element['is_hided'] == 1) {
+					wiersz.classList.add('not-visible');
+				}
 				dataId.textContent = element['data_id'];
 				dataId.style.color = 'rgba(0,0,0,0)';
 				dataId.style.display = 'none';
@@ -879,74 +868,9 @@ function editData(dataId) {
                 });
         }
 
-	// function loadMatches(division) {
-	// 	console.log('poszło', division);
-    // clearSidebar();
-    // fetch(`/show-matches-by-date/controller/${division}`)
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         console.log('loadMatches data', data);
-    //         const division = data.division;
-    //         const sidebarHeader = document.getElementById('sidebar-head');
-    //         sidebarHeader.innerHTML = '<span>Mecze dywizji </span><span id="division">${division}</span>';
-    //         const divisionSpan = document.getElementById('division');
-    //         divisionSpan.textContent = division;
-    //         const fileListElement = document.getElementById('lista-elementow');
-    //         fileListElement.innerHTML = '<table><tbody>';
-
-    //         data.data.forEach(dta => {
-    //             // Utwórz nowy wiersz (tr)
-    //             var row = document.createElement('tr');
-
-    //             // Dodaj komórkę do wiersza
-    //             fileListElement.appendChild(row);
-
-    //             // Dodaj komórkę z checkboxem
-    //             var tdCheckboxContainer = document.createElement('td');
-    //             tdCheckboxContainer.id = `checkboxContainer_${dta.id}`;
-    //             var checkbox = document.createElement('input');
-	// 			var actual = dta.actual;
-	// 			var date = dta.date;
-    //             checkbox.type = 'checkbox';
-    //             checkbox.id = `actual_${dta.id}`;
-    //             // checkbox.checked = dta.actual; // Zaznacz checkbox, jeśli 'actual' jest true
-    //             tdCheckboxContainer.appendChild(checkbox);
-    //             row.appendChild(tdCheckboxContainer);
-
-    //             // Dodaj pozostałe komórki do wiersza
-    //             row.innerHTML += `<td>${dta.id}</td>\
-    //                 <td>${dta.date}</td>\
-    //                 <td>${dta.teams[0]}</td>\
-    //                 <td><input type="number" class="score-td" id="result_home_${dta.id}" value="${dta.result[0]}"></td>\
-    //                 <td><input type="number" class="score-td" id="result_away_${dta.id}" value="${dta.result[1]}"></td>\
-    //                 <td>${dta.teams[1]}</td>\
-    //                 <td><button onclick="clearResult(${dta.id})">W</button></td>`;
-	// 			setChecked(checkbox.id, actual);
-    //         });
-
-    //         fileListElement.innerHTML += '</tbody></table>';
-
-    //         const generateBaseTableButton = document.createElement('button');
-    //         generateBaseTableButton.textContent = 'Tabela';
-    //         generateBaseTableButton.addEventListener('click', () => {
-    //             generateBaseTable();
-    //         });
-    //         const cancelButton = document.createElement('button');
-    //         cancelButton.textContent = 'Zamknij';
-    //         cancelButton.addEventListener('click', () => {
-    //             clearSidebar();
-    //         });
-    //         cancelButton.setAttribute('id', 'sidebar-cancel-button');
-    //         sidebarFooter = document.getElementById('sidebar-footer');
-	// 		generateBaseTableButton.setAttribute('id', 'generate-table-button');
-    //         sidebarFooter.appendChild(generateBaseTableButton);
-    //         sidebarFooter.appendChild(cancelButton);
-    //     });
-// }
 
 function setChecked(checkboxId, actual) {
 	if (actual == true) {
-		console.log('funkcja', checkboxId, actual);
         checkbox = document.getElementById(checkboxId);
 		checkbox.setAttribute("checked", "checked");
     }
@@ -954,7 +878,6 @@ function setChecked(checkboxId, actual) {
 
     window.onload = function () {
         updateTimer();
-    	console.log('omniomniom');
     };
 
 
