@@ -75,7 +75,7 @@ class MatchesSchema(ma.Schema):
     class Meta:
         model = Match
         fields = ('id', 'team_a', 'team_b', 'actual', 'match_length', 'max_fouls', 'actual', 'is_timer_countdown',
-                  'stadium', 'date', 'commentator', 'cameraman', 'referee', 'division')
+                  'stadium', 'date', 'commentator', 'cameraman', 'referee', 'division', 'is_scoreboard_reversed')
 
     # team_a = Nested(team_schema)
     # team_b = Nested(team_schema)

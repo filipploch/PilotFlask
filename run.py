@@ -542,6 +542,25 @@ def get_player(player_id):
     return player_schema.dump(player)
 
 
+@panel_blueprint.route('/change-scoreboard-side', methods=['PUT'])
+def change_scoreboard_side():
+    actual_match = Match.query.filter_by(actual=1).first()
+    if actual_match.is_scoreboard_reversed == 0:
+        actual_match.is_scoreboard_reversed = 1
+    else:
+        actual_match.is_scoreboard_reversed = 0
+    db.session.commit()
+    return '', 204
+    # return jsonify({'is_scoreboard_reversed': is_scoreboard_reversed})
+
+
+@panel_blueprint.route('/get-is-scoreboard-reversed')
+def get_is_scoreboard_reversed():
+    actual_match = Match.query.filter_by(actual=1).first()
+    print(actual_match.is_scoreboard_reversed, flush=True)
+    return jsonify({'data': actual_match.is_scoreboard_reversed})
+
+
 @timer_blueprint.route('/increment-seconds', methods=['GET', 'POST'])
 def increment_seconds():
     if request.method == 'POST':
@@ -1413,10 +1432,8 @@ def ws_controller():
 
 @obswebsocketpy_blueprint.route('/render-content/<content_name>')
 def render_content(content_name):
-    _actual_match = Match.query.filter_by(actual=1).first()
-    _teams = {'teama': Team.query.filter_by(id=_actual_match.team_a).first(),
-              'teamb': Team.query.filter_by(id=_actual_match.team_b).first()}
-    return render_template(f'ws-controller-{content_name}.html', teams=_teams)
+    _matchdata = matchdata().get_json()
+    return render_template(f'ws-controller-{content_name}.html', matchdata=_matchdata)
 
 @obswebsocketpy_blueprint.route('/showscene/<scenename>')
 def show_scene(scenename):

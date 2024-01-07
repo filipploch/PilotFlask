@@ -41,6 +41,7 @@ class Match(db.Model):
     referee = db.relationship('Staff', secondary='match_referee', backref='referee_matches')
     competitions = db.Column(db.Integer, db.ForeignKey('competitions.id'), nullable=False)
     division = db.Column(db.Integer, db.ForeignKey('division.id'), nullable=False)
+    is_scoreboard_reversed = db.Column(db.Integer, default=0)
 
 
 class Team(db.Model):

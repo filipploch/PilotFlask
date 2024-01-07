@@ -176,9 +176,52 @@
             float: left;
             text-align: center;
         }
+
+        #edit-frame {
+            position: absolute;
+			width: 227px;
+			height: 264px;
+            top: 0;
+            background-color: dimgrey;
+        }
+
+        #edit-frame-title-bar {
+            width: 100%;
+        }
+
+        #edit-frame-hide-button {
+            width: 25px;
+            right: 5px;
+            position: absolute;
+        }   
+
+        .invisible {
+            display: none;
+        }
+
+        #edit-frame-content {
+            position: absolute;
+            width: 100%;
+            top: 25px;
+        }
+
+        #edit-frame-title {
+            position: relative;
+            text-align: center;
+        }
+
+        #teams-buttons {
+            position: static;
+        }
+
+        .select-team-buttons {
+            width: 49%;
+            font-size: 20px;
+        }
         
     </style>
     <script>
+
         function sendRequest(url) {
         // Wyślij żądanie AJAX na serwer
         fetch(url, {
@@ -215,6 +258,70 @@
 
         <script>
 
+        function getCurrentDateTime() {
+            const now = new Date();
+
+            const year = now.getFullYear();
+            const month = (now.getMonth() + 1).toString().padStart(2, '0');
+            const day = now.getDate().toString().padStart(2, '0');
+
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+
+            return `${year}${month}${day}-${hours}${minutes}${seconds}`;
+        }
+
+        function changeSide() {
+			var selectTeams = document.querySelector("#teams-buttons");
+			var selectTeamAbtn = document.getElementById("select-team-a-btn");
+			var selectTeamBbtn = document.getElementById("select-team-a-btn");
+
+			var selectTeamsChildren = Array.from(selectTeams.children);
+			selectTeamsChildren.reverse();
+
+			selectTeamsChildren.forEach(function (child) {
+				selectTeams.appendChild(child);
+			});
+		}
+
+        function checkScoreboardReverse() {
+            var selectTeams = document.querySelector("#teams-buttons");
+			var selectTeamAbtn = document.getElementById("select-team-a-btn");
+			var selectTeamBbtn = document.getElementById("select-team-b-btn");
+			var selectTeamsChildren = [];
+            fetch('/get-is-scoreboard-reversed')
+            .then(response => response.json())
+            .then(data => {
+                var isReversed = data['data'];
+                    if (isReversed == 0) {
+                        selectTeamsChildren.push(selectTeamAbtn, selectTeamBbtn);
+                    } else if (isReversed == 1) {
+                        selectTeamsChildren.push(selectTeamBbtn, selectTeamAbtn);
+                    }
+                selectTeamsChildren.forEach(function (child) {
+                    console.log(child);
+                    selectTeams.appendChild(child);
+                });
+            }).catch(function (error) {
+                console.error(error);
+            });
+        }
+
+        function hideEditFrame() {
+            var editFrame = document.getElementById('edit-frame');
+            editFrame.classList.add('invisible');
+        }
+
+        function saveReplay(typeOfAction) {
+            checkScoreboardReverse();
+            var editFrame = document.getElementById('edit-frame');
+            var editFrameTypeOfAction = document.getElementById('edit-frame-typeofaction');
+            editFrameTypeOfAction.innerHTML = typeOfAction;
+            var currentDateElement = document.getElementById('current-date');
+            currentDateElement.innerHTML = getCurrentDateTime();
+            editFrame.classList.remove('invisible');
+        }
 
 
         // function setStreamButtonOn() {
@@ -279,6 +386,8 @@
                 document.getElementById('btn-stream').setAttribute('disabled', 'true');
             }, 5000);
         }
+
+
 
         // window.onload = function () {
         //     loadContent('/render-content/', 'content', 'match');

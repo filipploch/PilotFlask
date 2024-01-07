@@ -6,7 +6,7 @@
     <div class="radiobutton-div">
 
         <label for="option1" onclick="sendRequest(document.getElementById('option1').getAttribute('data-url'))">
-            {{ teams['teama'].short_name }}
+            {{ matchdata['teama'].short_name }}
         </label>
         <input
             type="radio" 
@@ -22,14 +22,14 @@
     <div class="radiobutton-div"`>
         <input
             type="radio" 
-            id="option1" 
+            id="option2"
             name="options" 
             class="radio-button"
             data-url="{{ url_for('obswebsocketpy.show_scene', scenename='STATYSTYKI_B') }}"
             onchange="sendRequest(this.getAttribute('data-url'))"
         >
         <label for="option2">
-            {{ teams['teamb'].short_name }}
+            {{ matchdata['teamb'].short_name }}
         </label>
     </div>
 </div>

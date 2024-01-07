@@ -302,7 +302,7 @@
 
 		</div>
 		
-		<button id="changeSideBtn" onclick="changeSide()">
+		<button id="changeSideBtn" onclick="pressChangeSideBtn()">
 			<<>>
 		</button><br>
 
@@ -439,13 +439,9 @@
 			elapsedTime = myData.match.seconds;
 			timeLimit = myData.match.match_length;
 
-			// Tutaj możesz umieścić kod, który zależy od zmiennych otrzymanych z API
 		}).catch(function (error) {
 			console.error(error);
 		});
-
-
-
 
 
 		function changeSide() {
@@ -471,7 +467,13 @@
 			teamChildren.forEach(function (child) {
 				teams.appendChild(child);
 			});
+		}
 
+		function pressChangeSideBtn() {
+			changeSide();
+			fetch('/change-scoreboard-side', {
+				method: 'PUT'
+			});
 		}
 
 		function updateValue(difference, divId) {
@@ -896,8 +898,22 @@ function setChecked(checkboxId, actual) {
     }
 }
 
+	function checkScoreboardReverse() {
+		var scoreboard = document.getElementById('changeSideBtn');
+		fetch('get-is-scoreboard-reversed')
+		.then(response => response.json())
+		.then(data => {
+			var isReversed = data['data'];
+			if (isReversed == 1) {
+				changeSide();
+			}
+		}).catch(function (error) {
+			console.error(error);
+		});}
+
     window.onload = function () {
         updateTimer();
+        checkScoreboardReverse();
     };
 
 

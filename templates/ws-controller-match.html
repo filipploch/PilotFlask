@@ -3,10 +3,8 @@
 {% block content %}
 
 <div class="row-small-buttons">
-    <div id="btn-var" class="button button-small">
-        <a href="{{ url_for('obswebsocketpy.replay_sequence', typeofaction='VAR') }}">
+    <div id="btn-var" class="button button-small" onclick="saveReplay('6')">
             <img src="{{ url_for('static', filename='images/ws-controller/var.png') }}" alt="VAR">
-        </a>
     </div>
     <div id="btn-foul" class="button button-small">
         <a href="{{ url_for('obswebsocketpy.replay_sequence', typeofaction='FAUL') }}">
@@ -83,6 +81,21 @@
         <a href="{{ url_for('obswebsocketpy.show_virtual_table', division='b') }}">
             <img src="{{ url_for('static', filename='images/ws-controller/table_b.png') }}" alt="VIRTUAL B">
         </a>
+    </div>
+</div>
+
+<div id="edit-frame" class="invisible">
+    <div id="edit-frame-title-bar">
+        <button id="edit-frame-hide-button" type="button" onclick="hideEditFrame()">X</button>
+    </div>
+    <div id="edit-frame-content">
+        <div id="edit-frame-typeofaction" class="invisible"></div>
+        <div id="current-date" class="invisible"></div>
+        <div id="edit-frame-title">Kto strzelał/faulował?</div>
+        <div id="teams-buttons">
+            <button id="select-team-a-btn" class="select-team-buttons" type="button">{{ matchdata['teama'].short_name }}</button>
+            <button id="select-team-b-btn" class="select-team-buttons" type="button">{{ matchdata['teamb'].short_name }}</button>
+        </div>
     </div>
 </div>
 
