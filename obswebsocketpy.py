@@ -3,7 +3,7 @@ from time import sleep
 import shutil
 import os
 from datetime import datetime
-from models import Match
+from models import Match, MatchAction
 
 class OBSWebsocket:
     def __init__(self, app, host="127.20.10.3", port=4445):
@@ -48,10 +48,10 @@ class OBSWebsocket:
     def mute_input(self, source_name, is_muted=True):
         self.ws.call(requests.SetInputMute(**{'inputName': source_name, 'inputMuted': is_muted}))
 
-    def save_replay(self, type_of_action):
+    def save_replay(self, type_of_action, action_time=None):
         self.ws.call(requests.SaveReplayBuffer())
         sleep(2)
-        self._save_replay(type_of_action)
+        self._save_replay(type_of_action, action_time)
 
     def play_replay(self):
         self.show_scene('POWTÓRKA')
@@ -59,20 +59,21 @@ class OBSWebsocket:
         sleep(9)
         self.show_scene('MECZ')
 
-    def save_replay_buffer(self):
+    def save_replay_buffer(self, action_time=None):
         self.ws.call(requests.SaveReplayBuffer())
         sleep(2)
         self.play_replay()
-        self._save_replay('GOL')
+        self._save_replay('GOL', action_time)
         self.show_source('MECZ', 'AKCJA_INFO')
         sleep(10)
         self.show_source('MECZ', 'AKCJA_INFO', visible=False)
 
-    def _save_replay(self, type_of_action):
-        file_name = self.set_replay_file_name(type_of_action)
+    def _save_replay(self, type_of_action, action_time=None):
+
+        _file_name = self.set_replay_file_name(type_of_action, action_time)
         source_path = os.path.join('static', 'video', 'processed', 'replay.mp4')
-        destination_path1 = os.path.join('static', 'video', 'replays', file_name)
-        destination_path2 = os.path.join('static', 'video', 'replays', 'arch', file_name)
+        destination_path1 = os.path.join('static', 'video', 'replays', _file_name)
+        destination_path2 = os.path.join('static', 'video', 'replays', 'arch', _file_name)
 
         try:
             shutil.copy(source_path, destination_path1)
@@ -83,11 +84,22 @@ class OBSWebsocket:
         except IOError as e:
             print(f"Błąd podczas kopiowania pliku: {e}")
 
-    def set_replay_file_name(self, type_of_action):
-        _date = datetime.now().strftime("%Y%m%d-%H%M%S")
+    def get_type_of_action(self, param):
+        if type(param) is None:
+            return None
+        elif type(param) is int:
+            _action = MatchAction.query.filter_by(id=param).first()
+            return _action.desc_polish
+        return None
+
+    def set_replay_file_name(self, type_of_action, action_time=None):
+        _type_of_action = self.get_type_of_action(type_of_action)
+        _date = action_time
+        if action_time is None:
+            _date = datetime.now().strftime("%Y%m%d-%H%M%S")
         _match = Match.query.filter_by(actual=1).first()
         _result = f'{_match.score_a}-{_match.score_b}'
-        return f'{_date}___{_result}_{type_of_action}.mp4'
+        return f'{_date}___{_result}_{_type_of_action}.mp4'
 
     def start_stop_stream(self):
         _stream_status_request = self.ws.call(requests.GetStreamStatus())

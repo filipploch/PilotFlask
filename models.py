@@ -99,7 +99,7 @@ class MatchesData(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     time = db.Column(db.Integer)
     action_id = db.Column(db.Integer, db.ForeignKey('match_action.id'))
-    player_id = db.Column(db.Integer, db.ForeignKey('players.id'), nullable=False)
+    player_id = db.Column(db.Integer, db.ForeignKey('players.id'))
     match_id = db.Column(db.Integer)
     team_id = db.Column(db.Integer, db.ForeignKey('teams.id'))
     event_time = db.Column(db.Integer, nullable=True)
@@ -108,9 +108,10 @@ class MatchesData(db.Model):
     action = db.relationship('MatchAction', backref='matches_data', lazy=True)
     actual = db.Column(db.Integer)
     is_hided = db.Column(db.Integer)
+    replay_file = db.Column(db.String)
 
 
-    def __init__(self, action_id, player_id, team_id, time, match_id, actual, is_hided):
+    def __init__(self, action_id, player_id, team_id, time, match_id, actual, is_hided, replay_file):
         self.action_id = action_id
         self.player_id = player_id
         self.team_id = team_id
@@ -118,6 +119,7 @@ class MatchesData(db.Model):
         self.match_id = match_id
         self.actual = actual
         self.is_hided = is_hided
+        self.replay_file = replay_file
 
 
 class MatchAction(db.Model):

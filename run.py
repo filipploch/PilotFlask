@@ -342,8 +342,6 @@ def render_statistics(stats_content):
     return jsonify({'message': 'OK'})
 
 
-
-
 @panel_blueprint.route('/panel')
 def panel():
     _matchdata = matchdata().get_json()
@@ -493,10 +491,12 @@ def insert_match_action():
         _actual_match = Match.query.filter_by(actual=1).first()
         _action_id = response['action_id']
         _team_id = response['team_id']
+        team_id = get_action_team_id(_actual_match, _action_id, _team_id)
+        _current_date = get_current_date(response)
+        _replay_file = save_replay_file(_action_id, _current_date)
         all_match_data = MatchesData.query.all()
         for data in all_match_data:
             data.actual = 0
-        team_id = get_action_team_id(_actual_match, _action_id, _team_id)
         match_data = MatchesData(
             action_id=_action_id,
             player_id=response['player_id'],
@@ -504,12 +504,25 @@ def insert_match_action():
             time=response['seconds'],
             match_id=_actual_match.id,
             actual=1,
-            is_hided=0
+            is_hided=0,
+            replay_file=_replay_file
         )
         db.session.add(match_data)
         db.session.commit()
         return 'match action added'
 
+def get_current_date(response):
+    if 'current_date' in response:
+        return response['current_date']
+    return None
+
+def save_replay_file(action_id, current_date):
+    if current_date is not None:
+        obs_ws = current_app.config['obs_ws']
+        replay_file = obs_ws.set_replay_file_name(action_id, current_date)
+        obs_ws.save_replay(action_id, current_date)
+        return replay_file
+    return None
 
 def get_action_team_id(actual_match, action_id, team_id):
     if action_id == 4:
@@ -1449,8 +1462,8 @@ def goal_sequence():
     return '', 204
 
 
-@obswebsocketpy_blueprint.route('/replay-sequence/<typeofaction>')
-def replay_sequence(typeofaction):
+@obswebsocketpy_blueprint.route('/save-replay/<typeofaction>')
+def save_replay(typeofaction):
     obs_ws = current_app.config['obs_ws']
     obs_ws.save_replay(typeofaction)
     return '', 204

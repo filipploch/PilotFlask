@@ -256,7 +256,8 @@
         {% block content %}{% endblock %}
     </div>
 
-        <script>
+    {% block footer_script %}{% endblock %}
+    <script>
 
         function getCurrentDateTime() {
             const now = new Date();
@@ -269,7 +270,7 @@
             const minutes = now.getMinutes().toString().padStart(2, '0');
             const seconds = now.getSeconds().toString().padStart(2, '0');
 
-            return `${year}${month}${day}-${hours}${minutes}${seconds}`;
+            return `${year}${month}${day}_${hours}${minutes}${seconds}`;
         }
 
         function changeSide() {
@@ -313,14 +314,95 @@
             editFrame.classList.add('invisible');
         }
 
+        function getValueOrNone(value) {
+            if (value === 'NULL') {
+                return null;
+            } else if (!isNaN(value)) {
+                // Sprawdzamy, czy wartość jest liczbą
+                return parseInt(value);
+            } else {
+                // Jeśli nie jest 'null' ani liczbą, zwracamy jako string
+                return String(value);
+            }
+        }
+
+        function saveElement() {
+			let actionId = document.getElementById('action-id').textContent;
+			let teamId = document.getElementById('team-id').textContent;
+			let playerId = document.getElementById('player-id').textContent;
+			let seconds = document.getElementById('current-second').textContent;
+			let currentDate = document.getElementById('current-date').textContent;
+				if(parseInt(actionId) !== 0){
+					action_data = {
+						'seconds': getValueOrNone(seconds),
+						'action_id': getValueOrNone(actionId),
+						'player_id': getValueOrNone(playerId),
+						'team_id': getValueOrNone(teamId),
+						'current_date': currentDate
+					}
+					fetch(`/insert-match-action`, {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify(action_data)					})
+						// .then(response => response.json())
+						.then(action_data => {
+							console.log('Element został zapisany:', action_data);
+						})
+						.catch(error => {
+							console.error('Wystąpił błąd podczas zapisywania elementu:', error);
+						})
+						;
+					}
+        }
+                
+
         function saveReplay(typeOfAction) {
-            checkScoreboardReverse();
-            var editFrame = document.getElementById('edit-frame');
-            var editFrameTypeOfAction = document.getElementById('edit-frame-typeofaction');
-            editFrameTypeOfAction.innerHTML = typeOfAction;
-            var currentDateElement = document.getElementById('current-date');
-            currentDateElement.innerHTML = getCurrentDateTime();
-            editFrame.classList.remove('invisible');
+            fetch('/matchdata')
+                .then(response => response.json())
+                .then(data => {
+                    checkScoreboardReverse();
+                    var editFrame = document.getElementById('edit-frame');
+                    var actionId = document.getElementById('action-id');
+                    actionId.innerHTML = typeOfAction;
+                    var currentDate = document.getElementById('current-date');
+                    currentDate.innerHTML = getCurrentDateTime();
+                    var currentSecond = document.getElementById('current-second');
+                    currentSecond.innerHTML = data.match.seconds;
+                    var playerId = document.getElementById('player-id');
+                    playerId.innerHTML = 'NULL';
+                    var teamId = document.getElementById('team-id');
+                    teamId.innerHTML = 'NULL';
+                    renderEditFrameContent(typeOfAction);
+                    editFrame.classList.remove('invisible');
+                    saveElement();
+                })
+        }
+
+        function renderEditFrameContent(typeOfAction) {
+            if (typeOfAction == '1') {
+                renderEditFrameGoalContent();
+            }
+            else if (typeOfAction == '6' || typeOfAction == '10' || typeOfAction == '11') {
+                renderEditFrameNoTeamContent();
+            }
+            else {
+                renderEditFrameElseContent();
+            }
+        }
+
+        function renderEditFrameGoalContent() {
+
+        }
+
+        function renderEditFrameNoTeamContent() {
+            var teamsButtons = document.getElementById('teams-buttons');
+            var editFrameTitle = document.getElementById('edit-frame-title');
+            teamsButtons.classList.add('invisible');
+            editFrameTitle.classList.add('invisible');
+        }
+
+        function renderEditFrameElseContent() {
+
         }
 
 
@@ -408,7 +490,6 @@
         // };
 
     </script>
-    {% block footer_script %}{% endblock %}
 </body>
 
 </html>

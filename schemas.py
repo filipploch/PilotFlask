@@ -45,7 +45,8 @@ match_action_schema = MatchActionSchema()
 class MatchesDataSchema(ma.Schema):
     class Meta:
         model = MatchesData
-        fields = ('id', 'time', 'match_id', 'action_id', 'player_id', 'team_id', 'actual', 'player', 'action', 'team', 'is_hided')
+        fields = ('id', 'time', 'match_id', 'action_id', 'player_id', 'team_id',
+                  'actual', 'player', 'action', 'team', 'is_hided', 'replay_file')
     player = Nested(player_schema)
     action = Nested(match_action_schema)
     team = Nested(team_schema)

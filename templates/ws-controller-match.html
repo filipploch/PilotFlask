@@ -7,22 +7,22 @@
             <img src="{{ url_for('static', filename='images/ws-controller/var.png') }}" alt="VAR">
     </div>
     <div id="btn-foul" class="button button-small">
-        <a href="{{ url_for('obswebsocketpy.replay_sequence', typeofaction='FAUL') }}">
+        <a href="{{ url_for('obswebsocketpy.save_replay', typeofaction='FAUL') }}">
             <img src="{{ url_for('static', filename='images/ws-controller/faul.png') }}" alt="FAUL">
         </a>
     </div>
     <div id="btn-gk-save" class="button button-small">
-        <a href="{{ url_for('obswebsocketpy.replay_sequence', typeofaction='OBRONA') }}">
+        <a href="{{ url_for('obswebsocketpy.save_replay', typeofaction='OBRONA') }}">
             <img src="{{ url_for('static', filename='images/ws-controller/obrona.png') }}" alt="OBRONA">
         </a>
     </div>
     <div id="btn-missed" class="button button-small">
-        <a href="{{ url_for('obswebsocketpy.replay_sequence', typeofaction='PUDŁO') }}">
+        <a href="{{ url_for('obswebsocketpy.save_replay', typeofaction='PUDŁO') }}">
             <img src="{{ url_for('static', filename='images/ws-controller/pudlo.png') }}" alt="PUDŁO">
         </a>
     </div>
     <div id="btn-goal" class="button button-small">
-        <a href="{{ url_for('obswebsocketpy.replay_sequence', typeofaction='GOL') }}">
+        <a href="{{ url_for('obswebsocketpy.save_replay', typeofaction='GOL') }}">
             <img src="{{ url_for('static', filename='images/ws-controller/gol.png') }}" alt="GOL">
         </a>
     </div>
@@ -47,12 +47,12 @@
 
 <div class="row-small-buttons">
     <div id="btn-funny" class="button button-small">
-        <a href="{{ url_for('obswebsocketpy.replay_sequence', typeofaction='HAHA') }}">
+        <a href="{{ url_for('obswebsocketpy.save_replay', typeofaction='HAHA') }}">
             <img src="{{ url_for('static', filename='images/ws-controller/hahaha.png') }}" alt="HAHAHA">
         </a>
     </div>
     <div id="btn-boom" class="button button-small">
-        <a href="{{ url_for('obswebsocketpy.replay_sequence', typeofaction='BUM') }}">
+        <a href="{{ url_for('obswebsocketpy.save_replay', typeofaction='BUM') }}">
             <img src="{{ url_for('static', filename='images/ws-controller/bum.png') }}" alt="BUM">
         </a>
     </div>
@@ -89,21 +89,26 @@
         <button id="edit-frame-hide-button" type="button" onclick="hideEditFrame()">X</button>
     </div>
     <div id="edit-frame-content">
-        <div id="edit-frame-typeofaction" class="invisible"></div>
-        <div id="current-date" class="invisible"></div>
+        <div id="action-id" class="xinvisible"></div>
+        <div id="player-id" class="xinvisible"></div>
+        <div id="team-id" class="xinvisible"></div>
+        <div id="current-date" class="xinvisible"></div>
+        <div id="current-second" class="xinvisible"></div>
         <div id="edit-frame-title">Kto strzelał/faulował?</div>
         <div id="teams-buttons">
             <button
                 id="select-team-a-btn"
                 class="select-team-buttons"
                 type="button"
-                data-teamid="{{ matchdata['teama'].id }}">{{ matchdata['teama'].short_name }}
+                data-teamid="{{ matchdata['teama'].id }}">
+                {{ matchdata['teama'].short_name }}
             </button>
             <button
                 id="select-team-b-btn"
                 class="select-team-buttons"
                 type="button"
-                data-teamid="{{ matchdata['teamb'].id }}">{{ matchdata['teamb'].short_name }}
+                data-teamid="{{ matchdata['teamb'].id }}">
+                {{ matchdata['teamb'].short_name }}
             </button>
         </div>
     </div>
