@@ -1,0 +1,14 @@
+variables.py
+run.bat
+venv/
+.idea/
+__pycache__/
+dowyrzucenia.html
+futsal.sqbpro
+work/
+static/video/processed/*
+static/video/replays/*.mp4
+static/video/stream/*
+instance/
+static/images/*
+static/video/*
