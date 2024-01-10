@@ -1,16 +1,12 @@
-{% extends 'base-ws-controller.html' %}
-
-{% block content %}
-
 <div class="radio-buttons" style="color: white;">
-    <div class="radiobutton-div">
+    <div class="ws-radiobutton-div">
 
-        <label for="option1" onclick="sendRequest(document.getElementById('option1').getAttribute('data-url'))">
+        <label for="ws-option1" onclick="sendRequest(document.getElementById('ws-option1').getAttribute('data-url'))">
             {{ matchdata['teama'].short_name }}
         </label>
         <input
             type="radio" 
-            id="option1" 
+            id="ws-option1" 
             name="options" 
             class="radio-button"
             data-url="{{ url_for('obswebsocketpy.show_scene', scenename='STATYSTYKI_A') }}"
@@ -19,16 +15,16 @@
 
     </div>
   
-    <div class="radiobutton-div"`>
+    <div class="ws-radiobutton-div">
         <input
             type="radio" 
-            id="option2"
+            id="ws-option2"
             name="options" 
             class="radio-button"
             data-url="{{ url_for('obswebsocketpy.show_scene', scenename='STATYSTYKI_B') }}"
             onchange="sendRequest(this.getAttribute('data-url'))"
         >
-        <label for="option2">
+        <label for="ws-option2" onclick="sendRequest(document.getElementById('ws-option2').getAttribute('data-url'))">
             {{ matchdata['teamb'].short_name }}
         </label>
     </div>
@@ -41,9 +37,3 @@
     <button class="stats-button" onclick="fetchDataAndRender('best5')">Najwięcej w 5 kolejki</button><br>
     <button class="stats-button" onclick="fetchDataAndRender('cards')">Kartki</button><br>
 </div>
-
-{% endblock %}
-
-{% block footer_script %}
-
-{% endblock %}

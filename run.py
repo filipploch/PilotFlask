@@ -749,7 +749,7 @@ def sec_to_secmin(sec):
 
 
 def set_action_type(action_id):
-    _actions = {1: 'G', 2: 'Ż', 3: 'C', 4: 'S', 5: 'T'}
+    _actions = {1: 'G', 2: 'Ż', 3: 'C', 4: 'S', 5: 'T', 6: 'V', 7: 'F', 8: 'O', 9: 'P', 10: 'B', 11: 'H'}
     return _actions[action_id]
 
 
@@ -1446,7 +1446,8 @@ def ws_controller():
 @obswebsocketpy_blueprint.route('/render-content/<content_name>')
 def render_content(content_name):
     _matchdata = matchdata().get_json()
-    return render_template(f'ws-controller-{content_name}.html', matchdata=_matchdata)
+    new_content = render_template(f'ws-controller-{content_name}.html', matchdata=_matchdata)
+    return jsonify({'content': new_content})
 
 @obswebsocketpy_blueprint.route('/showscene/<scenename>')
 def show_scene(scenename):
@@ -1535,8 +1536,7 @@ def show_action():
 def show_virtual_table(division):
     obs_ws = current_app.config['obs_ws']
     obs_ws.show_virtual_table(division)
-    return redirect(url_for('obswebsocketpy.ws_controller'))
-
+    return '', 204
 @socialmedia_blueprint.route('/maketableimg/<division>')
 def maketableimg(division):
     _settings = _get_settings(division)

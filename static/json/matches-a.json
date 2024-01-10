@@ -870,7 +870,10 @@
       "Brotherm",
       "eNHa"
     ],
-    "result": "",
+    "result": [
+      "6",
+      "2"
+    ],
     "actual": false,
     "parallel": false,
     "penalty_points": [

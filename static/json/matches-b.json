@@ -1192,7 +1192,7 @@
       "Z\u0142ote Ch\u0142opaki"
     ],
     "result": "",
-    "actual": false,
+    "actual": true,
     "parallel": false,
     "penalty_points": [
       0,
@@ -1207,7 +1207,7 @@
       "Nowy \u0141ad"
     ],
     "result": "",
-    "actual": false,
+    "actual": true,
     "parallel": false,
     "penalty_points": [
       0,
@@ -1351,7 +1351,7 @@
   },
   {
     "id": 78,
-    "date": "2024-01-24 21:30:00",
+    "date": "2024-01-24 20:45:00",
     "teams": [
       "Galactik Futsal",
       "Z\u0142ote Ch\u0142opaki"
@@ -1366,7 +1366,7 @@
   },
   {
     "id": 79,
-    "date": "2024-01-24 21:30:00",
+    "date": "2024-01-24 20:45:00",
     "teams": [
       "Laga Bonito",
       "Hattrick"
@@ -1381,7 +1381,7 @@
   },
   {
     "id": 80,
-    "date": "2024-01-24 22:15:00",
+    "date": "2024-01-24 21:30:00",
     "teams": [
       "Popalone Styki",
       "Nowohucki Klub Sportowy"

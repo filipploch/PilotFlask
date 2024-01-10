@@ -15,7 +15,7 @@
 {% block content %}
  <div class="list-group">
         {% for team in teams %}
-                    <a href="{{ url_for('settings.edit_team', team_id=team.id) }}" class="list-group-item">
+                    <a href="{{ url_for('settings.edit_team', team_id=team.id, edit_type='edit') }}" class="list-group-item">
                         {{ team['full_name'] }}
                     </a>
         {% endfor %}

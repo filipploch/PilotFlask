@@ -1,99 +1,32 @@
-{% extends 'base-ws-controller.html' %}
-
-{% block content %}
-<div class="row-small-buttons">
-    <div id="btn-stream" class="button button-small" ondblclick="startStream()">
+<div class="ws-row-small-buttons">
+    <div id="ws-btn-stream" class="ws-button ws-button-small" ondblclick="startStream()">
         <img src="{{ url_for('static', filename='images/ws-controller/stream-off.png') }}" alt="STREAM">
     </div>
 
 </div>
 
-<div class="row-small-buttons">
-    <div id="btn-match" class="button button-small">
+<div class="ws-row-small-buttons">
+    <div id="ws-btn-match" class="ws-button ws-button-small">
         <a href="{{ url_for('obswebsocketpy.show_match_scene') }}">
             <img src="{{ url_for('static', filename='images/ws-controller/match.png') }}" alt="MECZ">
         </a>
     </div>
-    <div id="btn-team-b-lineup" class="button button-small">
+    <div id="ws-btn-half-time" class="ws-button ws-button-small">
         <a href="{{ url_for('obswebsocketpy.show_half_time_scene') }}">
             <img src="{{ url_for('static', filename='images/ws-controller/half-time.png') }}" alt="PRZERWA">
         </a>
     </div>
 </div>
 
-<div class="row-small-buttons">
-    <div id="btn-team-a-lineup" class="button button-small">
+<div class="ws-row-small-buttons">
+    <div id="ws-btn-team-a-lineup" class="ws-button ws-button-small">
         <a href="{{ url_for('obswebsocketpy.show_scene', scenename='Skład A') }}">
             <img src="{{ url_for('static', filename='images/ws-controller/team-a-lineup.png') }}" alt="A">
         </a>
     </div>
-    <div id="btn-team-b-lineup" class="button button-small">
+    <div id="ws-btn-team-b-lineup" class="ws-button ws-button-small">
         <a href="{{ url_for('obswebsocketpy.show_scene', scenename='Skład B') }}">
             <img src="{{ url_for('static', filename='images/ws-controller/team-b-lineup.png') }}" alt="B">
         </a>
     </div>
 </div>
-{% endblock %}
-
-{% block footer_script %}
-<script>
-    function sleep (time) {
-        return new Promise((resolve) => setTimeout(resolve, time));
-    }
-
-    function setStreamButtonOn() {
-        var streamButton = document.getElementById('btn-stream');
-        var newImage = `<img src="{{ url_for('static', filename='images/ws-controller/stream-on.png') }}" alt="STREAM">`;
-        streamButton.removeAttribute('ondblclick');
-        streamButton.setAttribute('ondblclick', 'stopStream()');
-        streamButton.classList.add('backlight-red');
-        streamButton.innerHTML = newImage;
-    }
-
-    function setStreamButtonOff() {
-        var streamButton = document.getElementById('btn-stream');
-        var newImage = `<img src="{{ url_for('static', filename='images/ws-controller/stream-off.png') }}" alt="OFF">`;
-        streamButton.removeAttribute('ondblclick');
-        streamButton.setAttribute('ondblclick', 'startStream()');
-        streamButton.classList.remove('backlight-red');
-        streamButton.innerHTML = newImage;
-    }
-
-    function startStream() {
-
-            fetch('/start-stream')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.outputActive === true) {
-                        setStreamButtonOn();
-                    } else {
-                        console.error('Błąd: Stream nie został uruchomiony.');
-                    }
-                })
-                .catch(error => console.error('Błąd podczas rozpoczynania streamu:', error));
-    }
-
-    function stopStream() {
-        fetch('/stop-stream')
-        .then(setStreamButtonOff())
-        .catch(error => console.error('Błąd podczas zatrzymania streamu:', error));
-    }
-
-    window.onload = function () {
-        fetch('/get-stream-status')
-        .then(response => response.json())
-        .then(data => {
-            console.log(data.outputActive);
-            if (data.outputActive === true) {
-                setStreamButtonOn();
-            } else if (data.outputActive === false) {
-                setStreamButtonOff();
-            } else {
-                console.error('Błąd: Nie udało się pobrać statusu streamu.');
-            }
-        })
-        .catch(error => console.error('Błąd:', error));
-    };
-</script>
-
-{% endblock %}

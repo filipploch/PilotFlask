@@ -1,64 +1,32 @@
 <div class="stats-page-in" id="stats-page">
     
     <div class="stats-tile">
-        <div class="stats-tile-description">MIEJSCE W TABELI</div>
-        <div class="stats-tile-value bc-green">6</div>
+        <div class="stats-tile-description">ŚREDNIA PUNKTÓW NA MECZ</div>
         <div class="stats-tile-content">
-            <div class="stats-tile-content-row">Dywizja B</div>
+            <div class="stats-tile-content-row">1.5</div>
         </div>
-    </div>   
 
-    <div class="stats-tile">
-        <div class="stats-tile-description">MECZE I PUNKTY</div>
-        <div class="stats-tile-value bc-green">18</div>
-        <div class="stats-tile-content">
-            <div class="stats-tile-content-row">12
-            (6-0-6)
-            </div>
-        </div>
     </div>
+      
 
-    <div class="stats-tile">
-        <div class="stats-tile-description">FORMA</div>
-        <div class="stats-tile-content">
-            <div class="stats-tile-content-row">
-                
-                
-                <span class="form-win form-tile stats-value">W</span>
-                
-                
-                
-                
-                
-                <span class="form-win form-tile stats-value">W</span>
-                
-                
-                
-                
-                
-                <span class="form-win form-tile stats-value">W</span>
-                
-                
-                
-                
-                
-                <span class="form-win form-tile stats-value">W</span>
-                
-                
-                
-                
-                
-                <span class="form-win form-tile stats-value">W</span>
-                
-                
-            </div>
-        </div>
-    </div> 
     
     <div class="stats-tile">
-        <div class="stats-tile-description">BRAMKI</div>
+        <div class="stats-tile-description">ŚREDNIA BRAMEK STRZELONYCH</div>
         <div class="stats-tile-content">
-            <div class="stats-tile-content-row">53-53</div>
+            <div class="stats-tile-content-row">4.42</div>
         </div>
+
     </div>
+                    
+    
+    
+    <div class="stats-tile">
+        <div class="stats-tile-description">ŚREDNIA BRAMEK STRACONYCH</div>
+        <div class="stats-tile-content">
+            <div class="stats-tile-content-row">4.42</div>
+        </div>
+
+    </div>
+     
+
 </div>

@@ -1,0 +1,21 @@
+.backlight-red {
+    box-shadow: 0px 0px 10px 2px red;
+}
+
+.invisible {
+    display: none;
+}
+
+        .xbody {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            background-color: #2b2e38;
+        }
+
+        .xbutton {
+            padding: 1px;
+            width: 100%;
+        }
+

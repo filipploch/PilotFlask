@@ -1,0 +1,179 @@
+#ws-menu {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2px;
+    width: calc(100% - 6px);
+    font-size: small;
+    padding: 0px 3px;
+}
+
+.ws-team-stats-buttons-container {
+    font-size: small;
+    padding: 0px 3px;
+}
+
+.stats-button {
+    width: 100%;
+    font-size: 15px;
+}
+
+.ws-menu-button {
+    background-color: #e0e0e0;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+#ws-content {
+    padding: 3px;
+}
+
+.ws-row-small-buttons {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 5px;
+    width: 100%;
+}
+
+.ws-row-middle-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+    width: 100%;
+}
+
+.ws-button {
+
+    overflow: hidden;
+    border-radius: 10px;
+    box-sizing: border-box;
+    text-align: center;
+    border: 0.5vw solid black;
+    margin-top: 5px;
+}
+
+.ws-button-small {
+    aspect-ratio: 1/1;
+}
+
+.ws-button-middle {
+    width: 100%;
+}
+
+.ws-button-large {
+    width: calc(36% - 1vw);
+    height: calc(36% - 1vw);
+    aspect-ratio: 1/1;
+}
+
+.ws-button img {
+    width: 100%;
+    height: 100%;
+    object-fit: scale-down;
+}
+
+.ws-button-horizontal {
+    width: calc(39% - 1vw);
+    height: calc(18% - 1vw);
+    aspect-ratio: 2/0.9;
+    overflow: hidden;
+    border-radius: 10px;
+    margin: 0;
+    padding: 0;
+    border: 0.5vw solid
+}
+
+#ws-btn-var {
+    background-color: blue;
+}
+
+#ws-btn-foul {
+    background-color: orange;
+}
+
+#ws-btn-gk-save {
+    background-color: green;
+}
+
+#ws-btn-missed {
+    background-color: yellow;
+}
+
+#ws-btn-goal {
+    background-color: violet;
+}
+
+#ws-btn-replay {
+    background-color: lightgreen;
+}
+
+#ws-btn-goal-replay {
+    background-color: red;
+}
+
+#ws-btn-boom {
+    background-color: red;
+}
+
+#ws-btn-funny {
+    background-color: yellow;
+}
+
+#ws-btn-action {
+    background-color: rgb(63, 255, 45);
+}
+
+#ws-btn-banner {
+    background-color: rgb(165, 163, 255);
+}
+
+#ws-btn-stream {
+    background-color: rgb(255, 255, 255);
+}
+
+#ws-btn-fuse_stream {
+    background-color: red;
+}
+
+.ws-radiobutton-div{
+    width: 50%;
+    float: left;
+    text-align: center;
+}
+
+#ws-edit-frame {
+    position: absolute;
+    width: 227px;
+    height: 264px;
+    top: 0;
+    background-color: dimgrey;
+}
+
+#ws-edit-frame-title-bar {
+    width: 100%;
+}
+
+#ws-edit-frame-hide-button {
+    width: 25px;
+    right: 5px;
+    position: absolute;
+}
+
+#ws-edit-frame-content {
+    position: absolute;
+    width: 100%;
+    top: 25px;
+}
+
+#ws-edit-frame-title {
+    position: relative;
+    text-align: center;
+}
+
+#ws-teams-buttons {
+    position: static;
+}
+
+.ws-select-team-buttons {
+    width: 45%;
+    font-size: 20px;
+}
