@@ -267,12 +267,8 @@ def virtualtable(division):
     _division = division
     json_file_base_table_path = os.path.join(settings_blueprint.root_path, 'static', 'json', f'base-table-{division}.json')
     json_file_virtual_table_path = os.path.join(settings_blueprint.root_path, 'static', 'json', f'virtual-table-{division}.json')
-
-    # Odczytaj dane z pliku JSON
     with open(json_file_base_table_path, 'r') as json_file:
         data_b = json.load(json_file)
-
-    # Odczytaj dane z pliku JSON
     with open(json_file_virtual_table_path, 'r') as json_file:
         data_v = json.load(json_file)
 
@@ -573,7 +569,6 @@ def change_scoreboard_side():
         actual_match.is_scoreboard_reversed = 0
     db.session.commit()
     return '', 204
-    # return jsonify({'is_scoreboard_reversed': is_scoreboard_reversed})
 
 
 @panel_blueprint.route('/get-is-scoreboard-reversed')
@@ -798,23 +793,14 @@ def prepare_data_to_edit(dataId):
 @panel_blueprint.route('/update-data/<int:data_id>', methods=['PUT'])
 def update_data(data_id):
     try:
-        # Pobierz dane z żądania
         data = request.get_json()
-
-        # Pobierz obiekt z bazy danych
         obj_to_update = MatchesData.query.get(data_id)
-
-        # Zaktualizuj pola obiektu
         obj_to_update.time = data['time']
         obj_to_update.action_id = data['action']
         obj_to_update.player_id = data['player']
-
-        # Przekonwertuj czas z minut i sekund na sekundy
         time_in_seconds = data['time']
         obj_to_update.time = time_in_seconds
         obj_to_update.is_hided = data['is_hided']
-
-        # Zapisz zmiany w bazie danych
         db.session.commit()
 
         return jsonify({'message': 'Dane zaktualizowane pomyślnie'}), 200
@@ -861,8 +847,6 @@ def creatematch():
     form.process()
 
     form_content = CreateEditMatch.form_content
-
-    # if request.method == 'POST' and form.validate():
     if request.method == 'POST':
         team_a = request.form.get('team_a')
         team_b = request.form.get('team_b')
@@ -875,8 +859,6 @@ def creatematch():
         date_time = request.form.get('date_time')
         competitions = request.form.get('competitions')
         division = request.form.get('division')
-
-        # Utwórz nowy mecz
         new_match = Match(team_a=team_a
                           , team_b=team_b
                           , match_length=match_length
@@ -889,8 +871,6 @@ def creatematch():
             new_match.actual = 1
         db.session.add(new_match)
         db.session.flush()
-
-        # # Dodaj cameramen do meczu
         for cameraman_id in cameramen:
             cameraman = Staff.query.get(cameraman_id)
             if cameraman:
@@ -906,7 +886,6 @@ def creatematch():
             if referee:
                 new_match.referee.append(referee)
 
-        # Zapisz zmiany w bazie danych
         db.session.commit()
 
         return redirect(url_for('settings.nalf'))
@@ -947,17 +926,13 @@ def edit_match(match_id):
         match.stadium = form.stadium.data
         match.date_time = form.date_time.data
 
-        # Utwórz nowy mecz
-        # match = Match(team_a=team_a, team_b=team_b, match_length=match_length, stadium=stadium, date=date_time)
         if match.actual:
             db.session.query(Match).update({Match.actual: 0})
             match.actual = 1
-        # db.session.flush()
         match.cameraman.clear()
         match.commentator.clear()
         match.referee.clear()
 
-        # # Dodaj cameramen do meczu
         for cameraman_id in cameramen:
             cameraman = Staff.query.get(cameraman_id)
             if cameraman:
@@ -973,9 +948,6 @@ def edit_match(match_id):
             if referee:
                 match.referee.append(referee)
 
-        # Aktualizacja danych meczu
-        # form.populate_obj(match)
-        # Zapisanie zmian w bazie danych
         db.session.add(match)
         db.session.commit()
 
@@ -1027,35 +999,18 @@ def edit_team(edit_type, team_id):
         elif edit_type == 'set':
             return redirect(url_for('settings.edit_team', edit_type='set', team_id=team_id))
     team = Team.query.filter_by(id=team_id).first()
-    players = Player.query.filter_by(team=team_id).order_by(Player.position.desc(), Player.default_nr)  # Pobierz graczy z bazy danych
-    # .order_by(desc(players.position))
+    players = Player.query.filter_by(team=team_id).order_by(Player.position.desc(), Player.default_nr)
     if edit_type == 'edit':
         return render_template('edit_team.html', edit_type=edit_type, team_id=team_id, team=team, players=players)
     elif edit_type == 'set':
         return render_template('set-lineup.html', edit_type=edit_type, team_id=team_id, team=team, players=players)
 
-# @settings_blueprint.route('/set-lineup/<int:team_id>', methods=['GET', 'POST'])
-# def set_lineup(team_id):
-#     if request.method == 'POST':
-#         _data = request.form.to_dict()
-#         if 'submit_players' in _data:
-#             print('submit_players', _data, flush=True)
-#             save_players_to_database(_data)
-#         elif 'submit_colors' in _data:
-#             print('submit_colors', _data, flush=True)
-#             save_tricots_colors_to_database(team_id, _data)
-
-#         return redirect(url_for('settings.set_lineup', team_id=team_id))
-#     team = Team.query.filter_by(id=team_id).first()
-#     players = Player.query.filter_by(team=team_id)  # Pobierz graczy z bazy danych
-#     return render_template('set-lineup.html', team_id=team_id, team=team, players=players)
 
 def save_players_to_database(player_data):
     players_ids = []
     players_data = {}
 
     for key, value in player_data.items():
-        # Sprawdź, czy pole zawiera dane gracza
         if '[' in key and ']' in key:
             player_id = key.split('[')[0].split('_')[1]
             players_ids.append(player_id)
@@ -1070,12 +1025,10 @@ def save_players_to_database(player_data):
                 _plyr_data.update({key: value})
         players_data.update({plyr_id: _plyr_data})
 
-    # # Zapisz dane do bazy danych
     for key in players_data:
         player = Player.query.filter_by(id=key).first()
 
         if player:
-            # Aktualizuj dane istniejącego gracza
             player.squad = players_data[key].get('squad', '0')
             player.default_nr = players_data[key].get('default_nr', 0)
             player.first_name = players_data[key].get('first_name', 'Imię')
@@ -1086,26 +1039,6 @@ def save_players_to_database(player_data):
         db.session.commit()
 
 def save_tricots_colors_to_database(team_id, tricots_data):
-    # players_ids = []
-    # players_data = {}
-
-    # for key, value in player_data.items():
-    #     # Sprawdź, czy pole zawiera dane gracza
-    #     if '[' in key and ']' in key:
-    #         player_id = key.split('[')[0].split('_')[1]
-    #         players_ids.append(player_id)
-    # players_ids = set(players_ids)
-    #
-    # for plyr_id in players_ids:
-    #     _plyr_data = {}
-    #
-    #     for key, value in player_data.items():
-    #         if f'player_{plyr_id}' in key:
-    #             key = key.split('[')[1][:-1]
-    #             _plyr_data.update({key: value})
-    #     players_data.update({plyr_id: _plyr_data})
-
-    # # Zapisz dane do bazy danych
     team = Team.query.filter_by(id=team_id).first()
 
     if team:
@@ -1125,17 +1058,14 @@ def save_tricots_colors_to_database(team_id, tricots_data):
 @settings_blueprint.route('/set-actual-match', methods=['POST'])
 def set_actual_match():
     try:
-        # Pobierz dane z żądania
         data = request.get_json()
         match_id = data['matchId']
-        # Pobierz obiekt z bazy danych
         _all_matches = Match.query.all()
         for _match in _all_matches:
             _match.actual = 0
         _actual_match = Match.query.filter_by(id=match_id).first()
         _actual_match.actual = 1
 
-        # Zapisz zmiany w bazie danych
         db.session.commit()
 
         return jsonify({'message': 'Dane zaktualizowane pomyślnie'}), 200
@@ -1146,18 +1076,12 @@ def set_actual_match():
 
 @settings_blueprint.route('/show_empty_result/<division>', methods=['GET'])
 def show_empty_result(division):
-    # Skonstruuj pełną ścieżkę do pliku JSON
     json_file_path = os.path.join(settings_blueprint.root_path, 'static', 'json', 'matches.json')
 
     try:
-        # Odczytaj dane z pliku JSON
         with open(json_file_path, 'r') as json_file:
             data = json.load(json_file)
-
-        # Wybierz tylko te wpisy, gdzie 'result' jest pusty
         empty_result_data = [entry for entry in data if entry['result'] == '']
-
-        # Renderuj szablon HTML z danymi
         return render_template('update_results.html', data=empty_result_data, division=division)
 
     except FileNotFoundError:
@@ -1165,19 +1089,12 @@ def show_empty_result(division):
 
 @settings_blueprint.route('/show-matches-by-date/<target>/<division>', methods=['GET'])
 def show_matches_by_date(target, division):
-    # Pobieramy parametr 'days' z zapytania lub używamy domyślnej wartości +1/-1 dni
     days = int(request.args.get('days', 4))
-
-    # Obliczamy daty
     today = datetime.now()
     start_date = today - timedelta(days=days)
     end_date = today + timedelta(days=days)
-
-    # Pobieramy dane z pliku matches.json
     with open(f'static/json/matches-{division}.json', 'r') as json_file:
         data = json.load(json_file)
-
-    # Filtrujemy dane, aby pokazać tylko te w określonym przedziale dat
     filtered_data = [entry for entry in data if start_date <= datetime.strptime(entry['date'], '%Y-%m-%d %H:%M:%S') <= end_date]
     if target == 'controller':
         for dta in filtered_data:
@@ -1229,8 +1146,6 @@ def show_all_matches(target, division):
 
     with open(f'static/json/matches-{division}.json', 'r') as json_matches_file:
         data = json.load(json_matches_file)
-
-    # Filtrujemy dane, aby pokazać tylko te w określonym przedziale dat
     if target == 'controller':
         new_content = render_template('update_results_panel.html', data=data, division=division)
         return jsonify({'content': new_content})
@@ -1255,23 +1170,17 @@ def scrape_matches(page_id):
 
 @settings_blueprint.route('/save-result/<target>/<division>', methods=['POST'])
 def save_result(target, division):
-    # Pobierz dane JSON przesłane z przeglądarki
     match_data = request.json
-
-    # Aktualizuj plik JSON
     with open(f'static/json/matches-{division}.json', 'r') as json_file:
         data = json.load(json_file)
     for entry in data:
         if entry['id'] == int(match_data['id']):
-            # Aktualizuj wartości 'result' w zależności od przesłanych danych
             if match_data['result_home'] == '' or match_data['result_away'] == '':
                 entry['result'] = ''
                 entry['actual'] = match_data['actual']
             else:
                 entry['result'] = [match_data['result_home'], match_data['result_away']]
                 entry['actual'] = match_data['actual']
-
-    # Zapisz zaktualizowane dane z powrotem do pliku JSON
     with open(f'static/json/matches-{division}.json', 'w') as json_file:
         json.dump(data, json_file, indent=2)
 
