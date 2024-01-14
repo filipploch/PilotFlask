@@ -1,4 +1,5 @@
 import json
+from sqlalchemy import desc
 from utils.createeditmatch import CreateEditMatch
 from utils.table_generator import TableGenerator
 from utils.players_updater import NALFplayersUpdater
@@ -1026,7 +1027,8 @@ def edit_team(edit_type, team_id):
         elif edit_type == 'set':
             return redirect(url_for('settings.edit_team', edit_type='set', team_id=team_id))
     team = Team.query.filter_by(id=team_id).first()
-    players = Player.query.filter_by(team=team_id)  # Pobierz graczy z bazy danych
+    players = Player.query.filter_by(team=team_id).order_by(Player.position.desc(), Player.default_nr)  # Pobierz graczy z bazy danych
+    # .order_by(desc(players.position))
     if edit_type == 'edit':
         return render_template('edit_team.html', edit_type=edit_type, team_id=team_id, team=team, players=players)
     elif edit_type == 'set':
