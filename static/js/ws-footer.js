@@ -203,7 +203,7 @@
 
     function setStreamButtonOn() {
         var streamButton = document.getElementById('ws-btn-stream');
-        var newImage = `<img src="{{ url_for('static', filename='images/ws-controller/stream-on.png') }}" alt="STREAM">`;
+        var newImage = '<img src="/static/images/ws-controller/stream-on.png" alt="STREAM">';
         streamButton.removeAttribute('ondblclick');
         streamButton.setAttribute('ondblclick', 'stopStream()');
         classListAdd('ws-btn-stream', 'backlight-red');
@@ -212,7 +212,7 @@
 
     function setStreamButtonOff() {
         var streamButton = document.getElementById('ws-btn-stream');
-        var newImage = `<img src="{{ url_for('static', filename='images/ws-controller/stream-off.png') }}" alt="OFF">`;
+        var newImage = '<img src="/static/images/ws-controller/stream-off.png" alt="STREAM">';
         streamButton.removeAttribute('ondblclick');
         streamButton.setAttribute('ondblclick', 'startStream()');
         classListRemove('ws-btn-stream', 'backlight-red');
