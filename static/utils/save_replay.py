@@ -3,12 +3,13 @@ import os
 from datetime import datetime
 from models import Match
 
+
 def save_replay(type_of_action):
     file_name = set_replay_file_name(type_of_action)
     source_path = os.path.join('static', 'video', 'processed', 'replay.mp4')
     destination_path1 = os.path.join('static', 'video', 'replays', file_name)
     destination_path2 = os.path.join('static', 'video', 'replays', 'arch', file_name)
-    print(file_name)
+
 
     try:
         # Kopiuj do pierwszego folderu

@@ -449,7 +449,7 @@ def set_match_actions_non_actual():
         for action in match_actions:
             action.actual = 0
             db.session.commit()
-        return ''
+        return '', 204
 
 
 @panel_blueprint.route('/update-match-actions', methods=['POST'])
@@ -477,12 +477,19 @@ def add_match_action():
             team_id=get_team_id_by_description(response['team'], actual_match),
             time=seconds,
             match_id=actual_match.id,
-            actual=1
+            actual=1,
+            is_hided=0,
+            replay_file='None'
         )
         db.session.add(match_data)
         db.session.commit()
         return 'match action added'
 
+@panel_blueprint.route('/drop_replay')
+def drop_replay():
+    obs_ws = current_app.config['obs_ws']
+    obs_ws.drop_replay()
+    return '', 204
 
 @panel_blueprint.route('/insert-match-action', methods=['POST'])
 def insert_match_action():
@@ -517,6 +524,7 @@ def get_current_date(response):
     return None
 
 def save_replay_file(action_id, current_date):
+    print('save_replay_file:', action_id, current_date, flush=True)
     if current_date is not None:
         obs_ws = current_app.config['obs_ws']
         replay_file = obs_ws.set_replay_file_name(action_id, current_date)
@@ -703,6 +711,7 @@ def get_replays():
     files = [file for file in os.listdir(directory) if file.endswith('.mp4')]
     new_content = render_template('replays-panel.html', files=files)
     return jsonify({'content': new_content})
+
 
 @panel_blueprint.route('/process_file/<filename>')
 def process_file(filename):
@@ -1361,7 +1370,10 @@ def get_statistics(team):
     }
     with open(f'static/json/match-stats-{team}.json', 'w') as json_file:
         json.dump(content, json_file, indent=2)
-    return jsonify({'status': 'success', 'message': f'match-stats-{team}.json został wygenerowany.'})
+    _message = f'match-stats-{team}.json został wygenerowany.'
+    new_content = render_template('after_load_content_message.html', message=_message)
+    return jsonify({'content': new_content})
+
 
 def _get_average_per_match(_type, _data):
     _goals = _data[0][_type]
@@ -1457,9 +1469,9 @@ def show_scene(scenename):
 
 
 @obswebsocketpy_blueprint.route('/goal-sequence')
-def goal_sequence():
+def play_goal_sequence():
     obs_ws = current_app.config['obs_ws']
-    obs_ws.save_replay_buffer()
+    obs_ws.play_instant_replay()
     return '', 204
 
 

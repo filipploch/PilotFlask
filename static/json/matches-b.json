@@ -1176,7 +1176,10 @@
       "\u017bar\u0142acze",
       "Galactik Futsal"
     ],
-    "result": "",
+    "result": [
+      7,
+      11
+    ],
     "actual": false,
     "parallel": false,
     "penalty_points": [
@@ -1191,8 +1194,11 @@
       "Trivium S\u0142omniki Warriors",
       "Z\u0142ote Ch\u0142opaki"
     ],
-    "result": "",
-    "actual": true,
+    "result": [
+      5,
+      7
+    ],
+    "actual": false,
     "parallel": false,
     "penalty_points": [
       0,
@@ -1206,8 +1212,11 @@
       "Hattrick",
       "Nowy \u0141ad"
     ],
-    "result": "",
-    "actual": true,
+    "result": [
+      1,
+      4
+    ],
+    "actual": false,
     "parallel": false,
     "penalty_points": [
       0,
@@ -1221,7 +1230,10 @@
       "eNHa II",
       "Nowohucki Klub Sportowy"
     ],
-    "result": "",
+    "result": [
+      2,
+      8
+    ],
     "actual": false,
     "parallel": false,
     "penalty_points": [
@@ -1236,7 +1248,10 @@
       "Laga Bonito",
       "Popalone Styki"
     ],
-    "result": "",
+    "result": [
+      13,
+      2
+    ],
     "actual": false,
     "parallel": false,
     "penalty_points": [

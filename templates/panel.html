@@ -142,6 +142,9 @@
 			<div class="menu-description">Wyświetl wyniki</div>
 			<button class="team-button" onclick="loadContent('/show-matches-by-date/controller/', 'sidebar', 'a')">Dyw. A</button>
 			<button class="team-button" onclick="loadContent('/show-matches-by-date/controller/', 'sidebar', 'b')">Dyw. B</button><br>
+			<div class="menu-description">Pobierz statystyki</div>
+			<button class="team-button" onclick="loadContent('/get-statistics/teama', 'sidebar')">{{ matchdata.teama.short_name }}</button>
+			<button class="team-button" onclick="loadContent('/get-statistics/teamb', 'sidebar')">{{ matchdata.teamb.short_name }}</button><br>
 		</div>
 	</div>
 	<div id="ws-controller-div">
@@ -167,8 +170,8 @@
 	<script src="{{ url_for('static', filename='js/virtualtable.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/load-content.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/update-data.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/panel.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/common.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/panel.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/ws-footer.js') }}"></script>
 </body>
 

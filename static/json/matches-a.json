@@ -871,8 +871,8 @@
       "eNHa"
     ],
     "result": [
-      "6",
-      "2"
+      6,
+      2
     ],
     "actual": false,
     "parallel": false,
@@ -888,7 +888,10 @@
       "IGLOMEN&RodzinneRestauracje",
       "MK Team"
     ],
-    "result": "",
+    "result": [
+      5,
+      5
+    ],
     "actual": false,
     "parallel": false,
     "penalty_points": [
@@ -903,7 +906,10 @@
       "DRUG-ony",
       "Boanerges"
     ],
-    "result": "",
+    "result": [
+      0,
+      8
+    ],
     "actual": false,
     "parallel": false,
     "penalty_points": [
@@ -918,7 +924,10 @@
       "Drink Team",
       "Legion"
     ],
-    "result": "",
+    "result": [
+      2,
+      5
+    ],
     "actual": false,
     "parallel": false,
     "penalty_points": [
@@ -945,8 +954,8 @@
     "id": 54,
     "date": "2024-01-17 20:45:00",
     "teams": [
-      "MK Team",
-      "eNHa"
+      "Legion",
+      "Boanerges"
     ],
     "result": "",
     "actual": false,
@@ -960,8 +969,8 @@
     "id": 55,
     "date": "2024-01-17 20:45:00",
     "teams": [
-      "Drink Team",
-      "IGLOMEN&RodzinneRestauracje"
+      "MK Team",
+      "eNHa"
     ],
     "result": "",
     "actual": false,
@@ -975,8 +984,8 @@
     "id": 56,
     "date": "2024-01-17 21:30:00",
     "teams": [
-      "Legion",
-      "Boanerges"
+      "Drink Team",
+      "IGLOMEN&RodzinneRestauracje"
     ],
     "result": "",
     "actual": false,

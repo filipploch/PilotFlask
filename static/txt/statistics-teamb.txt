@@ -2,18 +2,18 @@
     
     <div class="stats-tile">
         <div class="stats-tile-description">MIEJSCE W TABELI</div>
-        <div class="stats-tile-value bc-green">8</div>
+        <div class="stats-tile-value bc-green">4</div>
         <div class="stats-tile-content">
-            <div class="stats-tile-content-row">Dywizja B</div>
+            <div class="stats-tile-content-row">Dywizja A</div>
         </div>
     </div>   
 
     <div class="stats-tile">
         <div class="stats-tile-description">MECZE I PUNKTY</div>
-        <div class="stats-tile-value bc-green">17</div>
+        <div class="stats-tile-value bc-green">24</div>
         <div class="stats-tile-content">
-            <div class="stats-tile-content-row">12
-            (5-2-5)
+            <div class="stats-tile-content-row">13
+            (8-0-5)
             </div>
         </div>
     </div>
@@ -24,18 +24,6 @@
             <div class="stats-tile-content-row">
                 
                 
-                <span class="form-win form-tile stats-value">W</span>
-                
-                
-                
-                
-                
-                <span class="form-lost form-tile stats-value">P</span>
-                
-                
-                
-                
-                
                 <span class="form-lost form-tile stats-value">P</span>
                 
                 
@@ -48,7 +36,19 @@
                 
                 
                 
-                <span class="form-draw form-tile stats-value">R</span>
+                <span class="form-win form-tile stats-value">W</span>
+                
+                
+                
+                
+                
+                <span class="form-win form-tile stats-value">W</span>
+                
+                
+                
+                
+                
+                <span class="form-win form-tile stats-value">W</span>
                 
                 
             </div>
@@ -58,7 +58,7 @@
     <div class="stats-tile">
         <div class="stats-tile-description">BRAMKI</div>
         <div class="stats-tile-content">
-            <div class="stats-tile-content-row">62-63</div>
+            <div class="stats-tile-content-row">59-41</div>
         </div>
     </div>
 </div>

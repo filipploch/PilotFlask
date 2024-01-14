@@ -1,6 +1,6 @@
 [
   [
-    true,
+    null,
     "Trivium S\u0142omniki Warriors",
     32,
     "",
@@ -14,9 +14,16 @@
     "promotion-group"
   ],
   [
-    true,
+    null,
     "Z\u0142ote Ch\u0142opaki",
-    19,
+    22,
+    "",
+    "promotion-group"
+  ],
+  [
+    null,
+    "Galactik Futsal",
+    18,
     "",
     "promotion-group"
   ],
@@ -29,22 +36,15 @@
   ],
   [
     null,
-    "Galactik Futsal",
-    15,
+    "Laga Bonito",
+    20,
     "",
-    "promotion-group"
+    "demotion-group"
   ],
   [
     true,
     "Hattrick",
     18,
-    "",
-    "demotion-group"
-  ],
-  [
-    null,
-    "Laga Bonito",
-    17,
     "",
     "demotion-group"
   ],
@@ -56,7 +56,7 @@
     "demotion-group"
   ],
   [
-    null,
+    true,
     "eNHa II",
     11,
     "",
@@ -70,7 +70,7 @@
     "demotion-group"
   ],
   [
-    null,
+    true,
     "Nowohucki Klub Sportowy",
     4,
     "",

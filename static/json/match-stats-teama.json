@@ -1,96 +1,110 @@
 {
   "table-data": [
     {
-      "division": "Dywizja B",
-      "rank": 6,
-      "team_name": "Hattrick",
-      "matches": 12,
-      "wins": 6,
-      "draws": 0,
-      "losts": 6,
-      "goals_scored": 53,
+      "division": "Dywizja A",
+      "rank": 3,
+      "team_name": "Legion",
+      "matches": 13,
+      "wins": 8,
+      "draws": 1,
+      "losts": 4,
+      "goals_scored": 66,
       "goals_lost": 53,
-      "points": 18,
-      "form": "W W W W W"
+      "points": 25,
+      "form": "P P W P W"
     }
   ],
-  "average-points": 1.5,
-  "average-scored-goals": 4.42,
-  "average-lost-goals": 4.42,
+  "average-points": 1.92,
+  "average-scored-goals": 5.08,
+  "average-lost-goals": 4.08,
   "best-strikers": [
     {
-      "full_name": "Kasprzyk Kacper",
-      "link": "https://nalffutsal.pl/?sp_player=kasprzyk-kacper",
-      "team": "https://nalffutsal.pl/?sp_team=hattrick",
+      "full_name": "Nazarov Dmytro",
+      "link": "https://nalffutsal.pl/?sp_player=nazarov-dmytro",
+      "team": "https://nalffutsal.pl/?sp_team=ukraine",
       "is_goalkeeper": 0,
       "matches": 11,
-      "goals": 12,
-      "assists": 7,
-      "yellow_cards": 0,
-      "red_cards": 0,
+      "goals": 14,
+      "assists": 2,
+      "yellow_cards": 1,
+      "red_cards": 1,
       "own_goals": 0,
       "best_five": 1,
       "best_player": 0
+    },
+    {
+      "full_name": "Turov Illia",
+      "link": "https://nalffutsal.pl/?sp_player=turov-illia",
+      "team": "https://nalffutsal.pl/?sp_team=ukraine",
+      "is_goalkeeper": 0,
+      "matches": 12,
+      "goals": 14,
+      "assists": 27,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 6,
+      "best_player": 1
     }
   ],
   "best-assistants": [
     {
-      "full_name": "Fischer Miko\u0142aj",
-      "link": "https://nalffutsal.pl/?sp_player=mikolaj-fischer",
-      "team": "https://nalffutsal.pl/?sp_team=hattrick",
+      "full_name": "Turov Illia",
+      "link": "https://nalffutsal.pl/?sp_player=turov-illia",
+      "team": "https://nalffutsal.pl/?sp_team=ukraine",
       "is_goalkeeper": 0,
-      "matches": 9,
-      "goals": 7,
-      "assists": 10,
-      "yellow_cards": 2,
+      "matches": 12,
+      "goals": 14,
+      "assists": 27,
+      "yellow_cards": 0,
       "red_cards": 0,
       "own_goals": 0,
-      "best_five": 1,
-      "best_player": 0
+      "best_five": 6,
+      "best_player": 1
     }
   ],
   "best-canadians": [
     {
-      "full_name": "Kasprzyk Kacper",
-      "link": "https://nalffutsal.pl/?sp_player=kasprzyk-kacper",
-      "team": "https://nalffutsal.pl/?sp_team=hattrick",
+      "full_name": "Turov Illia",
+      "link": "https://nalffutsal.pl/?sp_player=turov-illia",
+      "team": "https://nalffutsal.pl/?sp_team=ukraine",
       "is_goalkeeper": 0,
-      "matches": 11,
-      "goals": 12,
-      "assists": 7,
+      "matches": 12,
+      "goals": 14,
+      "assists": 27,
       "yellow_cards": 0,
       "red_cards": 0,
       "own_goals": 0,
-      "best_five": 1,
-      "best_player": 0
+      "best_five": 6,
+      "best_player": 1
     }
   ],
   "most-yellow-cards": [
     {
-      "full_name": "Fischer Miko\u0142aj",
-      "link": "https://nalffutsal.pl/?sp_player=mikolaj-fischer",
-      "team": "https://nalffutsal.pl/?sp_team=hattrick",
+      "full_name": "Tretiak Oleksandr",
+      "link": "https://nalffutsal.pl/?sp_player=tretiak-oleksandr",
+      "team": "https://nalffutsal.pl/?sp_team=ukraine",
       "is_goalkeeper": 0,
       "matches": 9,
-      "goals": 7,
-      "assists": 10,
-      "yellow_cards": 2,
+      "goals": 9,
+      "assists": 4,
+      "yellow_cards": 4,
       "red_cards": 0,
       "own_goals": 0,
-      "best_five": 1,
+      "best_five": 0,
       "best_player": 0
     }
   ],
   "most-red-cards": [
     {
-      "full_name": "Gajoch Micha\u0142",
-      "link": "https://nalffutsal.pl/?sp_player=michal-gajoch",
-      "team": "https://nalffutsal.pl/?sp_team=hattrick",
-      "is_goalkeeper": 1,
+      "full_name": "Nazarov Dmytro",
+      "link": "https://nalffutsal.pl/?sp_player=nazarov-dmytro",
+      "team": "https://nalffutsal.pl/?sp_team=ukraine",
+      "is_goalkeeper": 0,
       "matches": 11,
-      "goals": 0,
-      "assists": 1,
-      "yellow_cards": 0,
+      "goals": 14,
+      "assists": 2,
+      "yellow_cards": 1,
       "red_cards": 1,
       "own_goals": 0,
       "best_five": 1,
@@ -99,117 +113,47 @@
   ],
   "most-best-five": [
     {
-      "full_name": "Czepiec Jakub",
-      "link": "https://nalffutsal.pl/?sp_player=czepiec-jakub",
-      "team": "https://nalffutsal.pl/?sp_team=hattrick",
+      "full_name": "Turov Illia",
+      "link": "https://nalffutsal.pl/?sp_player=turov-illia",
+      "team": "https://nalffutsal.pl/?sp_team=ukraine",
       "is_goalkeeper": 0,
-      "matches": 6,
-      "goals": 7,
-      "assists": 3,
-      "yellow_cards": 1,
+      "matches": 12,
+      "goals": 14,
+      "assists": 27,
+      "yellow_cards": 0,
       "red_cards": 0,
       "own_goals": 0,
-      "best_five": 1,
+      "best_five": 6,
       "best_player": 1
-    },
-    {
-      "full_name": "Fischer Miko\u0142aj",
-      "link": "https://nalffutsal.pl/?sp_player=mikolaj-fischer",
-      "team": "https://nalffutsal.pl/?sp_team=hattrick",
-      "is_goalkeeper": 0,
-      "matches": 9,
-      "goals": 7,
-      "assists": 10,
-      "yellow_cards": 2,
-      "red_cards": 0,
-      "own_goals": 0,
-      "best_five": 1,
-      "best_player": 0
-    },
-    {
-      "full_name": "Gajoch Micha\u0142",
-      "link": "https://nalffutsal.pl/?sp_player=michal-gajoch",
-      "team": "https://nalffutsal.pl/?sp_team=hattrick",
-      "is_goalkeeper": 1,
-      "matches": 11,
-      "goals": 0,
-      "assists": 1,
-      "yellow_cards": 0,
-      "red_cards": 1,
-      "own_goals": 0,
-      "best_five": 1,
-      "best_player": 0
-    },
-    {
-      "full_name": "Kasprzyk Kacper",
-      "link": "https://nalffutsal.pl/?sp_player=kasprzyk-kacper",
-      "team": "https://nalffutsal.pl/?sp_team=hattrick",
-      "is_goalkeeper": 0,
-      "matches": 11,
-      "goals": 12,
-      "assists": 7,
-      "yellow_cards": 0,
-      "red_cards": 0,
-      "own_goals": 0,
-      "best_five": 1,
-      "best_player": 0
-    },
-    {
-      "full_name": "Nesterak Marcin",
-      "link": "https://nalffutsal.pl/?sp_player=nesterak-marcin",
-      "team": "https://nalffutsal.pl/?sp_team=hattrick",
-      "is_goalkeeper": 0,
-      "matches": 8,
-      "goals": 6,
-      "assists": 3,
-      "yellow_cards": 0,
-      "red_cards": 0,
-      "own_goals": 0,
-      "best_five": 1,
-      "best_player": 0
-    },
-    {
-      "full_name": "Turek Cyprian",
-      "link": "https://nalffutsal.pl/?sp_player=turek-cyprian",
-      "team": "https://nalffutsal.pl/?sp_team=hattrick",
-      "is_goalkeeper": 0,
-      "matches": 6,
-      "goals": 7,
-      "assists": 2,
-      "yellow_cards": 0,
-      "red_cards": 0,
-      "own_goals": 0,
-      "best_five": 1,
-      "best_player": 0
     }
   ],
   "most-best-player": [
     {
-      "full_name": "Czepiec Jakub",
-      "link": "https://nalffutsal.pl/?sp_player=czepiec-jakub",
-      "team": "https://nalffutsal.pl/?sp_team=hattrick",
+      "full_name": "Turov Illia",
+      "link": "https://nalffutsal.pl/?sp_player=turov-illia",
+      "team": "https://nalffutsal.pl/?sp_team=ukraine",
       "is_goalkeeper": 0,
-      "matches": 6,
-      "goals": 7,
-      "assists": 3,
-      "yellow_cards": 1,
+      "matches": 12,
+      "goals": 14,
+      "assists": 27,
+      "yellow_cards": 0,
       "red_cards": 0,
       "own_goals": 0,
-      "best_five": 1,
+      "best_five": 6,
       "best_player": 1
     }
   ],
   "highest-win": [
     {
-      "id": 50,
-      "date": "2023-11-29 22:15:00",
+      "id": 3,
+      "date": "2023-09-20 21:30:00",
       "teams": [
-        "Hattrick",
-        "Popalone Styki"
+        "Legion",
+        "IGLOMEN&RodzinneRestauracje"
       ],
       "result": [
-        6,
-        1
+        10,
+        3
       ],
       "actual": false,
       "parallel": false,
@@ -217,25 +161,41 @@
         0,
         0
       ],
-      "sum_goals": 7
+      "sum_goals": 13
     }
   ],
   "highest-tie": [
     {
-      "result": null
+      "id": 32,
+      "date": "2023-11-22 22:15:00",
+      "teams": [
+        "Legion",
+        "IGLOMEN&RodzinneRestauracje"
+      ],
+      "result": [
+        4,
+        4
+      ],
+      "actual": false,
+      "parallel": false,
+      "penalty_points": [
+        0,
+        0
+      ],
+      "sum_goals": 8
     }
   ],
   "highest-lost": [
     {
-      "id": 16,
-      "date": "2023-10-10 20:00:00",
+      "id": 46,
+      "date": "2023-12-19 21:30:00",
       "teams": [
-        "Hattrick",
-        "Z\u0142ote Ch\u0142opaki"
+        "Legion",
+        "Brotherm"
       ],
       "result": [
-        4,
-        7
+        3,
+        8
       ],
       "actual": false,
       "parallel": false,

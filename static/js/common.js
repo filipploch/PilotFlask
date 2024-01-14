@@ -13,5 +13,6 @@ function classListAdd(elementId, className) {
 }
 
 function sleep (time) {
+    console.log('poszlo sleep()');
     return new Promise((resolve) => setTimeout(resolve, time));
 }

@@ -48,9 +48,10 @@ class OBSWebsocket:
     def mute_input(self, source_name, is_muted=True):
         self.ws.call(requests.SetInputMute(**{'inputName': source_name, 'inputMuted': is_muted}))
 
-    def save_replay(self, type_of_action, action_time=None):
+    def drop_replay(self):
         self.ws.call(requests.SaveReplayBuffer())
-        sleep(2)
+
+    def save_replay(self, type_of_action, action_time=None):
         self._save_replay(type_of_action, action_time)
 
     def play_replay(self):
@@ -59,17 +60,14 @@ class OBSWebsocket:
         sleep(9)
         self.show_scene('MECZ')
 
-    def save_replay_buffer(self, action_time=None):
-        self.ws.call(requests.SaveReplayBuffer())
-        sleep(2)
+    def play_instant_replay(self, action_time=None):
         self.play_replay()
-        self._save_replay('GOL', action_time)
         self.show_source('MECZ', 'AKCJA_INFO')
         sleep(10)
         self.show_source('MECZ', 'AKCJA_INFO', visible=False)
 
     def _save_replay(self, type_of_action, action_time=None):
-
+        print('obswebsocket.py - _save_replay - type_of_action, action_time:', type_of_action, action_time, flush=True)
         _file_name = self.set_replay_file_name(type_of_action, action_time)
         source_path = os.path.join('static', 'video', 'processed', 'replay.mp4')
         destination_path1 = os.path.join('static', 'video', 'replays', _file_name)
