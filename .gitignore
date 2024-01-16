@@ -8,7 +8,9 @@ futsal.sqbpro
 work/
 static/video/processed/*
 static/video/replays/*.mp4
+static/video/replays/*.mkv
 static/video/stream/*
 instance/
 static/images/*
 static/video/*
+.eslintrc.json

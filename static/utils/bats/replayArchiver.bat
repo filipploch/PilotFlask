@@ -13,6 +13,6 @@ set BackupName=PowtorkiArchiwum__%Yr%-%Mon%-%Day%_(%Hr%-%Min%-%Sec%)
 set FolderName=BackupName
 mkdir "D:\Filmy\OBS\Replays\%BackupName%"
 
-copy "C:\Users\Filip\PycharmProjects\PilotFlask\static\video\replays\arch\*.mp4" "D:\Filmy\OBS\Replays\%BackupName%"
-del "C:\Users\Filip\PycharmProjects\PilotFlask\static\video\replays\*.mp4"
-del "C:\Users\Filip\PycharmProjects\PilotFlask\static\video\replays\arch\*.mp4"
+copy "C:\Users\Filip\PycharmProjects\PilotFlask\static\video\replays\arch\*.mkv" "D:\Filmy\OBS\Replays\%BackupName%"
+del "C:\Users\Filip\PycharmProjects\PilotFlask\static\video\replays\*.mkv"
+del "C:\Users\Filip\PycharmProjects\PilotFlask\static\video\replays\arch\*.mkv"

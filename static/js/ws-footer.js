@@ -27,12 +27,13 @@
 
         function wsCheckScoreboardReverse() {
             var selectTeams = document.querySelector("#ws-teams-buttons");
-			var selectTeamAbtn = document.getElementById("select-team-a-btn");
-			var selectTeamBbtn = document.getElementById("select-team-b-btn");
+			var selectTeamAbtn = document.getElementById("ws-select-team-a-btn");
+			var selectTeamBbtn = document.getElementById("ws-select-team-b-btn");
 			var selectTeamsChildren = [];
             fetch('/get-is-scoreboard-reversed')
             .then(response => response.json())
             .then(data => {
+                console.log(data);
                 var isReversed = data['data'];
                     if (isReversed == 0) {
                         selectTeamsChildren.push(selectTeamAbtn, selectTeamBbtn);
@@ -126,7 +127,7 @@
             fetch('/matchdata')
                 .then(response => response.json())
                 .then(data => {
-                    checkScoreboardReverse();
+                    wsCheckScoreboardReverse();
                     var editFrame = document.getElementById('ws-edit-frame');
                     var actionId = document.getElementById('ws-action-id');
                     var currentDate = document.getElementById('ws-current-date');

@@ -474,7 +474,7 @@ function editData(dataId) {
                     const url = window.URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;
-                    a.download = 'replay.mp4';
+                    a.download = 'replay.mkv';
                     a.style.display = 'none';
                     document.body.appendChild(a);
                     a.click();
@@ -513,6 +513,7 @@ function setChecked(checkboxId, actual) {
 		fetch('get-is-scoreboard-reversed')
 		.then(response => response.json())
 		.then(data => {
+		    console.log(data);
 			var isReversed = data['data'];
 			if (isReversed == 1) {
 				changeSide();

@@ -703,20 +703,20 @@ def update_time():
 @panel_blueprint.route('/get_files')
 def get_files():
     directory = 'static/video/replays'
-    files = [file for file in os.listdir(directory) if file.endswith('.mp4')]
+    files = [file for file in os.listdir(directory) if file.endswith('.mkv')]
     return {'files': files}
 
 @panel_blueprint.route('/get_replays')
 def get_replays():
     directory = 'static/video/replays'
-    files = [file for file in os.listdir(directory) if file.endswith('.mp4')]
+    files = [file for file in os.listdir(directory) if file.endswith('.mkv')]
     new_content = render_template('replays-panel.html', files=files)
     return jsonify({'content': new_content})
 
 
 @panel_blueprint.route('/process_file/<filename>')
 def process_file(filename):
-    replay_name = 'replay.mp4'
+    replay_name = 'replay.mkv'
     source_path = os.path.join('static/video/replays', filename)
     target_path = os.path.join('static/video/processed', replay_name)
 
