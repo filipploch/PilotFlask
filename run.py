@@ -8,7 +8,7 @@ from utils.nalf_matches_scraper import NALFmatchesScraper
 from utils.nalf_table_scraper import NALFtableScraper
 from utils.json_file_generator import JSONFileGenerator
 from env.settings import _get_settings
-from flask import Flask, render_template, jsonify, current_app, Blueprint, request, redirect, url_for, send_file
+from flask import Flask, render_template, jsonify, current_app, Blueprint, request, redirect, url_for, send_file, abort
 from flask_cors import CORS
 from datetime import datetime, timedelta
 from models import Team, Match, Player, MatchesData, Stadium, Staff, MatchCommentator, MatchCameraman, MatchReferee, \
@@ -343,6 +343,17 @@ def render_statistics(stats_content):
     return jsonify({'message': 'OK'})
 
 
+@stream_blueprint.errorhandler(Exception)
+def handle_error(error):
+    _error = str(error).split(' ')[0]
+    return render_template('error.html', error=_error)
+
+
+@stream_blueprint.route('/raise-error')
+def raise_error():
+    abort(500)
+
+
 @panel_blueprint.route('/panel')
 def panel():
     _matchdata = matchdata().get_json()
@@ -525,7 +536,6 @@ def get_current_date(response):
     return None
 
 def save_replay_file(action_id, current_date):
-    print('save_replay_file:', action_id, current_date, flush=True)
     if current_date is not None:
         obs_ws = current_app.config['obs_ws']
         replay_file = obs_ws.set_replay_file_name(action_id, current_date)
@@ -579,7 +589,6 @@ def change_scoreboard_side():
 @panel_blueprint.route('/get-is-scoreboard-reversed')
 def get_is_scoreboard_reversed():
     actual_match = Match.query.filter_by(actual=1).first()
-    print(actual_match.is_scoreboard_reversed, flush=True)
     return jsonify({'data': actual_match.is_scoreboard_reversed})
 
 
@@ -732,7 +741,6 @@ def actual_match_data(team):
     _team_name = Team.query.filter_by(id=_team_id).first().full_name
     _match_id = get_actual_match_id().get_json()
     _match_data = MatchesData.query.filter_by(match_id=_match_id).filter_by(team_id=_team_id).all()
-    print(_match_data, flush=True)
     match_data = []
     match_data.append(_team_name)
     event_data = []
@@ -1056,6 +1064,7 @@ def save_players_to_database(player_data):
 
     for key, value in player_data.items():
         # Sprawdź, czy pole zawiera dane gracza
+
         if '[' in key and ']' in key:
             player_id = key.split('[')[0].split('_')[1]
             players_ids.append(player_id)
@@ -1065,16 +1074,19 @@ def save_players_to_database(player_data):
         _plyr_data = {}
 
         for key, value in player_data.items():
+            if '[captain_hidden]' in key:
+                key = key.replace('_hidden', '')
             if f'player_{plyr_id}' in key:
-                key = key.split('[')[1][:-1]
-                _plyr_data.update({key: value})
+                _key = key.split('[')[1][:-1]
+                _plyr_data.update({_key: value})
+
         players_data.update({plyr_id: _plyr_data})
 
     # # Zapisz dane do bazy danych
     for key in players_data:
         player = Player.query.filter_by(id=key).first()
-
         if player:
+            # print(players_data[key], flush=True)
             # Aktualizuj dane istniejącego gracza
             player.squad = players_data[key].get('squad', '0')
             player.default_nr = players_data[key].get('default_nr', 0)
@@ -1334,15 +1346,15 @@ def generate_virtual_table(division):
 
     return jsonify({'status': 'success', 'message': 'Plik virtual-table.json został wygenerowany.'})
 
-@settings_blueprint.route('/update_players/<edit_type>/<team_id>', methods=['POST'])
+@settings_blueprint.route('/update_players/<edit_type>/<team_id>', methods=['GET'])
 def update_players(edit_type, team_id):
-    if request.method == 'POST':
-        team = Team.query.filter_by(id=team_id).first()
-        scraper = NALFteamScraper(team.link)
-        nalffutsal_players = scraper.scrape_team_players()
-        players_updater = NALFplayersUpdater()
-        players_updater.update_players(nalffutsal_players, team_id)
-        return redirect(url_for('settings.edit_team', team_id=team_id, edit_type=edit_type))
+    # if request.method == 'POST':
+    team = Team.query.filter_by(id=team_id).first()
+    scraper = NALFteamScraper(team.link)
+    nalffutsal_players = scraper.scrape_team_players()
+    players_updater = NALFplayersUpdater()
+    players_updater.update_players(nalffutsal_players, team_id)
+    return redirect(url_for('settings.edit_team', team_id=team_id, edit_type=edit_type))
 
 
 @settings_blueprint.route('/get-statistics/<team>')
@@ -1531,6 +1543,13 @@ def show_half_time_scene():
 def show_match_scene():
     obs_ws = current_app.config['obs_ws']
     obs_ws.show_match_scene()
+    return '', 204
+
+
+@obswebsocketpy_blueprint.route('/show-start-scene')
+def show_start_scene():
+    obs_ws = current_app.config['obs_ws']
+    obs_ws.start_scene_cascade()
     return '', 204
 
 
