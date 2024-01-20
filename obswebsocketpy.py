@@ -122,6 +122,9 @@ class OBSWebsocket:
         sleep(1)
         self.start_stream()
         sleep(1)
+        self.start_scene_cascade()
+
+    def start_scene_cascade(self):
         self.show_source('Muzyka', 'muzyka2', visible=False)
         self.show_scene('KAMERA')
         self.show_source('Muzyka', 'muzyka')

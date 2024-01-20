@@ -23,7 +23,7 @@ async function getJSON(url) {
 }
 
 function setMatchTime(seconds, match_lenght) {
-    if (seconds === 0 || seconds === match_lenght * 60) {
+    if (seconds === 0 || seconds === matchLength/2 || seconds === matchLength) {
         return '';
     }
     else {

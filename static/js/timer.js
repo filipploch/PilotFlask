@@ -33,10 +33,12 @@
 
 		function runTimer() {
 			elapsedTime += 1;
-			if(elapsedTime === 1){
+			if(elapsedTime === 1 || elapsedTime === timeLimit/2 + 1){
+				saveTime(elapsedTime);
+			} else if(elapsedTime === timeLimit/2 || elapsedTime === timeLimit){
+			    pauseTimer();
 				saveTime(elapsedTime);
 			} else if(elapsedTime % 10 === 0){
-				// console.log(elapsedTime);
 				saveTime(elapsedTime);
 			}
 			updateTimer();
@@ -131,7 +133,7 @@
 
 		document.getElementById("start-btn").addEventListener("click", startTimer);
 		document.getElementById("pause-btn").addEventListener("click", pauseTimer);
-		document.getElementById("reset-btn").addEventListener("click", resetTimer);
+		document.getElementById("reset-btn").addEventListener("dblclick", resetTimer);
 		document.getElementById("add-sec-btn").addEventListener("click", addSeconds);
 		document.getElementById("add-min-btn").addEventListener("click", addMinutes);
 		document.getElementById("sub-sec-btn").addEventListener("click", subSeconds);

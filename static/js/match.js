@@ -1,5 +1,6 @@
 async function repeater(){
     const matchObj = await getJSON('http://127.0.0.1:5555/matchdata');
+    console.log(matchObj);
 
     document.getElementById('team_a').innerHTML = matchObj.teama.short_name;
     document.getElementById('score_a').innerHTML = matchObj.teama.scores;
@@ -9,7 +10,7 @@ async function repeater(){
     document.getElementById('score_b').innerHTML = matchObj.teamb.scores;
     document.getElementById('fouls_b').innerHTML = setFoulsDots(matchObj.teamb.fouls);
     document.getElementById('tricot_b').innerHTML = renderTricot(matchObj.teamb.tricot);
-    document.getElementById('time').innerHTML = setMatchTime(matchObj.match.seconds, matchObj.match.match_lenght);
+    document.getElementById('time').innerHTML = setMatchTime(matchObj.match.seconds, matchObj.match.match_length);
     foulsDotsColor('fouls_a', setFoulsDots(matchObj.teama.fouls));
     foulsDotsColor('fouls_b', setFoulsDots(matchObj.teamb.fouls));
 
@@ -21,8 +22,8 @@ async function getJSON(url) {
 	return response.json();
 }
 
-function setMatchTime(seconds, match_lenght) {
-    if (seconds === 0 || seconds === match_lenght) {
+function setMatchTime(seconds, matchLength) {
+    if (seconds === 0 || seconds === matchLength/2 || seconds === matchLength) {
         return '';
     }
     else {

@@ -93,7 +93,8 @@
           <td><input type="text" name="player_{{ player.id }}[last_name]" value="{{ player.last_name }}"></td>
           <td><input type="checkbox" name="player_{{ player.id }}[position]" value="{{ player.position }}" {% if player.position == '1' %}checked{% endif %}></td>
           <td>
-            <input type="radio" id="player_{{ player.id }}[captain]" name="captain" value="1" {% if player.captain == 1 %}checked{% endif %}>
+            <input type="radio" id="player_{{ player.id }}_captain" data-custom="player_{{ player.id }}[captain]" name="captain" value="{{ player.captain }}" {% if player.captain == 1 %}checked{% endif %}>
+            <input type="hidden" name="player_{{ player.id }}[captain_hidden]" id="player_{{ player.id }}_captain_hidden" value="">
           </td>
 
 
@@ -103,7 +104,6 @@
       </tbody>
     </table>
     
-
     <div class="form-group">
         <input class="btn btn-primary" id="submit_players" name="submit_players" type="submit" value="Zapisz">
     </div>
@@ -118,38 +118,37 @@
 
 {% block footer_script %}
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        var form = document.getElementById("edit-team-form");
+   let radios = document.getElementsByName("captain");
 
-        form.addEventListener("submit-players", function () {
-            var radios = document.getElementsByName("captain");
+  for (var i = 0; i < radios.length; i++) {
+    radios[i].addEventListener("click", function () {
+      if (this.checked) {
+        this.value = "1";
+        var customData = this.dataset.custom;
 
-            for (var i = 0; i < radios.length; i++) {
-                if (radios[i].checked) {
-                    radios[i].value = "1";
-                    radios[i].name = radios[i].id;
-                } else {
-                    radios[i].value = "0";
-                }
-            }
-        });
+        // Aktualizacja wartości ukrytego pola z pełnym name
+        document.getElementById(this.id + '_hidden').value = "1";
+      } else {
+        this.value = "0";
+      }
     });
+  }
 
     async function updatePlayers(teamId) {
         var teamData = {"teamId": teamId};
         const response = await fetch(`/update_players/edit/${teamId}`, {
-        method: 'POST',
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(teamData),
+        //body: JSON.stringify(teamData),
     });
 
     // Sprawdzamy, czy żądanie było udane (status 200)
     if (response.ok) {
         // Odświeżamy stronę po pomyślnym zapisie
         location.reload();
-        handleServerResponse(response)
+       // handleServerResponse(response)
     } else {
         console.error('Wystąpił błąd podczas zapisywania wyników.');
     }
