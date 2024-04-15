@@ -1,0 +1,25 @@
+<div class="stats-page-in" id="stats-page">
+    {% if data['most-yellow-cards'][0].yellow_cards > 0 %}
+    <div class="stats-tile">
+        <div class="stats-tile-description">ŻÓŁTE KARTKI</div>
+        <div class="stats-tile-value bc-yellow">{{ data['most-yellow-cards'][0].yellow_cards }}</div>
+        <div class="stats-tile-content">
+            {% for player in data['most-yellow-cards'] %}
+            <div class="stats-tile-content-row">{{player.full_name}}</div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if data['most-red-cards'][0].red_cards > 0 %}
+    <div class="stats-tile">
+        <div class="stats-tile-description">CZERWONE KARTKI</div>
+        <div class="stats-tile-value bc-red">{{ data['most-red-cards'][0].red_cards }}</div>
+        <div class="stats-tile-content">
+            {% for player in data['most-red-cards'] %}
+            <div class="stats-tile-content-row">{{player.full_name}}</div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>

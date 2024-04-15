@@ -1,0 +1,15 @@
+<div class="stats-page-in" id="stats-page">
+    
+    <div class="stats-tile">
+        <div class="stats-tile-description">ŻÓŁTE KARTKI</div>
+        <div class="stats-tile-value bc-yellow">1</div>
+        <div class="stats-tile-content">
+            
+            <div class="stats-tile-content-row">Wiesner Tomasz</div>
+            
+        </div>
+    </div>
+    
+
+    
+</div>

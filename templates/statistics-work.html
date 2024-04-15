@@ -1,0 +1,117 @@
+
+<div class="stats-tile" id="stats-tile-1">
+
+    <div class="table-rank" id="rank-div">
+        <span class="stats-key rank-key"> {{ data['table-data'][0].division }} </span>
+        <span class="main-stat-value-description"> MIEJSCE W TABELI</span>
+        <span class="stats-value rank-value">{{ data['table-data'][0].rank }}</span>
+    </div>
+
+
+    <div id="match-div">
+        <span class="stats-value rank-key">{{ data['table-data'][0].matches }}
+            ({{ data['table-data'][0].wins }}-{{ data['table-data'][0].draws }}-{{ data['table-data'][0].losts }})
+        </span>
+        <span class="stats-key main-stat-value-description">MECZE I PUNKTY</span>
+        <span class="stats-value rank-value">{{ data['table-data'][0].points }}</span>
+    </div>
+
+    <div class="table-rank" id="goals-div">
+        <span class="stats-key rank-key">
+            {{ data['table-data'][0].goals_scored }}-{{ data['table-data'][0].goals_lost }}
+        </span>
+        <span class="stats-key main-stat-value-description">BRAMKI</span>
+    </div>
+</div>
+
+<div class="stats-tile" id="stats-tile-2">
+
+    <div class="highest-result" id="highest-result-win">
+        {% if data['highest-win'] %}
+        <span class="highest-result-value">
+            {{ data['highest-win'][0].result[0] }}:{{ data['highest-win'][0].result[1] }}</span>
+        <span class="stats-key main-stat-value-description">NAJWYŻSZE ZWYCIĘSTWO</span>
+        <span class="opponent-and-date">
+        {{ data['highest-win'][0].teams[1] }} ({{ data['highest-win'][0].date[:-9] }})</span>
+        {% else %} brak {% endif %}
+        
+    </div>
+    <div class="highest-result" id="highest-result-draw">
+        {% if data['highest-tie'] %}
+        <span class="highest-result-value">
+            {{ data['highest-tie'][0].result[0] }}:{{ data['highest-tie'][0].result[1] }}</span>
+        <span class="stats-key main-stat-value-description">NAJWYŻSZY REMIS</span>
+        <span class="opponent-and-date">
+        {{ data['highest-tie'][0].teams[1] }} ({{ data['highest-tie'][0].date[:-9] }})</span>
+        {% else %} brak {% endif %}
+    </div>
+    <div class="highest-result" id="highest-result-lost">
+        {% if data['highest-lost'] %}
+        <span class="highest-result-value">
+            {{ data['highest-lost'][0].result[0] }}:{{ data['highest-lost'][0].result[1] }}</span>
+        <span class="stats-key main-stat-value-description">NAJWYŻSZA PORAŻKA</span>
+        <span class="opponent-and-date">
+        {{ data['highest-lost'][0].teams[1] }} ({{ data['highest-lost'][0].date[:-9] }})</span>
+        {% else %} brak {% endif %}
+    </div>
+</div>
+
+
+<div class="stats-tile" id="stats-tile-3">
+    <div id="best-striker" class="best-player">
+        <div class="best-player-div">
+            <span class="stats-value rank-value">{{ data['best-strikers'][0].goals }}</span>
+        {% for player in data['best-strikers'] %}
+        <div class="stats-value player-name">{{player.full_name}}</div>
+        {% endfor %}
+        </div>
+        <span class="stats-key main-stat-value-description">BRAMKI</span>
+    </div>
+
+    <div id="best-assistant" class="best-player">
+        <div class="best-player-div">
+            <span class="stats-value rank-value">{{ data['best-assistants'][0].assists }}</span>
+        {% for player in data['best-assistants'] %}
+        <div class="stats-value player-name">{{player.full_name}}</div>
+        {% endfor %}
+        </div>
+        <span class="stats-key main-stat-value-description">ASYSTY</span>
+    </div>
+
+    <div id="best-canadian" class="best-player">
+        <div class="best-player-div">
+            <span class="stats-value rank-value">{{ data['best-strikers'][0].goals + data['best-assistants'][0].assists }}</span>
+        {% for player in data['best-canadians'] %}
+        <div class="stats-value player-name">{{player.full_name}}</div>
+        {% endfor %}
+    </div>
+            <span class="stats-key main-stat-value-description">PUNKTY KANADYJSKIE</span>
+    </div>
+</div>
+
+--------------------------------
+
+<div class="stats-tile" id="stats-tile-1">
+
+    <div class="table-rank" id="rank-div">
+        <span class="stats-key rank-key"> {{ data['table-data'][0].division }} </span>
+        <span class="main-stat-value-description"> MIEJSCE W TABELI</span>
+        <span class="stats-value rank-value">{{ data['table-data'][0].rank }}</span>
+    </div>
+
+
+    <div id="match-div">
+        <span class="stats-value rank-key">{{ data['table-data'][0].matches }}
+            ({{ data['table-data'][0].wins }}-{{ data['table-data'][0].draws }}-{{ data['table-data'][0].losts }})
+        </span>
+        <span class="stats-key main-stat-value-description">MECZE I PUNKTY</span>
+        <span class="stats-value rank-value">{{ data['table-data'][0].points }}</span>
+    </div>
+
+    <div class="table-rank" id="goals-div">
+        <span class="stats-key rank-key">
+            {{ data['table-data'][0].goals_scored }}-{{ data['table-data'][0].goals_lost }}
+        </span>
+        <span class="stats-key main-stat-value-description">BRAMKI</span>
+    </div>
+</div>

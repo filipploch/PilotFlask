@@ -1,0 +1,21 @@
+.select{
+height: 250px !important;
+width: 100%;
+}
+
+.referee-settings {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+  }
+
+  .window {
+    width: 200px;
+    height: 200px;
+    border: 1px solid black;
+  }
+
+  .button {
+    padding: 10px 20px;
+    font-size: 16px;
+  }

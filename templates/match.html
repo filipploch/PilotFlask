@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html lang="pl">
+<head>
+	<meta charset="ISO-8859" />
+	<meta http-equiv="X-UA-Compatible"/>
+	<link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/match.css') }}">
+	<script src="{{url_for('static', filename='js/match.js')}}"></script>
+</head>
+
+<body onload="repeater();">
+	<div id="container">
+		<div id="scoreboard">
+			<div id="scoreboard_img" >
+				<img src="{{url_for('static', filename='images/scoreboard2.png')}}" />
+			</div>
+			<div id="scoreboard_top">
+				<div id="fouls_a"></div>
+				<div id="fouls_b"></div>
+			</div>
+			<div id="scoreboard_val">
+				<div id="time"></div>
+				<div id="team_a"></div>
+				<div id="score_a"></div>
+				<div id="score_b"></div>
+				<div id="team_b"></div>
+			</div>
+			<div id="scoreboard_bottom">
+				<div id="tricot_a">
+					<div id="shade_a"></div>
+					<div id="colors_a">
+
+						<div class="cleaner"></div>
+					</div>
+				</div>
+				<div id="tricot_b">
+					<div id="shade_b"></div>
+					<div id="colors_b">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="action_info">
+			<div id="action_info_text">
+
+            </div>
+		</div>
+	</div>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE HTML>
+<html lang="pl">
+<head>
+	<meta charset="ISO-8859" />
+	<meta http-equiv="X-UA-Compatible"/>
+	<link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="/static/css/base-bars.css">
+	
+    <link rel="stylesheet" href="/static/css/base-stream.css">
+    <link rel="stylesheet" href="/static/css/base-stream.css">
+    <link rel="stylesheet" href="/static/css/table.css">
+    <link rel="stylesheet" href="/static/css/tableAnimation.css">
+    <link rel="stylesheet" href="/static/css/rotateTableRow.css">
+
+	<!-- <script src="js/teams.js"></script>
+	<script src="js/processing.js"></script> -->
+
+</head>
+
+<body onload="matchInfo();">
+	<div id="container">
+		<div id="top_bar">
+			<img src="/static/images/NALFlogoTekst.png" id="img_top">
+			<div id="league"></div>
+			<div id="division"></div>
+		</div>
+		<div id="team_screen_content">
+            
+    <div id="schedule">
+        <table class="timeline_table">
+            <thead>
+                <tr id="content-title"><td colspan="20" class="text-overflow">Dywizja A - </td></tr>
+                <tr class="class_header">
+                    <td></td>
+                    <td></td>
+                    <td>M</td>
+                    <td>Z</td>
+                    <td>R</td>
+                    <td>P</td>
+                    <td>GZ</td>
+                    <td>GS</td>
+                    <td>+/-</td>
+                    <td>Pkt</td>
+                </tr>
+            </thead>
+            <tbody>
+                
+                    
+                        
+                            <tr class="even" id="row1">
+                        
+                        <td class="team_pos">1</td>
+                        <td class="team_name">IGLOMEN&amp;RodzinneRestauracje</td>
+                        <td class="matches">7</td>
+                        <td class="wins">6</td>
+                        <td class="ties">0</td>
+                        <td class="losses">1</td>
+                        <td class="goals_scored">39</td>
+                        <td class="goals_lost">15</td>
+                        <td class="goals_difference">24</td>
+                        <td class="points">18</td>
+                    </tr>
+                    
+                        
+                            <tr class="odd" id="row2">
+                        
+                        <td class="team_pos">2</td>
+                        <td class="team_name">Boanerges</td>
+                        <td class="matches">7</td>
+                        <td class="wins">4</td>
+                        <td class="ties">1</td>
+                        <td class="losses">2</td>
+                        <td class="goals_scored">35</td>
+                        <td class="goals_lost">18</td>
+                        <td class="goals_difference">17</td>
+                        <td class="points">13</td>
+                    </tr>
+                    
+                        
+                            <tr class="even" id="row3">
+                        
+                        <td class="team_pos">3</td>
+                        <td class="team_name">MK Team</td>
+                        <td class="matches">7</td>
+                        <td class="wins">4</td>
+                        <td class="ties">1</td>
+                        <td class="losses">2</td>
+                        <td class="goals_scored">21</td>
+                        <td class="goals_lost">16</td>
+                        <td class="goals_difference">5</td>
+                        <td class="points">13</td>
+                    </tr>
+                    
+                        
+                            <tr class="odd" id="row4">
+                        
+                        <td class="team_pos">4</td>
+                        <td class="team_name">Trivium Słomniki Warriors</td>
+                        <td class="matches">7</td>
+                        <td class="wins">3</td>
+                        <td class="ties">1</td>
+                        <td class="losses">3</td>
+                        <td class="goals_scored">27</td>
+                        <td class="goals_lost">23</td>
+                        <td class="goals_difference">4</td>
+                        <td class="points">10</td>
+                    </tr>
+                    
+                        
+                            <tr class="even" id="row5">
+                        
+                        <td class="team_pos">5</td>
+                        <td class="team_name">Ukrainian Legion</td>
+                        <td class="matches">7</td>
+                        <td class="wins">3</td>
+                        <td class="ties">0</td>
+                        <td class="losses">4</td>
+                        <td class="goals_scored">20</td>
+                        <td class="goals_lost">29</td>
+                        <td class="goals_difference">-9</td>
+                        <td class="points">9</td>
+                    </tr>
+                    
+                        
+                            <tr class="odd" id="row6">
+                        
+                        <td class="team_pos">6</td>
+                        <td class="team_name">WKS Futsal Team</td>
+                        <td class="matches">7</td>
+                        <td class="wins">2</td>
+                        <td class="ties">1</td>
+                        <td class="losses">4</td>
+                        <td class="goals_scored">20</td>
+                        <td class="goals_lost">42</td>
+                        <td class="goals_difference">-22</td>
+                        <td class="points">7</td>
+                    </tr>
+                    
+                        
+                            <tr class="even" id="row7">
+                        
+                        <td class="team_pos">7</td>
+                        <td class="team_name">DRUGony</td>
+                        <td class="matches">7</td>
+                        <td class="wins">2</td>
+                        <td class="ties">0</td>
+                        <td class="losses">5</td>
+                        <td class="goals_scored">21</td>
+                        <td class="goals_lost">29</td>
+                        <td class="goals_difference">-8</td>
+                        <td class="points">6</td>
+                    </tr>
+                    
+                        
+                            <tr class="odd" id="row8">
+                        
+                        <td class="team_pos">8</td>
+                        <td class="team_name">Brotherm</td>
+                        <td class="matches">7</td>
+                        <td class="wins">2</td>
+                        <td class="ties">0</td>
+                        <td class="losses">5</td>
+                        <td class="goals_scored">30</td>
+                        <td class="goals_lost">41</td>
+                        <td class="goals_difference">-11</td>
+                        <td class="points">6</td>
+                    </tr>
+                    
+                
+
+            </tbody>
+        </table>
+    </div>
+
+        </div>
+
+		<div id="bottom_bar">
+			<img src="/static/images/druzyny-logo-belka.png" id="img_bottom">
+		</div>
+	</div>
+	<script src="/static/js/base.js"></script>
+	
+</body>
+</html>

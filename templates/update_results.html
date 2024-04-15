@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block style %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/match-settings.css') }}">
+{% endblock %}
+
+{% block content %}
+    <span>Mecze dywizji </span><span id="division">{{ division }}</span>
+  <div class="table-responsive" id="sidebar-body">
+  <table class="table">
+        <thead>
+            <tr>
+                <th>Aktualny</th>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Team 1</th>
+                <th>Number 1</th>
+                <th>Number 2</th>
+                <th>Team 2</th>
+                <th>Wyczyść</th>
+                <th>Zapisz</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in data %}
+                <tr>
+                    <td><input type="checkbox"
+                               id="actual_{{ entry.id }}"
+                               value="{{ 1 if checked else 0 }}"
+                               onchange="saveResult('{{ entry.id }}')"
+                               {% if entry.actual %}
+                                checked="True"
+                                {% endif %}></td>
+                    <td>{{ entry.id }}</td>
+                    <td>{{ entry.date }}</td>
+                    <td class="team-a-name">{{ entry.teams[0] }}</td>
+                    <td><input type="number"
+                               id="result_home_{{ entry.id }}"
+                               onchange="saveResult('{{ entry.id }}')"
+                               value="{{ entry.result[0] if entry.result|length > 1 else '' }}">
+                    </td>
+                    <td><input type="number"
+                               id="result_away_{{ entry.id }}"
+                               onchange="saveResult('{{ entry.id }}')"
+                               value="{{ entry.result[1] if entry.result|length > 1 else '' }}"></td>
+                    <td class="team-b-name">{{ entry.teams[1] }}</td>
+                    <td><button onclick="clearResult('{{ entry.id }}')">Wyczyść</button></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+  </table>
+  </div>
+
+  <div>
+       <button onclick="generateBaseTable('{{ division }}')">Generuj Base Table</button>
+      <!-- <button onclick="generateVirtualTable('inny_parametr')">Generuj Virtual Table</button> -->
+  </div>
+{% endblock %}
+
+{% block footer_script %}
+    <script src="{{ url_for('static', filename='js/virtualtable.js') }}"></script>
+{% endblock %}

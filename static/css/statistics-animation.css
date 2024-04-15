@@ -1,0 +1,49 @@
+@-webkit-keyframes squad_anim
+{
+  0%  {left:1000px; top:0px; opacity: 0;}
+  100% {left:600px; top:0px; opacity: 1;}
+}
+
+@-webkit-keyframes logo_animation_in
+{
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+@-webkit-keyframes logo_animation_out
+{
+  0% {opacity: 1;}
+  100% {opacity: 0;}
+}
+
+@-webkit-keyframes background_logo_in_animation
+{
+  0% {background-color: rgba(255,255,255,0);}
+  100% {background-color: rgba(255,255,255,0.4);}
+}
+
+@-webkit-keyframes background_logo_out_animation
+{
+  0% {background-color: rgba(255,255,255,0.4);}
+  100% {background-color: rgba(255,255,255,0);}
+}
+
+@keyframes statsBackgroundSlideIn {
+	0% {left: 100%;}
+	100% {left: 50%;}
+}
+
+@keyframes statsBackgroundSlideOut {
+	0% {left: 50%;}
+	100% {left: 100%;}
+}
+
+@keyframes stats-page-in {
+  0%   {right: -900px;}
+  100%  {right: 0px;}
+  }
+
+@keyframes stats-page-out {
+  0%  {right: 0px;}
+  100% {right: -900px;}
+  }

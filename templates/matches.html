@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block style %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/match-settings.css') }}">
+{% endblock %}
+
+{% block content %}
+  <div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Aktualny</th>
+        <th>Drużyna A</th>
+        <th>Drużuna B</th>
+        <th>Data i godzina</th>
+        <th></th>
+      </tr>
+    </thead>
+        <tbody>
+        {% for match in matches %}
+            <tr>
+                <td>
+                    <input id="actual{{ match.id }}" type="radio" name="actual" onclick="sendData({{ match.id }})" value="{{ match.actual }}" {% if match.actual == 1 %}checked{% endif %}>
+                </td>
+                <td>{{ match['team_a']['full_name'] }}</td>
+                <td>{{ match['team_b']['full_name']}}</td>
+                <td>{{ match.date }}</td>
+                <td>
+                    <a href="{{ url_for('settings.edit_match', match_id=match.id) }}">Edytuj</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+  </table>
+  </div>
+{% endblock %}
+
+{% block footer_script %}
+<script>
+  function sendData(matchId) {
+    console.log('start funkcji', matchId)
+      // Wyślij dane do endpointu we Flask
+      fetch('/set-actual-match', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ "matchId": matchId }),
+      })
+      .then(response => response.json())
+      .then(data => {
+          console.log('Success:', data);
+      })
+      .catch((error) => {
+          console.error('Error:', error);
+      });
+  }
+</script>
+{% endblock %}

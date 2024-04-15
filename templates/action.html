@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html lang="pl">
+<head>
+	<meta charset="ISO-8859" />
+	<meta http-equiv="X-UA-Compatible"/>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/match.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/animation_match_action.css') }}">
+</head>
+<body>
+	<div id="container">
+
+		<div id="action_info">
+                <div class="action_square" id="action_icon"><img src="{{ url_for('static', filename='images/' + action.action.action_icon) }}"></div>
+                <div id="action_info_text">
+                    <div class="action_minute">{{ time_minutes }}'</div>
+                    <div id="player_name">{{ action.player.first_name }} {{ action.player.last_name }}</div>
+                    <div class="action_minute invisible_text"></div>
+                    <div class="cleaner"></div>
+                    <div id="player_team">{{ action.team.full_name }}</div>
+                </div>
+                <div class="action_square"><p></p></div>
+		</div>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+<div>
+    <select id="round-data-options" onchange="renderRoundData();">
+        {% for division in data.divisions %}
+            <option value="{{ division.id }}"
+            {% if division.id == data.division.id %}
+                selected>
+            {% else %}
+                >
+            {% endif %}
+            {{ division.name }}</option>
+        {% endfor %}
+    </select>
+</div>
+
+<div class="ws-row-small-buttons">
+    <div id="ws-btn-stream" class="ws-button ws-button-small" ondblclick="startStream()">
+        <img src="{{ url_for('static', filename='images/ws-controller/stream-off.png') }}" alt="STREAM">
+    </div>
+    <div id="ws-btn-start-scene" class="ws-button ws-button-small">
+        <a href="{{ url_for('obswebsocketpy.show_start_scene') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/start.png') }}" alt="MECZ">
+        </a>
+    </div>
+</div>
+
+<div class="ws-row-small-buttons">
+    <div id="ws-btn-match" class="ws-button ws-button-small">
+        <a href="{{ url_for('obswebsocketpy.show_match_scene') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/match.png') }}" alt="MECZ">
+        </a>
+    </div>
+    <div id="ws-btn-half-time" class="ws-button ws-button-small">
+        <a href="{{ url_for('obswebsocketpy.show_half_time_scene') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/half-time.png') }}" alt="PRZERWA">
+        </a>
+    </div>
+        <div id="ws-btn-camera" class="ws-button ws-button-small">
+        <a href="{{ url_for('obswebsocketpy.show_scene', scenename='KAMERA') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/camera.png') }}" alt="Kamera">
+        </a>
+    </div>
+</div>
+
+<div class="ws-row-small-buttons">
+    <div id="ws-btn-team-a-lineup" class="ws-button ws-button-small">
+        <a href="{{ url_for('obswebsocketpy.show_scene', scenename='Skład A') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/team-a-lineup.png') }}" alt="A">
+        </a>
+    </div>
+    <div id="ws-btn-team-b-lineup" class="ws-button ws-button-small">
+        <a href="{{ url_for('obswebsocketpy.show_scene', scenename='Skład B') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/team-b-lineup.png') }}" alt="B">
+        </a>
+    </div>
+</div>

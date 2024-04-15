@@ -1,0 +1,37 @@
+<div class="stats-page-in" id="stats-page">
+    {% if data['best-strikers'] %}
+    <div class="stats-tile">
+        <div class="stats-tile-description">BRAMKI</div>
+        <div class="stats-tile-value bc-green">{{ data['best-strikers'][0].goals }}</div>
+        <div class="stats-tile-content">
+            {% for player in data['best-strikers'] %}
+            <div class="stats-tile-content-row">{{player.full_name}}</div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}                
+
+    {% if data['best-assistants'] %}
+    <div class="stats-tile">
+        <div class="stats-tile-description">ASYSTY</div>
+        <div class="stats-tile-value bc-green">{{ data['best-assistants'][0].assists }}</div>
+        <div class="stats-tile-content">
+            {% for player in data['best-assistants'] %}
+            <div class="stats-tile-content-row">{{player.full_name}}</div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}  
+
+    {% if data['best-canadians'] %}
+    <div class="stats-tile">
+        <div class="stats-tile-description">PUNKTY KANADYJSKIE</div>
+        <div class="stats-tile-value bc-green">{{ data['best-canadians'][0].goals + data['best-canadians'][0].assists }}</div>
+        <div class="stats-tile-content">
+            {% for player in data['best-canadians'] %}
+            <div class="stats-tile-content-row">{{player.full_name}}</div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}  
+</div>

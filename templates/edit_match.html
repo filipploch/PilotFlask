@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Edycja meczu</title>
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/match-settings.css') }}">
+{% endblock %}
+
+{% block sitename %}
+    Edytuj Mecz
+{% endblock %}
+
+{% block content %}
+    <form method="POST" action="{{ url_for('settings.edit_match', match_id=match.id) }}">
+{{ form.hidden_tag() }}
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="form-group">
+            {{ form.team_a.label(class="form-label") }}
+            {{ form.team_a(class="form-control") }}
+          </div>
+          <div class="form-group">
+            {{ form.team_b.label(class="form-label") }}
+            {{ form.team_b(class="form-control") }}
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div>
+            {{ form.competitions.label(class="form-label") }}
+            {{ form.competitions(class="form-control") }}
+          </div>
+          <div class="form-group">
+            {{ form.division.label(class="form-label") }}
+            {{ form.division(class="form-control") }}
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div>
+              {{ form.stadium.label(class="form-label") }}
+              {{ form.stadium(class="form-control") }}
+          </div>
+        <div class="col-lg-6">
+          <div class="form-group">
+            {{ form.match_length.label(class="form-label") }}
+            {{ form.match_length(class="form-control", value=match.match_length) }}
+          </div>
+        </div>
+          <div class="col-lg-6">
+
+            <div class="form-group date">
+              <label class="form-label">data i godzina:</label>
+                  {{ form.date_time.date_time(class="form-control") }}
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+          {{ form.is_actual.label }}
+        <input id="is_actual" name="is_actual" type="checkbox" value="y" {% if match.actual %} checked {% endif %}>
+      </div>
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="form-group">
+
+            <div class="panel panel-default">
+              <div class="panel-heading">{{ form.commentators.label(class="form-label") }}</div>
+              <div class="panel-body">
+                <select class="select" name="commentators" id="commentators" multiple>
+                  {% for option in form.commentators.choices %}
+                  <option value="{{ option[0] }}">{{ option[1] }} {{ option[2] }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="form-group">
+            <div class="panel panel-default">
+              <div class="panel-heading">{{ form.cameramen.label(class="form-label") }}</div>
+              <div class="panel-body">
+                <select class="select" name="cameramen" id="cameramen" multiple>
+                  {% for option in form.cameramen.choices %}
+                  <option value="{{ option[0] }}">{{ option[1] }} {{ option[2] }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="form-group">
+            <div class="panel panel-default">
+              <div class="panel-heading">{{ form.referees.label(class="form-label") }}</div>
+              <div class="panel-body">
+                <select class="select" name="referees" id="referees" multiple>
+                  {% for option in form.referees.choices %}
+                  <option value="{{ option[0] }}">{{ option[1] }} {{ option[2] }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Zapisz</button>
+      </div>
+    </div>
+    </form>
+{% endblock %}
+{% block footer_script %}
+<script>
+  var selectedCommentators = {{ selected_commentators| tojson }};
+  var commentators = document.getElementById("commentators");
+  for (var i = 0; i < commentators.options.length; i++) {
+    var commentator = commentators.options[i];
+    if (selectedCommentators.includes(Number(commentator.value))) {
+      commentator.selected = true;
+    }
+  }
+
+  var selectedCameramen = {{ selected_cameramen| tojson }};
+  var cameramen = document.getElementById("cameramen");
+  for (var i = 0; i < cameramen.options.length; i++) {
+    var cameraman = cameramen.options[i];
+    if (selectedCameramen.includes(Number(cameraman.value))) {
+      cameraman.selected = true;
+    }
+  }
+
+  var selectedReferees = {{ selected_referees| tojson }};
+  var referees = document.getElementById("referees");
+  for (var i = 0; i < referees.options.length; i++) {
+    var referee = referees.options[i];
+    if (selectedReferees.includes(Number(referee.value))) {
+      referee.selected = true;
+    }
+  }
+</script>
+{% endblock %}

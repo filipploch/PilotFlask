@@ -1,0 +1,49 @@
+main {
+ font-size: 35px; 
+}
+
+table {
+  width: 100%;
+}
+
+.btn {
+  font-size: 50px;
+}
+
+.big-box {
+    width: 80px;
+    height: 80px;
+}
+
+.big-wide-box {
+    width: 160px;
+    height: 80px;
+}
+
+.number{
+    width: 80px;
+  text-align: center;
+}
+
+.tricot-container {
+  display:flex;
+  padding-bottom: 20px;
+}
+
+.tricot-colors {
+  position: relative;
+  display: flex;
+  bottom: 7px;
+}
+
+.input-color {
+  
+}
+
+.vertical-space {
+  padding-top: 30px;
+}
+
+.horizontal-space {
+  margin-right: 20px !important;
+}

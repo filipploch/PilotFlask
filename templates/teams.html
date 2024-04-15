@@ -1,0 +1,57 @@
+{% extends "base-bars.html" %}
+{% block style %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/cssteams.css')}}">
+{% endblock %}
+
+{% block content %}
+        <div id="scorebarNlogos">
+            <div id="score_bar">
+                <img src="{{url_for('static', filename='images/belka_wynik_przerwa_2.png')}}" id="score_bg"/>
+                <div id="score_a">{{ matchdata['teama']['scores'] }}</div>
+                <div id="score_b">{{ matchdata['teamb']['scores'] }}</div>
+            </div>
+				<div class="team_logo" id="team_a_logo">
+					<img src="/static/images/logos/{{ matchdata['teama']['logo_file'] }}" class="logo">
+				</div>
+				<div class="team_logo" id="team_b_logo" >
+					<img src="/static/images/logos/{{ matchdata['teamb']['logo_file'] }}" class="logo">
+                </div>
+        </div>
+
+	<tbody>
+
+
+		<div id="strikers">
+				<div id="strikers_a">
+					<table class="strikersa">
+						<tbody>
+						{% for striker in strikers['strikers_a'] %}
+							<tr class="strikers-row{{ loop.index }}">
+								<td class="name">{{ striker[0].first_name[:1] }}. {{ striker[0].last_name }}</td>
+								<td class="is-own-goal">{{ striker[1] }}</td>
+								<td class="time">{{ striker[2] }}</td>
+							</tr></td>
+							</tr>
+						{% endfor %}
+
+						</tbody>
+					</table>
+				</div>
+                <div class="cleaner"></div>
+				<div id="strikers_b">
+					<table class="strikersb">
+						<tbody>
+						{% for striker in strikers['strikers_b'] %}
+							<tr class="strikers-row{{ loop.index }}">
+								<td class="name">{{ striker[0].first_name[:1] }}. {{ striker[0].last_name }}</td>
+								<td class="is-own-goal">{{ striker[1] }}</td>
+								<td class="time">{{ striker[2] }}</td>
+							</tr>
+						{% endfor %}
+
+						</tbody>
+					</table>
+				</div>
+				<div class="cleaner"></div>
+			</div>
+{% endblock %}

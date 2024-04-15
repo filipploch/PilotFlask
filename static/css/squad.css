@@ -1,0 +1,348 @@
+body
+{
+	color: #00004f;
+}
+
+
+#container
+{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 1920px;
+	height: 1080px;
+}
+
+td
+{
+	min-width: 50px;
+	text-align: right;
+	padding-left: 5px;
+	font-size: 37px;
+}
+
+
+
+
+
+
+
+.team_logo{
+	top: 150px;
+	width: 859px;
+	float: left;
+}
+
+#team_a_logo
+{
+	position: absolute;
+	left: 100px;
+	text-align: left;
+}
+
+#team_b_logo
+{
+	position: absolute;
+	right: 100px;
+	text-align: right;
+}
+
+
+
+
+.logo
+{
+	width: 350px;
+}
+
+#score_bg
+{
+	position: absolute;
+	left: 0px;
+	top: 120px;
+	width: 100%;
+}
+
+#team_screen_content
+{
+	font-size: 70px;
+	font-weight: 900;
+	color: white;
+	border: 2 solid red;
+	background-color: rgba(255,255,255,0.5);
+	height: 100%;
+	width: 100%;
+	color: #00004f;
+}
+
+#score_bar{
+	font-size: 80px;
+	text-align: center;
+	color: white;
+}
+
+#scorebarNlogos{
+	text-align: center;
+	-webkit-animation: scorebarNlogosSpread 1s;
+	-webkit-animation-fill-mode: Both;
+
+}
+
+@keyframes scorebarNlogosSpread{
+	0% {left: 50%; width: 0%;};
+	100% {left: 0px; width: 100%;};
+}
+
+#score_a
+{
+	position: absolute;
+	left: 830px;
+	top: 170px;
+	width: 120px;
+	float: left;
+}
+
+#score_b
+{
+	position: absolute;
+	right: 830px;
+	top: 170px;
+	width: 120px;
+	float: left;
+}
+
+#league
+{
+	position: absolute;
+	left: 200px;
+	top: 7px;
+}
+
+#division
+{
+	position: absolute;
+	left: 200px;
+	top: 50px;
+}
+
+.strikers
+{
+	position: absolute;
+	font-size: 80px;
+	color: #00004f;
+	top: 320px;
+	width: 960px;
+	left: 480px;
+	text-shadow: 2px 2px 10px white;
+}
+
+#strikers_a
+{
+	left: 480px;
+	float: left;
+	width: 50%;
+
+}
+
+#strikers_b
+{
+	position:absolute;
+	right: 0px;
+	float: right;
+	width: 50%;
+	text-align: right;
+
+}
+
+.strikers_b_tab{
+	float: right;
+	padding-right: 10px;
+}
+
+.cleaner
+{
+	clear: both;
+}
+
+.time
+{
+	text-align: right;
+
+}
+
+#screen_content
+{
+	min-height: 400px;
+
+}
+
+#logo_squad
+{
+	opacity: 0;
+	position: absolute;
+	float: left;
+	left: 200px;
+	top: 80px;
+	width: auto;
+    height: 700px;
+	opacity: 1;
+	-webkit-animation: logo_squad_anim 30s;
+	-webkit-animation-fill-mode: Both;
+	-webkit-animation-delay: 0.5s;
+}
+
+#logoBackground
+{
+	position: relative;
+	animation-fill-mode: both;
+	-webkit-animation-delay: 0.5s;
+	width: 50%;
+	height: 900px;
+	-webkit-animation: background_logo_anim 30s;
+	top: 114px;
+}
+
+.table_a
+{
+	position: absolute;
+	top: 180px;
+	margin-left: 230px;
+	margin-right: auto;
+	font-size: 35px;
+}
+
+.table_b
+{
+	position: absolute;
+	top: 120px;
+	margin-left: 250px;
+	margin-right: auto;
+	font-size: 500px;
+	text-align: center;
+
+}
+
+.class_first
+{
+	color: White;
+	background-color: #6666ff;
+}
+
+.class_second
+{
+	color: White;
+	background-color: #4d4dff;
+
+}
+
+
+
+.team_name
+{
+	text-align: left;
+	font-weight: bold;
+	padding-left: 20px;
+	padding-right: 10px;
+	min-width: 300px;
+}
+
+.points
+{
+	font-weight: 900;
+	min-width: 45px;
+	background-color: #2d2d86;
+}
+
+.team_pos
+{
+	min-width: 35px;
+}
+
+.class_header
+{
+	background-color: #000066;
+	color: White;
+	text-align: center;
+	font-weight: bold;
+	letter-spacing: 1px;
+	font-size: 20px;
+}
+
+
+
+#matchSquad{
+	position: relative;
+	border-spacing: 0px;
+	padding: 50px;
+}
+
+
+.row{
+	position:relative;
+	color: white;
+	text-align: left;
+	opacity: 0;
+    -webkit-animation-delay: fadeMe 2.5s
+	animation-fill-mode: forwards;
+}
+
+#squad
+{
+	font-size: 30px;
+	position: absolute;
+	left: 50px;
+	top: 50%;
+	color: white;
+    transform: translateY(-55%);
+	/*background-color: rgba(56, 56, 56, 0.7);*/
+	/*-webkit-animation: squad_anim 1s;*/
+	-webkit-animation-fill-mode: Both;
+	-webkit-animation-delay: 0.5s;
+}
+
+.playerName{
+	text-align: left;
+	font-size: 38px;
+	font-weight: 900;
+	padding-left: 20px;
+}
+
+@keyframes fadeMe {
+  0%  {opacity: 0;}
+  10% {opacity: 0;}
+  20% {opacity: 1;}
+  100% {opacity: 1;}
+}
+
+
+
+#squadBackground {
+	position: absolute;
+	width: 50%;
+	height: 900px;
+	left: 50%;
+	top: 114px;
+	background-color: rgba(0,0,128,0.7);
+	-webkit-animation: squadBackgroundSlideInOut 30s;
+	-webkit-animation-fill-mode: both;
+}
+
+#repeatInfo {
+	position: absolute;
+	-webkit-animation: repeatInfoSlide 11s;
+	-webkit-animation-fill-mode: Both;
+	-webkit-animation-delay: 1s;
+	padding-left: 20px;
+	padding-right: 20px;
+	background-color: rgba(255,255,255,0.5);
+	color: rgba(0,0,128,0.9);
+	font-size: 30px;
+}
+
+@keyframes repeatInfoSlide {
+	0% {right: -300px; top: 100px;}
+	10% {right: 0px; top: 100px;}
+	90% {right: 0px; top: 100px;}
+	100% {right: -300px; top: 100px;}
+}
+

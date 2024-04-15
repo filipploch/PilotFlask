@@ -1,0 +1,137 @@
+/* body {
+	position: absolute;
+	top: 0;
+	border: 1px solid red;
+} */
+
+
+
+#league
+{
+	position: absolute;
+	left: 200px;
+	top: 7px;
+}
+
+#division
+{
+	position: absolute;
+	left: 200px;
+	top: 50px;
+}
+
+.cleaner
+{
+	clear: both;
+}
+
+
+
+.team_name
+{
+	text-align: left;
+	font-weight: bold;
+	padding-left: 20px;
+	padding-right: 10px;
+	min-width: 300px;
+}
+
+
+
+
+#matchSquad{
+	position: relative;
+	border-spacing: 0px;
+	padding: 50px;
+}
+
+
+.row{
+	position:relative;
+	color: white;
+	text-align: left;
+	opacity: 0;
+    animation-delay: fadeMe 2.5s;
+	animation-fill-mode: forwards;
+}
+
+#squad
+{
+	font-size: 30px;
+	position: absolute;
+	left: 50px;
+	top: 50%;
+	color: white;
+    transform: translateY(-55%);
+	/*background-color: rgba(56, 56, 56, 0.7);*/
+	/*animation: squad_anim 1s;*/
+	animation-fill-mode: Both;
+	animation-delay: 0.5s;
+}
+
+
+
+@keyframes fadeMe {
+  0%  {opacity: 0;}
+  5% {opacity: 0;}
+  10% {opacity: 1;}
+  100% {opacity: 1;}
+}
+
+
+
+#statsBackground {
+	position: absolute;
+	width: 50%;
+	height: 900px;
+	left: 50%;
+	top: 114px;
+	background-color: rgba(0,0,128,0.7);
+}
+
+.statsBackgroundIn {
+	animation: statsBackgroundSlideIn 1s;
+	animation-fill-mode: both;
+	animation-delay: 0.5s;
+}
+
+.statsBackgroundOut {
+	animation: statsBackgroundSlideOut 1s;
+	animation-fill-mode: both;
+}
+
+#repeatInfo {
+	position: absolute;
+	animation: repeatInfoSlide 11s;
+	animation-fill-mode: Both;
+	animation-delay: 1s;
+	padding-left: 20px;
+	padding-right: 20px;
+	background-color: rgba(255,255,255,0.5);
+	color: rgba(0,0,128,0.9);
+	font-size: 30px;
+}
+
+@keyframes repeatInfoSlide {
+	0% {right: -300px; top: 100px;}
+	5% {right: 0px; top: 100px;}
+	95% {right: 0px; top: 100px;}
+	100% {right: -300px; top: 100px;}
+}
+
+
+
+.form-lost {
+	background-color: red;
+	color: white;
+}
+
+.form-draw {
+	background-color: yellow;
+	color: black;
+}
+
+.form-win {
+	background-color: green;
+	color: white;
+}

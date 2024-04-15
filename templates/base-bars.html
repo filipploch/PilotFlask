@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html lang="pl">
+<head>
+	<meta charset="ISO-8859" />
+	<meta http-equiv="X-UA-Compatible"/>
+	<link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="{{url_for('static', filename='css/base-bars.css')}}">
+	{% block style %}{% endblock %}
+	<!-- <script src="js/teams.js"></script>
+	<script src="js/processing.js"></script> -->
+
+</head>
+
+<body onload="matchInfo();">
+	<div id="container">
+		<div id="top_bar">
+			<img src="{{url_for('static', filename='images/NALFlogoTekst.png')}}" id="img_top">
+			<div id="league"></div>
+			<div id="division"></div>
+		</div>
+		<div id="team_screen_content">
+            {% block content %}
+            {% endblock %}
+        </div>
+
+		<div id="bottom_bar">
+			<img src="{{url_for('static', filename='images/druzyny-logo-belka.png')}}" id="img_bottom">
+		</div>
+	</div>
+	<script src="{{url_for('static', filename='js/base.js')}}"></script>
+	{% block scripts %}{% endblock %}
+</body>
+</html>

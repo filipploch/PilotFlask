@@ -1,0 +1,53 @@
+.span-container-0 {animation: flipInX 1000ms ease 0ms 1 normal both; }
+.span-container-1 {animation: flipInX 1000ms ease 500ms 1 normal both; }
+.span-container-2 {animation: flipInX 1000ms ease 1000ms 1 normal both; }
+.span-container-3 {animation: flipInX 1000ms ease 1500ms 1 normal both; }
+.span-container-4 {animation: flipInX 1000ms ease 2000ms 1 normal both; }
+.span-container-5 {animation: flipInX 1000ms ease 2500ms 1 normal both; }
+.span-container-6 {animation: flipInX 1000ms ease 3000ms 1 normal both; }
+.span-container-7 {animation: flipInX 1000ms ease 3500ms 1 normal both; }
+.span-container-8 {animation: flipInX 1000ms ease 4000ms 1 normal both; }
+.span-container-9 {animation: flipInX 1000ms ease 4500ms 1 normal both; }
+.span-container-10 {animation: flipInX 1000ms ease 5000ms 1 normal both; }
+.span-container-11 {animation: flipInX 1000ms ease 5500ms 1 normal both; }
+.span-container-12 {animation: flipInX 1000ms ease 6000ms 1 normal both; }
+.span-container-13 {animation: flipInX 1000ms ease 6500ms 1 normal both; }
+.span-container-14 {animation: flipInX 1000ms ease 7000ms 1 normal both; }
+.span-container-15 {animation: flipInX 1000ms ease 7500ms 1 normal both; }
+.span-container-16 {animation: flipInX 1000ms ease 8000ms 1 normal both; }
+.span-container-17 {animation: flipInX 1000ms ease 8500ms 1 normal both; }
+.span-container-18 {animation: flipInX 1000ms ease 9000ms 1 normal both; }
+.span-container-19 {animation: flipInX 1000ms ease 9500ms 1 normal both; }
+
+@keyframes flipInX {
+    0% {
+        -webkit-transform: perspective(400px) rotateX(90deg);
+        transform: perspective(400px) rotateX(90deg);
+        -webkit-animation-timing-function: ease-in;
+        animation-timing-function: ease-in;
+        opacity: 0
+    }
+
+    40% {
+        -webkit-transform: perspective(400px) rotateX(-20deg);
+        transform: perspective(400px) rotateX(-20deg);
+        -webkit-animation-timing-function: ease-in;
+        animation-timing-function: ease-in
+    }
+
+    60% {
+        -webkit-transform: perspective(400px) rotateX(10deg);
+        transform: perspective(400px) rotateX(10deg);
+        opacity: 1
+    }
+
+    80% {
+        -webkit-transform: perspective(400px) rotateX(-5deg);
+        transform: perspective(400px) rotateX(-5deg)
+    }
+
+    to {
+        -webkit-transform: perspective(400px);
+        transform: perspective(400px)
+    }
+}

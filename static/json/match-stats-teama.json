@@ -1,0 +1,387 @@
+{
+  "table-data": [
+    {
+      "division": "Dywizja B",
+      "rank": 1,
+      "team_name": "Amiz Transport Z\u0142ote Ch\u0142opaki",
+      "matches": 7,
+      "wins": 7,
+      "draws": 0,
+      "losts": 0,
+      "goals_scored": 41,
+      "goals_lost": 13,
+      "points": 21,
+      "form": "W W W W W W W"
+    }
+  ],
+  "average-points": 3.0,
+  "average-scored-goals": 5.86,
+  "average-lost-goals": 1.86,
+  "best-strikers": [
+    {
+      "full_name": "Konarski Pawe\u0142",
+      "link": "https://nalffutsal.pl/?sp_player=konarski-pawel",
+      "team": "https://nalffutsal.pl/?sp_team=zlote-chlopaki",
+      "is_goalkeeper": 0,
+      "matches": 6,
+      "goals": 7,
+      "assists": 4,
+      "yellow_cards": 1,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 2,
+      "best_player": 0
+    }
+  ],
+  "best-assistants": [
+    {
+      "full_name": "Gnutek Rafa\u0142",
+      "link": "https://nalffutsal.pl/?sp_player=rafal-gnutek",
+      "team": "https://nalffutsal.pl/?sp_team=zlote-chlopaki",
+      "is_goalkeeper": 0,
+      "matches": 6,
+      "goals": 3,
+      "assists": 7,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    }
+  ],
+  "best-canadians": [
+    {
+      "full_name": "Konarski Pawe\u0142",
+      "link": "https://nalffutsal.pl/?sp_player=konarski-pawel",
+      "team": "https://nalffutsal.pl/?sp_team=zlote-chlopaki",
+      "is_goalkeeper": 0,
+      "matches": 6,
+      "goals": 7,
+      "assists": 4,
+      "yellow_cards": 1,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 2,
+      "best_player": 0
+    }
+  ],
+  "most-yellow-cards": [
+    {
+      "full_name": "Konarski Pawe\u0142",
+      "link": "https://nalffutsal.pl/?sp_player=konarski-pawel",
+      "team": "https://nalffutsal.pl/?sp_team=zlote-chlopaki",
+      "is_goalkeeper": 0,
+      "matches": 6,
+      "goals": 7,
+      "assists": 4,
+      "yellow_cards": 1,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 2,
+      "best_player": 0
+    }
+  ],
+  "most-red-cards": [
+    {
+      "full_name": "Brodnicki Micha\u0142",
+      "link": "https://nalffutsal.pl/?sp_player=brodnicki-michal",
+      "team": "https://nalffutsal.pl/?sp_team=zlote-chlopaki",
+      "is_goalkeeper": 0,
+      "matches": 0,
+      "goals": 0,
+      "assists": 0,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    },
+    {
+      "full_name": "Buksa Rados\u0142aw",
+      "link": "https://nalffutsal.pl/?sp_player=buksa-radoslaw",
+      "team": "https://nalffutsal.pl/?sp_team=zlote-chlopaki",
+      "is_goalkeeper": 0,
+      "matches": 0,
+      "goals": 0,
+      "assists": 0,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    },
+    {
+      "full_name": "Gnutek Filip",
+      "link": "https://nalffutsal.pl/?sp_player=gnutek-filip",
+      "team": "https://nalffutsal.pl/?sp_team=zlote-chlopaki",
+      "is_goalkeeper": 0,
+      "matches": 5,
+      "goals": 4,
+      "assists": 3,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 1,
+      "best_player": 0
+    },
+    {
+      "full_name": "Gnutek Rafa\u0142",
+      "link": "https://nalffutsal.pl/?sp_player=rafal-gnutek",
+      "team": "https://nalffutsal.pl/?sp_team=zlote-chlopaki",
+      "is_goalkeeper": 0,
+      "matches": 6,
+      "goals": 3,
+      "assists": 7,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    },
+    {
+      "full_name": "Grzyb Konrad",
+      "link": "https://nalffutsal.pl/?sp_player=pys-mikolaj",
+      "team": "https://nalffutsal.pl/?sp_team=zlote-chlopaki",
+      "is_goalkeeper": 0,
+      "matches": 6,
+      "goals": 6,
+      "assists": 2,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    },
+    {
+      "full_name": "G\u00f3rkowski Karol",
+      "link": "https://nalffutsal.pl/?sp_player=gorkowski-karol-2",
+      "team": "https://nalffutsal.pl/?sp_team=zlote-chlopaki",
+      "is_goalkeeper": 0,
+      "matches": 0,
+      "goals": 0,
+      "assists": 0,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    },
+    {
+      "full_name": "Kaniewski Sebastian",
+      "link": "https://nalffutsal.pl/?sp_player=sebastian-kaniewski",
+      "team": "https://nalffutsal.pl/?sp_team=zlote-chlopaki",
+      "is_goalkeeper": 0,
+      "matches": 7,
+      "goals": 3,
+      "assists": 2,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    },
+    {
+      "full_name": "Kargul Przemys\u0142aw",
+      "link": "https://nalffutsal.pl/?sp_player=kargul",
+      "team": "https://nalffutsal.pl/?sp_team=zlote-chlopaki",
+      "is_goalkeeper": 1,
+      "matches": 6,
+      "goals": 0,
+      "assists": 1,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    },
+    {
+      "full_name": "Konarski Pawe\u0142",
+      "link": "https://nalffutsal.pl/?sp_player=konarski-pawel",
+      "team": "https://nalffutsal.pl/?sp_team=zlote-chlopaki",
+      "is_goalkeeper": 0,
+      "matches": 6,
+      "goals": 7,
+      "assists": 4,
+      "yellow_cards": 1,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 2,
+      "best_player": 0
+    },
+    {
+      "full_name": "Kuc Marek",
+      "link": "https://nalffutsal.pl/?sp_player=kuc-marek",
+      "team": "https://nalffutsal.pl/?sp_team=zlote-chlopaki",
+      "is_goalkeeper": 0,
+      "matches": 0,
+      "goals": 0,
+      "assists": 0,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    },
+    {
+      "full_name": "Luba\u0144ski Micha\u0142",
+      "link": "https://nalffutsal.pl/?sp_player=lubanski-michal",
+      "team": "https://nalffutsal.pl/?sp_team=zlote-chlopaki",
+      "is_goalkeeper": 0,
+      "matches": 2,
+      "goals": 2,
+      "assists": 1,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    },
+    {
+      "full_name": "Mazur Kamil",
+      "link": "https://nalffutsal.pl/?sp_player=mazur-kamil",
+      "team": "https://nalffutsal.pl/?sp_team=zlote-chlopaki",
+      "is_goalkeeper": 0,
+      "matches": 4,
+      "goals": 6,
+      "assists": 3,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 1,
+      "best_player": 0
+    },
+    {
+      "full_name": "Mierzejewski Rafa\u0142",
+      "link": "https://nalffutsal.pl/?sp_player=rafal-mierzejewski",
+      "team": "https://nalffutsal.pl/?sp_team=zlote-chlopaki",
+      "is_goalkeeper": 0,
+      "matches": 6,
+      "goals": 4,
+      "assists": 4,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    },
+    {
+      "full_name": "Ob\u0142\u0105k Bart\u0142omiej",
+      "link": "https://nalffutsal.pl/?sp_player=oblak-bartlomiej",
+      "team": "https://nalffutsal.pl/?sp_team=zlote-chlopaki",
+      "is_goalkeeper": 1,
+      "matches": 1,
+      "goals": 0,
+      "assists": 0,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    },
+    {
+      "full_name": "Sidorhuk David",
+      "link": "https://nalffutsal.pl/?sp_player=sidorhuk-david",
+      "team": "https://nalffutsal.pl/?sp_team=zlote-chlopaki",
+      "is_goalkeeper": 0,
+      "matches": 1,
+      "goals": 2,
+      "assists": 3,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 1,
+      "best_player": 1
+    },
+    {
+      "full_name": "Zato\u0144 \u0141ukasz",
+      "link": "https://nalffutsal.pl/?sp_player=zaton-lukasz",
+      "team": "https://nalffutsal.pl/?sp_team=zlote-chlopaki",
+      "is_goalkeeper": 0,
+      "matches": 6,
+      "goals": 2,
+      "assists": 1,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    },
+    {
+      "full_name": "\u0141yduch Zbigniew",
+      "link": "https://nalffutsal.pl/?sp_player=zbigniew-lyduch",
+      "team": "https://nalffutsal.pl/?sp_team=zlote-chlopaki",
+      "is_goalkeeper": 0,
+      "matches": 6,
+      "goals": 1,
+      "assists": 1,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    }
+  ],
+  "most-best-five": [
+    {
+      "full_name": "Konarski Pawe\u0142",
+      "link": "https://nalffutsal.pl/?sp_player=konarski-pawel",
+      "team": "https://nalffutsal.pl/?sp_team=zlote-chlopaki",
+      "is_goalkeeper": 0,
+      "matches": 6,
+      "goals": 7,
+      "assists": 4,
+      "yellow_cards": 1,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 2,
+      "best_player": 0
+    }
+  ],
+  "most-best-player": [
+    {
+      "full_name": "Sidorhuk David",
+      "link": "https://nalffutsal.pl/?sp_player=sidorhuk-david",
+      "team": "https://nalffutsal.pl/?sp_team=zlote-chlopaki",
+      "is_goalkeeper": 0,
+      "matches": 1,
+      "goals": 2,
+      "assists": 3,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 1,
+      "best_player": 1
+    }
+  ],
+  "highest-win": [
+    {
+      "id": 2,
+      "date": "2024-02-20 20:45:00",
+      "teams": [
+        "Amiz Transport Z\u0142ote Ch\u0142opaki",
+        "Popalone Styki"
+      ],
+      "result": [
+        13,
+        0
+      ],
+      "actual": false,
+      "parallel": false,
+      "penalty_points": [
+        0,
+        0
+      ],
+      "sum_goals": 13
+    }
+  ],
+  "highest-tie": [
+    {
+      "result": null
+    }
+  ],
+  "highest-lost": [
+    {
+      "result": null
+    }
+  ]
+}

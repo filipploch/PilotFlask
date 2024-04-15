@@ -1,0 +1,52 @@
+{% extends "base-bars.html" %}
+{% block style %}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/base-stream.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/base-stream.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/table.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/tableAnimation.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/rotateTableRow.css')}}">
+{% endblock %}
+{% block content %}
+    <div id="schedule">
+        <table class="timeline_table">
+            <thead>
+                <tr id="content-title"><td colspan="20" class="text-overflow">{{ data.competition_name }} - {{ data.title }}</td></tr>
+                <tr class="class_header">
+                    <td></td>
+                    <td></td>
+                    <td>M</td>
+                    <td>Z</td>
+                    <td>R</td>
+                    <td>P</td>
+                    <td>GZ</td>
+                    <td>GS</td>
+                    <td>+/-</td>
+                    <td>Pkt</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% if data.table %}
+                    {% for tbl in data.table %}
+                        {% if loop.index % 2 == 0 %}
+                            <tr class="odd" id="row{{ loop.index }}">
+                        {% else %}
+                            <tr class="even" id="row{{ loop.index }}">
+                        {% endif %}
+                        <td class="team_pos">{{ tbl.rank }}</td>
+                        <td class="team_name">{{ tbl.name }}</td>
+                        <td class="matches">{{ tbl.matches }}</td>
+                        <td class="wins">{{ tbl.wins }}</td>
+                        <td class="ties">{{ tbl.draws }}</td>
+                        <td class="losses">{{ tbl.losses }}</td>
+                        <td class="goals_scored">{{ tbl.goals_scored }}</td>
+                        <td class="goals_lost">{{ tbl.goals_lost }}</td>
+                        <td class="goals_difference">{{ tbl.goals_difference }}</td>
+                        <td class="points">{{ tbl.points }}</td>
+                    </tr>
+                    {% endfor %}
+                {% endif %}
+
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

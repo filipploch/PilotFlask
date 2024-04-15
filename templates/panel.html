@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Panel</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="{{url_for('static', filename='css/common.css')}}">
+	<link rel="stylesheet" href="{{url_for('static', filename='css/ws-controller.css')}}">
+	<link rel="stylesheet" href="{{url_for('static', filename='css/panel.css')}}">
+	<script>
+        function sendRequest(url) {
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+            .then(response => {
+            console.log('Request sent successfully!');
+            })
+            .catch(error => {
+            console.error('Error during request:', error);
+            });
+        }
+
+		function renderRoundData() {
+			try {
+				// Wykonanie żądania do endpointu Flask
+				console.log('renderRoundData ws-footer.js');
+				var divisionId = document.getElementById("round-data-options").value;
+				const response = fetch(`/render-round-data/${divisionId}`);
+
+				} catch (error) {
+					console.error('Error:', error);
+				}
+			}
+		</script>
+</head>
+
+<body>
+	<div id="controller">
+		<div id="section-timer">
+			<div class="timer">
+				<div id="timer-min-setting">
+					<button class="small-button" id="add-min-btn">+</button>
+					<button class="small-button" id="sub-min-btn">-</button>
+				</div>
+				<div id="timer-display">00:00</div>
+				<div id="timer-sec-setting">
+					<button class="small-button" id="add-sec-btn">+</button>
+					<button class="small-button" id="sub-sec-btn">-</button>
+				</div>
+			</div>
+			<button id="start-btn">Start</button>
+			<button id="pause-btn">Pause</button>
+			<button id="reset-btn">Reset</button>
+
+		</div>
+		
+		<button id="changeSideBtn" onclick="pressChangeSideBtn()">
+			<<>>
+		</button><br>
+
+		<div id="scoreboard">
+			<div id="fouls-a-group" class="scoreboard-group">
+				<div class="scoreboard-display scoreboard-display-fouls" id="display-fouls-a">
+					{{ matchdata.teama.fouls }}
+				</div>
+				<button class="scoreboard-button scoreboard-button-plus" id="fouls-a-plus"
+					onclick="updateValue(1, 'display-fouls-a')">+</button>
+				<button class="scoreboard-button scoreboard-button-minus" id="fouls-a-minus"
+					onclick="updateValue(-1, 'display-fouls-a')">-</button>
+			</div>
+			<div id="score-a-group" class="scoreboard-group">
+				<div class="scoreboard-display scoreboard-display-score" id="display-score-a">
+					{{ matchdata.teama.scores }}
+				</div>
+				<button class="scoreboard-button scoreboard-button-plus" id="score-a-plus"
+					onclick="updateValue(1, 'display-score-a'); getSquad('teama', 1);">+</button>
+				<button class="scoreboard-button scoreboard-button-minus" id="score-a-minus"
+					onclick="updateValue(-1, 'display-score-a')">-</button>
+			</div>
+			<div id="score-b-group" class="scoreboard-group">
+				<div class="scoreboard-display scoreboard-display-score" id="display-score-b">
+					{{ matchdata.teamb.scores }}
+				</div>
+				<button class="scoreboard-button scoreboard-button-plus" id="score-b-plus"
+					onclick="updateValue(1, 'display-score-b'); getSquad('teamb', 1);">+</button>
+				<button class="scoreboard-button scoreboard-button-minus" id="score-b-minus"
+					onclick="updateValue(-1, 'display-score-b')">-</button>
+			</div>
+			<div id="fouls-b-group" class="scoreboard-group">
+				<div class="scoreboard-display scoreboard-display-fouls" id="display-fouls-b">
+					{{ matchdata.teamb.fouls }}
+				</div>
+				<button class="scoreboard-button scoreboard-button-plus" id="fouls-b-plus"
+					onclick="updateValue(1, 'display-fouls-b')">+</button>
+				<button class="scoreboard-button scoreboard-button-minus" id="fouls-b-minus"
+					onclick="updateValue(-1, 'display-fouls-b')">-</button>
+			</div>
+		</div>
+		<div id="teams">
+			<div id="team-a-group" class="teams-group">
+				<button class="small-button action-button yellow-card-button"
+					onclick="getSquad('teama', 2)">.</button>
+				<button class="small-button action-button red-card-button"
+					onclick="getSquad('teama', 3)">.</button>
+				<button class="small-button action-button">T</button>
+				<button class="small-button action-button" onclick="getSquad('teamb', 4)">S</button>
+				<div class="team-short-name" id="team-a-short-name">{{ matchdata.teama.short_name }}</div>
+				<button class="team-button" onclick="getSquad('teama', 0)">Skład</button>
+				<button class="team-button" onclick="getMatchData('teama')">Popraw</button>
+			</div>
+			<div id="team-b-group" class="teams-group">
+				<button class="small-button action-button yellow-card-button"
+					onclick="getSquad('teamb', 2)">.</button>
+				<button class="small-button action-button red-card-button"
+					onclick="getSquad('teamb', 3)">.</button>
+				<button class="small-button action-button">T</button>
+				<button class="small-button action-button" onclick="getSquad('teama', 4)">S</button>
+				<div class="team-short-name" id="team-b-short-name">{{ matchdata.teamb.short_name }}</div>
+				<button class="team-button" onclick="getSquad('teamb', 0)">Skład</button>
+				<button class="team-button" onclick="getMatchData('teamb')">Popraw</button>
+			</div>
+		</div>
+		<div id="bottom"><br>
+
+		</div>
+	</div>
+	<div id="sidebar">
+		<div id="sidebar-head"></div>
+		<div id="action-id" class="invisible"></div>
+		<div id="sidebar-body">
+			<div id="sidebar-body-div"></div>
+			<table>
+				<tbody id="elements"></tbody>
+			</table>
+		</div>
+
+		<div id="sidebar-footer"></div>
+	</div>
+	<div id=menu-sidebar>
+		<div id="countdown-timer-div">
+			<input type="checkbox" id="countdown-timer" name="countdown-timer" checked><br>
+		</div>
+		<div id="menu-buttons">
+			<button class="team-button" onclick="loadFiles()">Powtórki</button>
+			<button class="team-button" onclick="loadContent('get_replays', 'sidebar')">Powtórki</button><br>
+			<div class="menu-description">Pobierz wyniki</div>
+			<button class="team-button" onclick="scrapeMatches(34)">Dyw. A</button>
+			<button class="team-button" onclick="scrapeMatches(52)">Dyw. B</button><br>
+			<div class="menu-description">Wyświetl wyniki</div>
+			<button class="team-button" onclick="loadContent('/show-matches-by-date/controller/', 'sidebar', 'a')">Dyw. A</button>
+			<button class="team-button" onclick="loadContent('/show-matches-by-date/controller/', 'sidebar', 'b')">Dyw. B</button><br>
+			<div class="menu-description">Pobierz statystyki</div>
+			<button class="team-button" onclick="loadContent('/get-statistics/teama', 'sidebar')">{{ matchdata.teama.short_name }}</button>
+			<button class="team-button" onclick="loadContent('/get-statistics/teamb', 'sidebar')">{{ matchdata.teamb.short_name }}</button><br>
+		</div>
+	</div>
+	<div id="ws-controller-div">
+		<div id="ws-invisibles">
+			<div id="ws-action-id" class="invisible"></div>
+			<div id="ws-player-id" class="invisible"></div>
+			<div id="ws-team" class="invisible"></div>
+			<div id="ws-team-id" class="invisible"></div>
+			<div id="ws-current-date" class="invisible"></div>
+			<div id="ws-current-second" class="invisible"></div>
+    	</div>
+		<div id="ws-menu">
+			<button class="menu-button" onclick="loadContent('/render-content/main', 'ws-content')">Main</button>
+			<button class="menu-button" onclick="loadContent('/render-content/match', 'ws-content')">Mecz</button>
+			<button class="menu-button" onclick="loadContent('/render-round-tab', 'ws-content')">Liga</button>
+			<button class="menu-button" onclick="loadContent('/render-content/stats', 'ws-content')">Stats</button>
+			<button class="menu-button" onclick="loadContent('/render-content/banner', 'ws-content')">Baner</button>
+		</div>
+		<div id="ws-content"></div>
+	</div>
+
+	<script src="{{ url_for('static', filename='js/timer.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/virtualtable.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/load-content.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/update-data.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/common.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/panel.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/ws-footer.js') }}"></script>
+</body>
+
+</html>

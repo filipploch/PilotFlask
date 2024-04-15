@@ -1,0 +1,44 @@
+<div class="stats-page-in" id="stats-page">
+
+    <div class="stats-tile">
+        <div class="stats-tile-description">MIEJSCE W TABELI</div>
+        <div class="stats-tile-value bc-green">{{ data['table-data'][0].rank }}</div>
+        <div class="stats-tile-content">
+            <div class="stats-tile-content-row">{{ data['table-data'][0].division }}</div>
+        </div>
+    </div>
+
+    <div class="stats-tile">
+        <div class="stats-tile-description">MECZE I PUNKTY</div>
+        <div class="stats-tile-value bc-green">{{ data['table-data'][0].points }}</div>
+        <div class="stats-tile-content">
+            <div class="stats-tile-content-row">{{ data['table-data'][0].matches }}
+            ({{ data['table-data'][0].wins }}-{{ data['table-data'][0].draws }}-{{ data['table-data'][0].losts }})
+            </div>
+        </div>
+    </div>
+
+    <div class="stats-tile">
+        <div class="stats-tile-description">FORMA</div>
+        <div class="stats-tile-content">
+            <div class="stats-tile-content-row">
+                {% for forma in data['table-data'][0].form[-9:] %}
+                {% if forma == "W" %}
+                <span class="form-win form-tile stats-value">W</span>
+                {% elif forma == "R" %}
+                <span class="form-draw form-tile stats-value">R</span>
+                {% elif forma == "P" %}
+                <span class="form-lost form-tile stats-value">P</span>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="stats-tile">
+        <div class="stats-tile-description">BRAMKI</div>
+        <div class="stats-tile-content">
+            <div class="stats-tile-content-row">{{ data['table-data'][0].goals_scored }}-{{ data['table-data'][0].goals_lost }}</div>
+        </div>
+    </div>
+</div>

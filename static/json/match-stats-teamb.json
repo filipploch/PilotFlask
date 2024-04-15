@@ -1,0 +1,447 @@
+{
+  "table-data": [
+    {
+      "division": "Dywizja B",
+      "rank": 9,
+      "team_name": "eNHa",
+      "matches": 7,
+      "wins": 1,
+      "draws": 2,
+      "losts": 4,
+      "goals_scored": 20,
+      "goals_lost": 36,
+      "points": 5,
+      "form": "P W P P R P R"
+    }
+  ],
+  "average-points": 0.71,
+  "average-scored-goals": 2.86,
+  "average-lost-goals": 5.14,
+  "best-strikers": [
+    {
+      "full_name": "Urbanowicz Dawid",
+      "link": "https://nalffutsal.pl/?sp_player=urbanowicz-dawid",
+      "team": "https://nalffutsal.pl/?sp_team=enha",
+      "is_goalkeeper": 0,
+      "matches": 6,
+      "goals": 6,
+      "assists": 1,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    }
+  ],
+  "best-assistants": [
+    {
+      "full_name": "Rachwa\u0142 Sebastian",
+      "link": "https://nalffutsal.pl/?sp_player=rachwal-sebastian",
+      "team": "https://nalffutsal.pl/?sp_team=enha",
+      "is_goalkeeper": 0,
+      "matches": 6,
+      "goals": 0,
+      "assists": 3,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    }
+  ],
+  "best-canadians": [
+    {
+      "full_name": "Urbanowicz Dawid",
+      "link": "https://nalffutsal.pl/?sp_player=urbanowicz-dawid",
+      "team": "https://nalffutsal.pl/?sp_team=enha",
+      "is_goalkeeper": 0,
+      "matches": 6,
+      "goals": 6,
+      "assists": 1,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    }
+  ],
+  "most-yellow-cards": [
+    {
+      "full_name": "Wiesner Tomasz",
+      "link": "https://nalffutsal.pl/?sp_player=wiesner-tomasz",
+      "team": "https://nalffutsal.pl/?sp_team=enha",
+      "is_goalkeeper": 0,
+      "matches": 5,
+      "goals": 0,
+      "assists": 1,
+      "yellow_cards": 1,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    }
+  ],
+  "most-red-cards": [
+    {
+      "full_name": "Gw\u00f3\u017ad\u017a Dawid",
+      "link": "https://nalffutsal.pl/?sp_player=gwozdz-dawid",
+      "team": "https://nalffutsal.pl/?sp_team=enha",
+      "is_goalkeeper": 0,
+      "matches": 3,
+      "goals": 5,
+      "assists": 1,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    },
+    {
+      "full_name": "G\u00f3rka Kamil",
+      "link": "https://nalffutsal.pl/?sp_player=kamil-gorka",
+      "team": "https://nalffutsal.pl/?sp_team=enha",
+      "is_goalkeeper": 0,
+      "matches": 5,
+      "goals": 1,
+      "assists": 1,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    },
+    {
+      "full_name": "Kisiel Marek",
+      "link": "https://nalffutsal.pl/?sp_player=kisiel-marek",
+      "team": "https://nalffutsal.pl/?sp_team=enha",
+      "is_goalkeeper": 1,
+      "matches": 6,
+      "goals": 0,
+      "assists": 2,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    },
+    {
+      "full_name": "Rachwa\u0142 Sebastian",
+      "link": "https://nalffutsal.pl/?sp_player=rachwal-sebastian",
+      "team": "https://nalffutsal.pl/?sp_team=enha",
+      "is_goalkeeper": 0,
+      "matches": 6,
+      "goals": 0,
+      "assists": 3,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    },
+    {
+      "full_name": "Strzeszkowski Mateusz",
+      "link": "https://nalffutsal.pl/?sp_player=strzeszkowski-mateusz",
+      "team": "https://nalffutsal.pl/?sp_team=enha",
+      "is_goalkeeper": 0,
+      "matches": 2,
+      "goals": 1,
+      "assists": 0,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    },
+    {
+      "full_name": "Urbanowicz Dawid",
+      "link": "https://nalffutsal.pl/?sp_player=urbanowicz-dawid",
+      "team": "https://nalffutsal.pl/?sp_team=enha",
+      "is_goalkeeper": 0,
+      "matches": 6,
+      "goals": 6,
+      "assists": 1,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    },
+    {
+      "full_name": "Warszycki Dawid",
+      "link": "https://nalffutsal.pl/?sp_player=dawid-warszycki",
+      "team": "https://nalffutsal.pl/?sp_team=enha",
+      "is_goalkeeper": 0,
+      "matches": 6,
+      "goals": 2,
+      "assists": 1,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    },
+    {
+      "full_name": "Wiesner Tomasz",
+      "link": "https://nalffutsal.pl/?sp_player=wiesner-tomasz",
+      "team": "https://nalffutsal.pl/?sp_team=enha",
+      "is_goalkeeper": 0,
+      "matches": 5,
+      "goals": 0,
+      "assists": 1,
+      "yellow_cards": 1,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    },
+    {
+      "full_name": "Wiszniewski Dominik",
+      "link": "https://nalffutsal.pl/?sp_player=wiszniewski-dominik",
+      "team": "https://nalffutsal.pl/?sp_team=enha",
+      "is_goalkeeper": 0,
+      "matches": 3,
+      "goals": 1,
+      "assists": 1,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    },
+    {
+      "full_name": "\u015awiat\u0142o\u0144 Damian",
+      "link": "https://nalffutsal.pl/?sp_player=swiatlon-damian",
+      "team": "https://nalffutsal.pl/?sp_team=enha",
+      "is_goalkeeper": 0,
+      "matches": 4,
+      "goals": 4,
+      "assists": 2,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 1,
+      "best_player": 0
+    }
+  ],
+  "most-best-five": [
+    {
+      "full_name": "\u015awiat\u0142o\u0144 Damian",
+      "link": "https://nalffutsal.pl/?sp_player=swiatlon-damian",
+      "team": "https://nalffutsal.pl/?sp_team=enha",
+      "is_goalkeeper": 0,
+      "matches": 4,
+      "goals": 4,
+      "assists": 2,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 1,
+      "best_player": 0
+    }
+  ],
+  "most-best-player": [
+    {
+      "full_name": "Gw\u00f3\u017ad\u017a Dawid",
+      "link": "https://nalffutsal.pl/?sp_player=gwozdz-dawid",
+      "team": "https://nalffutsal.pl/?sp_team=enha",
+      "is_goalkeeper": 0,
+      "matches": 3,
+      "goals": 5,
+      "assists": 1,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    },
+    {
+      "full_name": "G\u00f3rka Kamil",
+      "link": "https://nalffutsal.pl/?sp_player=kamil-gorka",
+      "team": "https://nalffutsal.pl/?sp_team=enha",
+      "is_goalkeeper": 0,
+      "matches": 5,
+      "goals": 1,
+      "assists": 1,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    },
+    {
+      "full_name": "Kisiel Marek",
+      "link": "https://nalffutsal.pl/?sp_player=kisiel-marek",
+      "team": "https://nalffutsal.pl/?sp_team=enha",
+      "is_goalkeeper": 1,
+      "matches": 6,
+      "goals": 0,
+      "assists": 2,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    },
+    {
+      "full_name": "Rachwa\u0142 Sebastian",
+      "link": "https://nalffutsal.pl/?sp_player=rachwal-sebastian",
+      "team": "https://nalffutsal.pl/?sp_team=enha",
+      "is_goalkeeper": 0,
+      "matches": 6,
+      "goals": 0,
+      "assists": 3,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    },
+    {
+      "full_name": "Strzeszkowski Mateusz",
+      "link": "https://nalffutsal.pl/?sp_player=strzeszkowski-mateusz",
+      "team": "https://nalffutsal.pl/?sp_team=enha",
+      "is_goalkeeper": 0,
+      "matches": 2,
+      "goals": 1,
+      "assists": 0,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    },
+    {
+      "full_name": "Urbanowicz Dawid",
+      "link": "https://nalffutsal.pl/?sp_player=urbanowicz-dawid",
+      "team": "https://nalffutsal.pl/?sp_team=enha",
+      "is_goalkeeper": 0,
+      "matches": 6,
+      "goals": 6,
+      "assists": 1,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    },
+    {
+      "full_name": "Warszycki Dawid",
+      "link": "https://nalffutsal.pl/?sp_player=dawid-warszycki",
+      "team": "https://nalffutsal.pl/?sp_team=enha",
+      "is_goalkeeper": 0,
+      "matches": 6,
+      "goals": 2,
+      "assists": 1,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    },
+    {
+      "full_name": "Wiesner Tomasz",
+      "link": "https://nalffutsal.pl/?sp_player=wiesner-tomasz",
+      "team": "https://nalffutsal.pl/?sp_team=enha",
+      "is_goalkeeper": 0,
+      "matches": 5,
+      "goals": 0,
+      "assists": 1,
+      "yellow_cards": 1,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    },
+    {
+      "full_name": "Wiszniewski Dominik",
+      "link": "https://nalffutsal.pl/?sp_player=wiszniewski-dominik",
+      "team": "https://nalffutsal.pl/?sp_team=enha",
+      "is_goalkeeper": 0,
+      "matches": 3,
+      "goals": 1,
+      "assists": 1,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    },
+    {
+      "full_name": "\u015awiat\u0142o\u0144 Damian",
+      "link": "https://nalffutsal.pl/?sp_player=swiatlon-damian",
+      "team": "https://nalffutsal.pl/?sp_team=enha",
+      "is_goalkeeper": 0,
+      "matches": 4,
+      "goals": 4,
+      "assists": 2,
+      "yellow_cards": 0,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 1,
+      "best_player": 0
+    }
+  ],
+  "highest-win": [
+    {
+      "id": 7,
+      "date": "2024-02-27 20:45:00",
+      "teams": [
+        "eNHa",
+        "Nowohucki Klub Sportowy"
+      ],
+      "result": [
+        1,
+        0
+      ],
+      "actual": false,
+      "parallel": false,
+      "penalty_points": [
+        0,
+        0
+      ],
+      "sum_goals": 1
+    }
+  ],
+  "highest-tie": [
+    {
+      "id": 26,
+      "date": "2024-03-20 21:30:00",
+      "teams": [
+        "eNHa",
+        "Hattrick"
+      ],
+      "result": [
+        5,
+        5
+      ],
+      "actual": true,
+      "parallel": false,
+      "penalty_points": [
+        0,
+        0
+      ],
+      "sum_goals": 10
+    }
+  ],
+  "highest-lost": [
+    {
+      "id": 12,
+      "date": "2024-03-06 20:00:00",
+      "teams": [
+        "eNHa",
+        "Laga Bonito"
+      ],
+      "result": [
+        0,
+        5
+      ],
+      "actual": false,
+      "parallel": false,
+      "penalty_points": [
+        0,
+        0
+      ],
+      "sum_goals": 5
+    }
+  ]
+}

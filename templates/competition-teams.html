@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Zespoły</title>
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/match-settings.css') }}">
+{% endblock %}
+
+{% block sitename %}
+    Drużyny
+{% endblock %}
+
+{% block content %}
+ <div class="list-group">
+        {% for team in teams %}
+                    <a href="{{ url_for('settings.edit_team', team_id=team.id, edit_type='edit') }}" class="list-group-item">
+                        {{ team['full_name'] }}
+                    </a>
+        {% endfor %}
+
+</div>
+{% endblock %}
+{% block footer_script %}
+
+{% endblock %}

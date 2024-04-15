@@ -1,0 +1,28 @@
+<div class="stats-page" id="stats-page-1">
+    
+    <div class="stats-tile">
+        <div class="stats-tile-description">MIEJSCE W TABELI</div>
+        <div class="stats-tile-value bc-green">6</div>
+        <div class="stats-tile-content">
+            <div class="stats-tile-content-row">Dywizja B</div>
+        </div>
+    </div>                
+
+    <div class="stats-tile">
+        <div class="stats-tile-description">MECZE I PUNKTY</div>
+        <div class="stats-tile-value bc-green">18</div>
+        <div class="stats-tile-content">
+            <div class="stats-tile-content-row">12
+            (6-0-6)
+            </div>
+        </div>
+    </div>
+
+    <div class="stats-tile">
+        <div class="stats-tile-description">BRAMKI</div>
+        <div class="stats-tile-content">
+            <div class="stats-tile-content-row">53-53</div>
+        </div>
+    </div>
+</div>
+</div>

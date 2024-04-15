@@ -1,0 +1,17 @@
+    <div id="sidebar-head"></div>
+    <div id="action-id" class="invisible-text"></div>
+    <div id="sidebar-body">
+        <div id="sidebar-body-div"></div>
+        <table>
+            <div id="elements">
+                {% for file in files %}
+                <li>
+                    <a href="#" onclick="processFile('{{ file }}')">{{ file[9:-4] }}</a>
+                </li>
+                {% endfor %}
+
+            </div>
+        </table>
+    </div>
+
+    <div id="sidebar-footer"><button id="sidebar-cancel-button" onclick="clearSidebar();">Zamknij</button></div>

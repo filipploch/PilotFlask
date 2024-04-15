@@ -1,0 +1,61 @@
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8" />
+    <script src="js/teams.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/match-preview-x27.css')}}">
+
+</head>
+
+<body onload="setup();" style="background-image: url('{{url_for('static', filename='images/background_x27_v2.png')}}');">
+    <div class="no-facebook" style="background-color: rgba(255,255,255,0.5);">
+        <span></span>
+    </div>
+    <div class="facebook" style="background-color: rgba(255,255,255,0.5);">
+        <div class="section-match-info">
+            <div class="match-info">
+                <!-- <div class="clear_line">*</div> -->
+                <div class="nalf-logo"><img src="{{ url_for('static', filename='images/NALFlogoTekst.png') }}"></div>
+                <div class="clear_line">*</div>
+                <div class="match-teams">
+                    <div class="team-logo" id="team_a_logo">
+                        <img src="{{ url_for('static', filename='images/logos/' ~ logos['logo_a']) }}" class="logo">
+                    </div>
+                    <div class="team-logo" id="team_b_logo">
+                        <img src="{{ url_for('static', filename='images/logos/' ~ logos['logo_b']) }}" class="logo">
+                    </div>
+                    <div style="clear: both;"></div>
+                </div>
+                <div class="clear_line">*</div>
+                <div class="team_full_name shadow" id="team_a_full_name">{{ teams.team_a.full_name }}</div>
+                <div class="clear_line">*</div>
+                <div class="team_full_name shadow" id="team_b_full_name">{{ teams.team_b.full_name }}</div>
+                <div class="clear_line">*</div>
+                <div class="match_date shadow" id="date">{{ match.date[0] }} &nbsp;&nbsp; {{ match.date[1] }}</div>
+                <div class="clear_line">*</div>
+                <div class="match_date shadow">youtube.com/c/NALFvideo</div>
+                <div class="clear_line">*</div>
+                <div class="match-hashtag attention shadow">
+                    <span>#NALFx27</span>
+                    <span>#<span id="team_a">{{ teams.team_a.short_name }}</span>x<span id="team_b">{{ teams.team_b.short_name }}</span></span> 
+                </div>
+                <div class="bottom-mask"></div>
+            </div>
+            <div class="attention shadow" id="division">{{ match.division.name }}</div>
+
+        </div>
+        
+        <div class="logos">
+            <img id="logos-img" src="{{url_for('static', filename='images/druzyny-logo-belka.png')}}">
+        </div>
+    </div>
+    <div class="no-facebook" style="background-color: rgba(255,255,255,0.5);">
+        <span></span>
+    </div>
+</body>
+
+</html>

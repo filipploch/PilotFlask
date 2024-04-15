@@ -1,0 +1,80 @@
+{% extends "base-bars.html" %}
+{% block style %}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/statistics.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/statistics-stream.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/statistics-animation.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/bc-colors.css')}}">
+{% endblock %}
+{% block content %}
+    <div id="screen_content">
+        <div class="invisible" id="this-team">{{ team }}</div>
+        <div id="logoBackground">
+            <img src="/static/images/logos/{{ logo }}" id="logo_squad" class="logoAnimationIn">
+        </div>
+        <div id="statsBackground" class="statsBackgroundIn">
+            <div id="stats">
+                <div class="team-name"><span class="stats-value">{{ data['table-data'][0].team_name }}</span></div>
+
+                <div class="stats-container" id="stats-container">
+                    <div class="stats-page-in" id="stats-page"></div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/load-content.js') }}"></script>
+    <script>
+    // Funkcja do sprawdzania zmian w pliku content.txt
+    async function checkForChanges() {
+        try {
+            let currentContent = document.getElementById('stats-container').innerHTML;
+            var _team = document.getElementById('this-team').innerHTML;
+            const response = await fetch(`../static/txt/statistics-${_team}.txt`);
+            const newContent = await response.text();
+
+            
+
+            if (newContent.replaceAll(/\s/g,'') !== currentContent.replaceAll(/\s/g,'')) {
+                var statsPage = document.getElementById('stats-page');
+                statsPage.classList.remove('stats-page-in');
+                statsPage.classList.add('stats-page-out');
+                sleep(500).then(() => {
+                    updateContent(newContent);
+                });
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    // Funkcja do aktualizacji treści elementu div
+    function updateContent(newContent) {
+        document.getElementById('stats-container').innerHTML = newContent;
+        currentContent = newContent;
+    }
+
+    async function fetchDataAndRender(statsContent) {
+            try {
+                // Wykonanie żądania do endpointu Flask
+                const response = await fetch(`/render-statistics/${statsContent}`);
+                
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+    function sleep (time) {
+        console.log('poszlo sleep z statistics.html');
+        return new Promise((resolve) => setTimeout(resolve, time));
+    }
+
+    // Uruchomienie funkcji po załadowaniu strony
+    window.onload = function () {
+        var _team = document.getElementById('this-team').innerHTML;
+        fetchDataAndRender('table');
+        setInterval(checkForChanges, 2000);
+    };
+
+    </script>
+{% endblock %}

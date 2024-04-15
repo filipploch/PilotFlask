@@ -1,0 +1,59 @@
+body {
+    width: 1920px;
+    height: 1080px;
+    margin: 0;
+    overflow: hidden;
+    font-family: 'Varela Round', sans-serif;
+}
+
+#img_bottom
+{
+	position: absolute;
+	bottom: 0px;
+}
+
+#img_top {
+    width: 250px;
+	margin: 2px 0px 2px 15px;
+}
+
+#top_bar
+{
+//	position: absolute;
+//	top: 0px;
+//	left: 0px;
+	font-size: 45px;
+	font-weight: 900;
+    width: 100%;
+    background-color: white;
+    padding: 15px 50px 0px 50px;
+}
+
+#team_screen_content{
+    height: 83vh;
+}
+
+#bottom_bar
+{
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+}
+
+#league
+{
+	position: absolute;
+	left: 200px;
+	top: 7px;
+}
+
+#division
+{
+	position: absolute;
+	left: 200px;
+	top: 50px;
+}
+
+.invisible {
+	display: none;
+}

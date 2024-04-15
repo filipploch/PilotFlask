@@ -1,0 +1,89 @@
+#screen_content
+{
+	min-height: 400px;
+}
+
+
+.stats-container {
+    position: static;
+    top: 0px;
+    left: 0px;
+}
+
+.stats-page {
+    background-color: gray;
+    padding: 1%;
+    margin-bottom: 5%;
+}
+
+.stats-page-title {
+	position: relative;
+	width: 100%;
+	text-align: right;
+	font-size: 50px;
+	color: white;
+	padding-right: 5%;
+}
+
+.stats-tile {
+    position: relative;
+    background-color: rgb(13, 4, 46);
+    width: 90%;
+    margin: 5% 0 5% 5%;
+}
+
+.stats-tile-description {
+	position: absolute;
+	background-color: white;
+	padding: 1px 10px;
+	top: -20px;
+	left: 10px;
+	font-size: 30px;
+}
+.stats-tile-footer {
+	position: relative;
+	bottom: 0;
+	width: 100%;
+	background-color: white;
+	text-align: right;
+	font-size: 35px;
+}
+.stats-tile-footer-text {
+	padding: 5px 10px;
+}
+.stats-tile-value {
+	position: absolute;
+	color: white;
+	font-size: 70px;
+	width: 12%;
+	text-align: center;
+	right: -5%;
+	top: -5px;
+	font-weight: bold;
+}
+.stats-tile-content {
+	position: relative;
+	top: 10px;
+	padding-bottom: 15px;
+	font-size: 60px;
+	color: white;
+	line-height: 1.5;
+
+}
+.stats-tile-content-row {
+	padding: 0px 20px;
+	text-align: center;
+}
+
+
+
+
+.form-tile{
+	width: 10%;
+	aspect-ratio: 1/1;
+	display: inline-block;
+	text-align: center;
+	bottom: 5px;
+	position: relative;
+}
+

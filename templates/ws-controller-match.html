@@ -1,0 +1,111 @@
+<div class="ws-row-small-buttons">
+    <div id="ws-btn-var" class="ws-button ws-button-small" onclick="saveReplay('6')">
+        <img src="{{ url_for('static', filename='images/ws-controller/var.png') }}" alt="VAR">
+    </div>
+    <div id="ws-btn-foul" class="ws-button ws-button-small" onclick="saveReplay('7')">
+        <img src="{{ url_for('static', filename='images/ws-controller/faul.png') }}" alt="FAUL">
+    </div>
+    <div id="ws-btn-gk-save" class="ws-button ws-button-small" onclick="saveReplay('8')">
+        <img src="{{ url_for('static', filename='images/ws-controller/obrona.png') }}" alt="OBRONA">
+    </div>
+    <div id="ws-btn-missed" class="ws-button ws-button-small" onclick="saveReplay('9')">
+        <img src="{{ url_for('static', filename='images/ws-controller/pudlo.png') }}" alt="PUDŁO">
+    </div>
+    <div id="ws-btn-goal" class="ws-button ws-button-small" onclick="saveReplay('1')">
+        <img src="{{ url_for('static', filename='images/ws-controller/gol.png') }}" alt="GOL">
+    </div>
+</div>
+
+<div class="ws-row-middle-buttons">
+
+    <div id="ws-btn-replay" class="ws-button ws-button-middle">
+        <a href="{{ url_for('obswebsocketpy.play_replay_sequence') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/runReplay-horizontal.png') }}" alt="PLAY">
+        </a>
+    </div>
+
+    <div class="ws-button ws-button-middle" id="ws-btn-goal-replay" onclick="saveReplay('0')">
+        <img src="{{ url_for('static', filename='images/ws-controller/gol-r-horizontal.png') }}" alt="GOL+R">
+    </div>
+</div>
+
+<div class="ws-row-small-buttons">
+    <div id="ws-btn-funny" class="ws-button ws-button-small" onclick="saveReplay('11')">
+        <img src="{{ url_for('static', filename='images/ws-controller/hahaha.png') }}" alt="HAHAHA">
+    </div>
+    <div id="ws-btn-boom" class="ws-button ws-button-small" onclick="saveReplay('10')">
+        <img src="{{ url_for('static', filename='images/ws-controller/bum.png') }}" alt="BUM">
+    </div>
+    <div id="ws-btn-action" class="ws-button ws-button-small">
+        <a href="{{ url_for('obswebsocketpy.show_action') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/akcja.png') }}" alt="AKCJA">
+        </a>
+    </div>
+    <div id="ws-btn-banner" class="ws-button ws-button-small">
+        <a href="{{ url_for('obswebsocketpy.show_banner') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/baner.png') }}" alt="BANER">
+        </a>
+    </div>
+</div>
+
+<div class="ws-row-small-buttons">
+
+
+    <div id="ws-btn-table-a" class="ws-button ws-button-small">
+        <a href="{{ url_for('obswebsocketpy.show_virtual_table', division='a') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/table_a.png') }}" alt="VIRTUAL A">
+        </a>
+    </div>
+
+    <div id="ws-btn-table-b" class="ws-button ws-button-small">
+        <a href="{{ url_for('obswebsocketpy.show_virtual_table', division='b') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/table_b.png') }}" alt="VIRTUAL B">
+        </a>
+    </div>
+</div>
+
+<div id="ws-edit-frame" class="invisible">
+    <div id="ws-edit-frame-title-bar">
+        <button id="ws-edit-frame-hide-button" type="button" onclick="hideEditFrame()">X</button>
+    </div>
+    <div id="ws-edit-frame-content">
+
+        <div id="ws-edit-frame-title">Kto strzelał/faulował?</div>
+        <div id="ws-teams-buttons">
+            <button
+                id="ws-select-team-a-btn"
+                class="ws-select-team-buttons"
+                type="button"
+                onclick="setTeam('teama');">
+                {{ matchdata['teama'].short_name }}
+            </button>
+            <button
+                id="ws-select-team-b-btn"
+                class="ws-select-team-buttons"
+                type="button"
+                onclick="setTeam('teamb');">
+                {{ matchdata['teamb'].short_name }}
+            </button>
+        </div>
+        <div id="ws-type-of-goal-buttons" class="invisible">
+            <button
+                id="ws-select-goal-btn"
+                class="ws-select-team-buttons"
+                type="button"
+                onclick="setSquadToGet(1)"
+                style="background-color: green;"
+            >
+                GOL
+            </button>
+            <button
+                id="ws-select-own-goal-btn"
+                class="ws-select-team-buttons"
+                type="button"
+                onclick="setSquadToGet(4)"
+                style="background-color: red;"
+            >
+                SAMOBÓJ
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,74 @@
+
+
+
+
+#table_a {
+/*    position: relative;*/
+
+}
+
+
+#tab_a {
+    font-size: 35px;
+    color: white;
+}
+
+
+td {
+    min-width: 60px;
+    text-align: center;
+    padding: 7px;
+}
+
+.team_name {
+    text-align: left;
+    font-weight: bold;
+    padding-left: 30px;
+    padding-right: 15px;
+    min-width: 450px;
+}
+
+.points {
+    font-weight: bold;
+    min-width: 67px;
+    background-color: rgba(0, 0, 225, 0.7);
+}
+
+.team_pos {
+    min-width: 52px;
+}
+
+.class_header {
+    background-color: rgba(0, 0, 200, 1);
+    color: White;
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 2px;
+    font-size: 30px;
+}
+
+.odd {
+    background-color: rgba(0, 0, 200, 0.7);
+}
+
+.even {
+    background-color: rgba(0, 0, 100, 0.7);
+}
+
+table{
+	border-spacing: 0px;
+	color: white;
+	margin: 0 auto;
+}
+
+
+
+
+
+#schedule {
+    position: relative;
+    font-size: 35px;
+    transform: translateY(-48%);
+    top: 44%;
+}
+

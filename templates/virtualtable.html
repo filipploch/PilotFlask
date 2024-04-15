@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/table_animation.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/bc-colors.css') }}">
+    <style>
+        @keyframes slideIn {
+            0% {
+                transform: translateX(120%);
+            }
+            5% {
+                transform: translateX(0);
+            }
+            95% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(120%);
+            }
+        }
+
+        body {
+            overflow: hidden;
+        }
+
+        div {
+            
+            /* margin-bottom: 10px;
+            padding: 5px; */
+            width: 370px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: transform 1s ease, background-color 0.5s ease;
+            font-family: 'Varela Round', sans-serif;
+        }
+
+        .table-header {
+            font-size: 30px;
+            background-color: #403e3e;
+            color: white;
+            font-weight: bold;
+            line-height: 1.8;
+            background: linear-gradient(to top, rgba(50, 50, 50, 1), rgba(255, 255, 255, 0));
+        }
+
+        .table-div {
+            position: absolute;
+            top: 100px;
+            right: 40px;
+            /* animation: slideIn 20s ease-in-out;
+            animation-fill-mode: both; */
+        }
+
+        .span-container {
+            /* border: 1px solid #000; */
+            display: inline-block;
+            justify-content: space-between;
+            width: 100%;
+            background: linear-gradient(to top, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+            font-size: 35px;
+            text-align: right;
+        }
+
+        .is-actual {
+            display: inline-block;
+            height: 35px;
+            width: 10%;
+            aspect-ratio: 1/1;
+        }
+
+        .camera {
+            background-image: url('/static/images/camera.png');
+            display: inline-block;
+            background-size: cover;
+            background-position: center;
+            height: 100%;
+        }
+
+        .ball {
+            background-image: url('/static/images/ball.png');
+            display: inline-block;
+            background-size: cover;
+            background-position: center;
+            height: 100%;
+        }
+
+        .shortname {
+            margin: 0;
+            width: auto;
+            text-align: right;
+            display: inline-block;
+        }
+
+        .points {
+            margin: 0;
+            width: 15%;
+            text-align: center;
+            display: inline-block;
+            font-weight: bold;
+        }
+
+        .invisible {
+            margin: 0;
+            display: none;
+        }
+
+        .green {
+            background-color: #05f205;
+        }
+
+        .red {
+            background-color: #f71b1b;
+        }
+
+        .blue {
+            background-color: #53a4f5;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .promotion {
+            background-image: url('/static/images/triangle-up-green.png');
+            display: inline-block;
+            background-size: cover;
+            background-position: center;
+            height: 100%;
+        }
+
+        .demotion {
+            background-image: url('/static/images/triangle-down-red.png');
+            display: inline-block;
+            background-size: cover;
+            background-position: center;
+            height: 100%;
+        }
+        
+        .is-promo {
+            display: inline-block;
+            height: 35px;
+            width: 10%;
+            aspect-ratio: 1/1;
+        }
+
+        .promotion-group {
+            background-color: #a8fc97;
+        }
+
+        .demotion-group {
+            background-color: #ff96a1;
+        }
+    </style>
+    <title>Animacja przesuwania divów</title>
+</head>
+<body>
+    <script>
+
+
+        const divisionX = {{ division | tojson }}
+        const listA = {{ base_table | tojson }};
+        const listB = {{ virtual_table | tojson }};
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const container = document.createElement("div");
+            container.classList.add("table-div");
+            const tableHeader = document.createElement("div");
+            tableHeader.classList.add("table-header");
+            tableHeader.textContent = `TABELA DYWIZJI ${divisionX}`;
+            container.appendChild(tableHeader);
+            const tableBody = document.createElement("div");
+            tableBody.classList.add("table-body");
+            container.appendChild(tableBody);
+
+            function createDivsFromList(list) {
+                list.forEach((item, subIndex) => {
+                    const div = document.createElement("div");
+                    const spanContainer = document.createElement("div");
+                    spanContainer.classList.add(`span-container`);
+                    spanContainer.classList.add(`span-container-${subIndex}`);
+                    
+                    item.forEach((subItem, subIndex) => {
+                        const span = document.createElement("span");
+                        span.textContent = subItem;
+                        // Add classes for styling
+                        if (subIndex === 0) {
+                            span.classList.add('is-actual');
+                            span.classList.add('invisible');
+                        } else if (subIndex === 1) {
+                            span.classList.add('shortname');
+                        } else if (subIndex === 2) {
+                            span.classList.add('points');
+                        } else if (subIndex === 3) {
+                            span.classList.add('is-promo');
+                        } else if (subIndex === 4) {
+                            spanContainer.classList.add(subItem);
+                            span.classList.add('invisible');
+                        } 
+                        spanContainer.appendChild(span);
+                    });
+                    div.appendChild(spanContainer);
+                    const cameraSpan = spanContainer.querySelector('div span:nth-child(1)');
+
+                    if (item[0] === 1) {
+                        div.classList.add('bold');
+                        cameraSpan.innerHTML = '';
+                        cameraSpan.classList.add('camera');
+                        cameraSpan.classList.remove('invisible');
+                    } else if (item[0] === 2) {
+                        div.classList.add('bold');
+                        cameraSpan.innerHTML = '';
+                        cameraSpan.classList.add('ball');
+                        cameraSpan.classList.remove('invisible');
+                    }
+                    // Add class for styling based on the initial position
+                    div.classList.add(`table-item-${subIndex}`);
+                    div.classList.add('initial');
+                    tableBody.appendChild(div);
+                });
+            }
+
+            createDivsFromList(listA);
+
+            setTimeout(() => {
+                const divs = Array.from(tableBody.children);
+                
+
+                listB.forEach((itemB, indexB) => {
+                    const indexA = listA.findIndex(itemA => itemA[1] === itemB[1]);
+                    const divToChange = divs[indexA];
+                    const promotionSpan = divToChange.querySelector('div span:nth-child(4)');
+                    divToChange.querySelector('.points').textContent = itemB[2];
+                    if (indexA !== -1 && indexA !== indexB) {
+                        const translateY = (indexB - indexA) * (divToChange.offsetHeight);
+                        divToChange.style.transform = `translateY(${translateY}px)`;
+                        divToChange.style.setProperty('transform', `translateY(${translateY}px)`, 'important');
+                        console.log(indexA, indexB)
+                        // Add class for styling based on the final position
+                        if (indexB < indexA) {
+                            promotionSpan.classList.add('promotion');
+                            promotionSpan.classList.remove('demotion');
+                            // divToChange.classList.remove('blue');
+                        } else if (indexB > indexA) {
+                            promotionSpan.classList.add('demotion');
+                            promotionSpan.classList.remove('promotion');
+                            // divToChange.classList.remove('blue');
+                        } else {
+                            promotionSpan.classList.remove('demotion');
+                            promotionSpan.classList.remove('promotion');
+                            // promotionSpan.classList.add('blue')
+                        }
+                    }
+                });
+            }, 8000);
+
+            document.body.appendChild(container);
+        });
+    </script>
+</body>
+</html>

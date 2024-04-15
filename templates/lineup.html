@@ -1,0 +1,34 @@
+{% extends "base-bars.html" %}
+{% block style %}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/base-stream.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/base-stream.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/squad.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/squad_animation.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/lineup_animation.css')}}">
+{% endblock %}
+{% block content %}
+
+    <div id="screen_content">
+        <div id="logoBackground">
+            <img src="/static/images/logos/{{ _logo }}" id="logo_squad">
+        </div>
+        <div id="squadBackground">
+            <div id="squad">
+                <table id="matchSquad">
+                    {% for player in _lineup %}
+                        <tr class="row" id="row{{ loop.index }}">
+                            <td>{{ player.default_nr }}</td>
+                            <td class="playerName">{{ player.first_name }} {{ player.last_name }}</td>
+                            {% if player.position == "1" %}
+                            <td> B </td>
+                            {% endif %}
+                            {% if player.captain == True %}
+                            <td> K </td>
+                            {% endif %}
+                        </tr>
+                    {%endfor%}
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

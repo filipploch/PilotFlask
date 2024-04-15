@@ -1,0 +1,42 @@
+<div class="stats-page-in" id="stats-page">
+    {% if data['highest-win'][0]['result'] is not none %}
+    <div class="stats-tile">
+        <div class="stats-tile-description">NAJWYŻSZE ZWYCIĘSTWO</div>
+        <div class="stats-tile-content">
+            <div class="stats-tile-content-row">{{ data['highest-win'][0].result[0] }}:{{ data['highest-win'][0].result[1] }}</div>
+        </div>
+        <div class="stats-tile-footer">
+            <div class="stats-tile-footer-text">{{ data['highest-win'][0].teams[1] }} ({{ data['highest-win'][0].date[:-9] }})</div>
+
+        </div>
+    </div>
+    {% endif %}
+
+    {% if data['highest-tie'][0]['result'] is not none %}
+    <div class="stats-tile">
+        <div class="stats-tile-description">NAJWYŻSZY REMIS</div>
+        <div class="stats-tile-content">
+            <div class="stats-tile-content-row">{{ data['highest-tie'][0].result[0] }}:{{ data['highest-tie'][0].result[1] }}</div>
+        </div>
+        <div class="stats-tile-footer">
+            <div class="stats-tile-footer-text">{{ data['highest-tie'][0].teams[1] }} ({{ data['highest-tie'][0].date[:-9] }})</div>
+
+        </div>
+    </div>
+    {% else %}
+
+    {% endif %}
+
+    {% if data['highest-lost'][0]['result'] is not none %}
+    <div class="stats-tile">
+        <div class="stats-tile-description">NAJWYŻSZA PORAŻKA</div>
+        <div class="stats-tile-content">
+            <div class="stats-tile-content-row">{{ data['highest-lost'][0].result[0] }}:{{ data['highest-lost'][0].result[1] }}</div>
+        </div>
+        <div class="stats-tile-footer">
+            <div class="stats-tile-footer-text">{{ data['highest-lost'][0].teams[1] }} ({{ data['highest-lost'][0].date[:-9] }})</div>
+
+        </div>
+    </div>
+    {% endif %}
+</div>

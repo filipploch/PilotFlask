@@ -1,0 +1,29 @@
+@-webkit-keyframes squad_anim
+{
+  0%  {left:1000px; top:0px; opacity: 0;}
+  100% {left:600px; top:0px; opacity: 1;}
+}
+
+@-webkit-keyframes logo_squad_anim
+{
+  0% {opacity: 0;}
+  6% {opacity: 1;}
+  94% {opacity: 1;}
+  100% {opacity: 0;}
+}
+
+@-webkit-keyframes background_logo_anim
+{
+  0% {background-color: rgba(255,255,255,0);}
+  50% {background-color: rgba(255,255,255,0.4);}
+  90% {background-color: rgba(255,255,255,0.4);}
+  100% {background-color: rgba(255,255,255,0);}
+}
+
+@keyframes squadBackgroundSlideInOut {
+	0% {left: 100%; top: 114px;}
+	5% {left: 50%; top: 114px;}
+	95% {left: 50%; top: 114px;}
+	100% {left: 100%; top: 114px;}
+
+}

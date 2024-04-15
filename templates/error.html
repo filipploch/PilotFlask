@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+    <style>
+        body {
+            background-color: rgba(0, 0, 0, 0);
+            margin: 0px auto;
+            overflow: hidden;
+        }
+
+        #container {
+            width: 1920px;
+            height: 1080px;
+        }
+
+        #error-image {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            text-align: right; /* Wyrównaj zawartość do prawej strony */
+        }
+
+        img {
+            max-width: 75%;
+            height: auto;
+            margin: 10px 0;
+        }
+
+        #error-text {
+            position: absolute;
+            top: 40px;
+            right: 335px;
+            text-align: center;
+			font-weight: bold;
+            font-size: 31px;
+            width: 270px;
+			font-family: 'Comic Sans MS';
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="error-image">
+        <img src="{{ url_for('static', filename='images/error/error-emoji.png') }}" alt="Error Emoji">
+            <div id="error-text">
+			Ej! Ziomuś<br>
+			Fakapa mamy!<br>
+                kod: {{ error }}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

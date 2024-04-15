@@ -1,0 +1,13 @@
+beautifulsoup4
+Flask
+Flask-APScheduler
+Flask-Cors
+flask-marshmallow
+Flask-Migrate
+Flask-Script
+Flask-SQLAlchemy
+Flask-WTF
+marshmallow-sqlalchemy
+obs-websocket-py
+WTForms
+requests
