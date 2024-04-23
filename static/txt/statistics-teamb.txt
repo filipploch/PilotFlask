@@ -1,15 +1,64 @@
 <div class="stats-page-in" id="stats-page">
-    
+
     <div class="stats-tile">
-        <div class="stats-tile-description">ŻÓŁTE KARTKI</div>
-        <div class="stats-tile-value bc-yellow">1</div>
+        <div class="stats-tile-description">MIEJSCE W TABELI</div>
+        <div class="stats-tile-value bc-green">9</div>
         <div class="stats-tile-content">
-            
-            <div class="stats-tile-content-row">Wiesner Tomasz</div>
-            
+            <div class="stats-tile-content-row">Dywizja B</div>
         </div>
     </div>
-    
 
-    
+    <div class="stats-tile">
+        <div class="stats-tile-description">MECZE I PUNKTY</div>
+        <div class="stats-tile-value bc-green">5</div>
+        <div class="stats-tile-content">
+            <div class="stats-tile-content-row">7
+            (1-2-4)
+            </div>
+        </div>
+    </div>
+
+    <div class="stats-tile">
+        <div class="stats-tile-description">FORMA</div>
+        <div class="stats-tile-content">
+            <div class="stats-tile-content-row">
+                
+                
+                <span class="form-lost form-tile stats-value">P</span>
+                
+                
+                
+                
+                
+                <span class="form-lost form-tile stats-value">P</span>
+                
+                
+                
+                
+                
+                <span class="form-draw form-tile stats-value">R</span>
+                
+                
+                
+                
+                
+                <span class="form-lost form-tile stats-value">P</span>
+                
+                
+                
+                
+                
+                <span class="form-draw form-tile stats-value">R</span>
+                
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="stats-tile">
+        <div class="stats-tile-description">BRAMKI</div>
+        <div class="stats-tile-content">
+            <div class="stats-tile-content-row">20-36</div>
+        </div>
+    </div>
 </div>

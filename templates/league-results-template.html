@@ -1,0 +1,29 @@
+{% extends "base-bars.html" %}
+{% block style %}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/base-stream.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/timeline.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/tableAnimation.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/rotateTableRow.css')}}">
+{% endblock %}
+{% block content %}
+    <div id="timeline">
+        <table class="timeline_table">
+            <tr id="content-title"><td colspan="20"
+                                       class="text-overflow title-row">
+                {{ data.competition_name }} - {{ data.title }}</td></tr>
+            {% for result in data.results %}
+                {% if loop.index % 2 == 0 %}
+                    <tr class="odd" id="row{{ loop.index }}">
+                {% else %}
+                    <tr class="even" id="row{{ loop.index }}">
+                {% endif %}
+                <td class="date">{{ result.date[11:16] }}</td>
+                <td class="homeTeam">{{ result.team1.full_name }}</td>
+                <td class="matchResult">{{ result.score1 if result.score1 is not none else "" }} - {{ result.score2 if result.score2 is not none else "" }}</td>
+                <td class="awayTeam">{{ result.team2.full_name }}</td>
+                <td class="round"> </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

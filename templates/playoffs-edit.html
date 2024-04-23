@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Edycja drabinki</title>
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/match-settings.css') }}">
+<style>
+    .form-row {
+        display: flex;
+        align-items: center;
+    }
+    .form-row select, .form-row input {
+        margin-right: 10px;
+    }
+
+    .result {
+        width 20px;
+    }
+</style>
+{% endblock %}
+
+{% block sitename %}
+    Nowy Mecz
+{% endblock %}
+
+{% block content %}
+    <form method="POST" action="{{ url_for('settings.playoffs_edit') }}">
+        <div class="form-row">
+            <select id="select10" name="teams10">
+                <option value="{{ data.a1 }}">{{ data.a1 }}</option>
+                {% for option in data.teams %}
+                <option value="{{ option.full_name }}">{{ option.full_name }}</option>
+                {% endfor %}
+            </select>
+            <select id="select11" name="teams11">
+                <option value="{{ data.b2 }}">{{ data.b2 }}</option>
+                {% for option in data.teams %}
+                <option value="{{ option.full_name }}">{{ option.full_name }}</option>
+                {% endfor %}
+            </select>
+            <input id="s1s0" value="{{ data.matches.match1.results[0] }}" class="result" type="text" name="results10">
+            <input id="s1s1" value="{{ data.matches.match1.results[1] }}" class="result" type="text" name="results11"> k:
+            <input id="s1p0" value="{{ data.matches.match1.penalties[0] }}" class="result" type="text" name="penalties10">
+            <input id="s1p1" value="{{ data.matches.match1.penalties[1] }}" class="result" type="text" name="penalties11">
+        </div>
+
+        <div class="form-row">
+            <select id="select20" name="teams20">
+                <option value="{{ data.b1 }}">{{ data.b1 }}</option>
+                {% for option in data.teams %}
+                <option value="{{ option.full_name }}">{{ option.full_name }}</option>
+                {% endfor %}
+            </select>
+            <select id="select21" name="teams21">
+                <option value="{{ data.a2 }}">{{ data.a2 }}</option>
+                {% for option in data.teams %}
+                <option value="{{ option.full_name }}">{{ option.full_name }}</option>
+                {% endfor %}
+            </select>
+            <input id="s2s0" value="{{ data.matches.match2.results[0] }}" class="result" type="text" name="results20">
+            <input id="s2s1" value="{{ data.matches.match2.results[1] }}" class="result" type="text" name="results21"> k:
+            <input id="s2p0" value="{{ data.matches.match2.penalties[0] }}" class="result" type="text" name="penalties20">
+            <input id="s2p1" value="{{ data.matches.match2.penalties[1] }}" class="result" type="text" name="penalties21">
+        </div>
+
+        <div class="form-row">
+            <select id="select30" name="teams30">
+                <option id="third0" value=""></option>
+                {% for option in data.teams %}
+                <option value="{{ option.full_name }}"
+                    {% if option.full_name == data.matches.match3.teams[0] %}
+                        selected
+                    {% endif %}
+                >{{ option.full_name }}</option>
+                {% endfor %}
+            </select>
+            <select id="select31" name="teams31">
+                <option id="third1" value=""></option>
+                {% for option in data.teams %}
+                <option value="{{ option.full_name }}"
+                    {% if option.full_name == data.matches.match3.teams[1] %}
+                        selected
+                    {% endif %}
+                >{{ option.full_name }}</option>
+                {% endfor %}
+            </select>
+            <input id=ts0" value="{{ data.matches.match3.results[0] }}" class="result" type="text" name="results30">
+            <input id=ts1" value="{{ data.matches.match3.results[1] }}" class="result" type="text" name="results31"> k:
+            <input id=tp0" value="{{ data.matches.match3.penalties[0] }}" class="result" type="text" name="penalties30">
+            <input id=tp1" value="{{ data.matches.match3.penalties[1] }}" class="result" type="text" name="penalties31">
+        </div>
+
+        <div class="form-row">
+            <select id="select40" name="teams40">
+                <option id="final0" value=""></option>
+                {% for option in data.teams %}
+                <option value="{{ option.full_name }}"
+                    {% if option.full_name == data.matches.match4.teams[0] %}
+                        selected
+                    {% endif %}
+                >{{ option.full_name }}</option>
+                {% endfor %}
+            </select>
+            <select id="select41" name="teams41">
+                <option id="final1" value=""></option>
+                {% for option in data.teams %}
+                <option value="{{ option.full_name }}"
+                    {% if option.full_name == data.matches.match4.teams[1] %}
+                        selected
+                    {% endif %}
+                >{{ option.full_name }}</option>
+                {% endfor %}
+            </select>
+            <input id=fs0" value="{{ data.matches.match4.results[0] }}" class="result" type="text" name="results40">
+            <input id=fs1" value="{{ data.matches.match4.results[1] }}" class="result" type="text" name="results41"> k:
+            <input id=fp0" value="{{ data.matches.match4.penalties[0] }}" class="result" type="text" name="penalties40">
+            <input id=fp1" value="{{ data.matches.match4.penalties[1] }}" class="result" type="text" name="penalties41">
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+{% endblock %}
+{% block footer_script %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    checkAndSubmitForm(); // Wywołanie funkcji przy wczytywaniu strony
+});
+
+document.querySelectorAll('.result').forEach(function(input) {
+    input.addEventListener('input', function() {
+        checkAndSubmitForm(); // Wywołanie funkcji przy zmianie wartości pola input
+    });
+});
+
+function checkAndSubmitForm() {
+    checkAndSubmitMatch('s1s0', 's1s1', 's1p0', 's1p1', 'final0', 'select10', 'third0', 'select11');
+    checkAndSubmitMatch('s2s0', 's2s1', 's2p0', 's2p1', 'final1', 'select20', 'third1', 'select21');
+}
+
+function checkAndSubmitMatch(s0, s1, p0, p1, final, select1, third, select2) {
+    // Pobierz wartości pól s0, s1, p0, p1
+    var s0Value = document.getElementById(s0).value.trim();
+    var s1Value = document.getElementById(s1).value.trim();
+    var p0Value = document.getElementById(p0).value.trim();
+    var p1Value = document.getElementById(p1).value.trim();
+
+    // Sprawdź, czy wartości pól są liczbami lub ''
+    if (!isNaN(s0Value) && !isNaN(s1Value) && !isNaN(p0Value) && !isNaN(p1Value)) {
+        // Jeśli któryś z pól jest pusty, przyjmij wartość 0
+        var s0Val = parseInt(s0Value) || 0;
+        var s1Val = parseInt(s1Value) || 0;
+        var p0Val = parseInt(p0Value) || 0;
+        var p1Val = parseInt(p1Value) || 0;
+
+        // Oblicz sumy
+        var sum1 = s0Val + p0Val;
+        var sum2 = s1Val + p1Val;
+
+        // Znajdź elementy select
+        var select1Elem = document.getElementById(select1);
+        var select2Elem = document.getElementById(select2);
+
+        // Pobierz wartości widoczne z pól rozwijalnych
+        var select1VisibleValue = select1Elem.options[select1Elem.selectedIndex].textContent;
+        var select2VisibleValue = select2Elem.options[select2Elem.selectedIndex].textContent;
+
+        // Ustaw wartości selectów w zależności od sum
+        if (sum1 > sum2) {
+            document.getElementById(final).value = select1VisibleValue;
+            document.getElementById(third).value = select2VisibleValue;
+        } else if (sum1 < sum2) {
+            document.getElementById(final).value = select2VisibleValue;
+            document.getElementById(third).value = select1VisibleValue;
+        } else {
+            document.getElementById(final).value = '';
+            document.getElementById(third).value = '';
+        }
+
+        // Odśwież wartości pól rozwijalnych
+        select1Elem.dispatchEvent(new Event('change'));
+        select2Elem.dispatchEvent(new Event('change'));
+    }
+    document.querySelector('form').submit();
+}
+
+</script>
+{% endblock %}

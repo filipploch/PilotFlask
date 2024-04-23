@@ -1,0 +1,251 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Edycja drabinki</title>
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/match-settings.css') }}">
+<style>
+    .form-row {
+        display: flex;
+        align-items: center;
+    }
+    .form-row select, .form-row input {
+        margin-right: 10px;
+    }
+
+    .result {
+        width 20px;
+    }
+</style>
+{% endblock %}
+
+{% block sitename %}
+    Nowy Mecz
+{% endblock %}
+
+{% block content %}
+    <form method="POST" action="{{ url_for('settings.playoffs_edit') }}">
+        <div class="form-row">
+            <select id="select10" name="teams10">
+                <option value=""></option>
+                {% for option in data.teams %}
+                <option value="{{ option.full_name }}"
+                    {% if option.full_name == data.matches.match1.teams[0] %}
+                        selected
+                    {% endif %}
+                >{{ option.full_name }}</option>
+                {% endfor %}
+            </select>
+            <select id="select11" name="teams11">
+                <option value=""></option>
+                {% for option in data.teams %}
+                <option value="{{ option.full_name }}"
+                    {% if option.full_name == data.matches.match1.teams[1] %}
+                        selected
+                    {% endif %}
+                >{{ option.full_name }}</option>
+                {% endfor %}
+            </select>
+            <input value="{{ data.matches.match1.results[0] }}" class="result" type="text" name="results10">
+            <input value="{{ data.matches.match1.results[1] }}" class="result" type="text" name="results11"> k:
+            <input value="{{ data.matches.match1.penalties[0] }}" class="result" type="text" name="penalties10">
+            <input value="{{ data.matches.match1.penalties[1] }}" class="result" type="text" name="penalties11">
+        </div>
+
+        <div class="form-row">
+            <select id="select20" name="teams20">
+                <option value=""></option>
+                {% for option in data.teams %}
+                <option value="{{ option.full_name }}"
+                    {% if option.full_name == data.matches.match2.teams[0] %}
+                        selected
+                    {% endif %}
+                >{{ option.full_name }}</option>
+                {% endfor %}
+            </select>
+            <select id="select21" name="teams21">
+                <option value=""></option>
+                {% for option in data.teams %}
+                <option value="{{ option.full_name }}"
+                    {% if option.full_name == data.matches.match2.teams[1] %}
+                        selected
+                    {% endif %}
+                >{{ option.full_name }}</option>
+                {% endfor %}
+            </select>
+            <input value="{{ data.matches.match2.results[0] }}" class="result" type="text" name="results20">
+            <input value="{{ data.matches.match2.results[1] }}" class="result" type="text" name="results21"> k:
+            <input value="{{ data.matches.match2.penalties[0] }}" class="result" type="text" name="penalties20">
+            <input value="{{ data.matches.match2.penalties[1] }}" class="result" type="text" name="penalties21">
+        </div>
+
+        <div class="form-row">
+            <select id="select30" name="teams30">
+                <option value=""></option>
+                {% for option in data.teams %}
+                <option value="{{ option.full_name }}"
+                    {% if option.full_name == data.matches.match3.teams[0] %}
+                        selected
+                    {% endif %}
+                >{{ option.full_name }}</option>
+                {% endfor %}
+            </select>
+            <select id="select31" name="teams31">
+                <option value=""></option>
+                {% for option in data.teams %}
+                <option value="{{ option.full_name }}"
+                    {% if option.full_name == data.matches.match3.teams[1] %}
+                        selected
+                    {% endif %}
+                >{{ option.full_name }}</option>
+                {% endfor %}
+            </select>
+            <input value="{{ data.matches.match3.results[0] }}" class="result" type="text" name="results30">
+            <input value="{{ data.matches.match3.results[1] }}" class="result" type="text" name="results31"> k:
+            <input value="{{ data.matches.match3.penalties[0] }}" class="result" type="text" name="penalties30">
+            <input value="{{ data.matches.match3.penalties[1] }}" class="result" type="text" name="penalties31">
+        </div>
+
+        <div class="form-row">
+            <select id="select40" name="teams40">
+                <option value=""></option>
+                {% for option in data.teams %}
+                <option value="{{ option.full_name }}"
+                    {% if option.full_name == data.matches.match4.teams[0] %}
+                        selected
+                    {% endif %}
+                >{{ option.full_name }}</option>
+                {% endfor %}
+            </select>
+            <select id="select41" name="teams41">
+                <option value=""></option>
+                {% for option in data.teams %}
+                <option value="{{ option.full_name }}"
+                    {% if option.full_name == data.matches.match4.teams[1] %}
+                        selected
+                    {% endif %}
+                >{{ option.full_name }}</option>
+                {% endfor %}
+            </select>
+            <input value="{{ data.matches.match4.results[0] }}" class="result" type="text" name="results40">
+            <input value="{{ data.matches.match4.results[1] }}" class="result" type="text" name="results41"> k:
+            <input value="{{ data.matches.match4.penalties[0] }}" class="result" type="text" name="penalties40">
+            <input value="{{ data.matches.match4.penalties[1] }}" class="result" type="text" name="penalties41">
+        </div>
+
+        <div class="form-row">
+            <select id="select50" name="teams50">
+                <option value=""></option>
+                {% for option in data.teams %}
+                <option value="{{ option.full_name }}"
+                    {% if option.full_name == data.matches.match5.teams[0] %}
+                        selected
+                    {% endif %}
+                >{{ option.full_name }}</option>
+                {% endfor %}
+            </select>
+            <select id="select51" name="teams51">
+                <option value=""></option>
+                {% for option in data.teams %}
+                <option value="{{ option.full_name }}"
+                    {% if option.full_name == data.matches.match5.teams[1] %}
+                        selected
+                    {% endif %}
+                >{{ option.full_name }}</option>
+                {% endfor %}
+            </select>
+            <input value="{{ data.matches.match5.results[0] }}" class="result" type="text" name="results50">
+            <input value="{{ data.matches.match5.results[1] }}" class="result" type="text" name="results51"> k:
+            <input value="{{ data.matches.match5.penalties[0] }}" class="result" type="text" name="penalties50">
+            <input value="{{ data.matches.match5.penalties[1] }}" class="result" type="text" name="penalties51">
+        </div>
+
+        <div class="form-row">
+            <select id="select60" name="teams60">
+                <option value=""></option>
+                {% for option in data.teams %}
+                <option value="{{ option.full_name }}"
+                    {% if option.full_name == data.matches.match6.teams[0] %}
+                        selected
+                    {% endif %}
+                >{{ option.full_name }}</option>
+                {% endfor %}
+            </select>
+            <select id="select61" name="teams61">
+                <option value=""></option>
+                {% for option in data.teams %}
+                <option value="{{ option.full_name }}"
+                    {% if option.full_name == data.matches.match6.teams[1] %}
+                        selected
+                    {% endif %}
+                >{{ option.full_name }}</option>
+                {% endfor %}
+            </select>
+            <input value="{{ data.matches.match6.results[0] }}" class="result" type="text" name="results60">
+            <input value="{{ data.matches.match6.results[1] }}" class="result" type="text" name="results61"> k:
+            <input value="{{ data.matches.match6.penalties[0] }}" class="result" type="text" name="penalties60">
+            <input value="{{ data.matches.match6.penalties[1] }}" class="result" type="text" name="penalties61">
+        </div>
+
+        <div class="form-row">
+            <select id="select70" name="teams70">
+                <option value=""></option>
+                {% for option in data.teams %}
+                <option value="{{ option.full_name }}"
+                    {% if option.full_name == data.matches.match7.teams[0] %}
+                        selected
+                    {% endif %}
+                >{{ option.full_name }}</option>
+                {% endfor %}
+            </select>
+            <select id="select71" name="teams71">
+                <option value=""></option>
+                {% for option in data.teams %}
+                <option value="{{ option.full_name }}"
+                    {% if option.full_name == data.matches.match7.teams[1] %}
+                        selected
+                    {% endif %}
+                >{{ option.full_name }}</option>
+                {% endfor %}
+            </select>
+            <input value="{{ data.matches.match7.results[0] }}" class="result" type="text" name="results70">
+            <input value="{{ data.matches.match7.results[1] }}" class="result" type="text" name="results71"> k:
+            <input value="{{ data.matches.match7.penalties[0] }}" class="result" type="text" name="penalties70">
+            <input value="{{ data.matches.match7.penalties[1] }}" class="result" type="text" name="penalties71">
+        </div>
+
+        <div class="form-row">
+            <select id="select80" name="teams80">
+                <option value=""></option>
+                {% for option in data.teams %}
+                <option value="{{ option.full_name }}"
+                    {% if option.full_name == data.matches.match8.teams[0] %}
+                        selected
+                    {% endif %}
+                >{{ option.full_name }}</option>
+                {% endfor %}
+            </select>
+            <select id="select81" name="teams81">
+                <option value=""></option>
+                {% for option in data.teams %}
+                <option value="{{ option.full_name }}"
+                    {% if option.full_name == data.matches.match8.teams[1] %}
+                        selected
+                    {% endif %}
+                >{{ option.full_name }}</option>
+                {% endfor %}
+            </select>
+            <input value="{{ data.matches.match8.results[0] }}" class="result" type="text" name="results80">
+            <input value="{{ data.matches.match8.results[1] }}" class="result" type="text" name="results81"> k:
+            <input value="{{ data.matches.match8.penalties[0] }}" class="result" type="text" name="penalties80">
+            <input value="{{ data.matches.match8.penalties[1] }}" class="result" type="text" name="penalties81">
+        </div>
+
+        <button type="submit">Submit</button>
+    </form>
+{% endblock %}
+{% block footer_script %}
+
+{% endblock %}

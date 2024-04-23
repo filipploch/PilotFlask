@@ -1,8 +1,10 @@
 
 
 class Config:
-    GROUP_A = 1
-    GROUP_B = 3
+    GROUP_A = 5
+    GROUP_B = 6
+    # GROUP_A = 1
+    # GROUP_B = 3
 
 
 class DevelopmentConfig(Config):

@@ -29,8 +29,8 @@
       "yellow_cards": 1,
       "red_cards": 0,
       "own_goals": 0,
-      "best_five": 2,
-      "best_player": 0
+      "best_five": 3,
+      "best_player": 1
     }
   ],
   "best-assistants": [
@@ -61,8 +61,8 @@
       "yellow_cards": 1,
       "red_cards": 0,
       "own_goals": 0,
-      "best_five": 2,
-      "best_player": 0
+      "best_five": 3,
+      "best_player": 1
     }
   ],
   "most-yellow-cards": [
@@ -77,8 +77,8 @@
       "yellow_cards": 1,
       "red_cards": 0,
       "own_goals": 0,
-      "best_five": 2,
-      "best_player": 0
+      "best_five": 3,
+      "best_player": 1
     }
   ],
   "most-red-cards": [
@@ -205,8 +205,8 @@
       "yellow_cards": 1,
       "red_cards": 0,
       "own_goals": 0,
-      "best_five": 2,
-      "best_player": 0
+      "best_five": 3,
+      "best_player": 1
     },
     {
       "full_name": "Kuc Marek",
@@ -333,11 +333,25 @@
       "yellow_cards": 1,
       "red_cards": 0,
       "own_goals": 0,
-      "best_five": 2,
-      "best_player": 0
+      "best_five": 3,
+      "best_player": 1
     }
   ],
   "most-best-player": [
+    {
+      "full_name": "Konarski Pawe\u0142",
+      "link": "https://nalffutsal.pl/?sp_player=konarski-pawel",
+      "team": "https://nalffutsal.pl/?sp_team=zlote-chlopaki",
+      "is_goalkeeper": 0,
+      "matches": 6,
+      "goals": 7,
+      "assists": 4,
+      "yellow_cards": 1,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 3,
+      "best_player": 1
+    },
     {
       "full_name": "Sidorhuk David",
       "link": "https://nalffutsal.pl/?sp_player=sidorhuk-david",

@@ -117,6 +117,19 @@ def start():
     return render_template('start.html', logos=_logos, teams=_teams, match=_match_details)
 
 
+@stream_blueprint.route('/start-x')
+def start_x():
+    _match = matchdata().get_json()
+    _match_details = _match['match']
+    _match_details['date'] = decode_date(_match_details['date'])[1:3]
+    _logos = {'logo_a': _match['teama']['logo_file'],
+              'logo_b': _match['teamb']['logo_file']}
+    _teams = {'team_a': Team.query.filter_by(id=_match['teama']['id']).first(),
+              'team_b': Team.query.filter_by(id=_match['teamb']['id']).first()
+              }
+    return render_template('start-x.html', logos=_logos, teams=_teams, match=_match_details)
+
+
 @stream_blueprint.route('/match-preview')
 def match_preview():
     _match = matchdata().get_json()
@@ -246,6 +259,11 @@ def table():
     return render_template('table.html')
 
 
+@stream_blueprint.route('/results')
+def results():
+    return render_template('results.html')
+
+
 @stream_blueprint.route('/controller-lineup/<team>')
 def panel_lineup(team):
     _team_id = matchdata().get_json()[team]['id']
@@ -328,6 +346,16 @@ def virtualtable(division):
                    'Hattrick': 'Hattrick',
                    'eNHa II': 'eNHa II',
                    'Popalone Styki': 'Popalone Styki',
+                   'OIA Kraków': 'Kraków',
+                   'OIA Bielsko-Biała': 'Bielsko-Biała',
+                   'OIA Gdańsk': 'Gdańsk',
+                   'OIA Katowice': 'Katowice',
+                   'OIA Łódź': 'Łódź',
+                   'OIA Poznań': 'Poznań',
+                   'OIA Bydgoszcz': 'Bydgoszcz',
+                   'OIA Warszawa': 'Warszawa',
+                   'OIA Wrocław-Opole': 'Wrocław-Opole',
+                   'OIA Szczecin': 'Szczecin',
                    'Nowohucki Klub Sportowy': 'Nowohucki KS'
                    }
     _base_table = data_b
@@ -382,6 +410,11 @@ def render_statistics(stats_content):
     return jsonify({'message': 'OK'})
 
 
+def prepare_data_to_render(data, title):
+    data['title'] = title
+    return data
+
+
 @stream_blueprint.route('/render-round-data/<division_id>', methods=['GET'])
 def render_round_data(division_id):
     _actual_match = Match.query.filter_by(actual=1).first()
@@ -390,15 +423,18 @@ def render_round_data(division_id):
     _matches = LeagueMatches.query.filter_by(division_id=division_id).filter(
         LeagueMatches.date.between(current_date - timedelta(days=1), current_date + timedelta(days=1))
     ).all()
-    print(_matches)
     data = {
         'competition_name': Division.query.filter_by(id=division_id).first().name,
         'title': '',
+        'results': _matches,
         'table': _table_data
     }
-    _table = render_template('league-table-template.html', data=data)
+    _table = render_template('league-table-template.html', data=prepare_data_to_render(data, 'Tabela'))
     with open(f'templates/table.html', 'w', encoding='utf-8') as txt_file:
         txt_file.writelines(_table)
+    _results = render_template('league-results-template.html', data=prepare_data_to_render(data, 'Wyniki'))
+    with open(f'templates/results.html', 'w', encoding='utf-8') as txt_file:
+        txt_file.writelines(_results)
     return jsonify({'message': 'OK'})
 
 
@@ -412,6 +448,16 @@ def render_round_data(division_id):
 # @stream_blueprint.route('/raise-error')
 # def raise_error():
 #     abort(500)
+
+
+@stream_blueprint.route('/playoffs')
+def playoffs():
+    with open(f'static/json/playoffs.json', 'r') as json_playoffs_file:
+        json_data = json.load(json_playoffs_file)
+    _data = {
+        'json_data': json_data
+    }
+    return render_template('playoffs.html', data=_data)
 
 
 @panel_blueprint.route('/panel')
@@ -1493,7 +1539,7 @@ def save_result(target, division):
     # print(match_data)
 
 
-    match = LeagueMatches.query.filter_by(event_id=int(match_data['id'])).first()
+    match = LeagueMatches.query.filter_by(event_id=match_data['id']).first()
     match.is_actual = int(match_data['actual'])
     match.score1 = prepare_result(match_data['result_home'])
     match.score2 = prepare_result(match_data['result_away'])
@@ -1675,6 +1721,79 @@ def statistics_staff(team):
     with open(f'static/json/match-stats-{team}.json', 'r') as json_file:
         _data = json.load(json_file)
     return render_template('statistics-staff.html', data=_data, team=team)
+
+
+@settings_blueprint.route('/playoffs-edit', methods=['GET', 'POST'])
+def playoffs_edit():
+    if request.method == 'POST':
+        _data = {
+                  'matches': {
+                    'match1': {
+                      'teams': [request.form['teams10'], request.form['teams11']],
+                      'results': [request.form['results10'], request.form['results11']],
+                      'penalties': [request.form['penalties10'], request.form['penalties11']]
+                    },
+                    'match2': {
+                      'teams': [request.form['teams20'], request.form['teams21']],
+                      'results': [request.form['results20'], request.form['results21']],
+                      'penalties': [request.form['penalties20'], request.form['penalties21']]
+                    },
+                    'match3': {
+                      'teams': [request.form['teams30'], request.form['teams31']],
+                      'results': [request.form['results30'], request.form['results31']],
+                      'penalties': [request.form['penalties30'], request.form['penalties31']]
+                    },
+                    'match4': {
+                      'teams': [request.form['teams40'], request.form['teams41']],
+                      'results': [request.form['results40'], request.form['results41']],
+                      'penalties': [request.form['penalties40'], request.form['penalties41']]
+                    },
+                    # 'match5': {
+                    #   'teams': [request.form['teams50'], request.form['teams51']],
+                    #   'results': [request.form['results50'], request.form['results51']],
+                    #   'penalties': [request.form['penalties50'], request.form['penalties51']]
+                    # },
+                    # 'match6': {
+                    #   'teams': [request.form['teams60'], request.form['teams61']],
+                    #   'results': [request.form['results60'], request.form['results61']],
+                    #   'penalties': [request.form['penalties60'], request.form['penalties61']]
+                    # },
+                    # 'match7': {
+                    #   'teams': [request.form['teams70'], request.form['teams71']],
+                    #   'results': [request.form['results70'], request.form['results71']],
+                    #   'penalties': [request.form['penalties70'], request.form['penalties71']]
+                    # },
+                    # 'match8': {
+                    #   'teams': [request.form['teams80'], request.form['teams81']],
+                    #   'results': [request.form['results80'], request.form['results81']],
+                    #   'penalties': [request.form['penalties80'], request.form['penalties81']]
+                    # }
+                  }
+                }
+        with open(f'static/json/playoffs.json', 'w') as json_file:
+            json.dump(_data, json_file, indent=2)
+        return '', 204
+
+    teams = Team.query.filter_by(competitions=4).order_by('full_name').all()
+    table_a = generate_table('5')[:2]
+    table_b = generate_table('6')[:2]
+
+    if len(table_a) < 2:
+        table_a = [{'name': ''}, {'name': ''}]
+    if len(table_b) < 2:
+        table_b = [{'name': ''}, {'name': ''}]
+
+    _data = {
+        'a1': table_a[0]['name'],
+        'a2': table_a[1]['name'],
+        'b1': table_b[0]['name'],
+        'b2': table_b[1]['name'],
+        'teams': teams
+    }
+    print(_data)
+    with open(f'static/json/playoffs.json', 'r') as json_file:
+        _data.update({'matches': json.load(json_file)['matches']})
+    return render_template('playoffs-edit.html', data=_data)
 
 
 @obswebsocketpy_blueprint.route('/ws-controller')

@@ -13,12 +13,19 @@
 </div>
 
 <div class="ws-row-small-buttons">
-    <div id="ws-btn-stream" class="ws-button ws-button-small" ondblclick="startStream()">
-        <img src="{{ url_for('static', filename='images/ws-controller/stream-off.png') }}" alt="STREAM">
+    <div id="ws-btn-schedule-scene" class="ws-button ws-button-small">
+        <a href="{{ url_for('obswebsocketpy.show_scene', scenename='WYNIKI') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/results.png') }}" alt="WYNIKI">
+        </a>
     </div>
-    <div id="ws-btn-start-scene" class="ws-button ws-button-small">
-        <a href="{{ url_for('obswebsocketpy.show_start_scene') }}">
-            <img src="{{ url_for('static', filename='images/ws-controller/start.png') }}" alt="MECZ">
+    <div id="ws-btn-table-scene" class="ws-button ws-button-small">
+        <a href="{{ url_for('obswebsocketpy.show_scene', scenename='TABELA') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/table.png') }}" alt="TABELA">
+        </a>
+    </div>
+    <div id="ws-btn-playoff-scene" class="ws-button ws-button-small">
+        <a href="{{ url_for('obswebsocketpy.show_scene', scenename='PLAYOFF') }}">
+            <img src="{{ url_for('static', filename='images/ws-controller/playoff.png') }}" alt="PLAYOFF">
         </a>
     </div>
 </div>

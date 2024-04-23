@@ -1,97 +1,61 @@
 [
   [
     {
-      "id": "8539",
-      "result_home": "5",
-      "result_away": "3",
-      "actual": true
+      "id": "oiaxa10",
+      "result_home": "2",
+      "result_away": "2",
+      "actual": false
     },
-    "IGLOMEN&RodzinneRestauracje",
-    18,
-    "",
-    "non-divided-group"
-  ],
-  [
-    {
-      "id": "8539",
-      "result_home": "5",
-      "result_away": "3",
-      "actual": true
-    },
-    "Boanerges",
-    13,
-    "",
-    "non-divided-group"
-  ],
-  [
-    {
-      "id": "8539",
-      "result_home": "5",
-      "result_away": "3",
-      "actual": true
-    },
-    "MK Team",
-    13,
-    "",
-    "non-divided-group"
-  ],
-  [
-    {
-      "id": "8539",
-      "result_home": "5",
-      "result_away": "3",
-      "actual": true
-    },
-    "Trivium S\u0142omniki Warriors",
+    "OIA \u0141\u00f3d\u017a",
     10,
     "",
     "non-divided-group"
   ],
   [
     {
-      "id": "8539",
-      "result_home": "5",
-      "result_away": "3",
-      "actual": true
+      "id": "oiaxa10",
+      "result_home": "2",
+      "result_away": "2",
+      "actual": false
     },
-    "Ukrainian Legion",
-    9,
+    "OIA Bydgoszcz",
+    5,
     "",
     "non-divided-group"
   ],
   [
     {
-      "id": "8539",
-      "result_home": "5",
-      "result_away": "3",
-      "actual": true
+      "id": "oiaxa10",
+      "result_home": "2",
+      "result_away": "2",
+      "actual": false
     },
-    "WKS Futsal Team",
-    7,
+    "OIA Wroc\u0142aw-Opole",
+    5,
     "",
     "non-divided-group"
   ],
   [
     {
-      "id": "8539",
-      "result_home": "5",
-      "result_away": "3",
-      "actual": true
+      "id": "oiaxa10",
+      "result_home": "2",
+      "result_away": "2",
+      "actual": false
     },
-    "DRUGony",
-    6,
+    "OIA Szczecin",
+    4,
     "",
     "non-divided-group"
   ],
   [
     {
-      "id": "8539",
-      "result_home": "5",
-      "result_away": "3",
-      "actual": true
+      "id": "oiaxa10",
+      "result_home": "2",
+      "result_away": "2",
+      "actual": false
     },
-    "Brotherm",
-    6,
+    "OIA Gda\u0144sk",
+    2,
     "",
     "non-divided-group"
   ]

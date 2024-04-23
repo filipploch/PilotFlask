@@ -1,0 +1,60 @@
+{
+  "matches": {
+    "match1": {
+      "teams": [
+        "OIA \u0141\u00f3d\u017a",
+        "OIA Katowice"
+      ],
+      "results": [
+        "0",
+        "1"
+      ],
+      "penalties": [
+        "",
+        ""
+      ]
+    },
+    "match2": {
+      "teams": [
+        "OIA Krak\u00f3w",
+        "OIA Bydgoszcz"
+      ],
+      "results": [
+        "0",
+        "1"
+      ],
+      "penalties": [
+        "",
+        ""
+      ]
+    },
+    "match3": {
+      "teams": [
+        "OIA \u0141\u00f3d\u017a",
+        "OIA Krak\u00f3w"
+      ],
+      "results": [
+        "2",
+        "2"
+      ],
+      "penalties": [
+        "2",
+        "0"
+      ]
+    },
+    "match4": {
+      "teams": [
+        "OIA Katowice",
+        "OIA Bydgoszcz"
+      ],
+      "results": [
+        "3",
+        "1"
+      ],
+      "penalties": [
+        "",
+        ""
+      ]
+    }
+  }
+}

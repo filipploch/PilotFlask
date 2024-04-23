@@ -71,7 +71,7 @@ function generateBaseTable() {
     var results = sidebarBody.getElementsByClassName('results');
     console.log('division, results', division, results);
     var selectedData = [];
-    results.forEach(function (row) {
+    Array.from(results).forEach(function (row) {
         var teams0 = row.closest('tr').getElementsByClassName('team-a-name')[0].textContent;
         var teams1 = row.closest('tr').getElementsByClassName('team-b-name')[0].textContent;
         selectedData.push(teams0, teams1);

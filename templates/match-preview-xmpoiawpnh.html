@@ -7,19 +7,19 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/match-preview-x27.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/match-preview-x26.css')}}">
 
 </head>
 
-<body onload="setup();" style="background-image: url('{{url_for('static', filename='images/XMPOIAwPNH.png')}}');">
-    <div class="no-facebook" style="background-color: rgba(255,255,255,0.5);">
+<body onload="setup();" style="background-image: url('{{url_for('static', filename='images/background.png')}}');">
+    <div class="no-facebook">
         <span></span>
     </div>
-    <div class="facebook" style="background-color: rgba(255,255,255,0.5);">
+    <div class="facebook">
         <div class="section-match-info">
             <div class="match-info">
-                <!-- <div class="clear_line">*</div> -->
-                <div class="nalf-logo"><img src="{{ url_for('static', filename='images/XMPOIAwPNH-tekst.png') }}"></div>
+                <div class="clear_line">*</div>
+                <div class="attention shadow" id="division">{{ match.division.name }}</div>
                 <div class="clear_line">*</div>
                 <div class="match-teams">
                     <div class="team-logo" id="team_a_logo">
@@ -40,20 +40,19 @@
                 <div class="match_date shadow">youtube.com/c/NALFvideo</div>
                 <div class="clear_line">*</div>
                 <div class="match-hashtag attention shadow">
-                    <span>#XmpOIA</span>
+                    <span>#NALFx26</span>
                     <span>#<span id="team_a">{{ teams.team_a.short_name }}</span>x<span id="team_b">{{ teams.team_b.short_name }}</span></span>
                 </div>
                 <div class="bottom-mask"></div>
             </div>
-            <div class="attention shadow" id="division">{{ match.division.name }}</div>
+
 
         </div>
-
         <div class="logos">
-            <img id="logos-img" src="{{url_for('static', filename='images/XMPOIAwPNH-belka.png')}}">
+            <img id="logos-img" src="{{url_for('static', filename='images/druzyny-logo-belka.png')}}">
         </div>
     </div>
-    <div class="no-facebook" style="background-color: rgba(255,255,255,0.5);">
+    <div class="no-facebook">
         <span></span>
     </div>
 </body>

@@ -1,0 +1,177 @@
+{% extends "base-bars.html" %}
+{% block style %}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/base-stream.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/timeline.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/tableAnimation.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/rotateTableRow.css')}}">
+    <style>
+        #playoffs {
+            display: flex;
+            width: 90vw;
+            height: 100%;
+            justify-content: space-between;
+            padding: 5vw;
+        }
+
+        .playoff {
+            width: 16vw;
+            text-align: center;
+            height: calc(100% - 10vw);
+        }
+
+        .match {
+            width: 100%;
+            background-color: lightgray;
+            height: 10vh;
+        }
+
+        .team {
+            display: flex;
+            width: 100%;
+            height: 5vh;
+            font-size: 30px;
+            padding: 3px;
+        }
+
+        .name {
+            text-align: left;
+            width: calc(100% - 10vh);
+        }
+
+        .result {
+            height: 5vh;
+            width: 5vh;
+            text-align: center;
+        }
+
+        .space4 {
+            height: calc((100% - 20vh)/3);
+        }
+
+        .space-top-final {
+            height: calc(50% - 5vh);
+        }
+
+        .space-final {
+            height: 10vh;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div id="playoffs">
+        <div id="a4" class="playoff">
+            <div class="space4"></div>
+            <div class="match">
+                <div class="team">
+                    <div class="name">{{ data.json_data.matches.match1.teams[0] }}</div>
+                    <div class="result">{{ data.json_data.matches.match1.results[0] }}</div>
+                    <div class="result">{{ data.json_data.matches.match1.penalties[0] }}</div>
+                </div>
+                <div class="team">
+                    <div class="name">{{ data.json_data.matches.match1.teams[1] }}</div>
+                    <div class="result">{{ data.json_data.matches.match1.results[1] }}</div>
+                    <div class="result">{{ data.json_data.matches.match1.penalties[1] }}</div>
+                </div>
+            </div>
+            <div class="space4"></div>
+            <div class="match">
+                <div class="team">
+                    <div class="name">{{ data.json_data.matches.match2.teams[0] }}</div>
+                    <div class="result">{{ data.json_data.matches.match2.results[0] }}</div>
+                    <div class="result">{{ data.json_data.matches.match2.penalties[0] }}</div>
+                </div>
+                <div class="team">
+                    <div class="name">{{ data.json_data.matches.match2.teams[1] }}</div>
+                    <div class="result">{{ data.json_data.matches.match2.results[1] }}</div>
+                    <div class="result">{{ data.json_data.matches.match2.penalties[1] }}</div>
+                </div>
+            </div>
+        </div>
+        <div id="a2" class="playoff">
+            <div class="space-top-final"></div>
+            <div class="match">
+                <div class="team">
+                    <div class="name">{{ data.json_data.matches.match5.teams[0] }}</div>
+                    <div class="result">{{ data.json_data.matches.match5.results[0] }}</div>
+                    <div class="result">{{ data.json_data.matches.match5.penalties[0] }}</div>
+                </div>
+                <div class="team">
+                    <div class="name">{{ data.json_data.matches.match5.teams[1] }}</div>
+                    <div class="result">{{ data.json_data.matches.match5.results[1] }}</div>
+                    <div class="result">{{ data.json_data.matches.match5.penalties[1] }}</div>
+                </div>
+            </div>
+        </div>
+        <div id="final" class="playoff">
+            <div class="space-top-final"></div>
+            <div class="match">
+                <div class="team">
+                    <div class="name">{{ data.json_data.matches.match8.teams[0] }}</div>
+                    <div class="result">{{ data.json_data.matches.match8.results[0] }}</div>
+                    <div class="result">{{ data.json_data.matches.match8.penalties[0] }}</div>
+                </div>
+                <div class="team">
+                    <div class="name">{{ data.json_data.matches.match8.teams[1] }}</div>
+                    <div class="result">{{ data.json_data.matches.match8.results[1] }}</div>
+                    <div class="result">{{ data.json_data.matches.match8.penalties[1] }}</div>
+                </div>
+            </div>
+            <div class="space-final"></div>
+            <div class="match">
+                <div class="team">
+                    <div class="name">{{ data.json_data.matches.match7.teams[0] }}</div>
+                    <div class="result">{{ data.json_data.matches.match7.results[0] }}</div>
+                    <div class="result">{{ data.json_data.matches.match7.penalties[0] }}</div>
+                </div>
+                <div class="team">
+                    <div class="name">{{ data.json_data.matches.match7.teams[1] }}</div>
+                    <div class="result">{{ data.json_data.matches.match7.results[1] }}</div>
+                    <div class="result">{{ data.json_data.matches.match7.penalties[1] }}</div>
+                </div>
+            </div>
+        </div>
+        <div id="b2" class="playoff">
+            <div class="space-top-final"></div>
+            <div class="match">
+                <div class="team">
+                    <div class="name">{{ data.json_data.matches.match6.teams[0] }}</div>
+                    <div class="result">{{ data.json_data.matches.match6.results[0] }}</div>
+                    <div class="result">{{ data.json_data.matches.match6.penalties[0] }}</div>
+                </div>
+                <div class="team">
+                    <div class="name">{{ data.json_data.matches.match6.teams[1] }}</div>
+                    <div class="result">{{ data.json_data.matches.match6.results[1] }}</div>
+                    <div class="result">{{ data.json_data.matches.match6.penalties[1] }}</div>
+                </div>
+            </div>
+        </div>
+        <div id="b4" class="playoff">
+            <div class="space4"></div>
+            <div class="match">
+                <div class="team">
+                    <div class="name">{{ data.json_data.matches.match3.teams[0] }}</div>
+                    <div class="result">{{ data.json_data.matches.match3.results[0] }}</div>
+                    <div class="result">{{ data.json_data.matches.match3.penalties[0] }}</div>
+                </div>
+                <div class="team">
+                    <div class="name">{{ data.json_data.matches.match3.teams[1] }}</div>
+                    <div class="result">{{ data.json_data.matches.match3.results[1] }}</div>
+                    <div class="result">{{ data.json_data.matches.match3.penalties[1] }}</div>
+                </div>
+            </div>
+            <div class="space4"></div>
+            <div class="match">
+                <div class="team">
+                    <div class="name">{{ data.json_data.matches.match4.teams[0] }}</div>
+                    <div class="result">{{ data.json_data.matches.match4.results[0] }}</div>
+                    <div class="result">{{ data.json_data.matches.match4.penalties[0] }}</div>
+                </div>
+                <div class="team">
+                    <div class="name">{{ data.json_data.matches.match4.teams[1] }}</div>
+                    <div class="result">{{ data.json_data.matches.match4.results[1] }}</div>
+                    <div class="result">{{ data.json_data.matches.match4.penalties[1] }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

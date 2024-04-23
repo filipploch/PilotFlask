@@ -199,7 +199,7 @@ td
 	width: 50%;
 	height: 900px;
 	-webkit-animation: background_logo_anim 30s;
-	top: 114px;
+	/*! top: 114px; */
 }
 
 .table_a

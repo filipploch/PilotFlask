@@ -1,0 +1,203 @@
+table {
+    position: relative;
+    top: 50%;
+    transform: translateY(0%);
+    border-spacing: 0px;
+    color: white;
+    margin: 0 auto;
+}
+
+
+#timeline {
+    position: relative;
+    top: 150px;
+    font-size: 60px;
+    transform: translateY(-48%);
+    top: 48%;
+}
+
+.timeline_table {
+    font-size: 37px;
+        width: 94%;
+}
+
+
+#league {
+    position: absolute;
+    left: 225px;
+    top: 7px;
+}
+
+#division {
+    position: absolute;
+    left: 225px;
+    top: 52px;
+}
+
+.table {
+    position: relative;
+    top: 150px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#table_a {
+    position: relative;
+
+}
+
+#table_b {
+    position: relative;
+    top: 48%;
+    transform: translateY(1%);
+}
+
+#tab_a {
+    font-size: 45px;
+}
+
+#tab_b {
+    font-size: 45px;
+}
+
+
+#infoBar {
+    width: 1845px;
+    height: 50px;
+    background-color: rgba(255, 0, 0, 0.7);
+    color: white;
+    position: absolute;
+    line-height: 2 em;
+    left: 75px;
+    overflow: hidden;
+    /*margin-left:70px;*/
+}
+
+#infoBarText {
+    color: white;
+    font-size: 37px;
+    position: absolute;
+    white-space: pre;
+    letter-spacing: 0.5px;
+    animation: przesun 60s linear infinite;
+}
+
+@keyframes przesun {
+    0% {
+        transform: translateX(0%);
+        padding-left: 100%;
+    }
+
+    100% {
+        transform: translateX(-100%);
+        padding-left: 110%;
+    }
+}
+
+.class_first {
+    color: White;
+    background-color: #6666ff;
+}
+
+.class_second {
+    color: White;
+    background-color: #4d4dff;
+}
+
+td {
+    min-width: 60px;
+    text-align: center;
+    padding: 7px;
+}
+
+.team_name {
+    text-align: left;
+    font-weight: bold;
+    padding-left: 30px;
+    padding-right: 15px;
+    min-width: 450px;
+}
+
+.points {
+    font-weight: bold;
+    min-width: 67px;
+    background-color: rgba(0, 0, 225, 0.7);
+}
+
+.team_pos {
+    min-width: 52px;
+}
+
+.class_header {
+    background-color: rgba(0, 0, 200, 1);
+    color: White;
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 2px;
+    font-size: 30px;
+}
+
+.date {
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 10%;
+    font-size: 25px;
+}
+
+.homeTeam {
+    text-align: right;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-weight: 700;
+    width: 30%;
+}
+
+.matchResult {
+    text-align: center;
+    width: 8%;
+}
+
+.awayTeam {
+    text-align: left;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-weight: 700;
+    width: 30%;
+}
+
+
+
+.odd {
+    background-color: rgba(0, 0, 200, 0.7);
+}
+
+.even {
+    background-color: rgba(0, 0, 100, 0.7);
+}
+
+.league {
+    text-align: center;
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 16%;
+}
+
+.round {
+    text-align: center;
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 10%;
+}
+
+.invisible_text {
+    color: rgba(0, 0, 0, 0);
+    font-size: 0px;
+}
+
+.data-team {
+    font-size: 30px;
+}
+
+.title-row {
+    background-color: #000b40;
+}
