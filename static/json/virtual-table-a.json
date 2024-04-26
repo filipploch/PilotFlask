@@ -1,61 +1,97 @@
 [
   [
     {
-      "id": "oiaxa10",
+      "id": "8834",
       "result_home": "2",
-      "result_away": "2",
-      "actual": false
+      "result_away": "5",
+      "actual": true
     },
-    "OIA \u0141\u00f3d\u017a",
+    "IGLOMEN&RodzinneRestauracje",
+    21,
+    "",
+    "non-divided-group"
+  ],
+  [
+    {
+      "id": "8834",
+      "result_home": "2",
+      "result_away": "5",
+      "actual": true
+    },
+    "MK Team",
+    16,
+    "",
+    "non-divided-group"
+  ],
+  [
+    {
+      "id": "8834",
+      "result_home": "2",
+      "result_away": "5",
+      "actual": true
+    },
+    "Boanerges",
+    13,
+    "",
+    "non-divided-group"
+  ],
+  [
+    {
+      "id": "8834",
+      "result_home": "2",
+      "result_away": "5",
+      "actual": true
+    },
+    "Trivium S\u0142omniki Warriors",
     10,
     "",
     "non-divided-group"
   ],
   [
     {
-      "id": "oiaxa10",
+      "id": "8834",
       "result_home": "2",
-      "result_away": "2",
-      "actual": false
+      "result_away": "5",
+      "actual": true
     },
-    "OIA Bydgoszcz",
-    5,
+    "Ukrainian Legion",
+    9,
     "",
     "non-divided-group"
   ],
   [
     {
-      "id": "oiaxa10",
+      "id": "8834",
       "result_home": "2",
-      "result_away": "2",
-      "actual": false
+      "result_away": "5",
+      "actual": true
     },
-    "OIA Wroc\u0142aw-Opole",
-    5,
+    "DRUGony",
+    9,
     "",
     "non-divided-group"
   ],
   [
     {
-      "id": "oiaxa10",
+      "id": "8834",
       "result_home": "2",
-      "result_away": "2",
-      "actual": false
+      "result_away": "5",
+      "actual": true
     },
-    "OIA Szczecin",
-    4,
+    "Brotherm",
+    9,
     "",
     "non-divided-group"
   ],
   [
     {
-      "id": "oiaxa10",
+      "id": "8834",
       "result_home": "2",
-      "result_away": "2",
-      "actual": false
+      "result_away": "5",
+      "actual": true
     },
-    "OIA Gda\u0144sk",
-    2,
+    "WKS Futsal Team",
+    7,
     "",
     "non-divided-group"
   ]

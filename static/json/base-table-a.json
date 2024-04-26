@@ -1,36 +1,57 @@
 [
   [
     false,
-    "OIA \u0141\u00f3d\u017a",
+    "IGLOMEN&RodzinneRestauracje",
+    21,
+    "",
+    "non-divided-group"
+  ],
+  [
+    false,
+    "MK Team",
+    16,
+    "",
+    "non-divided-group"
+  ],
+  [
+    false,
+    "Boanerges",
+    13,
+    "",
+    "non-divided-group"
+  ],
+  [
+    false,
+    "Trivium S\u0142omniki Warriors",
     10,
     "",
     "non-divided-group"
   ],
   [
     false,
-    "OIA Bydgoszcz",
-    5,
+    "Ukrainian Legion",
+    9,
     "",
     "non-divided-group"
   ],
   [
     false,
-    "OIA Wroc\u0142aw-Opole",
-    5,
+    "DRUGony",
+    9,
     "",
     "non-divided-group"
   ],
   [
     false,
-    "OIA Szczecin",
-    4,
+    "Brotherm",
+    9,
     "",
     "non-divided-group"
   ],
   [
     false,
-    "OIA Gda\u0144sk",
-    2,
+    "WKS Futsal Team",
+    7,
     "",
     "non-divided-group"
   ]

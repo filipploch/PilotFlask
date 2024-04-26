@@ -423,11 +423,13 @@ def render_round_data(division_id):
     _matches = LeagueMatches.query.filter_by(division_id=division_id).filter(
         LeagueMatches.date.between(current_date - timedelta(days=1), current_date + timedelta(days=1))
     ).all()
+    table_data = prepare_table(_table_data)
+    print(table_data)
     data = {
         'competition_name': Division.query.filter_by(id=division_id).first().name,
         'title': '',
         'results': _matches,
-        'table': _table_data
+        'table': table_data
     }
     _table = render_template('league-table-template.html', data=prepare_data_to_render(data, 'Tabela'))
     with open(f'templates/table.html', 'w', encoding='utf-8') as txt_file:
@@ -437,7 +439,16 @@ def render_round_data(division_id):
         txt_file.writelines(_results)
     return jsonify({'message': 'OK'})
 
-
+def prepare_table(data_list):
+    transformed_data = []
+    for sublist in data_list:
+        for dictionary in sublist:
+            team_name = list(dictionary.keys())[0]
+            team_data = dictionary[team_name]
+            new_dict = {'name': team_name}
+            new_dict.update(team_data)
+            transformed_data.append(new_dict)
+    return transformed_data
 # @stream_blueprint.errorhandler(Exception)
 # def handle_error(error):
 #     # print(error)
@@ -1009,16 +1020,18 @@ def add_nalf_league_matches(page_id):
     scraper = NALFleagueMatchesScraper(page_id)
     data_objects = scraper.scrape_matches()
     matches = data_objects['matches']
+    print('matches', matches)
     division = data_objects['division'].split()[1].lower()
     for match in matches:
         _match = LeagueMatches.query.filter_by(event_id=match['event_id']).first()
         if not _match:
+            print('not match')
             _match = LeagueMatches(team1=get_team_id(match['team1']),
                                    team2=get_team_id(match['team2']),
                                    score1=match['score1'],
                                    score2=match['score2'],
                                    competitions=1,
-                                   division=get_division_id(match['division']),
+                                   division=get_division(match['division']),
                                    date=match['date'],
                                    event_id=str(match['event_id']))
             db.session.add(_match)
@@ -1029,12 +1042,21 @@ def add_nalf_league_matches(page_id):
             elif not _match.score1 < 0 or not _match.score2 < 0:
                 _match.score1 = match['score1']
                 _match.score2 = match['score2']
+            _match.competitions = 1
+            print(match['division'])
+            print(get_division_id(match['division']))
+            print(match['date'])
+            _match.division = get_division(match['division'])
+            _match.date = match['date']
         db.session.commit()
     return jsonify({'message': f'Pobrano wyniki Dywizji {division.upper()}'})
 
 def get_team_id(team_name):
     team_id = Team.query.filter_by(full_name=team_name).first().id
     return team_id
+
+def get_division(division_name):
+    return Division.query.filter_by(name=division_name).first()
 
 def get_division_id(division_name):
     division_id = Division.query.filter_by(name=division_name).first().id
@@ -1396,14 +1418,15 @@ def show_empty_result(division):
 @settings_blueprint.route('/show-matches-by-date/<target>/<division>', methods=['GET'])
 def show_matches_by_date(target, division):
     # Pobieramy parametr 'days' z zapytania lub używamy domyślnej wartości +1/-1 dni
-    days = int(request.args.get('days', 7))
+    days = int(request.args.get('days', 2))
 
     # Obliczamy daty
     today = datetime.now()
     start_date = today - timedelta(days=days)
     end_date = today + timedelta(days=days)
-
+    print('division:', division)
     division_id = get_division_id_by_letter(division)
+    print('division_id:', division_id)
     # Pobieramy dane z pliku matches.json
     matches = LeagueMatches.query.filter_by(division_id=division_id).all()
 
@@ -1413,6 +1436,10 @@ def show_matches_by_date(target, division):
     # Filtrujemy dane, aby pokazać tylko te w określonym przedziale dat
     filtered_data = []
     for dta in data:
+        print(start_date)
+        print(datetime.strptime(dta['date'], '%Y-%m-%d %H:%M:%S'))
+        print(end_date)
+        print('-----------------')
         if start_date <= datetime.strptime(dta['date'], '%Y-%m-%d %H:%M:%S') <= end_date:
             filtered_data.append({"id": dta['event_id'],
                                   "date": dta['date'],
@@ -1516,19 +1543,25 @@ def generate_table(division, virtual_result=None):
         if not division.isdigit():
             division_id = get_division_id_by_letter(division)
         results = []
+        _teams = []
         league_mathes = LeagueMatches.query.filter_by(division_id=division_id).all()
         for match in league_mathes:
             team1 = Team.query.filter_by(id=match.team1_id).first()
             team2 = Team.query.filter_by(id=match.team2_id).first()
             results.append((team1.full_name, team2.full_name, match.score1, match.score2,))
+            _teams.append(team1.full_name)
+            _teams.append(team2.full_name)
+        teams = set(_teams)
         _table_generator = TableGenerator()
-        _table = _table_generator.generate_table(results)
+        _table = _table_generator.generate_table(results, teams)
         return _table
 
 def reduce_table(table, is_actual=False):
     tiny_table = []
     for row in table:
-        tiny_table.append([is_actual, row['name'], row['points'], "", "non-divided-group"])
+        print(row)
+        # print(row[0][list(row[0].keys())[0]]['points'])
+        tiny_table.append([is_actual, list(row[0].keys())[0], row[0][list(row[0].keys())[0]]['points'], "", "non-divided-group"])
     return tiny_table
 
 
@@ -1774,7 +1807,7 @@ def playoffs_edit():
             json.dump(_data, json_file, indent=2)
         return '', 204
 
-    teams = Team.query.filter_by(competitions=4).order_by('full_name').all()
+    teams = Team.query.filter_by(competitions=1).order_by('full_name').all()
     table_a = generate_table('5')[:2]
     table_b = generate_table('6')[:2]
 

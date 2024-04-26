@@ -248,113 +248,244 @@
 
 
 import json
-from collections import defaultdict
+from collections import UserList
+
+
+class TableList(UserList):
+    def append(self, name, stats):
+        super().append({name: stats})
+    # def __init__(self, default_factory, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.default_factory = default_factory
+    #
+    # def __missing__(self, key):
+    #     self.data[key] = self.default_factory()
+    #     return self.data[key]
+
+    # def append(self, team_name, team_stats):
+    #     super().append({team_name: team_stats})
 
 
 class TableGenerator:
-    def __init__(self):
-        self.table = defaultdict(lambda: {
-            'matches': 0,
-            'wins': 0,
-            'draws': 0,
-            'losses': 0,
-            'goals_scored': 0,
-            'goals_lost': 0,
-            'goals_difference': 0,
-            'points': 0
-        })
-        self.head_to_head = defaultdict(lambda: defaultdict(int))
+    # def __init__(self):
+    #     self.table = TableList(lambda: {
+    #         'matches': 0,
+    #         'wins': 0,
+    #         'draws': 0,
+    #         'losses': 0,
+    #         'goals_scored': 0,
+    #         'goals_lost': 0,
+    #         'goals_difference': 0,
+    #         'points': 0
+    #     })
+    # self.head_to_head = defaultdict(lambda: defaultdict(int))
 
-    def generate_table(self, matches):
+    def generate_table(self, matches, teams):
+        table = TableList()
+        for team in teams:
+            table.append(team, {
+                'rank': 0,
+                'matches': 0,
+                'wins': 0,
+                'draws': 0,
+                'losses': 0,
+                'goals_scored': 0,
+                'goals_lost': 0,
+                'goals_difference': 0,
+                'points': 0
+            })
+
+        # table = TableList(lambda: {
+        #     'matches': 0,
+        #     'wins': 0,
+        #     'draws': 0,
+        #     'losses': 0,
+        #     'goals_scored': 0,
+        #     'goals_lost': 0,
+        #     'goals_difference': 0,
+        #     'points': 0
+        # })
         for match in matches:
-            # print(match)
             team1, team2, score1, score2 = match[0], match[1], match[2], match[3]
-            self.update_table(team1, team2, score1, score2)
-        return self.sort_table()
+            if team1 in teams and team2 in teams:
+                _table = self.update_table(table, team1, team2, score1, score2)
+        # print('aaa', list(_table))
+        return self.sort_table(list(_table), matches)
 
-    def update_table(self, team1, team2, score1, score2):
+    def update_table(self, table, team1, team2, score1, score2):
         if (score1 is None) or (score2 is None):
             pass
         else:
-            # print(score1, score2)
-            self.table[team1]['matches'] += 1
-            self.table[team2]['matches'] += 1
+            team1_idx = [index for index, element in enumerate(table) if team1 in element][0]
+            team2_idx = [index for index, element in enumerate(table) if team2 in element][0]
+            # print(table[team1_idx], team1_idx)
+            table[team1_idx][team1]['matches'] += 1
+            table[team2_idx][team2]['matches'] += 1
             if score1 < 0 and score2 < 0:  # Walkower dla obu drużyn
-                self.table[team1]['losses'] += 1
-                self.table[team1]['goals_lost'] += 5
-                self.table[team1]['points'] -= 1
-                self.table[team2]['losses'] += 1
-                self.table[team2]['goals_lost'] += 5
-                self.table[team2]['points'] -= 1
+                table[team1_idx][team1]['losses'] += 1
+                table[team1_idx][team1]['goals_lost'] += 5
+                table[team1_idx][team1]['points'] -= 1
+                table[team2_idx][team2]['losses'] += 1
+                table[team2_idx][team2]['goals_lost'] += 5
+                table[team2_idx][team2]['points'] -= 1
             elif score1 < 0:  # Walkower dla drużyny 1
-                self.table[team1]['losses'] += 1
-                self.table[team1]['goals_lost'] += 5
-                self.table[team1]['points'] -= 1
-                self.table[team2]['wins'] += 1
-                self.table[team2]['goals_scored'] += 5
-                self.table[team2]['points'] += 3
-                self.head_to_head[team2][team1] += 3
+                table[team1_idx][team1]['losses'] += 1
+                table[team1_idx][team1]['goals_lost'] += 5
+                table[team1_idx][team1]['points'] -= 1
+                table[team2_idx][team2]['wins'] += 1
+                table[team2_idx][team2]['goals_scored'] += 5
+                table[team2_idx][team2]['points'] += 3
+                # self.head_to_head[team2_idx][team2][team1_idx] += 3
             elif score2 < 0:  # Walkower dla drużyny 2
-                self.table[team2]['losses'] += 1
-                self.table[team2]['goals_lost'] += 5
-                self.table[team2]['points'] -= 1
-                self.table[team1]['wins'] += 1
-                self.table[team1]['goals_scored'] += 5
-                self.table[team1]['points'] += 3
-                self.head_to_head[team1][team2] += 3
+                table[team2_idx][team2]['losses'] += 1
+                table[team2_idx][team2]['goals_lost'] += 5
+                table[team2_idx][team2]['points'] -= 1
+                table[team1_idx][team1]['wins'] += 1
+                table[team1_idx][team1]['goals_scored'] += 5
+                table[team1_idx][team1]['points'] += 3
+                # self.head_to_head[team1_idx][team1][team2_idx] += 3
             else:  # Normalny mecz
-                self.table[team1]['goals_scored'] += score1
-                self.table[team1]['goals_lost'] += score2
-                self.table[team1]['goals_difference'] += score1 - score2
-                self.table[team2]['goals_scored'] += score2
-                self.table[team2]['goals_lost'] += score1
-                self.table[team2]['goals_difference'] += score2 - score1
+                table[team1_idx][team1]['goals_scored'] += score1
+                table[team1_idx][team1]['goals_lost'] += score2
+                table[team1_idx][team1]['goals_difference'] += score1 - score2
+                table[team2_idx][team2]['goals_scored'] += score2
+                table[team2_idx][team2]['goals_lost'] += score1
+                table[team2_idx][team2]['goals_difference'] += score2 - score1
 
                 if score1 > score2:  # Wygrana drużyny 1
-                    self.table[team1]['wins'] += 1
-                    self.table[team1]['points'] += 3
-                    self.table[team2]['losses'] += 1
-                    self.head_to_head[team1][team2] += 3
+                    table[team1_idx][team1]['wins'] += 1
+                    table[team1_idx][team1]['points'] += 3
+                    table[team2_idx][team2]['losses'] += 1
+                    # self.head_to_head[team1_idx][team1][team2_idx] += 3
                 elif score1 < score2:  # Wygrana drużyny 2
-                    self.table[team2]['wins'] += 1
-                    self.table[team2]['points'] += 3
-                    self.table[team1]['losses'] += 1
-                    self.head_to_head[team2][team1] += 3
+                    table[team2_idx][team2]['wins'] += 1
+                    table[team2_idx][team2]['points'] += 3
+                    table[team1_idx][team1]['losses'] += 1
+                    # self.head_to_head[team2_idx][team2][team1_idx] += 3
                 else:  # Remis
-                    self.table[team1]['draws'] += 1
-                    self.table[team2]['draws'] += 1
-                    self.table[team1]['points'] += 1
-                    self.table[team2]['points'] += 1
-                    self.head_to_head[team1][team2] += 1
-                    self.head_to_head[team2][team1] += 1
+                    table[team1_idx][team1]['draws'] += 1
+                    table[team2_idx][team2]['draws'] += 1
+                    table[team1_idx][team1]['points'] += 1
+                    table[team2_idx][team2]['points'] += 1
+                    # self.head_to_head[team1][team2] += 1
+                    # self.head_to_head[team2][team1] += 1
+        return table
 
-    def sort_table(self):
+    # def sort_table(self):
+    #     # Grupowanie drużyn według punktów
+    #     teams_by_points = defaultdict(list)
+    #     for team, stats in self.table.items():
+    #         teams_by_points[stats['points']].append(team)
+    # 
+    #     # Sortowanie i zwracanie tabeli
+    #     sorted_table = []
+    #     rank = 1
+    #     for points, teams in sorted(teams_by_points.items(), reverse=True):
+    #         if len(teams) > 1:  # Jeśli więcej niż jedna drużyna ma tę samą liczbę punktów
+    #             # Stworzenie małej tabeli dla tych drużyn
+    #             mini_table = {team: stats for team, stats in self.table.items() if team in teams}
+    #             # Sortowanie małej tabeli
+    #             sorted_mini_table = sorted(mini_table.items(), key=lambda x: (
+    #                 x[1]['points'],  # Punkty
+    #                 sum(self.head_to_head[x[0]][other] for other in teams),  # Punkty z bezpośrednich meczów
+    #                 x[1]['goals_difference'],  # Różnica goli
+    #                 x[1]['goals_scored']  # Gołe strzelone
+    #             ), reverse=True)
+    #             # Dodawanie drużyn z małej tabeli do posortowanej tabeli
+    #             for team, stats in sorted_mini_table:
+    #                 sorted_table.append({'rank': rank, 'name': team, **stats})
+    #                 rank += 1
+    #         else:  # Jeśli tylko jedna drużyna ma tę liczbę punktów
+    #             team = teams[0]
+    #             stats = self.table[team]
+    #             sorted_table.append({'rank': rank, 'name': team, **stats})
+    #             rank += 1
+    #     return sorted_table
+
+    def sort_table(self, table, matches):
+        sorted_teams = sorted(table, key=lambda x: list(x.values())[0]['points'], reverse=True)
+        _sorted_table = []
+        sorted_table = []
+        # for team in sorted_teams:
+        #     print('x', team)
         # Grupowanie drużyn według punktów
-        teams_by_points = defaultdict(list)
-        for team, stats in self.table.items():
-            teams_by_points[stats['points']].append(team)
+        # teams_by_points = defaultdict(list)
+        n = 0
+        for idx, team in enumerate(sorted_teams):
+            if idx == 0:
+                # print(n)
+                team[list(team.keys())[0]]['rank'] = 1
+                _sorted_table.append([team])
+            else:
+                if team[list(team.keys())[0]]['points'] == sorted_teams[idx - 1][list(sorted_teams[idx - 1].keys())[0]]['points']:
+                    team[list(team.keys())[0]]['rank'] = \
+                    sorted_teams[idx - 1][list(sorted_teams[idx - 1].keys())[0]]['rank']
+                    # print(n, self.get_teams_number(_sorted_table, n))
+                    _sorted_table[n].append(team)
+                else:
+                    n += 1
+                    # print(n, self.get_teams_number(_sorted_table, n))
+                    team[list(team.keys())[0]]['rank'] = self.get_teams_number(_sorted_table, n) + 1
+                    # team[list(team.keys())[0]]['rank'] = sorted_teams[idx - 1][list(sorted_teams[idx - 1].keys())[0]]['rank'] + 1
+                    _sorted_table.append([team])
+        # print('_sorted_table', _sorted_table)
+        for idx, item in enumerate(_sorted_table):
+            # print('_sorted_table item:', item)
+            if len(item) == 1:
+                # print('len(item) == 1:', item)
+                sorted_table.append(item)
+            elif len(item) > 1:
+                # print('len(item) > 1:', item)
+                # self.sort_table(item)
+                # print('itm', item)
+                teams = [list(team.keys())[0] for team in item]
+                # print('_teams', teams)
+                # print(self.generate_table(matches, teams)[0])
+                _small_table = self.generate_table(matches, teams)
+                _small_table_teams = []
+                for small_table_team in _small_table:
+                    # print(small_table_team)
+                    # print(list(small_table_team[0].keys())[0])
+                    # print('small_table_team rank', small_table_team[0][list(small_table_team[0].keys())[0]]['rank'])
+                    for team in item:
+                        if list(small_table_team[0].keys())[0] == list(team.keys())[0]:
+                            # print('team rank', team[list(team.keys())[0]]['rank'])
+                            team[list(team.keys())[0]]['rank'] += small_table_team[0][list(small_table_team[0].keys())[0]]['rank'] - 1
+
+                            sorted_table.append([team])
+        # print(sorted_table)
+
+            # teams_by_points[stats['points']].append(team)
+        # for item in teams_by_points:
+        #     print(item)
 
         # Sortowanie i zwracanie tabeli
-        sorted_table = []
-        rank = 1
-        for points, teams in sorted(teams_by_points.items(), reverse=True):
-            if len(teams) > 1:  # Jeśli więcej niż jedna drużyna ma tę samą liczbę punktów
-                # Stworzenie małej tabeli dla tych drużyn
-                mini_table = {team: stats for team, stats in self.table.items() if team in teams}
-                # Sortowanie małej tabeli
-                sorted_mini_table = sorted(mini_table.items(), key=lambda x: (
-                    x[1]['points'],  # Punkty
-                    sum(self.head_to_head[x[0]][other] for other in teams),  # Punkty z bezpośrednich meczów
-                    x[1]['goals_difference'],  # Różnica goli
-                    x[1]['goals_scored']  # Gołe strzelone
-                ), reverse=True)
-                # Dodawanie drużyn z małej tabeli do posortowanej tabeli
-                for team, stats in sorted_mini_table:
-                    sorted_table.append({'rank': rank, 'name': team, **stats})
-                    rank += 1
-            else:  # Jeśli tylko jedna drużyna ma tę liczbę punktów
-                team = teams[0]
-                stats = self.table[team]
-                sorted_table.append({'rank': rank, 'name': team, **stats})
-                rank += 1
+        # sorted_table = []
+        # rank = 1
+        # for points, teams in sorted(teams_by_points.items(), reverse=True):
+        #     if len(teams) > 1:  # Jeśli więcej niż jedna drużyna ma tę samą liczbę punktów
+        #         # Stworzenie małej tabeli dla tych drużyn
+        #         mini_table = {team: stats for team, stats in table.items() if team in teams}
+        #         # Sortowanie małej tabeli
+        #         sorted_mini_table = sorted(mini_table.items(), key=lambda x: (
+        #             x[1]['points'],  # Punkty
+        #             sum(self.head_to_head[x[0]][other] for other in teams),  # Punkty z bezpośrednich meczów
+        #             x[1]['goals_difference'],  # Różnica goli
+        #             x[1]['goals_scored']  # Gołe strzelone
+        #         ), reverse=True)
+        #         # Dodawanie drużyn z małej tabeli do posortowanej tabeli
+        #         for team, stats in sorted_mini_table:
+        #             sorted_table.append({'rank': rank, 'name': team, **stats})
+        #             rank += 1
+        #     else:  # Jeśli tylko jedna drużyna ma tę liczbę punktów
+        #         team = teams[0]
+        #         stats = table[team]
+        #         sorted_table.append({'rank': rank, 'name': team, **stats})
+        #         rank += 1
         return sorted_table
+
+    def get_teams_number(self, table, n):
+        number = 0
+        for i in table[:n]:
+            number += len(i)
+        return number
