@@ -281,10 +281,11 @@ class TableGenerator:
     # self.head_to_head = defaultdict(lambda: defaultdict(int))
 
     def generate_table(self, matches, teams):
-        table = TableList()
+        table = []
         for team in teams:
-            table.append(team, {
+            table.append({
                 'rank': 0,
+                'name': team,
                 'matches': 0,
                 'wins': 0,
                 'draws': 0,
@@ -310,7 +311,7 @@ class TableGenerator:
             if team1 in teams and team2 in teams:
                 _table = self.update_table(table, team1, team2, score1, score2)
         # print('aaa', list(_table))
-        return self.sort_table(list(_table), matches)
+        return self.sort_table(_table, matches)
 
     def update_table(self, table, team1, team2, score1, score2):
         if (score1 is None) or (score2 is None):
@@ -319,56 +320,56 @@ class TableGenerator:
             team1_idx = [index for index, element in enumerate(table) if team1 in element][0]
             team2_idx = [index for index, element in enumerate(table) if team2 in element][0]
             # print(table[team1_idx], team1_idx)
-            table[team1_idx][team1]['matches'] += 1
-            table[team2_idx][team2]['matches'] += 1
+            table[team1_idx]['matches'] += 1
+            table[team2_idx]['matches'] += 1
             if score1 < 0 and score2 < 0:  # Walkower dla obu drużyn
-                table[team1_idx][team1]['losses'] += 1
-                table[team1_idx][team1]['goals_lost'] += 5
-                table[team1_idx][team1]['points'] -= 1
-                table[team2_idx][team2]['losses'] += 1
-                table[team2_idx][team2]['goals_lost'] += 5
-                table[team2_idx][team2]['points'] -= 1
+                table[team1_idx]['losses'] += 1
+                table[team1_idx]['goals_lost'] += 5
+                table[team1_idx]['points'] -= 1
+                table[team2_idx]['losses'] += 1
+                table[team2_idx]['goals_lost'] += 5
+                table[team2_idx]['points'] -= 1
             elif score1 < 0:  # Walkower dla drużyny 1
-                table[team1_idx][team1]['losses'] += 1
-                table[team1_idx][team1]['goals_lost'] += 5
-                table[team1_idx][team1]['points'] -= 1
-                table[team2_idx][team2]['wins'] += 1
-                table[team2_idx][team2]['goals_scored'] += 5
-                table[team2_idx][team2]['points'] += 3
-                # self.head_to_head[team2_idx][team2][team1_idx] += 3
+                table[team1_idx]['losses'] += 1
+                table[team1_idx]['goals_lost'] += 5
+                table[team1_idx]['points'] -= 1
+                table[team2_idx]['wins'] += 1
+                table[team2_idx]['goals_scored'] += 5
+                table[team2_idx]['points'] += 3
+                # self.head_to_head[team2_idx][team1_idx] += 3
             elif score2 < 0:  # Walkower dla drużyny 2
-                table[team2_idx][team2]['losses'] += 1
-                table[team2_idx][team2]['goals_lost'] += 5
-                table[team2_idx][team2]['points'] -= 1
-                table[team1_idx][team1]['wins'] += 1
-                table[team1_idx][team1]['goals_scored'] += 5
-                table[team1_idx][team1]['points'] += 3
-                # self.head_to_head[team1_idx][team1][team2_idx] += 3
+                table[team2_idx]['losses'] += 1
+                table[team2_idx]['goals_lost'] += 5
+                table[team2_idx]['points'] -= 1
+                table[team1_idx]['wins'] += 1
+                table[team1_idx]['goals_scored'] += 5
+                table[team1_idx]['points'] += 3
+                # self.head_to_head[team1_idx][team2_idx] += 3
             else:  # Normalny mecz
-                table[team1_idx][team1]['goals_scored'] += score1
-                table[team1_idx][team1]['goals_lost'] += score2
-                table[team1_idx][team1]['goals_difference'] += score1 - score2
-                table[team2_idx][team2]['goals_scored'] += score2
-                table[team2_idx][team2]['goals_lost'] += score1
-                table[team2_idx][team2]['goals_difference'] += score2 - score1
+                table[team1_idx]['goals_scored'] += score1
+                table[team1_idx]['goals_lost'] += score2
+                table[team1_idx]['goals_difference'] += score1 - score2
+                table[team2_idx]['goals_scored'] += score2
+                table[team2_idx]['goals_lost'] += score1
+                table[team2_idx]['goals_difference'] += score2 - score1
 
                 if score1 > score2:  # Wygrana drużyny 1
-                    table[team1_idx][team1]['wins'] += 1
-                    table[team1_idx][team1]['points'] += 3
-                    table[team2_idx][team2]['losses'] += 1
-                    # self.head_to_head[team1_idx][team1][team2_idx] += 3
+                    table[team1_idx]['wins'] += 1
+                    table[team1_idx]['points'] += 3
+                    table[team2_idx]['losses'] += 1
+                    # self.head_to_head[team1_idx][team2_idx] += 3
                 elif score1 < score2:  # Wygrana drużyny 2
-                    table[team2_idx][team2]['wins'] += 1
-                    table[team2_idx][team2]['points'] += 3
-                    table[team1_idx][team1]['losses'] += 1
-                    # self.head_to_head[team2_idx][team2][team1_idx] += 3
+                    table[team2_idx]['wins'] += 1
+                    table[team2_idx]['points'] += 3
+                    table[team1_idx]['losses'] += 1
+                    # self.head_to_head[team2_idx][team1_idx] += 3
                 else:  # Remis
-                    table[team1_idx][team1]['draws'] += 1
-                    table[team2_idx][team2]['draws'] += 1
-                    table[team1_idx][team1]['points'] += 1
-                    table[team2_idx][team2]['points'] += 1
-                    # self.head_to_head[team1][team2] += 1
-                    # self.head_to_head[team2][team1] += 1
+                    table[team1_idx]['draws'] += 1
+                    table[team2_idx]['draws'] += 1
+                    table[team1_idx]['points'] += 1
+                    table[team2_idx]['points'] += 1
+                    # self.head_to_head += 1
+                    # self.head_to_head += 1
         return table
 
     # def sort_table(self):
@@ -403,7 +404,7 @@ class TableGenerator:
     #     return sorted_table
 
     def sort_table(self, table, matches):
-        sorted_teams = sorted(table, key=lambda x: list(x.values())[0]['points'], reverse=True)
+        sorted_teams = sorted(table, key=lambda x: x['points'], reverse=True)
         _sorted_table = []
         sorted_table = []
         # for team in sorted_teams:
@@ -414,18 +415,17 @@ class TableGenerator:
         for idx, team in enumerate(sorted_teams):
             if idx == 0:
                 # print(n)
-                team[list(team.keys())[0]]['rank'] = 1
+                team['rank'] = 1
                 _sorted_table.append([team])
             else:
-                if team[list(team.keys())[0]]['points'] == sorted_teams[idx - 1][list(sorted_teams[idx - 1].keys())[0]]['points']:
-                    team[list(team.keys())[0]]['rank'] = \
-                    sorted_teams[idx - 1][list(sorted_teams[idx - 1].keys())[0]]['rank']
+                if team['points'] == sorted_teams[idx - 1]['points']:
+                    team['rank'] = sorted_teams[idx - 1]['rank']
                     # print(n, self.get_teams_number(_sorted_table, n))
                     _sorted_table[n].append(team)
                 else:
                     n += 1
                     # print(n, self.get_teams_number(_sorted_table, n))
-                    team[list(team.keys())[0]]['rank'] = self.get_teams_number(_sorted_table, n) + 1
+                    team['rank'] = self.get_teams_number(_sorted_table, n) + 1
                     # team[list(team.keys())[0]]['rank'] = sorted_teams[idx - 1][list(sorted_teams[idx - 1].keys())[0]]['rank'] + 1
                     _sorted_table.append([team])
         # print('_sorted_table', _sorted_table)
@@ -438,7 +438,7 @@ class TableGenerator:
                 # print('len(item) > 1:', item)
                 # self.sort_table(item)
                 # print('itm', item)
-                teams = [list(team.keys())[0] for team in item]
+                teams = [team['name'] for team in item]
                 # print('_teams', teams)
                 # print(self.generate_table(matches, teams)[0])
                 _small_table = self.generate_table(matches, teams)
@@ -448,9 +448,9 @@ class TableGenerator:
                     # print(list(small_table_team[0].keys())[0])
                     # print('small_table_team rank', small_table_team[0][list(small_table_team[0].keys())[0]]['rank'])
                     for team in item:
-                        if list(small_table_team[0].keys())[0] == list(team.keys())[0]:
+                        if small_table_team['name'] == team['name']:
                             # print('team rank', team[list(team.keys())[0]]['rank'])
-                            team[list(team.keys())[0]]['rank'] += small_table_team[0][list(small_table_team[0].keys())[0]]['rank'] - 1
+                            team['rank'] += small_table_team['rank'] - 1
 
                             sorted_table.append([team])
         # print(sorted_table)
