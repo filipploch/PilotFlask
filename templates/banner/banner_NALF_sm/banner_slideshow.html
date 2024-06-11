@@ -1,0 +1,264 @@
+<!DOCTYPE HTML>
+<html lang="pl">
+<head>
+    <meta charset="ISO-8859" />
+    <meta http-equiv="X-UA-Compatible" />
+    <style>
+        body {
+	overflow: hidden;
+    width: 1920px;
+}
+
+.banner_line_big {
+    font-size: 32px;
+    letter-spacing: 0.04em;
+}
+
+.banner_line_small {
+    font-size: 25px;
+    letter-spacing: 0.11em;
+}
+
+#container {
+    top: 0px;
+    left:0px;
+	width: 1920px;
+	height: 1080px;
+}
+
+#bannerDiv{
+	position: absolute;
+	bottom: 100px;
+	left: 50px;
+    height: 100px;
+    width: 500px;
+    animation: showIt 25s;
+    overflow: hidden;
+    animation-fill-mode: both;
+}
+
+#banner{
+
+}
+
+.banner_text {
+    position: relative;
+    font-family: 'Varela Round', sans-serif;
+    font-weight: 700;
+    font-size: 33px;
+    text-shadow: 0px 0px 10px black;
+    height: 100px;
+    width: 500px;
+    overflow: hidden;
+    text-align: left;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.banner_text_content {
+    position: relative;
+    top: 50%;
+    transform: translateY(-47%);
+    line-height: 99%;
+}
+
+img{
+
+}
+
+.bounce-in-out-down {
+  animation: bounce-in-out-down 10s ease both;
+}
+
+#warm {
+    position: absolute;
+    bottom: -1000px;
+    animation-name: bounce-in-out-down;
+    animation-delay: 5s;
+    animation-duration: 3s;
+    animation-fill-mode: both;
+}
+
+#greetings {
+    position: absolute;
+    bottom: -1000px;
+    animation-name: bounce-in-out-down;
+    animation-delay: 5.33s;
+    animation-duration: 2.67s;
+    animation-fill-mode: both;
+}
+
+#to-fans {
+    position: absolute;
+    bottom: -1000px;
+    animation-name: bounce-in-out-down;
+    animation-delay: 5.66s;
+    animation-duration: 2.34s;
+    animation-fill-mode: both;
+}
+
+#from {
+    position: absolute;
+    bottom: -1000px;
+    animation-name: bounce-in-out-down;
+    animation-delay: 6s;
+    animation-duration: 2s;
+    animation-fill-mode: both;
+}
+
+#piensk {
+    position: absolute;
+    bottom: -1000px;
+    animation-name: bounce-in-out-down;
+    animation-delay: 8s;
+    animation-duration: 6s;
+    animation-fill-mode: both;
+}
+
+#katowice {
+    position: absolute;
+    bottom: -1000px;
+    animation-name: bounce-in-out-down;
+    animation-delay: 14s;
+    animation-duration: 6s;
+    animation-fill-mode: both;
+}
+
+.fade {
+    opacity: 1;
+    animation-name: fade;
+    animation-duration: 5s;
+}
+
+.grow {
+    opacity: 1;
+    animation-name: grow;
+    animation-duration: 5s;
+}
+
+@keyframes grow {
+  0% {transform: translateY(100%)}
+  10% {transform: translateY(0%)}
+  100% {transform: translateY(0%)}
+}
+
+@keyframes fade {
+  0% {opacity: 0;}
+  25% {opacity: 1;}
+  100% {opacity: 1;}
+}
+
+@keyframes showIt
+{
+    0% {width: 0px;
+        border: 2px solid rgba(0, 0, 0, 1);
+        height: 0px;}
+    1% {width: 0px;
+        border: 2px solid rgba(0, 0, 0, 0.96);
+        height: 40px;}
+    4% {width: 0px;
+        border: 2px solid rgba(0, 0, 0, 0.84);
+        height: 40px;}
+    5% {width: 40px;
+        border: 2px solid rgba(0, 0, 0, 0.81);
+        height: 40px;}
+    8% {width: 40px;
+        height: 40px;
+        border: 2px solid rgba(0, 0, 0, 0.66);
+        transform: rotate(0deg)}
+    12% {width: 40px;
+         height: 40px;
+         border: 2px solid rgba(0, 0, 0, 0.5);
+         transform: rotate(360deg)}
+    16% {width: 40px;
+         height: 100px;
+         border: 2px solid rgba(0, 0, 0, 0.33);
+         transform: rotate(360deg)}
+    24% {width: 500px;
+         height: 100px;
+         border: 2px solid rgba(0, 0, 0, 0);
+         transform: rotate(360deg)}
+    80% {width: 500px;
+         height: 100px;
+         border: 2px solid rgba(0, 0, 0, 0);
+         transform: rotate(360deg)}
+    88% {width: 40px;
+         height: 100px;
+         border: 2px solid rgba(0, 0, 0, 0.4);
+         transform: rotate(360deg)}
+    92% {width: 40px;
+         height: 40px;
+         border: 2px solid rgba(0, 0, 0, 0.7);
+         transform: rotate(360deg)}
+    95% {width: 40px;
+         height: 40px;
+         border: 2px solid rgba(0, 0, 0, 0.75);
+         transform: rotate(360deg)}
+    95% {width: 40px;
+         height: 40px;
+         border: 2px solid rgba(0, 0, 0, 0.75);
+         transform: rotate(360deg)}
+    95% {width: 40px;
+         height: 40px;
+         border: 2px solid rgba(0, 0, 0, 0.75);
+         transform: rotate(0deg)}
+    96% {width: 0px;
+         border: 2px solid rgba(0, 0, 0, 0.8);
+         height: 40px;}
+    99% {width: 0px;
+         border: 2px solid rgba(0, 0, 0, 0.85);
+         height: 40px;}
+    100% {width: 0px;
+          border: 2px solid rgba(0, 0, 0, 1);
+     height: 0px;}
+}
+
+@keyframes bounce-in-out-down {
+  0% {
+    opacity: 0;
+    top: 150px;
+  }
+  6% {
+    opacity: 1;
+    top: -10px;
+  }
+  8% { top: 10px; }
+  10% { top: -5px; }
+  12% { top: 5px; }
+  20% { top: 0px; }
+  80% { top: 0px; }
+  88% { top: 5px; }
+  90% { top: -5px; }
+  92% { top: 10px; }
+  94% {
+    opacity: 1;
+    top: -10px;
+  }
+  100% {
+    opacity: 0;
+    top: 150px;
+  }
+}
+    </style>
+    <script src="js/banner.js"></script>
+</head>
+
+<body onload="start()">
+    <div id="container">
+        <div id="bannerDiv">
+            <div class="banner_element fade">
+                <img src="gfx/b1.png">
+            </div>
+
+            <div class="banner_element fade">
+                <img src="gfx/b2.png">
+            </div>
+
+            <div class="banner_element fade">
+                <img src="gfx/b3.png">
+            </div>    
+
+        </div>
+
+    </div>
+</body></html>

@@ -467,7 +467,34 @@ function editData(dataId) {
 						});
         }
 
+        var clickTimer = null;
+
+        function handleProcessFile(file, event) {
+            console.log('clickTimer', clickTimer);
+            if (clickTimer == null) {
+                clickTimer = setTimeout(function() {
+                    clickTimer = null;
+                    processFile(file); // Funkcja wywoływana przy pojedynczym kliknięciu
+                }, 300); // Czas oczekiwania, aby sprawdzić, czy nie nastąpi dwuklik
+            } else {
+                clearTimeout(clickTimer);
+                handleMakeYTShort(file, event);
+                clickTimer = null;
+            }
+            event.preventDefault();
+        }
+
+        function handleMakeYTShort(file, event) {
+            if (clickTimer) {
+                clearTimeout(clickTimer);
+                clickTimer = null;
+            }
+            makeYTShort(file);
+            event.preventDefault();
+        }
+
         function processFile(filename) {
+            console.log('processFile()');
             fetch(`/process_file/${filename}`)
                 .then(response => response.blob())
                 .then(blob => {
@@ -481,6 +508,11 @@ function editData(dataId) {
                     window.URL.revokeObjectURL(url);
                     clearSidebar();
                 });
+        }
+
+        function makeYTShort(filename) {
+            console.log('makeYTShort()');
+            fetch(`/make_yt_short/${filename}`);
         }
 
         function scrapeMatches(matchId) {

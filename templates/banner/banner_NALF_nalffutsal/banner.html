@@ -1,0 +1,180 @@
+﻿<!DOCTYPE HTML>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" />
+    <style>
+        body {
+	overflow: hidden;
+    width: 1920px;
+}
+
+.banner_line_big {
+    font-size: 32px;
+    letter-spacing: 0.04em;
+}
+
+.banner_line_small {
+    font-size: 25px;
+    letter-spacing: 0.11em;
+}
+
+#container {
+    top: 0px;
+    left:0px;
+	width: 1920px;
+	height: 1080px;
+}
+
+#bannerDiv{
+	position: absolute;
+	bottom: 100px;
+	left: 50px;
+    height: 100px;
+    width: 500px;
+    animation: showIt 25s;
+    overflow: hidden;
+    animation-fill-mode: both;
+}
+
+#banner{
+
+}
+
+.banner_text {
+    position: relative;
+    font-family: 'Varela Round', sans-serif;
+    font-weight: 700;
+    font-size: 33px;
+    text-shadow: 0px 0px 10px black;
+    height: 100px;
+    width: 500px;
+    overflow: hidden;
+    text-align: left;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.banner_text_content {
+    position: relative;
+    top: 50%;
+    transform: translateY(-47%);
+    line-height: 99%;
+}
+
+img{
+
+}
+
+.fade {
+    opacity: 1;
+    animation-name: fade;
+    animation-duration: 5s;
+}
+
+.grow {
+    opacity: 1;
+    animation-name: grow;
+    animation-duration: 5s;
+}
+
+@keyframes grow {
+  0% {transform: translateY(100%)}
+  10% {transform: translateY(0%)}
+  100% {transform: translateY(0%)}
+}
+
+@keyframes fade {
+  0% {opacity: 0;}
+  25% {opacity: 1;}
+  100% {opacity: 1;}
+}
+
+@keyframes showIt
+{
+    0% {width: 0px; height: 0px;}
+    1% {width: 0px; height: 40px;}
+    4% {width: 0px; height: 40px;}
+    5% {width: 40px; height: 40px;}
+    8%{width: 40px; height: 40px; transform: rotate(0deg)}
+    12%{width: 40px; height: 40px; transform: rotate(360deg)}
+    16% {width: 40px; height: 100px; transform: rotate(360deg)}
+    24% {width: 500px; height: 100px; transform: rotate(360deg)}
+    80% {width: 500px; height: 100px; transform: rotate(360deg)}
+    88% {width: 40px; height: 100px; transform: rotate(360deg)}
+    92% {width: 40px; height: 40px; transform: rotate(360deg)}
+    95% {width: 40px; height: 40px; transform: rotate(360deg)}
+    95% {width: 40px; height: 40px; transform: rotate(360deg)}
+    95% {width: 40px; height: 40px; transform: rotate(0deg)}
+    96% {width: 0px; height: 40px;}
+    99% {width: 0px; height: 40px;}
+    100% {width: 0px; height: 0px;}
+}
+    </style>
+    <script>
+        function start(){
+var slideIndex = 0;
+//        sleep(4000);
+        showSlides();
+
+        function showSlides() {
+            var i;
+            var slides = document.getElementsByClassName("banner_element");
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) {
+                slideIndex = 1
+            }
+
+            slides[slideIndex - 1].style.display = "block";
+            animation_duration = 25000
+            start_slide_duration = 5000
+            other_slides_duration = (animation_duration - start_slide_duration)/(slides.length + 1)
+
+            if (slideIndex == slides.length){
+                //pass
+            }
+            else if (slideIndex == 1) {
+                first_slide_duration = start_slide_duration + other_slides_duration
+                setTimeout(showSlides, first_slide_duration);
+                }
+            else {
+                setTimeout(showSlides, (other_slides_duration));
+            }
+        }
+}
+    </script>
+
+</head>
+
+<body onload="start()">
+
+    <div id="container">
+        <div id="bannerDiv" style="background: linear-gradient(to bottom, #0066ff, #0000ff); color: #F5F5F5;">
+            
+            <div class="banner_element fade banner_text">
+                <div class="banner_text_content"><a>Aktualności</a><br><a class="banner_line_small">WWW.NALFFUTSAL.PL</a></div>
+            </div> 
+            
+            <div class="banner_element banner_text">
+                <div class="banner_text_content"><a class="banner_line_big fade">Wyniki, terminarze, tabele</a><br><a class="banner_line_small">WWW.NALFFUTSAL.PL</a></div>
+            </div> 
+            
+            <div class="banner_element banner_text">
+                <div class="banner_text_content"><a class="banner_line_big fade">Statystyki indywidualne</a><br><a class="banner_line_small">WWW.NALFFUTSAL.PL</a></div>
+            </div> 
+            
+            <div class="banner_element banner_text">
+                <div class="banner_text_content"><a class="banner_line_big fade">Rekordy</a><br><a class="banner_line_small">WWW.NALFFUTSAL.PL</a></div>
+            </div> 
+            
+            <div class="banner_element banner_text">
+                <div class="banner_text_content"><a class="banner_line_big fade">Zapisy do ligi</a><br><a class="banner_line_small">WWW.NALFFUTSAL.PL</a></div>
+            </div>  
+
+        </div>
+
+    </div>
+</body></html>

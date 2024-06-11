@@ -5,6 +5,11 @@ class Config:
     # GROUP_B = 6
     GROUP_A = 1
     GROUP_B = 3
+    DIVISION_CONFIG = {
+        3: {
+            'regular_round_matches': 80,
+        }
+    }
 
 
 class DevelopmentConfig(Config):

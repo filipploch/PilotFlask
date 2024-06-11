@@ -1,134 +1,134 @@
 [
   [
     {
-      "id": "8861",
-      "result_home": "3",
-      "result_away": "8",
+      "id": "8866",
+      "result_home": "0",
+      "result_away": "2",
       "actual": false
     },
-    "Amiz Transport Z\u0142ote Ch\u0142opaki",
-    27,
+    "Z\u0142ote Ch\u0142opaki",
+    30,
     "",
-    "non-divided-group"
+    "promotion-group"
   ],
   [
     {
-      "id": "8861",
-      "result_home": "3",
-      "result_away": "8",
+      "id": "8866",
+      "result_home": "0",
+      "result_away": "2",
+      "actual": false
+    },
+    "\u017bar\u0142acze",
+    22,
+    "",
+    "promotion-group"
+  ],
+  [
+    {
+      "id": "8866",
+      "result_home": "0",
+      "result_away": "2",
+      "actual": false
+    },
+    "Laga Bonito",
+    21,
+    "",
+    "promotion-group"
+  ],
+  [
+    {
+      "id": "8866",
+      "result_home": "0",
+      "result_away": "2",
       "actual": false
     },
     "Nowy \u0141ad",
     20,
     "",
-    "non-divided-group"
+    "promotion-group"
   ],
   [
     {
-      "id": "8861",
-      "result_home": "3",
-      "result_away": "8",
-      "actual": false
-    },
-    "\u017bar\u0142acze",
-    19,
-    "",
-    "non-divided-group"
-  ],
-  [
-    {
-      "id": "8861",
-      "result_home": "3",
-      "result_away": "8",
-      "actual": false
-    },
-    "Laga Bonito",
-    18,
-    "",
-    "non-divided-group"
-  ],
-  [
-    {
-      "id": "8861",
-      "result_home": "3",
-      "result_away": "8",
+      "id": "8866",
+      "result_home": "0",
+      "result_away": "2",
       "actual": false
     },
     "Hattrick",
-    14,
+    17,
     "",
-    "non-divided-group"
+    "promotion-group"
   ],
   [
     {
-      "id": "8861",
-      "result_home": "3",
-      "result_away": "8",
+      "id": "8866",
+      "result_home": "0",
+      "result_away": "2",
       "actual": false
     },
-    "Nowohucki Klub Sportowy",
+    "Nowohucki KS",
     12,
     "",
-    "non-divided-group"
+    "demotion-group"
   ],
   [
     {
-      "id": "8861",
-      "result_home": "3",
-      "result_away": "8",
+      "id": "8866",
+      "result_home": "0",
+      "result_away": "2",
+      "actual": false
+    },
+    "eNHa",
+    11,
+    "",
+    "demotion-group"
+  ],
+  [
+    {
+      "id": "8866",
+      "result_home": "0",
+      "result_away": "2",
+      "actual": false
+    },
+    "eNHa II",
+    9,
+    "",
+    "demotion-group"
+  ],
+  [
+    {
+      "id": "8866",
+      "result_home": "0",
+      "result_away": "2",
       "actual": false
     },
     "Drink Team",
     7,
     "",
-    "non-divided-group"
+    "demotion-group"
   ],
   [
     {
-      "id": "8861",
-      "result_home": "3",
-      "result_away": "8",
+      "id": "8866",
+      "result_home": "0",
+      "result_away": "2",
       "actual": false
     },
-    "eNHa II",
-    6,
-    "",
-    "non-divided-group"
-  ],
-  [
-    {
-      "id": "8861",
-      "result_home": "3",
-      "result_away": "8",
-      "actual": false
-    },
-    "eNHa",
-    5,
-    "",
-    "non-divided-group"
-  ],
-  [
-    {
-      "id": "8861",
-      "result_home": "3",
-      "result_away": "8",
-      "actual": false
-    },
-    "Galactik Futsal",
+    "Galactic",
     4,
     "",
-    "non-divided-group"
+    "demotion-group"
   ],
   [
     {
-      "id": "8861",
-      "result_home": "3",
-      "result_away": "8",
+      "id": "8866",
+      "result_home": "0",
+      "result_away": "2",
       "actual": false
     },
     "Popalone Styki",
     1,
     "",
-    "non-divided-group"
+    "demotion-group"
   ]
 ]

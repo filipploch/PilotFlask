@@ -1,97 +1,97 @@
 [
   [
     {
-      "id": "8834",
-      "result_home": "2",
+      "id": "8843",
+      "result_home": "8",
       "result_away": "5",
-      "actual": true
+      "actual": false
     },
-    "IGLOMEN&RodzinneRestauracje",
-    21,
+    "Iglomen&RR",
+    27,
     "",
     "non-divided-group"
   ],
   [
     {
-      "id": "8834",
-      "result_home": "2",
+      "id": "8843",
+      "result_home": "8",
       "result_away": "5",
-      "actual": true
-    },
-    "MK Team",
-    16,
-    "",
-    "non-divided-group"
-  ],
-  [
-    {
-      "id": "8834",
-      "result_home": "2",
-      "result_away": "5",
-      "actual": true
+      "actual": false
     },
     "Boanerges",
-    13,
+    19,
     "",
     "non-divided-group"
   ],
   [
     {
-      "id": "8834",
-      "result_home": "2",
+      "id": "8843",
+      "result_home": "8",
       "result_away": "5",
-      "actual": true
+      "actual": false
     },
-    "Trivium S\u0142omniki Warriors",
+    "MK Team",
+    17,
+    "",
+    "non-divided-group"
+  ],
+  [
+    {
+      "id": "8843",
+      "result_home": "8",
+      "result_away": "5",
+      "actual": false
+    },
+    "Ukrainian Legion",
+    15,
+    "",
+    "non-divided-group"
+  ],
+  [
+    {
+      "id": "8843",
+      "result_home": "8",
+      "result_away": "5",
+      "actual": false
+    },
+    "S\u0142omniki Warriors",
     10,
     "",
     "non-divided-group"
   ],
   [
     {
-      "id": "8834",
-      "result_home": "2",
+      "id": "8843",
+      "result_home": "8",
       "result_away": "5",
-      "actual": true
+      "actual": false
     },
-    "Ukrainian Legion",
-    9,
+    "Brotherm",
+    10,
     "",
     "non-divided-group"
   ],
   [
     {
-      "id": "8834",
-      "result_home": "2",
+      "id": "8843",
+      "result_home": "8",
       "result_away": "5",
-      "actual": true
+      "actual": false
+    },
+    "WKS",
+    10,
+    "",
+    "non-divided-group"
+  ],
+  [
+    {
+      "id": "8843",
+      "result_home": "8",
+      "result_away": "5",
+      "actual": false
     },
     "DRUGony",
     9,
-    "",
-    "non-divided-group"
-  ],
-  [
-    {
-      "id": "8834",
-      "result_home": "2",
-      "result_away": "5",
-      "actual": true
-    },
-    "Brotherm",
-    9,
-    "",
-    "non-divided-group"
-  ],
-  [
-    {
-      "id": "8834",
-      "result_home": "2",
-      "result_away": "5",
-      "actual": true
-    },
-    "WKS Futsal Team",
-    7,
     "",
     "non-divided-group"
   ]

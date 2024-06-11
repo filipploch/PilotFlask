@@ -1,5 +1,5 @@
-beautifulsoup4
-Flask
+beautifulsoup4~=4.12.3
+Flask~=3.0.3
 Flask-APScheduler
 Flask-Cors
 flask-marshmallow
@@ -9,5 +9,10 @@ Flask-SQLAlchemy
 Flask-WTF
 marshmallow-sqlalchemy
 obs-websocket-py
-WTForms
-requests
+WTForms~=3.1.2
+requests~=2.31.0
+standings~=1.0.4
+opencv-python~=4.10.0.82
+marshmallow~=3.21.1
+ultralytics~=8.2.29
+numpy~=1.26.4

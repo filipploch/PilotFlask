@@ -6,7 +6,11 @@
             <div id="elements">
                 {% for file in files %}
                 <li>
-                    <a href="#" onclick="processFile('{{ file }}')">{{ file[9:-4] }}</a>
+                    <a href="#"
+                       onclick="processFile('{{ file }}')"
+                    >
+                        {{ file[9:-5] }}
+                    </a>
                 </li>
                 {% endfor %}
 

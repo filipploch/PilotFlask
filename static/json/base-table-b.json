@@ -1,37 +1,79 @@
 [
   [
     false,
-    "OIA Krak\u00f3w",
+    "Z\u0142ote Ch\u0142opaki",
+    30,
+    "",
+    "promotion-group"
+  ],
+  [
+    false,
+    "Laga Bonito",
+    21,
+    "",
+    "promotion-group"
+  ],
+  [
+    false,
+    "Nowy \u0141ad",
+    20,
+    "",
+    "promotion-group"
+  ],
+  [
+    false,
+    "\u017bar\u0142acze",
+    19,
+    "",
+    "promotion-group"
+  ],
+  [
+    false,
+    "Hattrick",
+    17,
+    "",
+    "promotion-group"
+  ],
+  [
+    false,
+    "Nowohucki KS",
+    12,
+    "",
+    "demotion-group"
+  ],
+  [
+    false,
+    "eNHa",
+    11,
+    "",
+    "demotion-group"
+  ],
+  [
+    false,
+    "eNHa II",
     9,
     "",
-    "non-divided-group"
+    "demotion-group"
   ],
   [
     false,
-    "OIA Katowice",
+    "Drink Team",
     7,
     "",
-    "non-divided-group"
+    "demotion-group"
   ],
   [
     false,
-    "OIA Pozna\u0144",
-    5,
+    "Galactic",
+    4,
     "",
-    "non-divided-group"
+    "demotion-group"
   ],
   [
     false,
-    "OIA Bielsko-Bia\u0142a",
-    3,
-    "",
-    "non-divided-group"
-  ],
-  [
-    false,
-    "OIA Warszawa",
+    "Popalone Styki",
     1,
     "",
-    "non-divided-group"
+    "demotion-group"
   ]
 ]

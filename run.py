@@ -8,6 +8,7 @@ from utils.nalf_matches_scraper import NALFmatchesScraper
 from utils.nalf_league_matches_scraper import NALFleagueMatchesScraper
 from utils.nalf_table_scraper import NALFtableScraper
 from utils.json_file_generator import JSONFileGenerator
+from utils.ball_tracker import BallTracker
 from env.settings import get_settings
 from flask import Flask, render_template, jsonify, current_app, Blueprint, request, redirect, url_for, send_file, abort
 from flask_cors import CORS
@@ -16,7 +17,8 @@ from models import Team, Match, Player, MatchesData, Stadium, Staff, MatchCommen
     MatchAction, Division, LeagueMatches, Competitions
 from database import db
 from schemas import ma, player_schema, players_schema, match_datas_schema, team_schema, teams_schema, match_data_schema, \
-    stadium_schema, matches_schema, staff_schema, match_schema, division_schema, league_match_schema, league_matches_schema
+    stadium_schema, matches_schema, staff_schema, match_schema, division_schema, league_match_schema, \
+    league_matches_schema
 import re
 from timer import Timer
 from obswebsocketpy import OBSWebsocket
@@ -25,6 +27,8 @@ from collections import OrderedDict
 from forms import MatchForm
 from forms import CreateTeamForm
 import os
+import shutil
+from threading import Thread
 
 stream_blueprint = Blueprint('stream', __name__)
 panel_blueprint = Blueprint('panel', __name__)
@@ -58,6 +62,8 @@ def create_app():
     app.config['obs_ws'] = obs_ws
     apscheduler.add_job(func=timer.control_timer, args=[app], id='timer')
     apscheduler.add_job(func=obs_ws.connect_websocket, args=[app], id='obswebsocketpy')
+    app.config['BANNER_FOLDER'] = os.path.join(app.root_path, 'templates', 'banner')
+
     CORS(app)
     return app
 
@@ -360,13 +366,13 @@ def virtualtable(division):
                    }
     _base_table = data_b
     _base_table = [[actual,
-                    short_names[nazwa],
+                    nazwa,
                     wartosc,
                     promo,
                     group] for actual, nazwa, wartosc, promo, group in _base_table]
     _virtual_table = data_v
     _virtual_table = [[actual,
-                       short_names[nazwa],
+                       nazwa,
                        wartosc,
                        promo,
                        group] for actual, nazwa, wartosc, promo, group in _virtual_table]
@@ -423,13 +429,13 @@ def render_round_data(division_id):
     _matches = LeagueMatches.query.filter_by(division_id=division_id).filter(
         LeagueMatches.date.between(current_date - timedelta(days=1), current_date + timedelta(days=1))
     ).all()
-    table_data = prepare_table(_table_data)
-    print(table_data)
+    for _data in _table_data:
+        print(_data)
     data = {
         'competition_name': Division.query.filter_by(id=division_id).first().name,
         'title': '',
         'results': _matches,
-        'table': table_data
+        'table': _table_data
     }
     _table = render_template('league-table-template.html', data=prepare_data_to_render(data, 'Tabela'))
     with open(f'templates/table.html', 'w', encoding='utf-8') as txt_file:
@@ -438,6 +444,7 @@ def render_round_data(division_id):
     with open(f'templates/results.html', 'w', encoding='utf-8') as txt_file:
         txt_file.writelines(_results)
     return jsonify({'message': 'OK'})
+
 
 def prepare_table(data_list):
     transformed_data = []
@@ -449,6 +456,8 @@ def prepare_table(data_list):
             new_dict.update(team_data)
             transformed_data.append(new_dict)
     return transformed_data
+
+
 # @stream_blueprint.errorhandler(Exception)
 # def handle_error(error):
 #     # print(error)
@@ -1026,8 +1035,8 @@ def add_nalf_league_matches(page_id):
         _match = LeagueMatches.query.filter_by(event_id=match['event_id']).first()
         if not _match:
             print('not match')
-            _match = LeagueMatches(team1=get_team_id(match['team1']),
-                                   team2=get_team_id(match['team2']),
+            _match = LeagueMatches(team1=get_team(match['team1']),
+                                   team2=get_team(match['team2']),
                                    score1=match['score1'],
                                    score2=match['score2'],
                                    competitions=1,
@@ -1043,20 +1052,24 @@ def add_nalf_league_matches(page_id):
                 _match.score1 = match['score1']
                 _match.score2 = match['score2']
             _match.competitions = 1
-            print(match['division'])
-            print(get_division_id(match['division']))
-            print(match['date'])
             _match.division = get_division(match['division'])
             _match.date = match['date']
         db.session.commit()
     return jsonify({'message': f'Pobrano wyniki Dywizji {division.upper()}'})
 
-def get_team_id(team_name):
-    team_id = Team.query.filter_by(full_name=team_name).first().id
-    return team_id
+
+def get_team(team_name):
+    team = Team.query.filter_by(full_name=team_name).first()
+    return team
+
 
 def get_division(division_name):
     return Division.query.filter_by(name=division_name).first()
+
+
+def get_competitions(competitions_id):
+    return Competitions.query.filter_by(id=competitions_id).first()
+
 
 def get_division_id(division_name):
     division_id = Division.query.filter_by(name=division_name).first().id
@@ -1418,7 +1431,7 @@ def show_empty_result(division):
 @settings_blueprint.route('/show-matches-by-date/<target>/<division>', methods=['GET'])
 def show_matches_by_date(target, division):
     # Pobieramy parametr 'days' z zapytania lub używamy domyślnej wartości +1/-1 dni
-    days = int(request.args.get('days', 2))
+    days = int(request.args.get('days', 7))
 
     # Obliczamy daty
     today = datetime.now()
@@ -1429,7 +1442,6 @@ def show_matches_by_date(target, division):
     print('division_id:', division_id)
     # Pobieramy dane z pliku matches.json
     matches = LeagueMatches.query.filter_by(division_id=division_id).all()
-
 
     data = league_matches_schema.dump(matches)
 
@@ -1444,23 +1456,22 @@ def show_matches_by_date(target, division):
             filtered_data.append({"id": dta['event_id'],
                                   "date": dta['date'],
                                   "teams": [
-                                    dta['team1']['full_name'],
-                                    dta['team2']['full_name']
+                                      dta['team1']['full_name'],
+                                      dta['team2']['full_name']
                                   ],
                                   "result": [
-                                    dta['score1'],
-                                    dta['score2']
+                                      dta['score1'],
+                                      dta['score2']
                                   ],
                                   "actual": dta['is_actual'],
                                   "parallel": False,
                                   "penalty_points": [
-                                    0,
-                                    0
+                                      0,
+                                      0
                                   ]
-                                })
+                                  })
     if target == 'controller':
         for dta in filtered_data:
-
             dta.update({'date': dta['date']})
             dta.update({'teams': [{'short_name': _get_short_team_name(dta['teams'][0]),
                                    'full_name': dta['teams'][0]},
@@ -1543,25 +1554,36 @@ def generate_table(division, virtual_result=None):
         if not division.isdigit():
             division_id = get_division_id_by_letter(division)
         results = []
-        _teams = []
         league_mathes = LeagueMatches.query.filter_by(division_id=division_id).all()
         for match in league_mathes:
             team1 = Team.query.filter_by(id=match.team1_id).first()
             team2 = Team.query.filter_by(id=match.team2_id).first()
-            results.append((team1.full_name, team2.full_name, match.score1, match.score2,))
-            _teams.append(team1.full_name)
-            _teams.append(team2.full_name)
-        teams = set(_teams)
+            results.append((team1.full_name,
+                            team1.id,
+                            team2.full_name,
+                            team2.id,
+                            match.score1,
+                            match.score2,))
         _table_generator = TableGenerator()
-        _table = _table_generator.generate_table(results, teams)
+        try:
+            regular_round_matches = current_app.config['DIVISION_CONFIG'][int(division_id)]['regular_round_matches']
+        except:
+            regular_round_matches = None
+        _table = _table_generator.generate_table(results, regular_round_matches)
+
         return _table
+
 
 def reduce_table(table, is_actual=False):
     tiny_table = []
     for row in table:
         print(row)
         # print(row[0][list(row[0].keys())[0]]['points'])
-        tiny_table.append([is_actual, list(row[0].keys())[0], row[0][list(row[0].keys())[0]]['points'], "", "non-divided-group"])
+        tiny_table.append([is_actual,
+                           Team.query.filter_by(full_name=row['name']).first().name_16,
+                           row['points'],
+                           "",
+                           row['group']])
     return tiny_table
 
 
@@ -1571,11 +1593,14 @@ def save_result(target, division):
     match_data = request.json
     # print(match_data)
 
-
     match = LeagueMatches.query.filter_by(event_id=match_data['id']).first()
     match.is_actual = int(match_data['actual'])
     match.score1 = prepare_result(match_data['result_home'])
     match.score2 = prepare_result(match_data['result_away'])
+    if match.score1 is not None and int(match.score1) < 0:
+        match.team1_penalty_points = 1
+    if match.score2 is not None and int(match.score2) < 0:
+        match.team2_penalty_points = 1
     db.session.commit()
 
     virtual_table = generate_table(division)
@@ -1587,6 +1612,7 @@ def save_result(target, division):
     if target == 'controller':
         return jsonify({'function': division})
     return redirect(url_for('settings.show_matches_by_date', division=division))
+
 
 def prepare_result(value):
     if value == '':
@@ -1718,7 +1744,7 @@ def _get_higest_results(team_name, division, _type):
                     match['teams'][0], match['teams'][1] = match['teams'][1], match['teams'][0]
                     match['result'][0], match['result'][1] = match['result'][1], match['result'][0]
                     match['penalty_points'][0], \
-                    match['penalty_points'][1] = match['penalty_points'][1], match['penalty_points'][0]
+                        match['penalty_points'][1] = match['penalty_points'][1], match['penalty_points'][0]
                     _matches.append(match)
                 else:
                     _matches.append(match)
@@ -1760,49 +1786,49 @@ def statistics_staff(team):
 def playoffs_edit():
     if request.method == 'POST':
         _data = {
-                  'matches': {
-                    'match1': {
-                      'teams': [request.form['teams10'], request.form['teams11']],
-                      'results': [request.form['results10'], request.form['results11']],
-                      'penalties': [request.form['penalties10'], request.form['penalties11']]
-                    },
-                    'match2': {
-                      'teams': [request.form['teams20'], request.form['teams21']],
-                      'results': [request.form['results20'], request.form['results21']],
-                      'penalties': [request.form['penalties20'], request.form['penalties21']]
-                    },
-                    'match3': {
-                      'teams': [request.form['teams30'], request.form['teams31']],
-                      'results': [request.form['results30'], request.form['results31']],
-                      'penalties': [request.form['penalties30'], request.form['penalties31']]
-                    },
-                    'match4': {
-                      'teams': [request.form['teams40'], request.form['teams41']],
-                      'results': [request.form['results40'], request.form['results41']],
-                      'penalties': [request.form['penalties40'], request.form['penalties41']]
-                    },
-                    # 'match5': {
-                    #   'teams': [request.form['teams50'], request.form['teams51']],
-                    #   'results': [request.form['results50'], request.form['results51']],
-                    #   'penalties': [request.form['penalties50'], request.form['penalties51']]
-                    # },
-                    # 'match6': {
-                    #   'teams': [request.form['teams60'], request.form['teams61']],
-                    #   'results': [request.form['results60'], request.form['results61']],
-                    #   'penalties': [request.form['penalties60'], request.form['penalties61']]
-                    # },
-                    # 'match7': {
-                    #   'teams': [request.form['teams70'], request.form['teams71']],
-                    #   'results': [request.form['results70'], request.form['results71']],
-                    #   'penalties': [request.form['penalties70'], request.form['penalties71']]
-                    # },
-                    # 'match8': {
-                    #   'teams': [request.form['teams80'], request.form['teams81']],
-                    #   'results': [request.form['results80'], request.form['results81']],
-                    #   'penalties': [request.form['penalties80'], request.form['penalties81']]
-                    # }
-                  }
-                }
+            'matches': {
+                'match1': {
+                    'teams': [request.form['teams10'], request.form['teams11']],
+                    'results': [request.form['results10'], request.form['results11']],
+                    'penalties': [request.form['penalties10'], request.form['penalties11']]
+                },
+                'match2': {
+                    'teams': [request.form['teams20'], request.form['teams21']],
+                    'results': [request.form['results20'], request.form['results21']],
+                    'penalties': [request.form['penalties20'], request.form['penalties21']]
+                },
+                'match3': {
+                    'teams': [request.form['teams30'], request.form['teams31']],
+                    'results': [request.form['results30'], request.form['results31']],
+                    'penalties': [request.form['penalties30'], request.form['penalties31']]
+                },
+                'match4': {
+                    'teams': [request.form['teams40'], request.form['teams41']],
+                    'results': [request.form['results40'], request.form['results41']],
+                    'penalties': [request.form['penalties40'], request.form['penalties41']]
+                },
+                # 'match5': {
+                #   'teams': [request.form['teams50'], request.form['teams51']],
+                #   'results': [request.form['results50'], request.form['results51']],
+                #   'penalties': [request.form['penalties50'], request.form['penalties51']]
+                # },
+                # 'match6': {
+                #   'teams': [request.form['teams60'], request.form['teams61']],
+                #   'results': [request.form['results60'], request.form['results61']],
+                #   'penalties': [request.form['penalties60'], request.form['penalties61']]
+                # },
+                # 'match7': {
+                #   'teams': [request.form['teams70'], request.form['teams71']],
+                #   'results': [request.form['results70'], request.form['results71']],
+                #   'penalties': [request.form['penalties70'], request.form['penalties71']]
+                # },
+                # 'match8': {
+                #   'teams': [request.form['teams80'], request.form['teams81']],
+                #   'results': [request.form['results80'], request.form['results81']],
+                #   'penalties': [request.form['penalties80'], request.form['penalties81']]
+                # }
+            }
+        }
         with open(f'static/json/playoffs.json', 'w') as json_file:
             json.dump(_data, json_file, indent=2)
         return '', 204
@@ -1837,7 +1863,11 @@ def ws_controller():
 @obswebsocketpy_blueprint.route('/render-content/<content_name>')
 def render_content(content_name):
     _matchdata = matchdata().get_json()
-    new_content = render_template(f'ws-controller-{content_name}.html', matchdata=_matchdata)
+    banner_folder = current_app.config['BANNER_FOLDER']
+    folders = [folder for folder in os.listdir(banner_folder) if os.path.isdir(os.path.join(banner_folder, folder))]
+    new_content = render_template(f'ws-controller-{content_name}.html',
+                                  matchdata=_matchdata,
+                                  folders=folders)
     return jsonify({'content': new_content})
 
 
@@ -1934,11 +1964,41 @@ def show_start_scene():
     return '', 204
 
 
-@obswebsocketpy_blueprint.route('/showbanner')
+@obswebsocketpy_blueprint.route('/show_banner')
 def show_banner():
     obs_ws = current_app.config['obs_ws']
     obs_ws.show_banner()
     return '', 204
+
+
+@obswebsocketpy_blueprint.route('/select_banner')
+def select_banner():
+    banner_folder = current_app.config['BANNER_FOLDER']
+    folders = [folder for folder in os.listdir(banner_folder) if os.path.isdir(os.path.join(banner_folder, folder))]
+    for folder in folders:
+        print(folder, flush=True)
+    return render_template('ws-controller-banner.html', folders=folders)
+
+
+@obswebsocketpy_blueprint.route('/replace_files/<folder_name>')
+def replace_files(folder_name):
+    banner_folder = current_app.config['BANNER_FOLDER']
+    selected_folder_path = os.path.join(banner_folder, folder_name)
+
+    # Usuń wszystkie pliki (bez folderów) z /templates/banner/
+    for file_name in os.listdir(banner_folder):
+        file_path = os.path.join(banner_folder, file_name)
+        if os.path.isfile(file_path):
+            os.remove(file_path)
+
+    # Skopiuj pliki ze wskazanego folderu do /templates/banner/
+    for file_name in os.listdir(selected_folder_path):
+        file_path = os.path.join(selected_folder_path, file_name)
+        if os.path.isfile(file_path):
+            shutil.copy(file_path, banner_folder)
+    _matchdata = matchdata().get_json()
+    new_content = render_template(f'ws-controller-match.html', matchdata=_matchdata)
+    return jsonify({'content': new_content})
 
 
 @obswebsocketpy_blueprint.route('/showaction')
@@ -1961,6 +2021,26 @@ def maketableimg(division):
     table_screaper = NALFtableScraper(_settings['table']['link_to_table'])
     _table = table_screaper.scrape_league_table()
     return render_template('table-img.html', table=_table, division=division, settings=_settings)
+
+
+# @socialmedia_blueprint.route('/make_yt_short/<video_file>')
+# def make_yt_short(video_file):
+#
+#     apscheduler.add_job(func=BallTracker.track_ball, args=[video_file, apscheduler], id='yt_short')
+#     apscheduler.start()
+#     return "Zadanie zostało rozpoczęte."
+#
+# def track_ball(video_file):
+#     # Logika śledzenia piłki
+#     pass
+
+@socialmedia_blueprint.route('/make_yt_short/<video_file>')
+def make_yt_short(video_file):
+    t = Thread(target=BallTracker.track_ball, args=[video_file])
+    t.start()
+    t.join()
+    # thread.
+    return "Zadanie zostało zakończone."
 
 
 if __name__ == '__main__':

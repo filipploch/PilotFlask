@@ -1,158 +1,200 @@
 {
   "table-data": [
     {
-      "division": "Dywizja A",
-      "rank": 7,
-      "team_name": "Brotherm",
-      "matches": 8,
-      "wins": 3,
-      "draws": 0,
-      "losts": 5,
-      "goals_scored": 34,
-      "goals_lost": 42,
-      "points": 9,
-      "form": "W P P P W P P W"
+      "division": "Dywizja B",
+      "rank": 3,
+      "team_name": "Hattrick",
+      "matches": 12,
+      "wins": 7,
+      "draws": 2,
+      "losts": 3,
+      "goals_scored": 78,
+      "goals_lost": 45,
+      "points": 23,
+      "form": "P W R R W P W W W W P W"
     }
   ],
-  "average-points": 1.12,
-  "average-scored-goals": 4.25,
-  "average-lost-goals": 5.25,
+  "average-points": 1.92,
+  "average-scored-goals": 6.5,
+  "average-lost-goals": 3.75,
   "best-strikers": [
     {
-      "full_name": "\u015awi\u0105tek Damian",
-      "link": "https://nalffutsal.pl/?sp_player=swiatek-damian",
-      "team": "https://nalffutsal.pl/?sp_team=brotherm-3",
+      "full_name": "Sikora II Mateusz",
+      "link": "https://nalffutsal.pl/?sp_player=sikora-ii-mateusz",
+      "team": "https://nalffutsal.pl/?sp_team=hattrick",
       "is_goalkeeper": 0,
-      "matches": 7,
-      "goals": 10,
-      "assists": 4,
+      "matches": 8,
+      "goals": 16,
+      "assists": 11,
       "yellow_cards": 0,
       "red_cards": 0,
       "own_goals": 0,
-      "best_five": 0,
-      "best_player": 0
+      "best_five": 3,
+      "best_player": 1
     }
   ],
   "best-assistants": [
     {
-      "full_name": "Burkat Szymon",
-      "link": "https://nalffutsal.pl/?sp_player=burkat-szymon",
-      "team": "https://nalffutsal.pl/?sp_team=brotherm-3",
+      "full_name": "Czepiec Jakub",
+      "link": "https://nalffutsal.pl/?sp_player=czepiec-jakub",
+      "team": "https://nalffutsal.pl/?sp_team=hattrick",
       "is_goalkeeper": 0,
-      "matches": 7,
+      "matches": 10,
       "goals": 9,
-      "assists": 8,
-      "yellow_cards": 3,
+      "assists": 14,
+      "yellow_cards": 0,
+      "red_cards": 1,
+      "own_goals": 0,
+      "best_five": 1,
+      "best_player": 0
+    },
+    {
+      "full_name": "Kasprzyk Kacper",
+      "link": "https://nalffutsal.pl/?sp_player=kasprzyk-kacper",
+      "team": "https://nalffutsal.pl/?sp_team=hattrick",
+      "is_goalkeeper": 0,
+      "matches": 12,
+      "goals": 14,
+      "assists": 14,
+      "yellow_cards": 1,
       "red_cards": 0,
       "own_goals": 0,
       "best_five": 1,
-      "best_player": 1
+      "best_player": 0
     }
   ],
   "best-canadians": [
     {
-      "full_name": "Burkat Szymon",
-      "link": "https://nalffutsal.pl/?sp_player=burkat-szymon",
-      "team": "https://nalffutsal.pl/?sp_team=brotherm-3",
+      "full_name": "Kasprzyk Kacper",
+      "link": "https://nalffutsal.pl/?sp_player=kasprzyk-kacper",
+      "team": "https://nalffutsal.pl/?sp_team=hattrick",
       "is_goalkeeper": 0,
-      "matches": 7,
-      "goals": 9,
-      "assists": 8,
-      "yellow_cards": 3,
+      "matches": 12,
+      "goals": 14,
+      "assists": 14,
+      "yellow_cards": 1,
       "red_cards": 0,
       "own_goals": 0,
       "best_five": 1,
-      "best_player": 1
+      "best_player": 0
     }
   ],
   "most-yellow-cards": [
     {
-      "full_name": "Burkat Szymon",
-      "link": "https://nalffutsal.pl/?sp_player=burkat-szymon",
-      "team": "https://nalffutsal.pl/?sp_team=brotherm-3",
+      "full_name": "Fischer Miko\u0142aj",
+      "link": "https://nalffutsal.pl/?sp_player=mikolaj-fischer",
+      "team": "https://nalffutsal.pl/?sp_team=hattrick",
       "is_goalkeeper": 0,
-      "matches": 7,
-      "goals": 9,
-      "assists": 8,
-      "yellow_cards": 3,
+      "matches": 5,
+      "goals": 4,
+      "assists": 3,
+      "yellow_cards": 1,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    },
+    {
+      "full_name": "Kasprzyk Kacper",
+      "link": "https://nalffutsal.pl/?sp_player=kasprzyk-kacper",
+      "team": "https://nalffutsal.pl/?sp_team=hattrick",
+      "is_goalkeeper": 0,
+      "matches": 12,
+      "goals": 14,
+      "assists": 14,
+      "yellow_cards": 1,
       "red_cards": 0,
       "own_goals": 0,
       "best_five": 1,
-      "best_player": 1
+      "best_player": 0
+    },
+    {
+      "full_name": "Kot Patryk",
+      "link": "https://nalffutsal.pl/?sp_player=kot-patryk",
+      "team": "https://nalffutsal.pl/?sp_team=hattrick",
+      "is_goalkeeper": 0,
+      "matches": 6,
+      "goals": 3,
+      "assists": 3,
+      "yellow_cards": 1,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 0,
+      "best_player": 0
+    },
+    {
+      "full_name": "Pytlarz Krystian",
+      "link": "https://nalffutsal.pl/?sp_player=pytlarz-krystian",
+      "team": "https://nalffutsal.pl/?sp_team=hattrick",
+      "is_goalkeeper": 0,
+      "matches": 4,
+      "goals": 7,
+      "assists": 5,
+      "yellow_cards": 1,
+      "red_cards": 0,
+      "own_goals": 0,
+      "best_five": 2,
+      "best_player": 2
     }
   ],
   "most-red-cards": [
     {
-      "full_name": "Klim Daniel",
-      "link": "https://nalffutsal.pl/?sp_player=klim-daniel",
-      "team": "https://nalffutsal.pl/?sp_team=brotherm-3",
+      "full_name": "Czepiec Jakub",
+      "link": "https://nalffutsal.pl/?sp_player=czepiec-jakub",
+      "team": "https://nalffutsal.pl/?sp_team=hattrick",
       "is_goalkeeper": 0,
-      "matches": 2,
-      "goals": 4,
-      "assists": 3,
+      "matches": 10,
+      "goals": 9,
+      "assists": 14,
       "yellow_cards": 0,
       "red_cards": 1,
       "own_goals": 0,
-      "best_five": 0,
+      "best_five": 1,
       "best_player": 0
     }
   ],
   "most-best-five": [
     {
-      "full_name": "Burkat Szymon",
-      "link": "https://nalffutsal.pl/?sp_player=burkat-szymon",
-      "team": "https://nalffutsal.pl/?sp_team=brotherm-3",
+      "full_name": "Sikora II Mateusz",
+      "link": "https://nalffutsal.pl/?sp_player=sikora-ii-mateusz",
+      "team": "https://nalffutsal.pl/?sp_team=hattrick",
       "is_goalkeeper": 0,
-      "matches": 7,
-      "goals": 9,
-      "assists": 8,
-      "yellow_cards": 3,
-      "red_cards": 0,
-      "own_goals": 0,
-      "best_five": 1,
-      "best_player": 1
-    },
-    {
-      "full_name": "Kapusta Mateusz",
-      "link": "https://nalffutsal.pl/?sp_player=kapusta-mateusz",
-      "team": "https://nalffutsal.pl/?sp_team=brotherm-3",
-      "is_goalkeeper": 0,
-      "matches": 6,
-      "goals": 6,
-      "assists": 5,
+      "matches": 8,
+      "goals": 16,
+      "assists": 11,
       "yellow_cards": 0,
       "red_cards": 0,
       "own_goals": 0,
-      "best_five": 1,
-      "best_player": 0
+      "best_five": 3,
+      "best_player": 1
     }
   ],
   "most-best-player": [
     {
-      "full_name": "Burkat Szymon",
-      "link": "https://nalffutsal.pl/?sp_player=burkat-szymon",
-      "team": "https://nalffutsal.pl/?sp_team=brotherm-3",
+      "full_name": "Pytlarz Krystian",
+      "link": "https://nalffutsal.pl/?sp_player=pytlarz-krystian",
+      "team": "https://nalffutsal.pl/?sp_team=hattrick",
       "is_goalkeeper": 0,
-      "matches": 7,
-      "goals": 9,
-      "assists": 8,
-      "yellow_cards": 3,
+      "matches": 4,
+      "goals": 7,
+      "assists": 5,
+      "yellow_cards": 1,
       "red_cards": 0,
       "own_goals": 0,
-      "best_five": 1,
-      "best_player": 1
+      "best_five": 2,
+      "best_player": 2
     }
   ],
   "highest-win": [
     {
-      "id": 1,
-      "date": "2024-02-20 21:30:00",
+      "id": 14,
+      "date": "2024-03-06 20:45:00",
       "teams": [
-        "Brotherm",
-        "WKS Futsal Team"
+        "Hattrick",
+        "Drink Team"
       ],
       "result": [
-        10,
+        5,
         3
       ],
       "actual": false,
@@ -161,25 +203,41 @@
         0,
         0
       ],
-      "sum_goals": 13
+      "sum_goals": 8
     }
   ],
   "highest-tie": [
     {
-      "result": null
+      "id": 26,
+      "date": "2024-03-20 21:30:00",
+      "teams": [
+        "Hattrick",
+        "eNHa"
+      ],
+      "result": [
+        5,
+        5
+      ],
+      "actual": true,
+      "parallel": false,
+      "penalty_points": [
+        0,
+        0
+      ],
+      "sum_goals": 10
     }
   ],
   "highest-lost": [
     {
-      "id": 5,
-      "date": "2024-02-27 21:30:00",
+      "id": 4,
+      "date": "2024-02-21 20:00:00",
       "teams": [
-        "Brotherm",
-        "DRUGony"
+        "Hattrick",
+        "\u017bar\u0142acze"
       ],
       "result": [
-        4,
-        9
+        3,
+        8
       ],
       "actual": false,
       "parallel": false,
@@ -187,7 +245,7 @@
         0,
         0
       ],
-      "sum_goals": 13
+      "sum_goals": 11
     }
   ]
 }

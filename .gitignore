@@ -15,3 +15,7 @@ static/images/*
 static/video/*
 .eslintrc.json
 *_bak.*
+start_obs_main.*
+utils/ball_tracker.py
+yolov8n.pt
+yt_shorts.avi

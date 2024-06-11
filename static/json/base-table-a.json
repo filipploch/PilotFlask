@@ -1,36 +1,50 @@
 [
   [
     false,
-    "IGLOMEN&RodzinneRestauracje",
-    21,
-    "",
-    "non-divided-group"
-  ],
-  [
-    false,
-    "MK Team",
-    16,
+    "Iglomen&RR",
+    27,
     "",
     "non-divided-group"
   ],
   [
     false,
     "Boanerges",
-    13,
+    19,
     "",
     "non-divided-group"
   ],
   [
     false,
-    "Trivium S\u0142omniki Warriors",
-    10,
+    "MK Team",
+    17,
     "",
     "non-divided-group"
   ],
   [
     false,
     "Ukrainian Legion",
-    9,
+    15,
+    "",
+    "non-divided-group"
+  ],
+  [
+    false,
+    "S\u0142omniki Warriors",
+    10,
+    "",
+    "non-divided-group"
+  ],
+  [
+    false,
+    "Brotherm",
+    10,
+    "",
+    "non-divided-group"
+  ],
+  [
+    false,
+    "WKS",
+    10,
     "",
     "non-divided-group"
   ],
@@ -38,20 +52,6 @@
     false,
     "DRUGony",
     9,
-    "",
-    "non-divided-group"
-  ],
-  [
-    false,
-    "Brotherm",
-    9,
-    "",
-    "non-divided-group"
-  ],
-  [
-    false,
-    "WKS Futsal Team",
-    7,
     "",
     "non-divided-group"
   ]

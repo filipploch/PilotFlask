@@ -10,13 +10,11 @@ class MatchCameraman(db.Model):
     match_id = db.Column(db.Integer, db.ForeignKey('matches.id'), primary_key=True)
     staff_id = db.Column(db.Integer, db.ForeignKey('staff.id'), primary_key=True)
 
+
 class MatchReferee(db.Model):
     __tablename__ = 'match_referee'
     match_id = db.Column(db.Integer, db.ForeignKey('matches.id'), primary_key=True)
     staff_id = db.Column(db.Integer, db.ForeignKey('staff.id'), primary_key=True)
-
-
-
 
 
 class Match(db.Model):
@@ -195,6 +193,8 @@ class LeagueMatches(db.Model):
     date = db.Column(db.String)
     event_id = db.Column(db.String)
     is_actual = db.Column(db.Integer)
+    team1_penalty_points = db.Column(db.Integer)
+    team2_penalty_points = db.Column(db.Integer)
 
     team1 = db.relationship('Team', foreign_keys=[team1_id], lazy=True)
     team2 = db.relationship('Team', foreign_keys=[team2_id], lazy=True)

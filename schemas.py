@@ -104,7 +104,8 @@ class LeagueMatchesSchema(ma.Schema):
     class Meta:
         model = LeagueMatches
         fields = ('id', 'team1', 'team2', 'score1', 'score2',
-                  'competitions', 'division', 'date', 'event_id', 'is_actual')
+                  'competitions', 'division', 'date', 'event_id',
+                  'is_actual', 'team1_penalty_points', 'team2_penalty_points')
 
     team1 = fields.Nested(team_schema)
     team2 = fields.Nested(team_schema)
