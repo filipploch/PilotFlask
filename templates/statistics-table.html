@@ -35,10 +35,14 @@
         </div>
     </div>
 
+    {% if data['table-data'][0].matches != 0 %}
     <div class="stats-tile">
-        <div class="stats-tile-description">BRAMKI</div>
+        <div class="stats-tile-description">ŚREDNIA PUNKTÓW NA MECZ</div>
         <div class="stats-tile-content">
-            <div class="stats-tile-content-row">{{ data['table-data'][0].goals_scored }}-{{ data['table-data'][0].goals_lost }}</div>
+            <div class="stats-tile-content-row">
+                {{ '%0.2f'| format(data['table-data'][0].points/data['table-data'][0].matches | float) }}
+            </div>
         </div>
     </div>
+    {% endif %}
 </div>

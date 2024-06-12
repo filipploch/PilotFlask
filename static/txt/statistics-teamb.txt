@@ -2,18 +2,18 @@
 
     <div class="stats-tile">
         <div class="stats-tile-description">MIEJSCE W TABELI</div>
-        <div class="stats-tile-value bc-green">5</div>
+        <div class="stats-tile-value bc-green">8</div>
         <div class="stats-tile-content">
-            <div class="stats-tile-content-row">Dywizja B</div>
+            <div class="stats-tile-content-row">Dywizja A</div>
         </div>
     </div>
 
     <div class="stats-tile">
         <div class="stats-tile-description">MECZE I PUNKTY</div>
-        <div class="stats-tile-value bc-green">22</div>
+        <div class="stats-tile-value bc-green">9</div>
         <div class="stats-tile-content">
-            <div class="stats-tile-content-row">11
-            (7-1-3)
+            <div class="stats-tile-content-row">13
+            (3-0-10)
             </div>
         </div>
     </div>
@@ -30,19 +30,19 @@
                 
                 
                 
-                <span class="form-win form-tile stats-value">W</span>
+                <span class="form-lost form-tile stats-value">P</span>
                 
                 
                 
                 
                 
-                <span class="form-win form-tile stats-value">W</span>
+                <span class="form-lost form-tile stats-value">P</span>
                 
                 
                 
                 
                 
-                <span class="form-win form-tile stats-value">W</span>
+                <span class="form-lost form-tile stats-value">P</span>
                 
                 
                 
@@ -55,10 +55,14 @@
         </div>
     </div>
 
+    
     <div class="stats-tile">
-        <div class="stats-tile-description">BRAMKI</div>
+        <div class="stats-tile-description">ŚREDNIA PUNKTÓW NA MECZ</div>
         <div class="stats-tile-content">
-            <div class="stats-tile-content-row">65-46</div>
+            <div class="stats-tile-content-row">
+                0.69
+            </div>
         </div>
     </div>
+    
 </div>
