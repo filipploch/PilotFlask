@@ -11,14 +11,14 @@ class OBSWebsocket:
         with app.app_context():
             try:
                 # Próba połączenia z adresem 127.20.10.3
-                self.ws = obsws(host, port)
+                self.ws = obsws(host, port, authreconnect=5)
             except Exception as e:
                 print(f"Nie udało się połączyć z adresem {host}. Błąd: {e}")
                 # Jeśli nie udało się połączyć, spróbuj z localhost
                 localhost = "localhost"
                 try:
                     # Próba połączenia z adresem localhost
-                    self.ws = obsws(localhost, port)
+                    self.ws = obsws(localhost, port, authreconnect=5)
                 except Exception as e:
                     print(f"Nie udało się połączyć z adresem {localhost}. Błąd: {e}")
                     print("Żadne z dostępnych adresów IP nie jest dostępne.")
