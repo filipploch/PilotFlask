@@ -256,6 +256,16 @@
 			border: none;
 		}
 
+		.filter-disabled {
+		    background-color: gray;
+		    color: black;
+		}
+
+		.filter-enabled {
+		    background-color: green;
+		    color: white;
+		}
+
 		@keyframes pulse {
 			0%, 100% {
     			background-color: rgba(255, 0, 0, 1);

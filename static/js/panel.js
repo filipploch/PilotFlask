@@ -1,3 +1,4 @@
+
 		function fetchDataFromAPI() {
 			var url = 'matchdata';
 
@@ -28,6 +29,17 @@
 		}).catch(function (error) {
 			console.error(error);
 		});
+
+
+		function setSourceIndex(sceneName, sourceName, sourceIndex) {
+		    if (typeof sourceIndex == 'undefined') {
+                sourceIndex = -1;
+                // Tutaj możesz dostosować zachowanie funkcji w zależności od optionalArg
+            }
+
+            // Wyślij żądanie na serwer Flask po kliknięciu przycisku
+            fetch(`/set_source_index/${sceneName}/${sourceName}/${sourceIndex}`);
+		}
 
 
 		function changeSide() {
@@ -501,7 +513,7 @@ function editData(dataId) {
                     const url = window.URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;
-                    a.download = 'replay.mkv';
+                    a.download = 'replay stream.mkv';
                     a.style.display = 'none';
                     document.body.appendChild(a);
                     a.click();
@@ -545,7 +557,6 @@ function setChecked(checkboxId, actual) {
 		fetch('get-is-scoreboard-reversed')
 		.then(response => response.json())
 		.then(data => {
-		    console.log(data);
 			var isReversed = data['data'];
 			if (isReversed == 1) {
 				changeSide();

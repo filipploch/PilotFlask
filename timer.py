@@ -11,6 +11,7 @@ class Timer:
             self.actual_match = Match.query.filter_by(actual=1).first()
             self.start_time = time.time()
             self.end_time = time.time()
+            self.socketio = app.config['SOCKETIO']
 
     def control_timer(self, app):
         with app.app_context():

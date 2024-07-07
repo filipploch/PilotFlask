@@ -1,0 +1,114 @@
+{% extends "base-bars.html" %}
+{% block style %}
+    <style>
+        body {
+            font-family: 'Varela Round', sans-serif;
+        }
+
+        #animation {
+            position: absolute;
+            width: 1800px;
+            top: 130px;
+            left: 100px;
+        }
+
+        .chart {
+            position: absolute;
+            height: 95px;
+            border-radius: 24px;
+            margin: 5px;
+            font-size: 45px;
+            white-space: nowrap;
+            animation-duration: 2s;
+            animation-fill-mode: both;
+            animation-timing-function: linear;
+            display: flex;
+            align-items: center;
+            justify-content: left;
+            padding-left: 1%;
+        }
+
+        .team-points {
+            text-align: right;
+            padding-left: 15px;
+            font-weight: 800;
+        }
+
+        #round-nr-container {
+            position: absolute;
+            top: 600px;
+            left: 1500px;
+            width: 300px;
+            text-align: center;
+        }
+
+        #round-nr-header {
+            width: 100%;
+            background-color: rgba(38, 56, 150, 0.8);
+            color: white;
+            font-size: 50px;
+            padding: 5px;
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
+        }
+
+        #round-nr {
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            color: black;
+            font-size: 170px;
+            padding: 5px;
+            border-bottom-left-radius: 24px;
+            border-bottom-right-radius: 24px;
+        }
+
+        #boanerges {
+            background-color: black;
+            color: white;
+        }
+
+        #brotherm {
+            background-color: white;
+        }
+
+        #drugony {
+            background-color: #3399ff;
+        }
+
+        #iglomenandrr {
+            background-color: #cce5ff;
+        }
+        #mkteam {
+            background-color: #9900ff;
+            color: white;
+        }
+
+        #triviumsłomniki {
+            background-color: #c0c0c0;
+        }
+
+        #ukrainianlegion {
+            background-color: #ff3399;
+        }
+
+        #wks {
+            background-color: green;
+            color: white;
+        }
+    </style>
+{% endblock %}
+
+{% block headscripts %}
+    <script src="{{url_for('static', filename='js/charts.js')}}"></script>
+{% endblock %}
+
+{% block content %}
+    <div id="animation"></div>
+    <div id="round-nr-container">
+        <div id="round-nr-header">TYDZIEŃ</div>
+        <div id="round-nr"></div>
+    </div>
+<script>
+    createCharts(jsonData);
+</script>
+{% endblock %}

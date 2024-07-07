@@ -29,6 +29,9 @@ from forms import CreateTeamForm
 import os
 import shutil
 from threading import Thread
+from socketiopy import socketio
+from video_recorder import VideoRecorder
+from time import sleep
 
 stream_blueprint = Blueprint('stream', __name__)
 panel_blueprint = Blueprint('panel', __name__)
@@ -37,7 +40,7 @@ settings_blueprint = Blueprint('settings', __name__)
 obswebsocketpy_blueprint = Blueprint('obswebsocketpy', __name__)
 socialmedia_blueprint = Blueprint('socialmedia', __name__)
 
-apscheduler = APScheduler()
+# apscheduler = APScheduler()
 
 
 def create_app():
@@ -55,13 +58,20 @@ def create_app():
     app.register_blueprint(socialmedia_blueprint)
     db.init_app(app)
     ma.init_app(app)
-    apscheduler.init_app(app)
-    apscheduler.start()
+    socketio.init_app(app, cors_allowed_origins="*")
+    app.config['SOCKETIO'] = socketio
+    # apscheduler.init_app(app)
+    # apscheduler.start()
     timer = Timer(app)
+    # app.config['CAMERAS'] = {}
     obs_ws = OBSWebsocket(app)
     app.config['obs_ws'] = obs_ws
-    apscheduler.add_job(func=timer.control_timer, args=[app], id='timer')
-    apscheduler.add_job(func=obs_ws.connect_websocket, args=[app], id='obswebsocketpy')
+    # video_recorder = VideoRecorder()
+    # apscheduler.add_job(func=timer.control_timer, args=[app], id='timer')
+    # apscheduler.add_job(func=obs_ws.connect_websocket, args=[app], id='obswebsocketpy')
+    socketio.start_background_task(timer.control_timer, app)
+    socketio.start_background_task(obs_ws.connect_websocket, app)
+    # socketio.start_background_task(video_recorder.record_video)
     app.config['BANNER_FOLDER'] = os.path.join(app.root_path, 'templates', 'banner')
 
     CORS(app)
@@ -480,6 +490,11 @@ def playoffs():
     return render_template('playoffs.html', data=_data)
 
 
+@stream_blueprint.route('/charts')
+def charts():
+    return render_template('charts.html')
+
+
 @panel_blueprint.route('/panel')
 def panel():
     _matchdata = matchdata().get_json()
@@ -668,7 +683,7 @@ def get_current_date(response):
 def save_replay_file(action_id, current_date):
     if current_date is not None:
         obs_ws = current_app.config['obs_ws']
-        replay_file = obs_ws.set_replay_file_name(action_id, current_date)
+        replay_file = obs_ws.set_replay_file_name_prefix(action_id, current_date)
         obs_ws.save_replay(action_id, current_date)
         return replay_file
     return None
@@ -847,17 +862,25 @@ def get_files():
     return {'files': files}
 
 
-@panel_blueprint.route('/get_replays')
-def get_replays():
+@panel_blueprint.route('/get_replays/<camera_prefix>')
+def get_replays(camera_prefix):
     directory = 'static/video/replays'
-    files = [file for file in os.listdir(directory) if file.endswith('.mkv')]
+    files = [file for file in os.listdir(directory) if file.endswith(f'{camera_prefix}.mkv')]
     new_content = render_template('replays-panel.html', files=files)
     return jsonify({'content': new_content})
 
 
+# @panel_blueprint.route('/get_replays')
+# def get_replays():
+#     directory = 'static/video/replays'
+#     files = [file for file in os.listdir(directory) if file.endswith('.mkv')]
+#     new_content = render_template('replays-panel.html', files=files)
+#     return jsonify({'content': new_content})
+
+
 @panel_blueprint.route('/process_file/<filename>')
 def process_file(filename):
-    replay_name = 'replay.mkv'
+    replay_name = 'replay stream.mkv'
     source_path = os.path.join('static/video/replays', filename)
     target_path = os.path.join('static/video/processed', replay_name)
 
@@ -2015,6 +2038,31 @@ def show_virtual_table(division):
     return '', 204
 
 
+@obswebsocketpy_blueprint.route('/toggle_filter_enable/<source_name>/<filter_name>')
+def toggle_filter_enable(source_name, filter_name):
+    obs_ws = current_app.config['obs_ws']
+    obs_ws.toggle_filter_enable(source_name, filter_name)
+    return '', 204
+
+
+@obswebsocketpy_blueprint.route('/get_filter_status/<source_name>/<filter_name>')
+def get_filter_status(source_name, filter_name):
+    obs_ws = current_app.config['obs_ws']
+    return jsonify({'status': obs_ws.get_filter_status(source_name, filter_name)})
+
+
+@obswebsocketpy_blueprint.route('/set_source_index/<scene_name>/<source_name>/<source_index>')
+def set_source_index(scene_name, source_name, source_index):
+    scene_name = scene_name.replace('%2', ' ')
+    source_name = source_name.replace('%2', ' ')
+    source_index = int(source_index)
+    obs_ws = current_app.config['obs_ws']
+    if source_index == -1:
+        source_index = len(obs_ws.get_scene_item_list(scene_name)) - 1
+    source_id = obs_ws.get_scene_item_id(scene_name, source_name)
+    obs_ws.set_scene_item_index(scene_name, source_id, source_index)
+    return '', 204
+
 @socialmedia_blueprint.route('/maketableimg/<division>')
 def maketableimg(division):
     _settings = get_settings(division)
@@ -2044,4 +2092,5 @@ def make_yt_short(video_file):
 
 
 if __name__ == '__main__':
-    create_app().run(host='0.0.0.0', port=5555, use_reloader=False, debug=True)
+    # create_app().run(host='0.0.0.0', port=5555, use_reloader=False, debug=True)
+    socketio.run(create_app(), host='0.0.0.0', port=5555, allow_unsafe_werkzeug=True, use_reloader=False, debug=True)

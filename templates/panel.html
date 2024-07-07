@@ -9,6 +9,8 @@
 	<link rel="stylesheet" href="{{url_for('static', filename='css/common.css')}}">
 	<link rel="stylesheet" href="{{url_for('static', filename='css/ws-controller.css')}}">
 	<link rel="stylesheet" href="{{url_for('static', filename='css/panel.css')}}">
+	<script src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/obs-websocket.js') }}"></script>
 	<script>
         function sendRequest(url) {
             fetch(url, {
@@ -58,7 +60,7 @@
 			<button id="reset-btn">Reset</button>
 
 		</div>
-		
+
 		<button id="changeSideBtn" onclick="pressChangeSideBtn()">
 			<<>>
 		</button><br>
@@ -146,17 +148,31 @@
 			<input type="checkbox" id="countdown-timer" name="countdown-timer" checked><br>
 		</div>
 		<div id="menu-buttons">
-			<button class="team-button" onclick="loadFiles()">Powtórki</button>
-			<button class="team-button" onclick="loadContent('get_replays', 'sidebar')">Powtórki</button><br>
-			<div class="menu-description">Pobierz wyniki</div>
-			<button class="team-button" onclick="scrapeMatches(34)">Dyw. A</button>
-			<button class="team-button" onclick="scrapeMatches(52)">Dyw. B</button><br>
-			<div class="menu-description">Wyświetl wyniki</div>
-			<button class="team-button" onclick="loadContent('/show-matches-by-date/controller/', 'sidebar', 'a')">Dyw. A</button>
-			<button class="team-button" onclick="loadContent('/show-matches-by-date/controller/', 'sidebar', 'b')">Dyw. B</button><br>
-			<div class="menu-description">Pobierz statystyki</div>
-			<button class="team-button" onclick="loadContent('/get-statistics/teama', 'sidebar')">{{ matchdata.teama.short_name }}</button>
-			<button class="team-button" onclick="loadContent('/get-statistics/teamb', 'sidebar')">{{ matchdata.teamb.short_name }}</button><br>
+			<div class="menu-buttons-group">
+				<div class="menu-description">Kamera</div>
+				<button class="team-button" onclick="setSourceIndex('ŹRÓDŁO OBRAZU', 'KAMERA 1')">Kam 1</button>
+				<button class="team-button" onclick="setSourceIndex('ŹRÓDŁO OBRAZU', 'KAMERA 2')">Kam 2</button><br>
+			</div>
+			<div class="menu-buttons-group">
+				<div class="menu-description">Powtórki</div>
+				<button class="team-button" onclick="loadContent('/get_replays/C1', 'sidebar')">Kam 1</button>
+				<button class="team-button" onclick="loadContent('/get_replays/C2', 'sidebar')">Kam 2</button><br>
+			</div>
+			<div class="menu-buttons-group">
+				<div class="menu-description">Pobierz wyniki</div>
+				<button class="team-button" onclick="scrapeMatches(34)">Dyw. A</button>
+				<button class="team-button" onclick="scrapeMatches(52)">Dyw. B</button><br>
+			</div>
+			<div class="menu-buttons-group">
+				<div class="menu-description">Wyświetl wyniki</div>
+				<button class="team-button" onclick="loadContent('/show-matches-by-date/controller/', 'sidebar', 'a')">Dyw. A</button>
+				<button class="team-button" onclick="loadContent('/show-matches-by-date/controller/', 'sidebar', 'b')">Dyw. B</button><br>
+			</div>
+			<div class="menu-buttons-group">
+				<div class="menu-description">Pobierz statystyki</div>
+				<button class="team-button" onclick="loadContent('/get-statistics/teama', 'sidebar')">{{ matchdata.teama.short_name }}</button>
+				<button class="team-button" onclick="loadContent('/get-statistics/teamb', 'sidebar')">{{ matchdata.teamb.short_name }}</button><br>
+			</div>
 		</div>
 	</div>
 	<div id="ws-controller-div">

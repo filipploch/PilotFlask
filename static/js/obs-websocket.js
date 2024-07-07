@@ -20,7 +20,11 @@ document.addEventListener('DOMContentLoaded', function() {
 //          toggleClasses(element, data.class_1_name, data.class_2_name);
 //        });
 //    });
-    socket.on('record_state', function(data) {
+    socket.on('record_status', function(data) {
       console.log(data);
+    });
+
+    socket.on('filter_status', function(data) {
+      setSourcesFiltersStatuses(data);
     });
 });
