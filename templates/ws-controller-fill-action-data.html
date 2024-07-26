@@ -1,0 +1,112 @@
+{% extends "ws-controller-base.html" %}
+{% block style %}
+<style>
+    .unpressed {
+        opacity: 0.3;
+    }
+    .pressed {
+        opacity: 1;
+    }
+</style>
+{% endblock %}
+{% block content %}
+
+<div id="action-data" class="invisible" data-action-data='{{ action_data | tojson | safe }}'></div>
+<div id="goal-set" class="invisible" data-goal-set='{{ goal_set | tojson | safe }}'></div>
+<div id="ws-edit-frame-content">
+
+    <div id="ws-edit-frame-title">Kto strzelał/faulował?</div>
+    <div id="ws-teams-buttons">
+        <button
+            id="ws-select-team-a-btn"
+            class="ws-select-team-button unpressed"
+            type="button"
+            onclick="setSelectTeamButtonPressed(this);">
+            {{ matchdata['teama'].short_name }}
+        </button>
+        <button
+            id="ws-select-team-b-btn"
+            class="ws-select-team-button unpressed"
+            type="button"
+            onclick="setSelectTeamButtonPressed(this);">
+            {{ matchdata['teamb'].short_name }}
+        </button>
+    </div>
+    <div id="ws-type-of-goal-buttons"
+    {% if action_data.action_id not in goal_set %}
+         class="invisible"
+    {% endif %}
+    >
+        <button
+            id="ws-select-own-goal-btn"
+            class="ws-select-own_goal-button unpressed"
+            type="button"
+            onclick="toggleOwnGoalButtonPressed()"
+            style="background-color: red; width: 100%;"
+        >
+            SAMOBÓJ
+        </button>
+    </div>
+    <div id="team-a-squad" class="team-squad invisible">
+        {% for _player in matchdata.teama.players %}
+            {% if _player.squad %}
+            <div class="player" data-player-id="_player.id">
+                {{ _player.default_nr }}. {{ _player.first_name }} {{ _player.last_name }}
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div id="team-b-squad" class="team-squad invisible">
+        {% for _player in matchdata.teamb.players %}
+            {% if _player.squad %}
+            <div class="player" data-player-id="_player.id">
+                {{ _player.default_nr }}. {{ _player.first_name }} {{ _player.last_name }}
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script>
+    function setSelectTeamButtonPressed(element) {
+        let selectTeamButtons = document.querySelectorAll('.ws-select-team-button');
+        selectTeamButtons.forEach(function(div) {
+          classListRemove(div.id, 'pressed');
+          classListAdd(div.id, 'unpressed');
+        });
+        classListAdd(element.id, 'pressed');
+        showSquad();
+    }
+
+    function toggleOwnGoalButtonPressed() {
+        let ownGoalButton = document.querySelector('#ws-select-own-goal-btn');
+        if (ownGoalButton.classList.contains('pressed')){
+            classListRemove(ownGoalButton.id, 'pressed');
+            classListAdd(ownGoalButton.id, 'unpressed');
+        } else {
+            classListRemove(ownGoalButton.id, 'unpressed');
+            classListAdd(ownGoalButton.id, 'pressed');
+        }
+        showSquad();
+    }
+
+    function showSquad() {
+        let teamAButton = document.getElementById('ws-select-team-a-btn');
+        let isTeamAButtonPressed = teamAButton.classList.contains('pressed');
+        let teamBButton = document.getElementById('ws-select-team-b-btn');
+        let isTeamBAButtonPressed = teamBButton.classList.contains('pressed');
+        let isOwnGoalButtonPressed = document.getElementById('ws-select-own-goal-btn').classList.contains('pressed');
+        let squadDivs = document.querySelectorAll('.team-squad');
+        squadDivs.forEach(function(div) {
+          classListAdd(div.id, 'invisible');
+        });
+        if ((isTeamAButtonPressed && !isOwnGoalButtonPressed) || (isTeamBAButtonPressed && isOwnGoalButtonPressed)){
+            classListRemove('team-a-squad', 'invisible');
+        } else {
+            classListRemove('team-b-squad', 'invisible');
+        }
+    }
+</script>
+{% endblock %}

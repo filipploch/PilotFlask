@@ -1,3 +1,5 @@
+{% extends "ws-controller-base.html" %}
+{% block content %}
 <div class="ws-row-small-buttons">
     <div id="ws-btn-stream" class="ws-button ws-button-small" ondblclick="startStream()">
         <img src="{{ url_for('static', filename='images/ws-controller/stream-off.png') }}" alt="STREAM">
@@ -39,3 +41,4 @@
         </a>
     </div>
 </div>
+{% endblock %}

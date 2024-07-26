@@ -131,7 +131,6 @@
                     });
 
                     div.appendChild(spanContainer);
-                    console.log(item[3]);
                     if (item[3] === true) {
                         div.classList.add('blue');
                     }
@@ -156,7 +155,6 @@
                         const translateY = (indexB - indexA) * (divToChange.offsetHeight);
                         divToChange.style.transform = `translateY(${translateY}px)`;
                         divToChange.style.setProperty('transform', `translateY(${translateY}px)`, 'important');
-                        console.log(indexA, indexB)
                         // Add class for styling based on the final position
                         if (indexB < indexA) {
                             divToChange.classList.add('green');

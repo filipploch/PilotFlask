@@ -14,69 +14,16 @@ body
 	height: 1080px;
 }
 
-
-#scoreboard{
-    position: absolute;
-    right: 40px;
-    top: 30px;
-	width: 420px;
-    height: 50px;
-    padding: 1px;
-    background-color: black;
-    display: flex;
-
-    color: white;
+#scoreboard
+{
+	position: absolute;
+	right: 39px;
+	top: 20px;
+	width: 423px;
+	height: 50px;
+	z-index: 0;
+	background-color;
 }
-
-.item{
-    height: 44px;
-    border: 2px solid gray;
-    background-color: black;
-    margin: 1px;
-}
-
-.time-item{
-	width: 110px;
-}
-
-.team-item{
-	width: 80px;
-}
-
-.score-item{
-	width: 60px;
-}
-
-.fouls-item{
-	position: relative;
-    top: -18px;
-	width: 100%;
-    height: 10px;
-	font-size: 27px;
-	display: flex;
-	align-items: center;
-}
-
-.name-item{
-	position: relative;
-    top: -10px;
-	width: 100%;
-    height: 32px;
-    background-color: black;
-}
-
-.tricots-item{
-	position: relative;
-    top: -10px;
-	width: 90%;
-    height: 8px;
-    background-color: black;
-	border: 1px solid white;
-	/*! display: flex; */
-	/*! justify-content: center; */
-	margin-left: 4%;
-}
-
 
 
 
@@ -102,21 +49,21 @@ body
 
 #fouls-a-value
 {
-	/*! position: absolute; */
-	/*! left: 107px; */
-	/*! width: 66px; */
+	position: absolute;
+	left: 107px;
+	width: 66px;
 	color: red;
-	/*! padding-left: 8px; */
+	padding-left: 8px;
 	text-align: left;
 }
 
 #fouls-b-value
 {
-	/*! position: absolute; */
-	/*! left: 350px; */
-	/*! width: 66px; */
-	/*! color: red; */
-	/*! padding-left: 8px; */
+	position: absolute;
+	left: 350px;
+	width: 66px;
+	color: red;
+	padding-left: 8px;
 	text-align:left;
 }
 
@@ -136,48 +83,42 @@ body
 
 #time
 {
-	/*! position: absolute; */
-	/*! left: 20px; */
-	/*! top: 10px; */
-	/*! width: 69px; */
-	/*! padding-left: 30px; */
-	font-size: 30px;
+	position: absolute;
+	left: 20px;
+	top: 10px;
+	width: 69px;
+	padding-left: 30px;
+	font-size: 28px;
 	color: #C0C0C0;
-	text-align: right;
-	padding-right: 10px;
-	display: flex;
-    align-items: center;
-    justify-content: end;
 }
 
 #team_a
 {
-	/*! position: absolute; */
-	/*! top: 3px; */
-	/*! left: 112px; */
-	/*! min-width: 53px !important; */
+	position: absolute;
+	top: 3px;
+	left: 112px;
+	min-width: 53px !important;
 	text-align: center;
 	font-size: 32px;
 }
 
 #score-a-value
 {
-	/*! position: absolute; */
-	/*! left: 195px; */
-	/*! top: 7px; */
-	/*! width: 52px !important; */
+	position: absolute;
+	left: 195px;
+	top: 7px;
+	width: 52px !important;
 	text-align: center;
 	font-weight: bold;
 	font-size: 37px;
-	/*! background-color: white; */
 }
 
 #score-b-value
 {
-	/*! position: absolute; */
-	/*! left: 275px; */
-	/*! top: 7px; */
-	/*! width: 53px !important; */
+	position: absolute;
+	left: 275px;
+	top: 7px;
+	width: 53px !important;
 	text-align: center;
 	font-weight: bold;
 	font-size: 37px;
@@ -185,10 +126,10 @@ body
 
 #team_b
 {
-	/*! top: 3px; */
-	/*! position: absolute; */
-	/*! left: 355px; */
-	/*! width: 53px !important; */
+	top: 3px;
+	position: absolute;
+	left: 355px;
+	width: 53px !important;
 	text-align: center;
 	font-size: 32px;
 }
@@ -209,10 +150,10 @@ body
 
 #tricot_a
 {
-	/*! position: absolute; */
-	/*! left:110px; */
-	/*! width: 65px; */
-	/*! height: 6px; */
+	position: absolute;
+	left:110px;
+	width: 65px;
+	height: 6px;
 	border-radius: 3px;
 	overflow: hidden;
 }
@@ -238,10 +179,10 @@ body
 
 #tricot_b
 {
-	/*! position: absolute; */
-	/*! left: 352px; */
-	/*! width: 65px; */
-	/*! height: 6px; */
+	position: absolute;
+	left: 352px;
+	width: 65px;
+	height: 6px;
 	border-radius: 2px;
 	overflow: hidden;
 }

@@ -1,3 +1,5 @@
+{% extends "ws-controller-base.html" %}
+{% block content %}
 <div class="radio-buttons" style="color: white;">
     <div class="ws-radiobutton-div">
 
@@ -5,21 +7,21 @@
             {{ matchdata['teama'].short_name }}
         </label>
         <input
-            type="radio" 
-            id="ws-option1" 
-            name="options" 
+            type="radio"
+            id="ws-option1"
+            name="options"
             class="radio-button"
             data-url="{{ url_for('obswebsocketpy.show_scene', scenename='STATYSTYKI_A') }}"
             onchange="sendRequest(this.getAttribute('data-url'))"
         >
 
     </div>
-  
+
     <div class="ws-radiobutton-div">
         <input
-            type="radio" 
+            type="radio"
             id="ws-option2"
-            name="options" 
+            name="options"
             class="radio-button"
             data-url="{{ url_for('obswebsocketpy.show_scene', scenename='STATYSTYKI_B') }}"
             onchange="sendRequest(this.getAttribute('data-url'))"
@@ -37,3 +39,4 @@
     <button class="stats-button" onclick="fetchDataAndRender('best5')">Najwięcej w 5 kolejki</button><br>
     <button class="stats-button" onclick="fetchDataAndRender('cards')">Kartki</button><br>
 </div>
+{% endblock %}

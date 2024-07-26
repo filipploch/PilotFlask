@@ -9,7 +9,7 @@ async function matchInfo(){
     // document.getElementById('score_b').innerHTML = matchObj.teamb.scores;
     // document.getElementById('fouls_b').innerHTML = setFoulsDots(matchObj.teamb.fouls);
     // document.getElementById('tricot_b').innerHTML = renderTricot(matchObj.teamb.tricot);
-    // document.getElementById('time').innerHTML = setMatchTime(matchObj.match.seconds, matchObj.match.match_lenght);
+    // document.getElementById('time').innerHTML = setMatchTime(matchObj.match.seconds, matchObj.match.period_length);
     document.getElementById('match_date').innerHTML = getCurrentDate();
     // foulsDotsColor('fouls_a', setFoulsDots(matchObj.teama.fouls));
     // foulsDotsColor('fouls_b', setFoulsDots(matchObj.teamb.fouls));
@@ -22,7 +22,7 @@ async function getJSON(url) {
 	return response.json();
 }
 
-function setMatchTime(seconds, match_lenght) {
+function setMatchTime(seconds, period_length) {
     if (seconds === 0 || seconds === matchLength/2 || seconds === matchLength) {
         return '';
     }

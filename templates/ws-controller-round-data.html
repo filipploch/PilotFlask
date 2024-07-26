@@ -1,3 +1,5 @@
+{% extends "ws-controller-base.html" %}
+{% block content %}
 <div>
     <select id="round-data-options" onchange="renderRoundData();">
         {% for division in data.divisions %}
@@ -60,3 +62,4 @@
         </a>
     </div>
 </div>
+{% endblock %}

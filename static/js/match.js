@@ -1,20 +1,27 @@
-async function repeater(){
-    const matchObj = await getJSON('http://127.0.0.1:5555/matchdata');
-    console.log(matchObj);
+var matchdata = JSON.parse(document.getElementById('matchdata').getAttribute('data-matchdata'));
 
-    document.getElementById('team_a').innerHTML = matchObj.teama.short_name;
-    document.getElementById('score_a').innerHTML = matchObj.teama.scores;
-    document.getElementById('fouls_a').innerHTML = setFoulsDots(matchObj.teama.fouls);
-    document.getElementById('tricot_a').innerHTML = renderTricot(matchObj.teama.tricot);
-    document.getElementById('team_b').innerHTML = matchObj.teamb.short_name;
-    document.getElementById('score_b').innerHTML = matchObj.teamb.scores;
-    document.getElementById('fouls_b').innerHTML = setFoulsDots(matchObj.teamb.fouls);
-    document.getElementById('tricot_b').innerHTML = renderTricot(matchObj.teamb.tricot);
-    document.getElementById('time').innerHTML = setMatchTime(matchObj.match.seconds, matchObj.match.match_length);
-    foulsDotsColor('fouls_a', setFoulsDots(matchObj.teama.fouls));
-    foulsDotsColor('fouls_b', setFoulsDots(matchObj.teamb.fouls));
+function setMatchData(matchdata){
+    document.getElementById('team_a').innerHTML = matchdata.teama.short_name;
+    document.getElementById('score-a-value').innerHTML = matchdata.teama.scores;
+    document.getElementById('fouls-a-value').innerHTML = setFoulsDots(matchdata.teama.fouls);
+    document.getElementById('tricot_a').innerHTML = renderTricot(matchdata.teama.tricot);
+    document.getElementById('team_b').innerHTML = matchdata.teamb.short_name;
+    document.getElementById('score-b-value').innerHTML = matchdata.teamb.scores;
+    document.getElementById('fouls-b-value').innerHTML = setFoulsDots(matchdata.teamb.fouls);
+    document.getElementById('tricot_b').innerHTML = renderTricot(matchdata.teamb.tricot);
+    foulsDotsColor('fouls-a-value', setFoulsDots(matchdata.teama.fouls));
+    foulsDotsColor('fouls-b-value', setFoulsDots(matchdata.teamb.fouls));
 
-	setTimeout(repeater ,500);
+
+}
+
+function updateValueById(value, divId){
+    if (divId === 'fouls-a-value' || divId === 'fouls-b-value'){
+        document.getElementById(divId).innerHTML = setFoulsDots(value);
+        foulsDotsColor(divId, setFoulsDots(value));
+    } else {
+        document.getElementById(divId).innerHTML = value;
+    }
 }
 
 async function getJSON(url) {
@@ -41,7 +48,7 @@ function renderTricot(tricot) {
     let size = 100/tricot.length;
 
     for (const color of tricot)
-        { finalTricot += '<div style="float: left; height: 6px; width: ' + size + '%; background-color: ' + color + '"></div>'; };
+        { finalTricot += '<div style="float: left; height: 8px; width: ' + size + '%; background-color: ' + color + '"></div>'; };
     return finalTricot;
 }
 
@@ -55,3 +62,7 @@ function foulsDotsColor(fouls, allText)
     else if(allText == "●●●●") {document.getElementById(fouls).style.color = "#fff700";}
     else if(allText == "●●●●●") {document.getElementById(fouls).style.color = "#F00";}
 }
+
+window.onload = function () {
+    setMatchData(matchdata);
+};

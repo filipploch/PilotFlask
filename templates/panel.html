@@ -30,7 +30,6 @@
 		function renderRoundData() {
 			try {
 				// Wykonanie żądania do endpointu Flask
-				console.log('renderRoundData ws-footer.js');
 				var divisionId = document.getElementById("round-data-options").value;
 				const response = fetch(`/render-round-data/${divisionId}`);
 
@@ -42,6 +41,8 @@
 </head>
 
 <body>
+	<div id="matchdata" data-matchdata='{{ matchdata | tojson | safe }}' style="display: none;"></div>
+	<div id="time-data" data-time-data='{{ time_data | tojson | safe }}' style="display: none;"></div>
 	<div id="controller">
 		<div id="section-timer">
 			<div class="timer">
@@ -49,7 +50,7 @@
 					<button class="small-button" id="add-min-btn">+</button>
 					<button class="small-button" id="sub-min-btn">-</button>
 				</div>
-				<div id="timer-display">00:00</div>
+				<div id="timer-display" class="panel-time-display" data-time-seconds="" data-time-added-seconds=""></div>
 				<div id="timer-sec-setting">
 					<button class="small-button" id="add-sec-btn">+</button>
 					<button class="small-button" id="sub-sec-btn">-</button>
@@ -67,40 +68,40 @@
 
 		<div id="scoreboard">
 			<div id="fouls-a-group" class="scoreboard-group">
-				<div class="scoreboard-display scoreboard-display-fouls" id="display-fouls-a">
+				<div class="scoreboard-display scoreboard-display-fouls" id="fouls-a-value">
 					{{ matchdata.teama.fouls }}
 				</div>
 				<button class="scoreboard-button scoreboard-button-plus" id="fouls-a-plus"
-					onclick="updateValue(1, 'display-fouls-a')">+</button>
+					onclick="updateValue(1, 'fouls-a-value')">+</button>
 				<button class="scoreboard-button scoreboard-button-minus" id="fouls-a-minus"
-					onclick="updateValue(-1, 'display-fouls-a')">-</button>
+					onclick="updateValue(-1, 'fouls-a-value')">-</button>
 			</div>
 			<div id="score-a-group" class="scoreboard-group">
-				<div class="scoreboard-display scoreboard-display-score" id="display-score-a">
+				<div class="scoreboard-display scoreboard-display-score" id="score-a-value">
 					{{ matchdata.teama.scores }}
 				</div>
 				<button class="scoreboard-button scoreboard-button-plus" id="score-a-plus"
-					onclick="updateValue(1, 'display-score-a'); getSquad('teama', 1);">+</button>
+					onclick="updateValue(1, 'score-a-value'); getSquad('teama', 1);">+</button>
 				<button class="scoreboard-button scoreboard-button-minus" id="score-a-minus"
-					onclick="updateValue(-1, 'display-score-a')">-</button>
+					onclick="updateValue(-1, 'score-a-value')">-</button>
 			</div>
 			<div id="score-b-group" class="scoreboard-group">
-				<div class="scoreboard-display scoreboard-display-score" id="display-score-b">
+				<div class="scoreboard-display scoreboard-display-score" id="score-b-value">
 					{{ matchdata.teamb.scores }}
 				</div>
 				<button class="scoreboard-button scoreboard-button-plus" id="score-b-plus"
-					onclick="updateValue(1, 'display-score-b'); getSquad('teamb', 1);">+</button>
+					onclick="updateValue(1, 'score-b-value'); getSquad('teamb', 1);">+</button>
 				<button class="scoreboard-button scoreboard-button-minus" id="score-b-minus"
-					onclick="updateValue(-1, 'display-score-b')">-</button>
+					onclick="updateValue(-1, 'score-b-value')">-</button>
 			</div>
 			<div id="fouls-b-group" class="scoreboard-group">
-				<div class="scoreboard-display scoreboard-display-fouls" id="display-fouls-b">
+				<div class="scoreboard-display scoreboard-display-fouls" id="fouls-b-value">
 					{{ matchdata.teamb.fouls }}
 				</div>
 				<button class="scoreboard-button scoreboard-button-plus" id="fouls-b-plus"
-					onclick="updateValue(1, 'display-fouls-b')">+</button>
+					onclick="updateValue(1, 'fouls-b-value')">+</button>
 				<button class="scoreboard-button scoreboard-button-minus" id="fouls-b-minus"
-					onclick="updateValue(-1, 'display-fouls-b')">-</button>
+					onclick="updateValue(-1, 'fouls-b-value')">-</button>
 			</div>
 		</div>
 		<div id="teams">
@@ -183,24 +184,24 @@
 			<div id="ws-team-id" class="invisible"></div>
 			<div id="ws-current-date" class="invisible"></div>
 			<div id="ws-current-second" class="invisible"></div>
+			<div id="ws-current-added-second" class="invisible"></div>
     	</div>
-		<div id="ws-menu">
-			<button class="menu-button" onclick="loadContent('/render-content/main', 'ws-content')">Main</button>
-			<button class="menu-button" onclick="loadContent('/render-content/match', 'ws-content')">Mecz</button>
-			<button class="menu-button" onclick="loadContent('/render-round-tab', 'ws-content')">Liga</button>
-			<button class="menu-button" onclick="loadContent('/render-content/stats', 'ws-content')">Stats</button>
-			<button class="menu-button" onclick="loadContent('/render-content/banner', 'ws-content')">Banner</button>
-		</div>
+		<iframe id="ws-controller-iframe" src="http://127.0.0.1:5555/render-content/match" width="227" height="264">
+			Przykro mi, ale twoja przeglądarka nie obsługuje ramek.
+		</iframe>
+
 		<div id="ws-content"></div>
 	</div>
 
 	<script src="{{ url_for('static', filename='js/timer.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/timer-utils.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/virtualtable.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/load-content.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/update-data.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/common.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/panel.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/ws-footer.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/socketio.js') }}"></script>
 </body>
 
 </html>

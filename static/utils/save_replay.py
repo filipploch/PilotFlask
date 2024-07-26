@@ -19,7 +19,7 @@ def save_replay(type_of_action):
         # Kopiuj do drugiego folderu
         shutil.copy(source_path, destination_path2)
 
-        print(f"Plik 'replay stream.mkv' został skopiowany do obu folderów.")
+        print(f"Plik 'replay stream.mkv' został skopiowany do obu folderów!")
     except FileNotFoundError:
         print(f"Plik 'replay stream.mkv' nie istnieje w folderze źródłowym.")
     except IOError as e:

@@ -2,15 +2,19 @@ from flask_wtf import FlaskForm
 from wtforms import SelectField, IntegerField, SelectMultipleField, StringField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
 from wtforms.widgets import ColorInput
-from models import Team, Staff, Stadium, Competitions, Division
+from models import Team, Staff, Stadium, Competitions, Division, TimerDisplayMode
 import os
 
 
 class MatchForm(FlaskForm):
     team_a = SelectField('Drużyna A', validators=[DataRequired()], choices=[('', '')])
     team_b = SelectField('Drużyna B', validators=[DataRequired()], choices=[('', '')])
-    match_length = IntegerField('długość meczu (s)', validators=[DataRequired()])
+    periods = IntegerField('ilość części meczu', validators=[DataRequired()])
+    period_length = IntegerField('długość części meczu (s)', validators=[DataRequired()])
     is_actual = BooleanField('Aktualny mecz')
+    is_added_time_allowed = BooleanField('Czas dodatkowy')
+    extra_time_periods = IntegerField('ilość części dogrywki', validators=[DataRequired()])
+    extra_time_period_length = IntegerField('długość części dogrywki (s)', validators=[DataRequired()])
     cameramen = SelectMultipleField('Kamerzyści', validators=[DataRequired()])
     commentators = SelectMultipleField('Komentatorzy', validators=[DataRequired()])
     referees = SelectMultipleField('Sędziowie', validators=[DataRequired()])
@@ -67,3 +71,11 @@ class EditTeamForm(FlaskForm):
     position = BooleanField('Position')
     captain = BooleanField('Captain')
     submit = SubmitField('Save Changes')
+
+
+class TimerDisplayModeForm(FlaskForm):
+    format = SelectField('Format czasu', validators=[DataRequired()], choices=[('', '')])
+
+    def __init__(self, *args, **kwargs):
+        super(TimerDisplayModeForm, self).__init__(*args, **kwargs)
+        self.format.choices = [('', '')] + [(mode.id, mode.format) for mode in TimerDisplayMode.query.all()]

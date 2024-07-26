@@ -54,7 +54,6 @@ function createCharts(data) {
     pointsDiv.className = 'team-points';
 
     const id = key.toLowerCase().replace(/&/g, 'and').replace(' ', '');
-//    console.log(id);
     chartDiv.id = id;
     nameDiv.innerText = key;
     pointsDiv.innerText = 0;
@@ -65,7 +64,6 @@ function createCharts(data) {
     topValue = getTopValues('chart')[index + 1];
     chartDiv.style.top = `${topValue}px`;
   });
-//  console.log(document.styleSheets[0]);
   animateDivsOrder(jsonData);
 }
 
@@ -125,7 +123,6 @@ function updateKeyframes(id, topStart, topEnd, widthPercentStart, widthPercentEn
       document.head.appendChild(styleEl);
       styleEl.sheet.insertRule(keyframes, 0);
     }
-//  console.log(document.styleSheets[0]);
 
     // Ustawienie timeoutu wewnątrz Promise
     setTimeout(() => {
@@ -162,11 +159,6 @@ async function animateDivsOrder(jsonData) {
             let topEnd = getTopValues()[rankEnd];
             let pointsPercentStart = getWidthPercent(pointsStart, roundsNumber);
             let pointsPercentEnd = getWidthPercent(pointsEnd, roundsNumber);
-            if (j == 0) {
-                console.log(pointsPercentStart);
-                console.log(pointsPercentEnd);
-            }
-
             let id = key.toLowerCase().replace(/&/g, 'and').replace(' ', '');
             let chartElement = document.getElementById(id);
             let teamNameElement = chartElement.getElementsByClassName('team-name')[0];

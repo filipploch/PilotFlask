@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <meta charset="UTF-8">
+        <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/panel.css')}}">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/common.css')}}">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/ws-controller.css')}}">
+        <script src="{{ url_for('static', filename='js/common.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/obs-websocket.js') }}"></script>
+        {% block style %}{% endblock %}
+        {% block headscripts %}{% endblock %}
+    </head>
+    <body>
+        <div id="ws-menu">
+            <a href="/render-content/main"><button class="menu-button">Main</button></a>
+			<a href="/render-content/match"><button class="menu-button">Mecz</button></a>
+			<a href="/render-round-tab"><button class="menu-button">Liga</button></a>
+			<a href="/render-content/stats"><button class="menu-button">Stats</button></a>
+			<a href="/render-content/banner"><button class="menu-button">Banner</button></a>
+		</div>
+        {% block content %}{% endblock %}
+        <script src="{{ url_for('static', filename='js/ws-footer.js') }}"></script>
+        {% block scripts %}{% endblock %}
+    </body>
+</html>

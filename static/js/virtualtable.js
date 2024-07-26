@@ -69,7 +69,6 @@ function generateBaseTable() {
     var sidebarBody = document.getElementById('sidebar-body')
 //    var selectedRows = sidebarBody.querySelectorAll('input[type="checkbox"]:checked');
     var results = sidebarBody.getElementsByClassName('results');
-    console.log('division, results', division, results);
     var selectedData = [];
     Array.from(results).forEach(function (row) {
         var teams0 = row.closest('tr').getElementsByClassName('team-a-name')[0].textContent;
@@ -100,10 +99,8 @@ function generateBaseTable() {
 async function handleServerResponse(response) {
     try {
         const data = await response.json();
-        console.log('handleServerResponse', data);
-        
+
         if (data.function) {
-            console.log('Received data from server:', data);
             loadMatches(data.function);
         }
     } catch (error) {

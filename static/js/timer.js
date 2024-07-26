@@ -5,6 +5,7 @@
 		var intervalID;
 		var elapsedTime;
 		var timeLimit;
+//        var matchdata = JSON.parse(document.getElementById('matchdata').getAttribute('data-matchdata'));
 
 		function pad(num) {
 			return ("0" + parseInt(num)).substr(-2);
@@ -30,6 +31,15 @@
 				});
 			}
 
+        function controlTimer(controlVariable){
+            fetch('/control-timer', {
+				method: 'POST',
+				headers: {
+				'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ 'control_variable': controlVariable }),
+			})
+        }
 
 		function runTimer() {
 			elapsedTime += 1;
@@ -45,90 +55,101 @@
 		}
 
 		function updateTimer() {
-			if (elapsedTime <= timeLimit) {
-				if (countdownTimer.checked) {
-					var minutes = Math.floor((timeLimit - elapsedTime) / 60);
-					var seconds = Math.floor((timeLimit - elapsedTime) % 60);
-
-				} else {
-					var minutes = Math.floor(elapsedTime / 60)
-					var seconds = Math.floor(elapsedTime % 60);
-				}
-				timerElement.innerHTML = pad(minutes) + ":" + pad(seconds);
-			}
+            timerElement.innerHTML = getFormattedTime('panel');
 		}
 
 		function startTimer() {
-			intervalID = setInterval(runTimer, 1000);
-			saveTime(elapsedTime);
-			timerElement.className = "start"
-			timerElement.style.backgroundColor = "#63fa11";
-			pauseButton.disabled = false;
-			startButton.disabled = true;
+            controlTimer(1);
+            setTimerElementActive(1);
+//            classListRemove(timerElement.id, 'pause');
+//            classListRemove(timerElement.id, 'reset');
+//            classListAdd(timerElement.id, 'start');
+//			timerElement.style.backgroundColor = "#63fa11";
+//			pauseButton.disabled = false;
+//			startButton.disabled = true;
+		}
+
+		function setTimerElementActive(timerStateNumber){
+		    classListRemove(timerElement.id, 'pause');
+            classListRemove(timerElement.id, 'reset');
+            classListRemove(timerElement.id, 'start');
+            if (timerStateNumber === 1) {
+                classListAdd(timerElement.id, 'start');
+                timerElement.style.backgroundColor = "#63fa11";
+                pauseButton.disabled = false;
+                startButton.disabled = true;
+            } else if (timerStateNumber === 0) {
+                classListAdd(timerElement.id, 'pause');
+                timerElement.style.backgroundColor = "#f73434";
+                startButton.disabled = false;
+                pauseButton.disabled = true;
+            } else if (timerStateNumber === 2) {
+                classListAdd(timerElement.id, 'reset');
+                timerElement.style.backgroundColor = "#b5b5b5";
+                startButton.disabled = false;
+                pauseButton.disabled = false;
+            }
 		}
 
 		function pauseTimer() {
-			clearInterval(intervalID);
-			saveTime(elapsedTime);
-			timerElement.className = "pause"
-			timerElement.style.backgroundColor = "#f73434";
-			startButton.disabled = false;
-			pauseButton.disabled = true;
+            controlTimer(0);
+            setTimerElementActive(0);
 		}
 		
 		function resetTimer() {
-			clearInterval(intervalID);
-			elapsedTime = 0;
-			saveTime(elapsedTime);
-			updateTimer();
-			timerElement.className = "reset"
-			timerElement.style.backgroundColor = "#b5b5b5";
-            startButton.disabled = false;
-			pauseButton.disabled = false;
+            controlTimer(2);
+            setTimerElementActive(2);
 		}
 
-		function addSeconds() {
-			if (countdownTimer.checked && elapsedTime > 0) {
-				elapsedTime -= 1;
-				updateTimer();
-			} else if (countdownTimer.checked == false && elapsedTime < timeLimit) {
-				elapsedTime += 1;
-				updateTimer();
+//		function addSeconds() {
+//			if (countdownTimer.checked && elapsedTime > 0) {
+//				elapsedTime -= 1;
+//				updateTimer();
+//			} else if (countdownTimer.checked == false && elapsedTime < timeLimit) {
+//				elapsedTime += 1;
+//				updateTimer();
+//			}
+//			saveTime(elapsedTime);
+//		}
+
+        function addSeconds() {
+            let timeDifference;
+			if (matchdata.match.is_panel_timer_ascending) {
+				timeDifference = 1;
+			} else {
+				timeDifference = -1;
 			}
-			saveTime(elapsedTime);
+			fetch(`/increment-seconds/${timeDifference}`);
 		}
 
 		function addMinutes() {
-			if (countdownTimer.checked && elapsedTime > 60) {
-				elapsedTime -= 60;
-				updateTimer();
-			} else if (countdownTimer.checked == false && elapsedTime < timeLimit - 60) {
-				elapsedTime += 60;
-				updateTimer();
+            let timeDifference;
+			if (matchdata.match.is_panel_timer_ascending) {
+				timeDifference = 60;
+			} else {
+				timeDifference = -60;
 			}
-			saveTime(elapsedTime);
+			fetch(`/increment-seconds/${timeDifference}`);
 		}
 
 		function subSeconds() {
-			if (countdownTimer.checked && elapsedTime < timeLimit) {
-				elapsedTime += 1;
-				updateTimer();
-			} else if (countdownTimer.checked == false && elapsedTime > 0) {
-				elapsedTime -= 1;
-				updateTimer();
+            let timeDifference;
+			if (matchdata.match.is_panel_timer_ascending) {
+				timeDifference = -1;
+			} else {
+				timeDifference = 1;
 			}
-			saveTime(elapsedTime);
+			fetch(`/increment-seconds/${timeDifference}`);
 		}
 
 		function subMinutes() {
-			if (countdownTimer.checked && elapsedTime < timeLimit - 60) {
-				elapsedTime += 60;
-				updateTimer();
-			} else if (countdownTimer.checked == false && elapsedTime > 60) {
-				elapsedTime -= 60;
-				updateTimer();
+            let timeDifference;
+			if (matchdata.match.is_panel_timer_ascending) {
+				timeDifference = -60;
+			} else {
+				timeDifference = 60;
 			}
-			saveTime(elapsedTime);
+			fetch(`/increment-seconds/${timeDifference}`);
 		}
 
 		document.getElementById("start-btn").addEventListener("click", startTimer);

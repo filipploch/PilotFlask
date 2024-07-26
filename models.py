@@ -27,11 +27,20 @@ class Match(db.Model):
     fouls_a = db.Column(db.Integer, default=0)
     fouls_b = db.Column(db.Integer, default=0)
     actual = db.Column(db.Integer, default=0)
-    match_length = db.Column(db.Integer, default=2400)
+    periods = db.Column(db.Integer, default=2)
+    period_length = db.Column(db.Integer, default=1200)
+    current_period = db.Column(db.Integer)
+    is_added_time_allowed = db.Column(db.Integer, default=0)
+    extra_time_periods = db.Column(db.Integer, default=0)
+    extra_time_period_length = db.Column(db.Integer, default=900)
     max_fouls = db.Column(db.Integer, default=5)
     seconds = db.Column(db.Integer, default=0)
+    added_seconds = db.Column(db.Integer, default=0)
     is_timer_active = db.Column(db.Integer, default=0)
-    is_timer_countdown = db.Column(db.Integer, default=2)
+    panel_timer_display_mode = db.Column(db.Integer, default=2)
+    is_panel_timer_ascending = db.Column(db.Integer, default=0)
+    stream_timer_display_mode = db.Column(db.Integer, default=2)
+    is_stream_timer_ascending = db.Column(db.Integer, default=1)
     stadium = db.Column(db.Integer, db.ForeignKey('stadium.id'), nullable=False)
     date = db.Column(db.String)
     commentator = db.relationship('Staff', secondary='match_commentator', backref='commentator_matches')
@@ -96,12 +105,14 @@ class Player(db.Model):
 class MatchesData(db.Model):
     __tablename__ = 'matches_data'
     id = db.Column(db.Integer, primary_key=True)
-    time = db.Column(db.Integer)
+    seconds = db.Column(db.Integer)
+    added_seconds = db.Column(db.Integer, default=0)
+    current_period_time_limit = db.Column(db.Integer, default=1200)
     action_id = db.Column(db.Integer, db.ForeignKey('match_action.id'))
     player_id = db.Column(db.Integer, db.ForeignKey('players.id'))
     match_id = db.Column(db.Integer)
     team_id = db.Column(db.Integer, db.ForeignKey('teams.id'))
-    event_time = db.Column(db.Integer, nullable=True)
+    record_time = db.Column(db.Integer, nullable=True, default=None)
     player = db.relationship('Player', backref='matches_data', lazy=True)
     team = db.relationship('Team', backref='matches_data', lazy=True)
     action = db.relationship('MatchAction', backref='matches_data', lazy=True)
@@ -109,12 +120,14 @@ class MatchesData(db.Model):
     is_hided = db.Column(db.Integer)
     replay_file = db.Column(db.String)
 
-
-    def __init__(self, action_id, player_id, team_id, time, match_id, actual, is_hided, replay_file):
+    def __init__(self, action_id, player_id, team_id, seconds, added_seconds, current_period_time_limit, match_id,
+                 actual, is_hided, replay_file):
         self.action_id = action_id
         self.player_id = player_id
         self.team_id = team_id
-        self.time = time
+        self.seconds = seconds
+        self.added_seconds = added_seconds
+        self.current_period_time_limit = current_period_time_limit
         self.match_id = match_id
         self.actual = actual
         self.is_hided = is_hided
@@ -200,3 +213,9 @@ class LeagueMatches(db.Model):
     team2 = db.relationship('Team', foreign_keys=[team2_id], lazy=True)
     competitions_rel = db.relationship('Competitions', foreign_keys=[competitions])
     division = db.relationship('Division', foreign_keys=[division_id])
+
+
+class TimerDisplayMode(db.Model):
+    __tablename__ = 'timer_display_mode'
+    id = db.Column(db.Integer, primary_key=True)
+    format = db.Column(db.String, nullable=False)

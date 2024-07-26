@@ -1,18 +1,28 @@
+{% extends "ws-controller-base.html" %}
+{% block content %}
 <div class="ws-row-small-buttons">
     <div id="ws-btn-var" class="ws-button ws-button-small" onclick="saveReplay('6')">
         <img src="{{ url_for('static', filename='images/ws-controller/var.png') }}" alt="VAR">
     </div>
-    <div id="ws-btn-foul" class="ws-button ws-button-small" onclick="saveReplay('7')">
-        <img src="{{ url_for('static', filename='images/ws-controller/faul.png') }}" alt="FAUL">
+    <div id="ws-btn-foul" class="ws-button ws-button-small">
+        <a href="/drop_replay/7">
+            <img src="{{ url_for('static', filename='images/ws-controller/faul.png') }}" alt="FAUL">
+        </a>
     </div>
-    <div id="ws-btn-gk-save" class="ws-button ws-button-small" onclick="saveReplay('8')">
-        <img src="{{ url_for('static', filename='images/ws-controller/obrona.png') }}" alt="OBRONA">
+    <div id="ws-btn-gk-save" class="ws-button ws-button-small">
+        <a href="/drop_replay/8">
+            <img src="{{ url_for('static', filename='images/ws-controller/obrona.png') }}" alt="OBRONA">
+        </a>
     </div>
-    <div id="ws-btn-missed" class="ws-button ws-button-small" onclick="saveReplay('9')">
-        <img src="{{ url_for('static', filename='images/ws-controller/pudlo.png') }}" alt="PUDŁO">
+    <div id="ws-btn-missed" class="ws-button ws-button-small">
+        <a href="/drop_replay/9">
+            <img src="{{ url_for('static', filename='images/ws-controller/pudlo.png') }}" alt="PUDŁO">
+        </a>
     </div>
-    <div id="ws-btn-goal" class="ws-button ws-button-small" onclick="saveReplay('1')">
-        <img src="{{ url_for('static', filename='images/ws-controller/gol.png') }}" alt="GOL">
+    <div id="ws-btn-goal" class="ws-button ws-button-small">
+        <a href="/drop_replay/1">
+            <img src="{{ url_for('static', filename='images/ws-controller/gol.png') }}" alt="GOL">
+        </a>
     </div>
 </div>
 
@@ -24,8 +34,10 @@
         </a>
     </div>
 
-    <div class="ws-button ws-button-middle" id="ws-btn-goal-replay" onclick="saveReplay('0')">
-        <img src="{{ url_for('static', filename='images/ws-controller/gol-r-horizontal.png') }}" alt="GOL+R">
+    <div class="ws-button ws-button-middle" id="ws-btn-goal-replay">
+        <a href="/drop_replay/0">
+            <img src="{{ url_for('static', filename='images/ws-controller/gol-r-horizontal.png') }}" alt="GOL+R">
+        </a>
     </div>
 </div>
 
@@ -63,49 +75,4 @@
         </a>
     </div>
 </div>
-
-<div id="ws-edit-frame" class="invisible">
-    <div id="ws-edit-frame-title-bar">
-        <button id="ws-edit-frame-hide-button" type="button" onclick="hideEditFrame()">X</button>
-    </div>
-    <div id="ws-edit-frame-content">
-
-        <div id="ws-edit-frame-title">Kto strzelał/faulował?</div>
-        <div id="ws-teams-buttons">
-            <button
-                id="ws-select-team-a-btn"
-                class="ws-select-team-buttons"
-                type="button"
-                onclick="setTeam('teama');">
-                {{ matchdata['teama'].short_name }}
-            </button>
-            <button
-                id="ws-select-team-b-btn"
-                class="ws-select-team-buttons"
-                type="button"
-                onclick="setTeam('teamb');">
-                {{ matchdata['teamb'].short_name }}
-            </button>
-        </div>
-        <div id="ws-type-of-goal-buttons" class="invisible">
-            <button
-                id="ws-select-goal-btn"
-                class="ws-select-team-buttons"
-                type="button"
-                onclick="setSquadToGet(1)"
-                style="background-color: green;"
-            >
-                GOL
-            </button>
-            <button
-                id="ws-select-own-goal-btn"
-                class="ws-select-team-buttons"
-                type="button"
-                onclick="setSquadToGet(4)"
-                style="background-color: red;"
-            >
-                SAMOBÓJ
-            </button>
-        </div>
-    </div>
-</div>
+{% endblock %}

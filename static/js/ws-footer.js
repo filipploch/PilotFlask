@@ -1,13 +1,13 @@
         function wsSetReplayFileNamePrefix() {
-            const now = new Date();
+            let now = new Date();
 
-            const year = now.getFullYear();
-            const month = (now.getMonth() + 1).toString().padStart(2, '0');
-            const day = now.getDate().toString().padStart(2, '0');
+            let year = now.getFullYear();
+            let month = (now.getMonth() + 1).toString().padStart(2, '0');
+            let day = now.getDate().toString().padStart(2, '0');
 
-            const hours = now.getHours().toString().padStart(2, '0');
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            const seconds = now.getSeconds().toString().padStart(2, '0');
+            let hours = now.getHours().toString().padStart(2, '0');
+            let minutes = now.getMinutes().toString().padStart(2, '0');
+            let seconds = now.getSeconds().toString().padStart(2, '0');
 
             return `${year}${month}${day}_${hours}${minutes}${seconds}`;
         }
@@ -33,7 +33,6 @@
             fetch('/get-is-scoreboard-reversed')
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 var isReversed = data['data'];
                     if (isReversed == 0) {
                         selectTeamsChildren.push(selectTeamAbtn, selectTeamBbtn);
@@ -41,7 +40,6 @@
                         selectTeamsChildren.push(selectTeamBbtn, selectTeamAbtn);
                     }
                 selectTeamsChildren.forEach(function (child) {
-                    console.log(child);
                     selectTeams.appendChild(child);
                 });
             }).catch(function (error) {
@@ -54,7 +52,6 @@
         }
 
         function getValueOrNone(value) {
-        console.log('getValueOrNone(value):', value);
             if (value === 'NULL') {
                 return null;
             } else if (!isNaN(value)) {
@@ -73,10 +70,10 @@
             document.getElementById('ws-team-id').innerText = 'NULL';
             document.getElementById('ws-current-date').innerText = 'NULL';
             document.getElementById('ws-current-second').innerText = 'NULL';
+            document.getElementById('ws-current-added-second').innerText = 'NULL';
         }
 
         function setValuesToWsElements(element) {
-            console.log(element);
             document.getElementById('ws-player-id').innerText = element['id'];
             document.getElementById('ws-team-id').innerText = element['team-id'];
         }
@@ -86,8 +83,6 @@
             var actionId = parseInt(document.getElementById('ws-action-id').textContent);
             var typeOfGoalButtons = document.getElementById('ws-type-of-goal-buttons');
             teamElement.innerText = team;
-            console.log('typeof(actionId):', typeof(actionId));
-            console.log('actionId:', actionId);
             if (actionId == 1) {
                 classListAdd('ws-teams-buttons', 'invisible');
                 classListRemove('ws-type-of-goal-buttons', 'invisible');
@@ -122,31 +117,37 @@
         }
 
 
-        function saveReplay(typeOfAction) {
-            fetch('/drop_replay');
-            fetch('/matchdata')
-                .then(response => response.json())
-                .then(data => {
-                    wsCheckScoreboardReverse();
-                    var editFrame = document.getElementById('ws-edit-frame');
-                    var actionId = document.getElementById('ws-action-id');
-                    var currentDate = document.getElementById('ws-current-date');
-                    var currentSecond = document.getElementById('ws-current-second');
-                    actionId.innerHTML = typeOfAction;
-                    currentDate.innerHTML = wsSetReplayFileNamePrefix();
-                    currentSecond.innerHTML = data.match.seconds;
-                    classListRemove('ws-edit-frame', 'invisible');
-//                    classListRemove('ws-');
-                    renderEditFrameContent(typeOfAction);
-
-                })
+        function saveReplay(actionType) {
+            fetch(`/drop_replay/${actionType}`);
         }
 
-        function renderEditFrameContent(typeOfAction) {
-            if (typeOfAction == '0' || typeOfAction == '1') {
-                renderEditFrameGoalContent(typeOfAction);
+
+//        function saveReplay(actionType) {
+//            fetch('/drop_replay');
+//            fetch('/matchdata')
+//                .then(response => response.json())
+//                .then(data => {
+//                    wsCheckScoreboardReverse();
+//                    var editFrame = document.getElementById('ws-edit-frame');
+//                    var actionId = document.getElementById('ws-action-id');
+//                    var currentDate = document.getElementById('ws-current-date');
+//                    var currentSecond = document.getElementById('ws-current-second');
+//                    var currentAddedSecond = document.getElementById('ws-current-added-second');
+//                    currentDate.innerHTML = wsSetReplayFileNamePrefix();
+//                    currentSecond.innerHTML = document.getElementById('timer-display').getAttribute('data-time-seconds');
+//                    currentAddedSecond.innerHTML = document.getElementById('timer-display').getAttribute('data-time-added-seconds');
+//                    classListRemove('ws-edit-frame', 'invisible');
+////                    classListRemove('ws-');
+//                    renderEditFrameContent(actionType);
+//
+//                })
+//        }
+
+        function renderEditFrameContent(actionType) {
+            if (actionType == '0' || actionType == '1') {
+                renderEditFrameGoalContent(actionType);
             }
-            else if (typeOfAction == '6' || typeOfAction == '10' || typeOfAction == '11') {
+            else if (actionType == '6' || actionType == '10' || actionType == '11') {
                 renderEditFrameNoTeamContent();
             }
             else {
@@ -154,15 +155,15 @@
             }
         }
 
-        function renderEditFrameGoalContent(typeOfAction) {
+        function renderEditFrameGoalContent(actionType) {
             var editFrameTitle = document.getElementById('ws-edit-frame-title');
             editFrameTitle.innerHTML = 'Gol dla...';
             var selectTeamAbtn = document.getElementById('ws-select-team-a-btn');
             var selectTeamBbtn = document.getElementById('ws-select-team-b-btn');
-            selectTeamAbtn.setAttribute('onclick', 'setTeam("teama"); updateValue(1, "display-score-a");');
-            selectTeamBbtn.setAttribute('onclick', 'setTeam("teamb"); updateValue(1, "display-score-b");');
+            selectTeamAbtn.setAttribute('onclick', 'setTeam("teama"); updateValue(1, "score-a-value");');
+            selectTeamBbtn.setAttribute('onclick', 'setTeam("teamb"); updateValue(1, "score-b-value");');
             classListRemove('ws-teams-buttons', 'invisible');
-            if (typeOfAction == 0) {
+            if (actionType == 0) {
                 sleep(2000).then(() => {
                     fetch('/goal-sequence');
                 });
@@ -242,19 +243,3 @@
         .then(setStreamButtonOff())
         .catch(error => console.error('Błąd podczas zatrzymania streamu:', error));
     }
-
-//    window.onload = function () {
-//        fetch('/get-stream-status')
-//        .then(response => response.json())
-//        .then(data => {
-//            console.log(data.outputActive);
-//            if (data.outputActive === true) {
-//                setStreamButtonOn();
-//            } else if (data.outputActive === false) {
-//                setStreamButtonOff();
-//            } else {
-//                console.error('Błąd: Nie udało się pobrać statusu streamu.');
-//            }
-//        })
-//        .catch(error => console.error('Błąd:', error));
-//    };

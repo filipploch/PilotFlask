@@ -19,3 +19,7 @@ start_obs_main.*
 utils/ball_tracker.py
 yolov8n.pt
 yt_shorts.avi
+old_video_recorder.py
+*.dll
+start_obs_ffmpeg.py
+*.mp4

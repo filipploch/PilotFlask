@@ -7,7 +7,6 @@ function updateData(dataId) {
     var timeInSeconds = minutesInputValue * 60 + secondsInputValue;
     var isActionHidedCheckbox = document.getElementById('action-hide');
     var isActionHidedValue = isActionHidedCheckbox.checked ? 1 : 0;
-    console.log(isActionHidedValue);
 
     fetch(`/update-data/${dataId}`, {
         method: 'PUT',
@@ -62,7 +61,6 @@ function updatePlayersList() {
         newOption.text = option.text;
         playersList.add(newOption);
         });
-        console.log(playersList);
     } else {
         optionsPlayersNormal.forEach(function(option) {
         var newOption = document.createElement('option');
@@ -70,7 +68,5 @@ function updatePlayersList() {
         newOption.text = option.text;
         playersList.add(newOption);
         });
-        console.log(playersList);
     }
-    console.log('poszlo: updatePlayersList()')
 }

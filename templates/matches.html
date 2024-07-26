@@ -38,7 +38,6 @@
 {% block footer_script %}
 <script>
   function sendData(matchId) {
-    console.log('start funkcji', matchId)
       // Wyślij dane do endpointu we Flask
       fetch('/set-actual-match', {
           method: 'POST',

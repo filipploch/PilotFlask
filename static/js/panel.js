@@ -1,3 +1,5 @@
+var matchdata = JSON.parse(document.getElementById('matchdata').getAttribute('data-matchdata'));
+var timeData = JSON.parse(document.getElementById('time-data').getAttribute('data-time-data'));
 
 		function fetchDataFromAPI() {
 			var url = 'matchdata';
@@ -24,11 +26,15 @@
 		fetchDataFromAPI().then(function (data) {
 			var myData = data;
 			elapsedTime = myData.match.seconds;
-			timeLimit = myData.match.match_length;
+			timeLimit = myData.match.period_length;
 
 		}).catch(function (error) {
 			console.error(error);
 		});
+
+function updateValueById(value, divId){
+    document.getElementById(divId).innerHTML = value;
+}
 
 
 		function setSourceIndex(sceneName, sourceName, sourceIndex) {
@@ -92,17 +98,7 @@
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(data)
 			})
-				.then(response => {
-					if (response.ok) {
-						console.log('Wartość została zapisana w bazie danych');
-						divElement.innerHTML = newValue;
-					} else {
-						console.error('Błąd podczas zapisywania wartości w bazie danych');
-					}
-				})
-				.catch(error => {
-					console.error('Błąd podczas wykonywania żądania:', error);
-				});
+
 		}
 
 		function fetchSquad(team, elements, header) {
@@ -201,10 +197,13 @@
 			let teamId = document.getElementById('ws-team-id').textContent;
 			let playerId = document.getElementById('ws-player-id').textContent;
 			let currentDate = document.getElementById('ws-current-date').textContent;
+			let currentSecondValue = document.getElementById('timer-display').getAttribute('data-time-seconds');
+			let currentAddedSecondValue = document.getElementById('timer-display').getAttribute('data-time-added-seconds');
 				if(parseInt(actionId) !== 0){
 					// Wykonaj żądanie do API lub serwera backendowego, aby zapisać element w innej tabeli bazy danych
 					action_data = {
-                        'seconds': elapsedTime,
+                        'seconds': currentSecondValue,
+                        'added_seconds': currentAddedSecondValue,
 						'action_id': getValueOrNone(actionId),
 						'player_id': getValueOrNone(playerId),
 						'team_id': getValueOrNone(teamId),
@@ -215,6 +214,7 @@
 //						'player_id': parseInt(document.getElementById("ws-player-id").textContent),
 //						'team_id': parseInt(document.getElementById("ws-team-id").textContent)
 					}
+					console.log(action_data);
 					fetch(`/insert-match-action`, {
 						method: 'POST',
 						headers: { 'Content-Type': 'application/json' },
@@ -237,9 +237,7 @@
 				.then(response => response.json())
 				.then(data => {
 					// Po otrzymaniu danych, wygeneruj listę elementów
-					console.log(data);
 					document.getElementById('sidebar-head').innerHTML = data[0];
-					console.log(data[1]);
 					prepareMatchData(data[1]);
 				})
 				.catch(error => {
@@ -311,7 +309,7 @@ function editData(dataId) {
 			const dropdownPlayers = (data.event.action_id === 4) ? data.players["og"] : data.players["normal"];
             const selectedAction = data.event.action_id;
             const selectedPlayer = data.event.player_id;
-            const selectedTime = data.event.time;
+            const selectedTime = data.event.seconds;
 
             // Utwórz listę rozwijaną 1
             const actionsSelect = document.createElement('select');
@@ -326,8 +324,6 @@ function editData(dataId) {
             // Utwórz listę rozwijaną 2
             const playerSelect = document.createElement('select');
 			dropdownPlayers.forEach(player => {
-					// console.log(value);
-				// console.log(value.full_name);
                 const optionElement2 = document.createElement('option');
                 optionElement2.value = player.id;
                 optionElement2.textContent = player.full_name;
@@ -482,7 +478,6 @@ function editData(dataId) {
         var clickTimer = null;
 
         function handleProcessFile(file, event) {
-            console.log('clickTimer', clickTimer);
             if (clickTimer == null) {
                 clickTimer = setTimeout(function() {
                     clickTimer = null;
@@ -506,7 +501,6 @@ function editData(dataId) {
         }
 
         function processFile(filename) {
-            console.log('processFile()');
             fetch(`/process_file/${filename}`)
                 .then(response => response.blob())
                 .then(blob => {
@@ -523,7 +517,6 @@ function editData(dataId) {
         }
 
         function makeYTShort(filename) {
-            console.log('makeYTShort()');
             fetch(`/make_yt_short/${filename}`);
         }
 
@@ -567,5 +560,6 @@ function setChecked(checkboxId, actual) {
 
     window.onload = function () {
         updateTimer();
+        setTimerElementActive(matchdata.match.is_timer_active);
         checkScoreboardReverse();
     };

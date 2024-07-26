@@ -66,20 +66,20 @@
     };
 
     function getCurrentDateTime() {
-        const now = new Date();
+        let now = new Date();
 
         // Pobierz rok, miesiąc i dzień
-        const year = now.getFullYear();
-        const month = (now.getMonth() + 1).toString().padStart(2, '0'); // Dodaj zero z przodu, jeśli miesiąc jest jednocyfrowy
-        const day = now.getDate().toString().padStart(2, '0'); // Dodaj zero z przodu, jeśli dzień jest jednocyfrowy
+        let year = now.getFullYear();
+        let month = (now.getMonth() + 1).toString().padStart(2, '0'); // Dodaj zero z przodu, jeśli miesiąc jest jednocyfrowy
+        let day = now.getDate().toString().padStart(2, '0'); // Dodaj zero z przodu, jeśli dzień jest jednocyfrowy
 
         // Pobierz godzinę, minutę i sekundę
-        const hours = now.getHours().toString().padStart(2, '0');
-        const minutes = now.getMinutes().toString().padStart(2, '0');
-        const seconds = now.getSeconds().toString().padStart(2, '0');
+        let hours = now.getHours().toString().padStart(2, '0');
+        let minutes = now.getMinutes().toString().padStart(2, '0');
+        let seconds = now.getSeconds().toString().padStart(2, '0');
 
         // Utwórz sformatowaną datę
-        const formattedDateTime = `${year}-${month}-${day}_${hours}-${minutes}-${seconds}`;
+        let formattedDateTime = `${year}-${month}-${day}_${hours}-${minutes}-${seconds}`;
 
         return formattedDateTime;
         };

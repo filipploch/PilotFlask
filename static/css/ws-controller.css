@@ -1,3 +1,8 @@
+body {
+    width: 227px;
+    height: 264px;
+}
+
 #ws-menu {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -173,7 +178,7 @@
     position: static;
 }
 
-.ws-select-team-buttons {
+.ws-select-team-button {
     width: 45%;
     font-size: 20px;
 }

@@ -13,23 +13,32 @@
 	<div id="time-data" data-time-data='{{ time_data | tojson | safe }}' style="display: none;"></div>
 	<div id="container">
 		<div id="scoreboard">
-			<div id="time" class="stream-time-display item time-item"></div>
-			<div class="item team-item">
-				<div id="fouls-a-value" class="fouls-item"></div>
-				<div id="team_a" class="name-item"></div>
-				<div id="tricot_a" class="tricots-item">
-					<div id="shade_a"></div>
-					<div id="colors_a"></div>
-				</div>
+			<div id="scoreboard_img" >
+				<img src="{{url_for('static', filename='images/scoreboard2.png')}}" />
 			</div>
-			<div id="score-a-value" class="item score-item"></div>
-			<div id="score-b-value" class="item score-item"></div>
-			<div class="item team-item">
-				<div id="fouls-b-value" class="fouls-item"></div>
-				<div id="team_b" class="name-item"></div>
-				<div id="tricot_b" class="tricots-item">
+			<div id="scoreboard_top">
+				<div id="fouls-a-value"></div>
+				<div id="fouls-b-value"></div>
+			</div>
+			<div id="scoreboard_val">
+				<div id="time" class="stream-time-display"></div>
+				<div id="team_a"></div>
+				<div id="score-a-value"></div>
+				<div id="score-b-value"></div>
+				<div id="team_b"></div>
+			</div>
+			<div id="scoreboard_bottom">
+				<div id="tricot_a">
+					<div id="shade_a"></div>
+					<div id="colors_a">
+
+						<div class="cleaner"></div>
+					</div>
+				</div>
+				<div id="tricot_b">
 					<div id="shade_b"></div>
-					<div id="colors_b"></div>
+					<div id="colors_b">
+					</div>
 				</div>
 			</div>
 		</div>

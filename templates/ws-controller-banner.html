@@ -1,7 +1,9 @@
+{% extends "ws-controller-base.html" %}
+{% block content %}
     <h5>Lista dostępnych banerów:</h5>
     <ul>
         {% for folder in folders %}
             <li onclick="loadContent('/replace_files/', 'ws-content', '{{ folder }}')">{{ folder }}</li>
         {% endfor %}
     </ul>
-
+{% endblock %}

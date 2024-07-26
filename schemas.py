@@ -1,7 +1,8 @@
 from flask_marshmallow import Marshmallow
 from marshmallow import fields
 from marshmallow_sqlalchemy.fields import Nested
-from models import Player, Match, MatchesData, Team, MatchAction, Stadium, Staff, Division, LeagueMatches
+from models import (Player, Match, MatchesData, Team, MatchAction, Stadium, Staff, Division, LeagueMatches,
+                    TimerDisplayMode)
 
 ma = Marshmallow()
 
@@ -46,8 +47,8 @@ match_action_schema = MatchActionSchema()
 class MatchesDataSchema(ma.Schema):
     class Meta:
         model = MatchesData
-        fields = ('id', 'time', 'match_id', 'action_id', 'player_id', 'team_id',
-                  'actual', 'player', 'action', 'team', 'is_hided', 'replay_file')
+        fields = ('id', 'seconds', 'added_seconds', 'current_period_time_limit', 'match_id', 'action_id', 'player_id',
+                  'team_id', 'record_time', 'actual', 'player', 'action', 'team', 'is_hided', 'replay_file')
     player = Nested(player_schema)
     action = Nested(match_action_schema)
     team = Nested(team_schema)
@@ -76,8 +77,11 @@ division_schema = DivisionSchema()
 class MatchesSchema(ma.Schema):
     class Meta:
         model = Match
-        fields = ('id', 'team_a', 'team_b', 'actual', 'match_length', 'max_fouls', 'actual', 'is_timer_countdown',
-                  'stadium', 'date', 'commentator', 'cameraman', 'referee', 'division', 'is_scoreboard_reversed')
+        fields = ('id', 'team_a', 'team_b', 'actual', 'periods', 'period_length', 'is_added_time_allowed',
+                  'extra_time_periods', 'extra_time_period_length', 'max_fouls',
+                  'panel_timer_display_mode', 'seconds', 'added_seconds', 'is_timer_active', 'panel_timer_display_mode',
+                  'is_panel_timer_ascending', 'stream_timer_display_mode', 'is_stream_timer_ascending', 'stadium',
+                  'date', 'commentator', 'cameraman', 'referee', 'division', 'competitions', 'is_scoreboard_reversed')
 
     # team_a = Nested(team_schema)
     # team_b = Nested(team_schema)
@@ -115,7 +119,13 @@ league_match_schema = LeagueMatchesSchema()
 league_matches_schema = LeagueMatchesSchema(many=True)
 
 
+class TimerDisplayModeSchema(ma.Schema):
+    class Meta:
+        model = TimerDisplayMode
+        fields = ('id', 'format')
 
+
+timer_display_mode_schema = TimerDisplayModeSchema()
 
 
 
