@@ -1,0 +1,72 @@
+#selected-replay {
+    position: relative;
+    width: 100%;
+    height: 36px;
+    background-color: gray;
+    font-size: 13px;
+}
+
+#elements {
+    position: relative;
+    height: calc(100% - 50px);
+}
+
+#element-info {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    background-color: gray;
+    bottom: 0;
+    font-size: 13px;
+}
+
+#replay-source-buttons {
+    height: 18px;
+}
+
+#sidebar-footer {
+    position: relative;
+    height: 20px;
+}
+
+.replay-source-button {
+    width: calc(100% / 3 - 3px);
+    border: 1px solid gray;
+    background-color: #a0a0a0;
+    color: black;
+    cursor: pointer;
+    text-align: center;
+}
+
+.replay-element{
+    cursor: pointer;
+}
+
+.replay-element:hover {
+    color: #f66;
+}
+
+.selected-replay {
+    color: #f66;
+    font-weight: 900;
+}
+
+#selected-replay-editor {
+    text-align: center; /* Wycentruj przyciski */
+}
+
+#selected-replay-editor button{
+    display: inline-block;
+    font-size: 10px;
+    padding: 0;
+}
+
+#selected-replay-editor div{
+    display: inline-block;
+    font-size: 10px;
+    padding: 0;
+}
+
+ .replay-time-data {
+    width: 35px;
+ }

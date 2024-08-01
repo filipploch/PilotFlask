@@ -33,8 +33,7 @@ function getFormattedTime(target, seconds, addedSeconds, optionalDisplayMode) {
 function getMinSecFormat(seconds, addedSeconds, displayMode, isTimerAscending, matchdata){
     let isAddedTimeAllowed = matchdata.match.is_added_time_allowed;
     let currentPeriod = matchdata.match.current_period;
-    let periodsEndTimes = matchdata.match.periods_end_times;
-    let periodTimeLimit = periodsEndTimes[currentPeriod - 1];
+    let periodTimeLimit = matchdata.match.period_time_limit;
     let formattedTime;
     let mins;
     let secs;
@@ -49,8 +48,8 @@ function getMinSecFormat(seconds, addedSeconds, displayMode, isTimerAscending, m
         }
 
     } else {
-        mins = Math.floor((periodTimeLimit - seconds) / 60);
-        secs = Math.floor((periodTimeLimit - seconds) % 60);
+        mins = Math.floor((periodTimeLimit - seconds + 1) / 60);
+        secs = Math.floor((periodTimeLimit - seconds + 1) % 60);
     }
     return `${mins}:${secs.toString().padStart(2, '0')}`
 }
@@ -58,8 +57,7 @@ function getMinSecFormat(seconds, addedSeconds, displayMode, isTimerAscending, m
 function getMinFormat(seconds, addedSeconds, displayMode, isTimerAscending, matchdata){
     let isAddedTimeAllowed = matchdata.match.is_added_time_allowed;
     let currentPeriod = matchdata.match.current_period;
-    let periodsEndTimes = matchdata.match.periods_end_times;
-    let periodTimeLimit = periodsEndTimes[currentPeriod - 1];
+    let periodTimeLimit = matchdata.match.period_time_limit;
     let formattedTime;
     let mins;
     if (isTimerAscending) {
@@ -70,8 +68,8 @@ function getMinFormat(seconds, addedSeconds, displayMode, isTimerAscending, matc
         }
 
     } else {
-        mins = Math.floor((periodTimeLimit - seconds) / 60);
-        secs = Math.floor((periodTimeLimit - seconds) % 60);
+        mins = Math.floor((periodTimeLimit - seconds + 1) / 60);
+        secs = Math.floor((periodTimeLimit - seconds + 1) % 60);
     }
     return `${mins}`
 }
@@ -79,8 +77,7 @@ function getMinFormat(seconds, addedSeconds, displayMode, isTimerAscending, matc
 function getSecFormat(seconds, addedSeconds, displayMode, isTimerAscending, matchdata){
     let isAddedTimeAllowed = matchdata.match.is_added_time_allowed;
     let currentPeriod = matchdata.match.current_period;
-    let periodsEndTimes = matchdata.match.periods_end_times;
-    let periodTimeLimit = periodsEndTimes[currentPeriod - 1];
+    let periodTimeLimit = matchdata.match.period_time_limit;
     let formattedTime;
     let secs;
     if (isTimerAscending) {
@@ -90,7 +87,7 @@ function getSecFormat(seconds, addedSeconds, displayMode, isTimerAscending, matc
         }
 
     } else {
-        secs = periodTimeLimit - seconds;
+        secs = periodTimeLimit - seconds + 1;
     }
     return `${secs}`
 }

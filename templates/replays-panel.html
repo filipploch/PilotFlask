@@ -1,21 +1,70 @@
-    <div id="sidebar-head"></div>
+    <div id="sidebar-head">
+        <div id="replay-source-buttons">
+            <button id="replay-source-button-stream"
+                    class="replay-source-button button-enable"
+                    data-camera-prefix="CX"
+                    onclick="replaySetSource(this)">Stream</button>
+            <button id="replay-source-button-camera1"
+                    class="replay-source-button"
+                    data-camera-prefix="C1"
+                    onclick="replaySetSource(this)">Kam 1</button>
+            <button id="replay-source-button-camera2"
+                    class="replay-source-button"
+                    data-camera-prefix="C2"
+                    onclick="replaySetSource(this)">Kam 2</button>
+        </div>
+        <div id="selected-replay">
+            <div id="selected-replay-editor">
+                <button class="small-button" onclick="" ondblclick=""><</button>
+                <label id="replay-start-time" class="replay-time-data"></label>
+                <button class="small-button" onclick="" ondblclick="">></button>
+                <label id="selected-replay-data" data-replay-element-id=""> | </label>
+                <button class="small-button" onclick="" ondblclick=""><</button>
+                <label id="replay-end-time" class="replay-time-data"></label>
+                <button class="small-button" onclick="" ondblclick="">></button>
+                <button class="small-button" ondblclick="replaysProcessReplay()">&#9654;</button>
+            </div>
+            <div id="selected-replay-description"></div>
+        </div>
+    </div>
     <div id="action-id" class="invisible-text"></div>
     <div id="sidebar-body">
-        <div id="sidebar-body-div"></div>
-        <table>
+        <div id="sidebar-body-div">
             <div id="elements">
-                {% for file in files %}
-                <li>
-                    <a href="#"
-                       onclick="processFile('{{ file }}')"
-                    >
-                        {{ file[9:-5] }}
-                    </a>
-                </li>
+                {% for replay in replays %}
+                <div
+                    id="replay-{{ loop.index }}-element"
+                    class="replay-element"
+                    data-id="{{ replay.id }}"
+                    data-action="{{ replay.action }}"
+                    data-actual="{{ replay.actual }}"
+                    data-player="{{ replay.player }}"
+                    data-team="{{ replay.team }}"
+                    data-file="{{ replay.replay_file }}"
+                    data-file-path="{{ replay.replay_file_path }}"
+                    data-replay-start-time="{{ replay.replay_start_time }}"
+                    data-replay-end-time="{{ replay.replay_end_time }}"
+                    data-record-time="{{ replay.record_time }}"
+                    data-is-edited="{{ replay.is_edited }}"
+                    onmouseover="replaysShowInfo(this)"
+                    onmouseout="replaysClearInfo()"
+                    onclick="replaysSelectReplay(this.id)"
+                    ondblclick="replaysProcessReplay(this.id)"
+                >{{ replay.formatted_seconds }} {{ replay.replay_file[16:-4] }}</div>
+                {% if replay.actual == 1 %}
+                    <img src="{{ url_for('static', filename='images/empty_dot.png') }}"
+                         alt=""
+                         style="display: none;"
+                         onload="replaysSelectReplay('replay-{{ loop.index }}-element')">
+                {% endif %}
                 {% endfor %}
 
             </div>
-        </table>
+            <div id="element-info"></div>
+        </div>
+    </div>
+    <div id="sidebar-footer">
+        <button id="sidebar-cancel-button" onclick="clearSidebar();">Zamknij</button>
     </div>
 
-    <div id="sidebar-footer"><button id="sidebar-cancel-button" onclick="clearSidebar();">Zamknij</button></div>
+

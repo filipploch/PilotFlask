@@ -87,3 +87,8 @@ def get_sum_of_recorded_files_duration_by_name_fragment(directory, name_fragment
             _videopath = directory + '\\' + filename
             _duration += get_video_length(_videopath)
     return round(_duration)
+
+
+def create_folder(folder_path):
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)

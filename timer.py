@@ -1,8 +1,9 @@
 import time
 import datetime
-from models import Match
+from models import Match, Period
 from database import db
 from flask import current_app
+from schemas import period_schema
 
 
 class Timer:
@@ -51,10 +52,14 @@ class Timer:
                     self.app.config['FRACTION_TIME'] = 1
                     fraction_time_flag = True
 
+    # def get_time_limit(self, match):
+    #     periods_end_times = match['periods_end_times']
+    #     current_period = match['current_period']
+    #     return periods_end_times[current_period - 1]
+
     def get_time_limit(self, match):
-        periods_end_times = match['periods_end_times']
-        current_period = match['current_period']
-        return periods_end_times[current_period - 1]
+        _period = Period.query.filter_by(id=match['current_period']).first()
+        return _period.end_time
 
     def timer_add_time(self, seconds: int,
                        added_seconds: int,

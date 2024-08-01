@@ -45,8 +45,6 @@ class OBSWebsocket:
             self.socketio.start_background_task(self.app.config['REPLAYS_TIMER'].start_timer)
         print('OBS_RECORD_STATUS:', self.app.config['OBS_RECORD_STATUS'])
 
-
-
     def on_stream_state_change(self, event_data):
         _status = self.app.config['OBS_STREAM_STATUS']
         self.socketio.emit('stream_status', {'message': event_data.datain})
@@ -56,14 +54,6 @@ class OBSWebsocket:
 
     def on_source_filter_enable_change(self, event_data):
         self.socketio.emit('filter_status', {'status': event_data.datain})
-
-    def on_replay_buffer_saved(self, event_data):
-        self.virtual_cameras_save_replay(automatic=False)
-
-    def virtual_cameras_save_replay(self, automatic=True):
-        for camera in self.app.config['CAMERAS']:
-            print(camera)
-            self.socketio.start_background_task(self.app.config['CAMERAS'][camera].save_replay, automatic)
 
     def connect_websocket(self, app):
         with app.app_context():
@@ -159,7 +149,7 @@ class OBSWebsocket:
 
     def get_record_file_directory(self):
         print(self.ws.call(requests.GetProfileParameter(**{'parameterCategory': 'AdvancedOutput',
-                                                            'parameterName': 'FilePath'})).datain)
+                                                           'parameterName': 'FilePath'})).datain)
         record_file_directory = 'C:\\Users\\Filip\\PycharmProjects\\PilotFlask\\static\\video\\processed'
         self.app.config['PROCESSED_FILES_DIRECTORY'] = record_file_directory
         return record_file_directory
@@ -173,18 +163,18 @@ class OBSWebsocket:
 
     def save_dropped_replay(self):
         action_data = self.app.config['ACTION_DATA']
-        _file_name = f'{action_data['replay_file']}_C0.mkv'
-        source_path = os.path.join('static', 'video', 'processed', f'replay stream.mkv')
-        destination_path1 = os.path.join('static', 'video', 'replays', _file_name)
-        destination_path2 = os.path.join('static', 'video', 'replays', 'arch', _file_name)
+        _file_name = str({action_data['replay_file']})
+        _match_replays_dir = self.app.config['MATCH_IDENTIFIER']
+        source_path = os.path.join('static', 'video', 'processed', f'replay_stream.mkv')
+        destination_path1 = os.path.join('static', 'video', 'replays', _match_replays_dir, _file_name)
+        destination_path2 = os.path.join('static', 'video', 'replays', 'arch', _match_replays_dir, _file_name)
         copy_file(source_path, destination_path1)
         copy_file(source_path, destination_path2)
 
     # def prepare_instant_replay(self):
-    #     source_path = os.path.join('static', 'video', 'processed', f'replay stream.mkv')
-    #     destination_path = os.path.join('static', 'video', 'processed', f'replay stream.mkv')
+    #     source_path = os.path.join('static', 'video', 'processed', f'replay_stream.mkv')
+    #     destination_path = os.path.join('static', 'video', 'processed', f'replay_stream.mkv')
     #     copy_file(source_path, destination_path)
-
 
     def save_replay(self, type_of_action, action_time=None):
         self._save_replay(type_of_action, action_time)
@@ -193,7 +183,6 @@ class OBSWebsocket:
         self.show_scene('POWTÓRKA')
         self.mute_input('Replay')
         sleep(10)
-        self.virtual_cameras_save_replay(automatic=True)
         self.show_scene('MECZ')
 
     def play_instant_replay(self, action_time=None):
@@ -204,17 +193,17 @@ class OBSWebsocket:
 
     def _save_replay(self, type_of_action, action_time=None):
         with self.app.app_context():
-            _file_name = f'{self.app.config['REPLAY_FILE_NAME_PREFIX']}_C0.mkv'
-            source_path = os.path.join('static', 'video', 'processed', f'replay stream.mkv')
+            _file_name = f'{self.app.config['REPLAY_FILE_NAME']}'
+            source_path = os.path.join('static', 'video', 'processed', f'replay_stream.mkv')
             destination_path1 = os.path.join('static', 'video', 'replays', _file_name)
             destination_path2 = os.path.join('static', 'video', 'replays', 'arch', _file_name)
 
             try:
                 shutil.copy(source_path, destination_path1)
                 shutil.copy(source_path, destination_path2)
-                print(f"Plik 'replay stream.mkv' został skopiowany do obu folderów.")
+                print(f"Plik 'replay_stream.mkv' został skopiowany do obu folderów.")
             except FileNotFoundError:
-                print(f"Plik 'replay stream.mkv' nie istnieje w folderze źródłowym.")
+                print(f"Plik 'replay_stream.mkv' nie istnieje w folderze źródłowym.")
             except IOError as e:
                 print(f"Błąd podczas kopiowania pliku: {e}")
 
@@ -242,8 +231,7 @@ class OBSWebsocket:
                 _date = datetime.now().strftime("%Y%m%d-%H%M%S")
             _match = Match.query.filter_by(actual=1).first()
             _result = f'{_match.score_a}-{_match.score_b}'
-            self.app.config['REPLAY_FILE_NAME_PREFIX'] = f'{_date}___{_result}_{_type_of_action}'
-
+            self.app.config['REPLAY_FILE_NAME'] = f'{_date}_{_result}_{_type_of_action}'
 
     def start_stop_stream(self):
         _stream_status_request = self.ws.call(requests.GetStreamStatus())

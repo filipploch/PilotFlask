@@ -9,8 +9,10 @@
 	<link rel="stylesheet" href="{{url_for('static', filename='css/common.css')}}">
 	<link rel="stylesheet" href="{{url_for('static', filename='css/ws-controller.css')}}">
 	<link rel="stylesheet" href="{{url_for('static', filename='css/panel.css')}}">
+	<link rel="stylesheet" href="{{url_for('static', filename='css/panel-replays.css')}}">
 	<script src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/obs-websocket.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/replays-utils.js') }}"></script>
 	<script>
         function sendRequest(url) {
             fetch(url, {
@@ -156,8 +158,7 @@
 			</div>
 			<div class="menu-buttons-group">
 				<div class="menu-description">Powtórki</div>
-				<button class="team-button" onclick="loadContent('/get_replays/C1', 'sidebar')">Kam 1</button>
-				<button class="team-button" onclick="loadContent('/get_replays/C2', 'sidebar')">Kam 2</button><br>
+				<button class="team-button" onclick="loadContent('/get_replays', 'sidebar')">Powtórki</button><br>
 			</div>
 			<div class="menu-buttons-group">
 				<div class="menu-description">Pobierz wyniki</div>

@@ -12,6 +12,7 @@ import os
 import ffmpeg
 import shutil
 import threading
+from utils.file_utils import get_video_length
 
 
 class CameraIdxFinder:
@@ -42,8 +43,7 @@ class VideoRecorder:
         self.camera_name = camera_name
         self.replays_dir = self.app.config['REPLAYS_FILES_DIRECTORY']
         self.segments_dir = os.path.join(self.replays_dir,
-                                         self.app.config["MATCH_IDENTIFIER"],
-                                         self.camera_prefix)
+                                         self.app.config["MATCH_IDENTIFIER"])
         self.resolution = '1920x1080'
         self.fps = 30
         self.cap = None
@@ -63,7 +63,7 @@ class VideoRecorder:
         while self.app.config['OBS_RECORD_STATUS']:
             record_video = threading.Thread(target=self._record_subprocess, args=([
                 os.path.join
-                (self.replays_dir, self.app.config["MATCH_IDENTIFIER"], self.camera_prefix,
+                (self.replays_dir, self.app.config["MATCH_IDENTIFIER"],
                  f'{self.camera_prefix}_{self.app.config["MATCH_IDENTIFIER"]}_segment{str(idx).zfill(3)}.mp4')
             ]))
             record_video.start()
@@ -136,3 +136,5 @@ class VideoRecorder:
             os.rename(self.temp_file, output_video_path)
         else:
             os.rename(input_video_path, output_video_path)
+
+        self.app.config['VIDEO_LENGTH'][self.camera_prefix] = get_video_length(output_video_path)

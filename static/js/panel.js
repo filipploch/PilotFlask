@@ -507,7 +507,7 @@ function editData(dataId) {
                     const url = window.URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;
-                    a.download = 'replay stream.mkv';
+                    a.download = 'replay_stream.mkv';
                     a.style.display = 'none';
                     document.body.appendChild(a);
                     a.click();

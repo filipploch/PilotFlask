@@ -6,7 +6,7 @@ from models import Match
 
 def save_replay(type_of_action):
     file_name = set_replay_file_name(type_of_action)
-    source_path = os.path.join('static', 'video', 'processed', 'replay stream.mkv')
+    source_path = os.path.join('static', 'video', 'processed', 'replay_stream.mkv')
     print(source_path)
     destination_path1 = os.path.join('static', 'video', 'replays', file_name)
     destination_path2 = os.path.join('static', 'video', 'replays', 'arch', file_name)
@@ -19,9 +19,9 @@ def save_replay(type_of_action):
         # Kopiuj do drugiego folderu
         shutil.copy(source_path, destination_path2)
 
-        print(f"Plik 'replay stream.mkv' został skopiowany do obu folderów!")
+        print(f"Plik 'replay_stream.mkv' został skopiowany do obu folderów!")
     except FileNotFoundError:
-        print(f"Plik 'replay stream.mkv' nie istnieje w folderze źródłowym.")
+        print(f"Plik 'replay_stream.mkv' nie istnieje w folderze źródłowym.")
     except IOError as e:
         print(f"Błąd podczas kopiowania pliku: {e}")
 

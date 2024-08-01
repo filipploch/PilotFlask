@@ -15,3 +15,11 @@ function classListAdd(elementId, className) {
 function sleep (time) {
     return new Promise((resolve) => setTimeout(resolve, time));
 }
+
+function getAttributes(element) {
+    let attributes = {};
+    for (let attr of element.attributes) {
+        attributes[attr.name] = attr.value;
+    }
+    return attributes;
+}

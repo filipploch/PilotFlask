@@ -9,13 +9,13 @@ from utils.nalf_league_matches_scraper import NALFleagueMatchesScraper
 from utils.nalf_table_scraper import NALFtableScraper
 from utils.json_file_generator import JSONFileGenerator
 from utils.ball_tracker import BallTracker
-from utils.file_utils import copy_file, get_video_length
+from utils.file_utils import copy_file, get_video_length, create_folder
 from env.settings import get_settings
-from flask import Flask, render_template, jsonify, current_app, Blueprint, request, redirect, url_for, send_file, abort
+from flask import Flask, render_template, jsonify, current_app, Blueprint, request, redirect, url_for, send_file
 from flask_cors import CORS
 from datetime import datetime, timedelta
 from models import Team, Match, Player, MatchesData, Stadium, Staff, MatchCommentator, MatchCameraman, MatchReferee, \
-    MatchAction, Division, LeagueMatches, Competitions, TimerDisplayMode
+    MatchAction, Division, LeagueMatches, Competitions, TimerDisplayMode, Period
 from database import db
 from schemas import ma, player_schema, players_schema, match_datas_schema, team_schema, teams_schema, match_data_schema, \
     stadium_schema, matches_schema, staff_schema, match_schema, division_schema, league_match_schema, \
@@ -67,6 +67,7 @@ def create_app():
     app.config['TIMER'] = timer
     obs_ws = OBSWebsocket(app)
     app.config['obs_ws'] = obs_ws
+    app.config['MATCHDATA'] = get_match_data(app)
     app.config['MATCH_IDENTIFIER'] = get_match_identifier(app)
     app.config['RECORDING_START_TIME'] = get_recording_start_time(app)
     replays_timer = ReplaysTimer(app)
@@ -80,6 +81,18 @@ def create_app():
     return app
 
 
+def get_period_type_name(periods_nr):
+    match periods_nr:
+        case 2:
+            return 'połowa'
+        case 3:
+            return 'tercja'
+        case 4:
+            return 'kwarta'
+        case default:
+            return ''
+
+
 def get_division_id_by_letter(letter):
     with current_app.app_context():
         if letter == 'a':
@@ -90,16 +103,20 @@ def get_division_id_by_letter(letter):
             return current_app.config['GROUP_A']
 
 
-def get_match_identifier(app):
+def get_match_identifier(app, match=None):
     with app.app_context():
-        try:
+        if match is None:
             _match = Match.query.filter_by(actual=1).first()
+        else:
+            _match = match
+        try:
             _date = _match.date.split()[0]
+            _time = _match.date.split()[1].replace(':', '-')
             _team_a = team_schema.dump(Team.query.filter_by(id=_match.team_a).first())['short_name']
             _team_b = team_schema.dump(Team.query.filter_by(id=_match.team_b).first())['short_name']
-            return f'{_date}_{_team_a}x{_team_b}'
+            return f'{_date}_{_time}_{_team_a}x{_team_b}'
         except:
-            return '0000-00-00_TEAxTEB'
+            return '0000-00-00_00-00_TEAxTEB'
 
 
 def get_recording_start_time(app):
@@ -233,9 +250,10 @@ def match():
 def action():
     _action = MatchesData.query.filter_by(actual=1).first()
     _match = Match.query.filter_by(actual=1).first()
-    _periods_end_times = get_periods_end_times(_match)
-    _current_period = get_current_period(_match.current_period)
-    _time_limit = _periods_end_times[_current_period]
+    # _periods_end_times = get_periods_end_times(_match)
+    # _current_period = get_current_period(_match.current_period)
+    _current_period = _match.current_period
+    _time_limit = Period.query.filter_by(id=_current_period).first().end_time
     if _action:
         _time = get_action_time(_action.seconds, _action.added_seconds, _time_limit)
 
@@ -555,70 +573,73 @@ def panel():
 
 @panel_blueprint.route('/matchdata')
 def matchdata():
-    match = Match.query.filter_by(actual=1).first()
-    team_a = Team.query.filter_by(id=match.team_a).first()
-    team_b = Team.query.filter_by(id=match.team_b).first()
-    players_a = Player.query.filter_by(team=team_a.id).all()
-    players_b = Player.query.filter_by(team=team_b.id).all()
-    stadium = Stadium.query.filter_by(id=match.stadium).first()
-    division = Division.query.filter_by(id=match.division).first()
-    with current_app.app_context():
-        current_app.config['MATCHDATA'] = {'teama':
-                                               {'id': team_a.id,
-                                                'full_name': team_a.full_name,
-                                                'short_name': team_a.short_name,
-                                                'tricot': get_tricot(team_a),
-                                                'color_for_ui': team_a.color_for_ui,
-                                                'players': players_schema.dump(players_a),
-                                                'scores': match.score_a,
-                                                'fouls': match.fouls_a,
-                                                'logo_file': team_a.logo_file,
-                                                'selected_tricot': team_b.selected_tricot
+    _matchdata = get_match_data(current_app)
+    return jsonify(current_app.config['MATCHDATA'])
 
-                                                },
-                                           'teamb':
-                                               {'id': team_b.id,
-                                                'full_name': team_b.full_name,
-                                                'short_name': team_b.short_name,
-                                                'tricot': get_tricot(team_b),
-                                                'color_for_ui': team_b.color_for_ui,
-                                                'players': players_schema.dump(players_b),
-                                                'scores': match.score_b,
-                                                'fouls': match.fouls_b,
-                                                'logo_file': team_b.logo_file,
-                                                'selected_tricot': team_b.selected_tricot
-                                                },
 
-                                           'match':
-                                               {'id': match.id,
-                                                'periods': match.periods,
-                                                'period_length': match.period_length,
-                                                'is_added_time_allowed': match.is_added_time_allowed,
-                                                'extra_time_periods': match.extra_time_periods,
-                                                'extra_time_period_length': match.extra_time_period_length,
-                                                'periods_end_times': get_periods_end_times(match),
-                                                'current_period': get_current_period(match.current_period),
-                                                'current_period_time_limit': get_current_period_time_limit(match),
-                                                'is_timer_active': match.is_timer_active,
-                                                'panel_timer_display_mode':
-                                                    get_timer_display_mode(match.panel_timer_display_mode),
-                                                'is_panel_timer_ascending':
-                                                    get_is_timer_ascending(match, match.is_panel_timer_ascending),
-                                                'stream_timer_display_mode':
-                                                    get_timer_display_mode(match.stream_timer_display_mode),
-                                                'is_stream_timer_ascending':
-                                                    get_is_timer_ascending(match, match.is_stream_timer_ascending),
-                                                'stadium': stadium_schema.dump(stadium),
-                                                'date': match.date,
-                                                'referee': staff_schema.dump(match.referee),
-                                                'cameraman': staff_schema.dump(match.cameraman),
-                                                'commentator': staff_schema.dump(match.commentator),
-                                                'division': division_schema.dump(division)
-                                                }
-                                           }
-        print('panel time display mode:', get_timer_display_mode(match.panel_timer_display_mode))
-        print('stream time display mode:', get_timer_display_mode(match.stream_timer_display_mode))
-        return jsonify(current_app.config['MATCHDATA'])
+def get_match_data(app):
+    with app.app_context():
+        match = Match.query.filter_by(actual=1).first()
+        team_a = Team.query.filter_by(id=match.team_a).first()
+        team_b = Team.query.filter_by(id=match.team_b).first()
+        players_a = Player.query.filter_by(team=team_a.id).all()
+        players_b = Player.query.filter_by(team=team_b.id).all()
+        stadium = Stadium.query.filter_by(id=match.stadium).first()
+        division = Division.query.filter_by(id=match.division).first()
+        app.config['MATCHDATA'] = {'teama':
+                                       {'id': team_a.id,
+                                        'full_name': team_a.full_name,
+                                        'short_name': team_a.short_name,
+                                        'tricot': get_tricot(team_a),
+                                        'color_for_ui': team_a.color_for_ui,
+                                        'players': players_schema.dump(players_a),
+                                        'scores': match.score_a,
+                                        'fouls': match.fouls_a,
+                                        'logo_file': team_a.logo_file,
+                                        'selected_tricot': team_b.selected_tricot
+
+                                        },
+                                   'teamb':
+                                       {'id': team_b.id,
+                                        'full_name': team_b.full_name,
+                                        'short_name': team_b.short_name,
+                                        'tricot': get_tricot(team_b),
+                                        'color_for_ui': team_b.color_for_ui,
+                                        'players': players_schema.dump(players_b),
+                                        'scores': match.score_b,
+                                        'fouls': match.fouls_b,
+                                        'logo_file': team_b.logo_file,
+                                        'selected_tricot': team_b.selected_tricot
+                                        },
+
+                                   'match':
+                                       {'id': match.id,
+                                        'periods': match.periods,
+                                        'period_length': match.period_length,
+                                        'is_added_time_allowed': match.is_added_time_allowed,
+                                        'extra_time_periods': match.extra_time_periods,
+                                        'extra_time_period_length': match.extra_time_period_length,
+                                        # 'periods_end_times': get_periods_end_times(match),
+                                        'current_period': match.current_period,
+                                        'period_time_limit': get_period_time_limit(match),
+                                        'is_timer_active': match.is_timer_active,
+                                        'panel_timer_display_mode':
+                                            get_timer_display_mode(match.panel_timer_display_mode),
+                                        'is_panel_timer_ascending':
+                                            get_is_timer_ascending(match, match.is_panel_timer_ascending),
+                                        'stream_timer_display_mode':
+                                            get_timer_display_mode(match.stream_timer_display_mode),
+                                        'is_stream_timer_ascending':
+                                            get_is_timer_ascending(match, match.is_stream_timer_ascending),
+                                        'stadium': stadium_schema.dump(stadium),
+                                        'date': match.date,
+                                        'referee': staff_schema.dump(match.referee),
+                                        'cameraman': staff_schema.dump(match.cameraman),
+                                        'commentator': staff_schema.dump(match.commentator),
+                                        'division': division_schema.dump(division)
+                                        }
+                                   }
+        return app.config['MATCHDATA']
 
 
 def get_timer_display_mode(display_mode_id):
@@ -626,10 +647,10 @@ def get_timer_display_mode(display_mode_id):
     return display_mode_format
 
 
-def get_current_period(current_period):
-    if current_period:
-        return current_period
-    return 1
+# def get_current_period(current_period):
+#     if current_period:
+#         return current_period
+#     return 1
 
 
 def get_is_timer_ascending(match, db_value):
@@ -638,26 +659,26 @@ def get_is_timer_ascending(match, db_value):
     return db_value
 
 
-def get_periods_end_times(match):
-    periods_end_times = []
-    _time = 0
-    base_periods_number = match.periods
-    base_period_length = match.period_length
-    extra_periods_number = match.extra_time_periods
-    extra_period_length = match.extra_time_period_length
-    for period in range(base_periods_number):
-        _time += base_period_length
-        periods_end_times.append(_time)
-    for period in range(extra_periods_number):
-        _time += extra_period_length
-        periods_end_times.append(_time)
-    return periods_end_times
+# def get_periods_end_times(match):
+#     periods_end_times = []
+#     _time = 0
+#     base_periods_number = match.periods
+#     base_period_length = match.period_length
+#     extra_periods_number = match.extra_time_periods
+#     extra_period_length = match.extra_time_period_length
+#     for period in range(base_periods_number):
+#         _time += base_period_length
+#         periods_end_times.append(_time)
+#     for period in range(extra_periods_number):
+#         _time += extra_period_length
+#         periods_end_times.append(_time)
+#     return periods_end_times
 
 
-def get_current_period_time_limit(match):
-    periods_end_times = get_periods_end_times(match)
-    current_period = get_current_period(match.current_period)
-    return periods_end_times[current_period - 1]
+def get_period_time_limit(match):
+    print(match_schema.dump(match))
+    print(match.current_period)
+    return Period.query.filter_by(id=match.current_period).first().end_time
 
 
 @panel_blueprint.route('/update-value', methods=['POST'])
@@ -760,17 +781,12 @@ def drop_replay(action_type):
     _action_type = int(action_type)
     obs_ws = current_app.config['obs_ws']
     socketio = current_app.config['SOCKETIO']
-    if _action_type == 0:
-        socketio.start_background_task(obs_ws.drop_replay, instant=True)
-        _action_type = 1
-    else:
-        socketio.start_background_task(obs_ws.drop_replay)
-    _replay_file = get_replay_file_name_prefix(_action_type)
-    current_app.config['REPLAY_FILE_NAME_PREFIX'] = _replay_file
+    _replay_file = get_replay_file_name(_action_type)
+    current_app.config['REPLAY_FILE_NAME'] = _replay_file
     action_data = {
         'seconds': current_app.config['TIME_DATA']['seconds'],
         'added_seconds': current_app.config['TIME_DATA']['added_seconds'],
-        'current_period_time_limit': current_app.config['MATCHDATA']['match']['current_period_time_limit'],
+        'current_period': current_app.config['MATCHDATA']['match']['current_period'],
         'match_id': current_app.config['MATCHDATA']['match']['id'],
         'action_id': int(_action_type),
         'player_id': None,
@@ -781,6 +797,13 @@ def drop_replay(action_type):
         'record_time': current_app.config['RECORD_TIME']
     }
     current_app.config['ACTION_DATA'] = action_data
+
+    if _action_type == 0:
+        socketio.start_background_task(obs_ws.drop_replay, instant=True)
+        _action_type = 1
+    else:
+        socketio.start_background_task(obs_ws.drop_replay)
+
     if _action_type in current_app.config['ACTIONS_SETS']['no_team_set']:
         print('no team')
         insert_action_to_db(action_data)
@@ -792,8 +815,8 @@ def drop_replay(action_type):
 
 
 def save_dropped_replay(action_data):
-    _file_name = f'{action_data['replay_file']}_C0.mkv'
-    source_path = os.path.join('static', 'video', 'processed', f'replay stream.mkv')
+    _file_name = str({action_data['replay_file']})
+    source_path = os.path.join('static', 'video', 'processed', f'replay_stream.mkv')
     destination_path1 = os.path.join('static', 'video', 'replays', _file_name)
     destination_path2 = os.path.join('static', 'video', 'replays', 'arch', _file_name)
     copy_file(source_path, destination_path1)
@@ -807,26 +830,28 @@ def insert_action_to_db(action_data):
     match_data = MatchesData(
         seconds=action_data['seconds'],
         added_seconds=action_data['added_seconds'],
-        current_period_time_limit=action_data['current_period_time_limit'],
+        current_period=action_data['current_period'],
         match_id=action_data['match_id'],
         action_id=action_data['action_id'],
         player_id=action_data['player_id'],
         team_id=action_data['team_id'],
         actual=action_data['actual'],
         is_hided=action_data['is_hided'],
-        replay_file=action_data['replay_file']
+        replay_file=action_data['replay_file'],
+        record_time=action_data['record_time']
     )
     db.session.add(match_data)
     db.session.commit()
 
 
-def get_replay_file_name_prefix(action_type):
-    _action_name = get_type_of_action(action_type)
-    _date = datetime.now().strftime("%Y%m%d-%H%M%S")
-    _match = Match.query.filter_by(actual=1).first()
-    _result = f'{_match.score_a}-{_match.score_b}'
-    print('filename:', f'{_date}___{_result}_{_action_name}')
-    return f'{_date}_{_result}_{_action_name}'
+def get_replay_file_name(action_type):
+    with current_app.app_context():
+        file_type = current_app.config['REPLAY_FILE_TYPE']
+        _action_name = get_type_of_action(action_type)
+        _date = datetime.now().strftime("%Y%m%d-%H%M%S")
+        _match = Match.query.filter_by(actual=1).first()
+        _result = f'{_match.score_a}-{_match.score_b}'
+        return f'{_date}_{_result}_{_action_name}{file_type}'
 
 
 def get_type_of_action(param):
@@ -944,9 +969,9 @@ def increment_seconds(difference):
         _timer = current_app.config['TIMER']
         _seconds = _time_data['seconds']
         _added_seconds = _time_data['added_seconds']
-        _periods_end_times = _matchdata['periods_end_times']
+        # _periods_end_times = _matchdata['periods_end_times']
         _current_period = _matchdata['current_period']
-        _time_limit = _periods_end_times[_current_period - 1]
+        _time_limit = Period.query.filter_by(id=_current_period).first().end_time
         _is_added_time_allowed = _matchdata['is_added_time_allowed']
         _timer.timer_add_time(_seconds, _added_seconds, _time_limit, _is_added_time_allowed, _difference)
         return '', 204
@@ -1067,25 +1092,155 @@ def get_files():
     return {'files': files}
 
 
-@panel_blueprint.route('/get_replays/<camera_prefix>')
-def get_replays(camera_prefix):
-    directory = 'static/video/replays'
-    files = [file for file in os.listdir(directory) if file.endswith(f'{camera_prefix}.mkv')]
-    new_content = render_template('replays-panel.html', files=files)
-    return jsonify({'content': new_content})
-
-
-# @panel_blueprint.route('/get_replays')
-# def get_replays():
+# @panel_blueprint.route('/get_replays/<camera_prefix>')
+# def get_replays(camera_prefix):
 #     directory = 'static/video/replays'
-#     files = [file for file in os.listdir(directory) if file.endswith('.mkv')]
+#     files = [file for file in os.listdir(directory) if file.endswith(f'{camera_prefix}.mkv')]
 #     new_content = render_template('replays-panel.html', files=files)
 #     return jsonify({'content': new_content})
 
 
+@panel_blueprint.route('/get_replays')
+def get_replays():
+    _match = Match.query.filter_by(actual=1).first()
+    _replays_db = MatchesData.query.filter(MatchesData.match_id == _match.id, MatchesData.replay_file.isnot(None)).all()
+    # for _replay in _replays:
+    # print(len(_replays))
+    # print(match_data_schema.dump(_replay))
+    '''
+    _data = {'id': 2925,
+             'seconds': 108,
+             'added_seconds': 0,
+             'match_id': 98,
+             'action_id': 1,
+             'player_id': 125,
+             'team_id': 6,
+             'record_time': 0,
+             'actual': 0,
+             'player':
+                 {'id': 125,
+                  'full_name': 'Klęk Kamil',
+                  'team': 6,
+                  'position': '0',
+                  'matches': 12,
+                  'goals': 21,
+                  'assists': 5,
+                  'yellow_cards': 1,
+                  'red_cards': 0,
+                  'own_goals': 0,
+                  'best_five': 3,
+                  'first_name': 'Kamil',
+                  'last_name': 'Klęk',
+                  'default_nr': 99,
+                  'squad': 1,
+                  'is_active': 1,
+                  'captain': '',
+                  'link': 'https://nalffutsal.pl/?sp_player=kamil-klek'
+                  },
+             'action':
+                 {'id': 1,
+                  'desc_polish': 'GOL',
+                  'action_icon': 'goal.png'
+                  },
+             'team':
+                 {'id': 6,
+                  'full_name': 'IGLOMEN&RodzinneRestauracje',
+                  'competitions': 1,
+                  'link': 'bidvest-krakow',
+                  'short_name': 'IGL',
+                  'home_tricot_color_number': 1,
+                  'home_color_1': '#801c71',
+                  'home_color_2': '#00ff00',
+                  'home_color_3': '#42d2d2',
+                  'color_for_ui': '',
+                  'away_color_1': '#ffffff',
+                  'away_color_2': '#ffffff',
+                  'away_color_3': '#ffffff',
+                  'selected_tricot': 1,
+                  'bibs_color': '#adeb31',
+                  'away_tricot_color_number': 3,
+                  'logo_file': 'IGLOMENRR.png',
+                  'penalty_points': 0,
+                  'name_16': 'Iglomen&RR'
+                  },
+             'is_hided': 0,
+             'replay_file': '20240619_205206___0-1_GOL_.mkv'
+             }
+    '''
+    _replays = []
+    for _replay in _replays_db:
+        _repl = match_data_schema.dump(_replay)
+        _replays.append(
+            {'id': _repl['id'],
+             'seconds': _repl['seconds'],
+             'added_seconds': _repl['added_seconds'],
+             'formatted_seconds': get_formatted_time(_repl['seconds'], _repl['added_seconds']),
+             'replay_end_time': _repl['record_time'],
+             'replay_start_time': get_replay_start_time(_repl['record_time']),
+             'actual': _repl['actual'],
+             'player': get_value('full_name', _repl['player']),
+             'action': _repl['action']['desc_polish'],
+             'team': get_value('short_name', _repl['team']),
+             'record_time': _repl['record_time'],
+             'replay_file': _repl['replay_file'],
+             'replay_file_path': get_replay_path(_repl['replay_file']),
+             'is_edited': 0
+             }
+        )
+        print({'id': _repl['id'],
+               'seconds': _repl['seconds'],
+               'added_seconds': _repl['added_seconds'],
+               'formatted_seconds': get_formatted_time(_repl['seconds'], _repl['added_seconds']),
+               'replay_end_time': _repl['record_time'],
+               'replay_start_time': get_replay_start_time(_repl['record_time']),
+               'actual': _repl['actual'],
+               'player': get_value('full_name', _repl['player']),
+               'action': _repl['action']['desc_polish'],
+               'team': get_value('short_name', _repl['team']),
+               'replay_file': get_replay_path(_repl['replay_file'])
+               })
+
+    # directory = 'static/video/replays'
+    # files = [file for file in os.listdir(directory) if file.endswith('.mkv')]
+    new_content = render_template('replays-panel.html', replays=_replays)
+    return jsonify({'content': new_content})
+
+
+def get_replay_start_time(record_time):
+    if record_time >= 10:
+        return record_time - 10
+    return 0
+
+def get_value(_key, _dict):
+    if _dict is None:
+        return None
+    return _dict[_key]
+
+
+def get_replay_path(replay_file):
+    with current_app.app_context():
+        replays_dir = current_app.config['REPLAYS_FILES_DIRECTORY']
+        match_replays_dir = current_app.config['MATCH_IDENTIFIER']
+        return os.path.join(replays_dir, match_replays_dir, replay_file)
+
+
+def get_formatted_time(_seconds, _added_seconds, _format='min:sec'):
+    match _format:
+        case 'min:sec':
+            mins = int((_seconds - _added_seconds) / 60)
+            secs = int((_seconds - _added_seconds) % 60)
+            if _added_seconds > 0:
+                _added_mins = int(_added_seconds / 60)
+                _added_secs = int(_added_seconds % 60)
+                return f'{mins}+ {_added_mins}:{'{:02}'.format(_added_secs)}'
+            return f'{mins}:{'{:02}'.format(secs)}'
+
+
+
+
 @panel_blueprint.route('/process_file/<filename>')
 def process_file(filename):
-    replay_name = 'replay stream.mkv'
+    replay_name = 'replay_stream.mkv'
     source_path = os.path.join('static/video/replays', filename)
     target_path = os.path.join('static/video/processed', replay_name)
 
@@ -1206,6 +1361,24 @@ def delete_data(data_id):
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
+@panel_blueprint.route('/select-replay', methods=['POST'])
+def select_replay():
+    if request.method == 'POST':
+        replay_id = int(request.get_json()['replayId'])
+        _match_id = Match.query.filter_by(actual=1).first().id
+        _match_data = MatchesData.query.filter_by(match_id=_match_id).all()
+        for _data in _match_data:
+            _data.actual = 0
+        MatchesData.query.filter_by(id=replay_id).first().actual = 1
+        db.session.commit()
+        return jsonify({'status': 'OK'})
+
+
+@panel_blueprint.route('/get-recorded-video-length/<camera_prefix>')
+def get_recorded_video_length(camera_prefix):
+    return jsonify({'video_length': current_app.config['VIDEO_LENGTH'][camera_prefix]})
 
 
 @settings_blueprint.route('/matches-settings', methods=['GET'])
@@ -1346,10 +1519,10 @@ def creatematch():
 
     form_content = CreateEditMatch.form_content
 
-    # if request.method == 'POST' and form.validate():
     if request.method == 'POST':
         team_a = request.form.get('team_a')
         team_b = request.form.get('team_b')
+        periods = 2
         period_length = request.form.get('period_length')
         is_actual = request.form.get('is_actual')
         cameramen = request.form.get('cameramen')
@@ -1363,7 +1536,7 @@ def creatematch():
         # Utwórz nowy mecz
         new_match = Match(team_a=team_a
                           , team_b=team_b
-                          , period_length=period_length
+                          # , period_length=period_length
                           , stadium=stadium
                           , date=date_time
                           , competitions=competitions
@@ -1373,6 +1546,19 @@ def creatematch():
             new_match.actual = 1
         db.session.add(new_match)
         db.session.flush()
+
+        for _period in range(periods):
+            new_period = Period(
+                name=get_period_name(_period, periods)
+                , match_id=new_match.id
+                , length=period_length
+                , start_time=get_start_time(_period, period_length)
+                , end_time=get_end_time(_period, period_length)
+            )
+
+            new_match.period.append(new_period)
+            if _period == 0:
+                new_match.current_period = new_period.id
 
         # # Dodaj cameramen do meczu
         for cameraman_id in cameramen:
@@ -1392,10 +1578,44 @@ def creatematch():
 
         # Zapisz zmiany w bazie danych
         db.session.commit()
-
+        create_replays_folders(new_match)
+        _set_actual_match(new_match)
         return redirect(url_for('settings.nalf'))
 
     return render_template('creatematch.html', form=form, form_content=form_content)
+
+
+def create_replays_folders(_match):
+    with current_app.app_context():
+        match_identifier = get_match_identifier(current_app, _match)
+        replays_folder = current_app.config['REPLAYS_FILES_DIRECTORY']
+        match_replays_folder = os.path.join(replays_folder, match_identifier)
+        create_folder(match_replays_folder)
+        match_replays_arch_folder = os.path.join(replays_folder, 'arch', match_identifier)
+        create_folder(match_replays_arch_folder)
+
+
+def _set_actual_match(_match):
+    with current_app.app_context():
+        if _match.actual:
+            current_app.config['MATCH_IDENTIFIER'] = get_match_identifier(current_app, _match)
+
+
+def get_period_name(period, periods):
+    if periods in [2, 3, 4]:
+        return f'{period + 1}. {get_period_type_name(periods)}'
+    elif periods == 1:
+        return 'mecz'
+    else:
+        return f'część {period + 1} z {periods}'
+
+
+def get_start_time(period_nr, period_length):
+    return int(period_nr) * int(period_length)
+
+
+def get_end_time(period_nr, period_length):
+    return (int(period_nr) + 1) * int(period_length) - 1
 
 
 @settings_blueprint.route('/edit-match/<int:match_id>', methods=['GET', 'POST'])
@@ -1462,7 +1682,8 @@ def edit_match(match_id):
         # Zapisanie zmian w bazie danych
         db.session.add(match)
         db.session.commit()
-
+        create_replays_folders(match)
+        _set_actual_match(match)
         return redirect(url_for('settings.nalf'))
 
     return render_template('edit_match.html', form=form, match=match, selected_commentators=selected_commentators,
@@ -2081,6 +2302,11 @@ def playoffs_edit():
     with open(f'static/json/playoffs.json', 'r') as json_file:
         _data.update({'matches': json.load(json_file)['matches']})
     return render_template('playoffs-edit.html', data=_data)
+
+
+@settings_blueprint.route('/edit-match-periods')
+def edit_match_periods():
+    pass
 
 
 @obswebsocketpy_blueprint.route('/ws-controller')

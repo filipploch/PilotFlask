@@ -17,5 +17,5 @@ for /f "tokens=1,2" %%a in ('php C:\xampp\htdocs\query.php') do (
 
 set BackupName=R_%Yr%%Mon%%Day%%Hr%%Min%%Sec%___%ScoreA%-%ScoreB%_VAR
 
-copy "C:\Users\Filip\PycharmProjects\PilotFlask\static\video\processed\replay stream.mkv" "C:\Users\Filip\PycharmProjects\PilotFlask\static\video\replays\%BackupName%.mkv"
+copy "C:\Users\Filip\PycharmProjects\PilotFlask\static\video\processed\replay_stream.mkv" "C:\Users\Filip\PycharmProjects\PilotFlask\static\video\replays\%BackupName%.mkv"
 copy "C:\Users\Filip\PycharmProjects\PilotFlask\static\video\replays\%BackupName%.mkv" "C:\Users\Filip\PycharmProjects\PilotFlask\static\video\replays\arch\%BackupName%.mkv"

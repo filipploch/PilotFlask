@@ -79,3 +79,8 @@ class TimerDisplayModeForm(FlaskForm):
     def __init__(self, *args, **kwargs):
         super(TimerDisplayModeForm, self).__init__(*args, **kwargs)
         self.format.choices = [('', '')] + [(mode.id, mode.format) for mode in TimerDisplayMode.query.all()]
+
+
+class MatchPeriodForm(FlaskForm):
+    length = IntegerField('Period length', validators=[DataRequired()])
+    submit = SubmitField('Dodaj')

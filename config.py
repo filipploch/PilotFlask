@@ -13,14 +13,14 @@ class Config:
     OBS_STREAM_STATUS = False
     OBS_REPLAY_BUFFER_STATUS = False
     CAMERAS_RECORDING_STATUS = True
-    REPLAY_FILE_NAME_PREFIX = None
+    REPLAY_FILE_NAME = None
     FRACTION_TIME = 1
     VIRTUAL_CAMERAS = ['OBS-Camera', 'OBS-Camera2']
     MATCH_IDENTIFIER = '2024-01-01_TEAxTEB'
     MATCHDATA = {'match': {
         'is_timer_active': 0,
         'is_added_time_allowed': 1,
-        'periods_end_times': [1, 2],
+        # 'periods_end_times': [1, 2],
         'current_period': 1
     }}
     TIME_DATA = {'seconds': 0,
@@ -32,6 +32,8 @@ class Config:
     REPLAYS_FILES_ARCH_DIRECTORY = 'C:\\Users\\Filip\\PycharmProjects\\PilotFlask\\static\\video\\replays\\arch'
     OBS_DROP_REPLAY = False
     RECORD_TIME = None
+    REPLAY_FILE_TYPE = '.mkv'
+    VIDEO_LENGTH = {'C1': 0, 'C2': 0}
 
 
 class DevelopmentConfig(Config):

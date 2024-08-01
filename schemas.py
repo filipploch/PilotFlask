@@ -2,9 +2,10 @@ from flask_marshmallow import Marshmallow
 from marshmallow import fields
 from marshmallow_sqlalchemy.fields import Nested
 from models import (Player, Match, MatchesData, Team, MatchAction, Stadium, Staff, Division, LeagueMatches,
-                    TimerDisplayMode)
+                    TimerDisplayMode, Period)
 
 ma = Marshmallow()
+
 
 class PlayerSchema(ma.Schema):
     class Meta:
@@ -36,10 +37,21 @@ team_schema = TeamSchema()
 teams_schema = TeamSchema(many=True)
 
 
+class PeriodSchema(ma.Schema):
+    class Meta:
+        model = Period
+        fields = ('id', 'name', 'match_id', 'length', 'added_time', 'start_time', 'end_time', 'is_time_result')
+
+
+period_schema = PeriodSchema()
+periods_schema = PeriodSchema(many=True)
+
+
 class MatchActionSchema(ma.Schema):
     class Meta:
         model = MatchAction
         fields = ('id', 'desc_polish', 'action_icon')
+
 
 match_action_schema = MatchActionSchema()
 
@@ -47,8 +59,9 @@ match_action_schema = MatchActionSchema()
 class MatchesDataSchema(ma.Schema):
     class Meta:
         model = MatchesData
-        fields = ('id', 'seconds', 'added_seconds', 'current_period_time_limit', 'match_id', 'action_id', 'player_id',
-                  'team_id', 'record_time', 'actual', 'player', 'action', 'team', 'is_hided', 'replay_file')
+        fields = ('id', 'seconds', 'added_seconds', 'current_period', 'match_id', 'action_id', 'player_id','team_id',
+                  'record_time', 'actual', 'player', 'action', 'team', 'is_hided', 'replay_file')
+
     player = Nested(player_schema)
     action = Nested(match_action_schema)
     team = Nested(team_schema)
@@ -63,6 +76,7 @@ class StaffSchema(ma.Schema):
         model = Staff
         fields = ('id', 'first_name', 'last_name')
 
+
 staff_schema = StaffSchema(many=True)
 
 
@@ -71,6 +85,7 @@ class DivisionSchema(ma.Schema):
         model = Division
         fields = ('id', 'name', 'is_cup')
 
+
 division_schema = DivisionSchema()
 
 
@@ -78,7 +93,7 @@ class MatchesSchema(ma.Schema):
     class Meta:
         model = Match
         fields = ('id', 'team_a', 'team_b', 'actual', 'periods', 'period_length', 'is_added_time_allowed',
-                  'extra_time_periods', 'extra_time_period_length', 'max_fouls',
+                  'extra_time_periods', 'extra_time_period_length', 'max_fouls', 'current_period',
                   'panel_timer_display_mode', 'seconds', 'added_seconds', 'is_timer_active', 'panel_timer_display_mode',
                   'is_panel_timer_ascending', 'stream_timer_display_mode', 'is_stream_timer_ascending', 'stadium',
                   'date', 'commentator', 'cameraman', 'referee', 'division', 'competitions', 'is_scoreboard_reversed')
@@ -115,6 +130,7 @@ class LeagueMatchesSchema(ma.Schema):
     team2 = fields.Nested(team_schema)
     division = fields.Nested(division_schema)
 
+
 league_match_schema = LeagueMatchesSchema()
 league_matches_schema = LeagueMatchesSchema(many=True)
 
@@ -126,12 +142,3 @@ class TimerDisplayModeSchema(ma.Schema):
 
 
 timer_display_mode_schema = TimerDisplayModeSchema()
-
-
-
-
-
-
-
-
-

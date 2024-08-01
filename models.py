@@ -1,5 +1,11 @@
 from database import db
 
+
+class MatchPeriod(db.Model):
+    __tablename__ = 'match_period'
+    match_id = db.Column(db.Integer, db.ForeignKey('matches.id'), primary_key=True)
+    period_id = db.Column(db.Integer, db.ForeignKey('periods.id'), primary_key=True)
+
 class MatchCommentator(db.Model):
     __tablename__ = 'match_commentator'
     match_id = db.Column(db.Integer, db.ForeignKey('matches.id'), primary_key=True)
@@ -43,6 +49,7 @@ class Match(db.Model):
     is_stream_timer_ascending = db.Column(db.Integer, default=1)
     stadium = db.Column(db.Integer, db.ForeignKey('stadium.id'), nullable=False)
     date = db.Column(db.String)
+    period = db.relationship('Period', secondary='match_period', backref='periods_matches')
     commentator = db.relationship('Staff', secondary='match_commentator', backref='commentator_matches')
     cameraman = db.relationship('Staff', secondary='match_cameraman', backref='cameraman_matches')
     referee = db.relationship('Staff', secondary='match_referee', backref='referee_matches')
@@ -107,31 +114,44 @@ class MatchesData(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     seconds = db.Column(db.Integer)
     added_seconds = db.Column(db.Integer, default=0)
-    current_period_time_limit = db.Column(db.Integer, default=1200)
+    current_period = db.Column(db.Integer)
     action_id = db.Column(db.Integer, db.ForeignKey('match_action.id'))
     player_id = db.Column(db.Integer, db.ForeignKey('players.id'))
     match_id = db.Column(db.Integer)
     team_id = db.Column(db.Integer, db.ForeignKey('teams.id'))
-    record_time = db.Column(db.Integer, nullable=True, default=None)
+    record_time = db.Column(db.Integer, nullable=True, default=0)
     player = db.relationship('Player', backref='matches_data', lazy=True)
     team = db.relationship('Team', backref='matches_data', lazy=True)
     action = db.relationship('MatchAction', backref='matches_data', lazy=True)
     actual = db.Column(db.Integer)
     is_hided = db.Column(db.Integer)
     replay_file = db.Column(db.String)
+    record_time = db.Column(db.Integer)
 
-    def __init__(self, action_id, player_id, team_id, seconds, added_seconds, current_period_time_limit, match_id,
-                 actual, is_hided, replay_file):
+    def __init__(self, action_id, player_id, team_id, seconds, added_seconds, current_period, match_id,
+                 actual, is_hided, replay_file, record_time):
         self.action_id = action_id
         self.player_id = player_id
         self.team_id = team_id
         self.seconds = seconds
         self.added_seconds = added_seconds
-        self.current_period_time_limit = current_period_time_limit
+        self.current_period = current_period
         self.match_id = match_id
         self.actual = actual
         self.is_hided = is_hided
         self.replay_file = replay_file
+        self.record_time = record_time
+
+
+class Period(db.Model):
+    __tablename__ = 'periods'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    match_id = db.Column(db.Integer, db.ForeignKey('matches.id'))
+    length = db.Column(db.Integer, nullable=True, default=1200)
+    added_time = db.Column(db.Integer, default=0)
+    start_time = db.Column(db.Integer)
+    end_time = db.Column(db.Integer, nullable=True)
 
 
 class MatchAction(db.Model):
