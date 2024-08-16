@@ -47,7 +47,11 @@
 }
 
 .selected-replay {
-    color: #f66;
+    color: #f00;
+}
+
+.actual-replay {
+    color: green;
     font-weight: 900;
 }
 

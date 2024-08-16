@@ -1,0 +1,44 @@
+    <div id="sidebar-head">
+        <div id="substitution-data" data-team-id="{{ data.team.id }}">ZMIANY: {{ data.team.short_name }}</div>
+        <div id="selected-player-out"
+             data-player-out=""
+             class="player-out"
+             onclick="showSquadList()">{{ data.player_out.default_nr }}. {{ data.player_out.full_name }}</div>
+        <div id="selected-player-in"
+             data-player-in=""
+             class="player-in"
+             onclick="showSubstitutionList()">{{ data.player_in.default_nr }}. {{ data.player_in.full_name }}</div>
+    </div>
+    <div id="action-id" class="invisible-text"></div>
+    <div id="sidebar-body" style="overflow: hidden;">
+        <div id="sidebar-body-div">
+            <div id="elements">
+                <div id="squad-list" style="overflow-y: auto;" class="substitution-list">
+                    {% for player in data.squad %}
+                    <div
+                        id="player-out-{{ loop.index }}-element"
+                        class="player player-out"
+                        data-player-id="{{ player.id }}"
+                        onclick="selectPlayerOut(this);"
+                    >{{ player.default_nr }}. {{ player.full_name }}</div>
+                    {% endfor %}
+                </div>
+                <div id="substitution-list" style="overflow-y: auto;" class="substitution-list invisible">
+                    {% for player in data.subs %}
+                    <div
+                        id="player-in-{{ loop.index }}-element"
+                        class="player player-in"
+                        data-player-id="{{ player.id }}"
+                        onclick="selectPlayerIn(this);"
+                    >{{ player.default_nr }}. {{ player.full_name }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="sidebar-footer">
+        <button onclick="insertSubstitution()">Dodaj</button>
+        <button id="sidebar-cancel-button" onclick="clearSidebar();">Zamknij</button>
+    </div>
+
+

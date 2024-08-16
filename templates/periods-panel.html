@@ -1,0 +1,39 @@
+    <div id="sidebar-head">
+        <div id="periods-data"
+             data-current-period="{{ data.matchdata.match.current_period }}"
+             data-periods="{{ data.periods }}">CZĘŚCI MECZU:</div>
+    </div>
+    <div id="action-id" class="invisible-text"></div>
+    <div id="sidebar-body">
+        <div id="sidebar-body-div">
+            <div id="elements" style="overflow-y: auto;">
+                <div id="select-period-container">
+                    <div id="select-period" style="display: flex;">
+                            <button id="period-decrease-button" class="small-button" onclick="changePeriod(-1);">-</button>
+                        {% for period in data.periods %}
+                        <span id="game-period-{{ loop.index }}"
+                              data-period-id="{{ period.id }}"
+                              style="margin: 0 5px;"
+                              data-is-current="{% if period.id == data.matchdata.match.current_period %}1{% else %}0{% endif %}"
+                              class="{% if period.id != data.matchdata.match.current_period %}invisible{% endif %} game-period">
+                            {{ period.name }}</span>
+                        {% endfor %}
+                            <button id="period-increase-button" class="small-button" onclick="changePeriod(1);">+</button>
+                            <button id="confirm-new-period-button"
+                                    ondblclick="confirmNewPeriod();">OK</button>
+                    </div>
+                    <div id="added-time-settings" style="display: flex;">
+                        <input id="added-minutes" type="number" min="0">
+                        <button id="set-added-time-button"
+                                    ondblclick="setAddedTime();">OK</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div id="sidebar-footer">
+        <button id="sidebar-cancel-button" onclick="clearSidebar();">Zamknij</button>
+    </div>
+
+

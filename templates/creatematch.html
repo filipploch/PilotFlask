@@ -8,6 +8,10 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/match-settings.css') }}">
 {% endblock %}
 
+{% block header_script %}
+<script src="{{ url_for('static', filename='js/common.js') }}"></script>
+{% endblock %}
+
 {% block sitename %}
     Nowy Mecz
 {% endblock %}
@@ -30,7 +34,7 @@
         <div class="col-lg-4">
           <div>
             {{ form.competitions.label(class="form-label") }}
-            {{ form.competitions(class="form-control") }}
+            {{ form.competitions(class="form-control", onchange="fetchGet('http://127.0.0.1:5555/creatematch')") }}
           </div>
           <div class="form-group">
             {{ form.division.label(class="form-label") }}
@@ -45,7 +49,7 @@
         <div class="col-lg-6">
           <div class="form-group">
             {{ form.period_length.label(class="form-label") }}
-            {{ form.period_length(class="form-control", value="1200") }}
+            {{ form.period_length(class="form-control") }}
           </div>
         </div>
           <div class="col-lg-6">

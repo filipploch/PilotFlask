@@ -1,0 +1,51 @@
+    <div id="sidebar-head">
+        <div id="substitution-data" data-team-id="{{ data.team.id }}">ZMIANY: {{ data.team.short_name }}</div>
+        <button id="all-substitutions-button"
+                onclick="showAllSubstitutions(this)">Wszystkie</button>
+        <button id="proceeded-substitutions-button"
+                class="invisible"
+                onclick="showProceededSubstitutions(this)">Aktualne</button>
+        <button id="add-substitution-button"
+                onclick="loadContent('/add-substitution/{{ data.team.id }}', 'sidebar')">Dodaj</button>
+    </div>
+    <div id="action-id" class="invisible-text"></div>
+    <div id="sidebar-body">
+        <div id="sidebar-body-div">
+            <div id="elements" style="overflow-y: auto;">
+                {% for substitution in data.substitutions %}
+                <div
+                    id="substitution-{{ loop.index }}-element"
+                    class="substitution-element
+                    {% if substitution.is_to_display %}
+                     undisplayed
+                    {% else %}
+                     invisible displayed
+                    {% endif %}
+                    "
+                >
+                    <div class="player-out">
+                        {{ substitution.player_out.default_nr }}.
+                        {{ substitution.player_out.full_name }}
+                    </div>
+                    <div class="player-in">
+                        {{ substitution.player_in.default_nr }}.
+                        {{ substitution.player_in.full_name }}
+                    </div>
+                    <div>
+                        <button onclick=
+                            "loadContent('/edit-substitution/{{ substitution.id }}', 'sidebar')">Edytuj
+                        </button>
+                        <button ondblclick="deleteSubstitution({{ substitution.id }});">Usuń
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div id="sidebar-footer">
+        <button ondblclick="confirmSubstitutions()">Potwierdź wszystkie</button>
+        <button id="sidebar-cancel-button" onclick="clearSidebar();">Zamknij</button>
+    </div>
+
+

@@ -9,13 +9,16 @@ from utils.nalf_league_matches_scraper import NALFleagueMatchesScraper
 from utils.nalf_table_scraper import NALFtableScraper
 from utils.json_file_generator import JSONFileGenerator
 from utils.ball_tracker import BallTracker
-from utils.file_utils import copy_file, get_video_length, create_folder
+from utils.file_utils import (copy_file, get_video_duration, create_folder, get_replay_file_duration, process_csv_file,
+                              save_txt_file, create_file)
+from utils.time_utils import format_time
+from utils.mzpn_scraper import Scraper as MzpnScraper
 from env.settings import get_settings
 from flask import Flask, render_template, jsonify, current_app, Blueprint, request, redirect, url_for, send_file
 from flask_cors import CORS
 from datetime import datetime, timedelta
 from models import Team, Match, Player, MatchesData, Stadium, Staff, MatchCommentator, MatchCameraman, MatchReferee, \
-    MatchAction, Division, LeagueMatches, Competitions, TimerDisplayMode, Period
+    MatchAction, Division, LeagueMatches, Competitions, TimerDisplayMode, Period, Substitution
 from database import db
 from schemas import ma, player_schema, players_schema, match_datas_schema, team_schema, teams_schema, match_data_schema, \
     stadium_schema, matches_schema, staff_schema, match_schema, division_schema, league_match_schema, \
@@ -32,6 +35,7 @@ import os
 import shutil
 from threading import Thread
 from socketiopy import socketio
+import pandas as pd
 from video_recorder import VideoRecorder
 from time import sleep
 
@@ -89,7 +93,7 @@ def get_period_type_name(periods_nr):
             return 'tercja'
         case 4:
             return 'kwarta'
-        case default:
+        case _:
             return ''
 
 
@@ -125,8 +129,8 @@ def get_recording_start_time(app):
         _directory = app.config['REPLAYS_FILES_DIRECTORY']
         _video_path = f"{_directory}\\{_recording_filename}"
         if os.path.exists(_video_path):
-            print('video_length:', get_video_length(_video_path))
-            return get_video_length(_video_path)
+            print('video_length:', get_video_duration(_video_path))
+            return get_video_duration(_video_path)
         print('video_length:', 0)
         return 0
 
@@ -162,6 +166,8 @@ def control_timer():
     Match.query.filter_by(actual=1).first().is_timer_active = int(control_variable)
     db.session.commit()
     with current_app.app_context():
+        if int(control_variable) == 2:
+            current_app.config['TIMER_CONTROL'] = True
         current_app.config['MATCHDATA']['match']['is_timer_active'] = int(control_variable)
     return jsonify({'is_timer_active': Match.query.filter_by(actual=1).first().is_timer_active})
 
@@ -535,16 +541,16 @@ def prepare_table(data_list):
     return transformed_data
 
 
-# @stream_blueprint.errorhandler(Exception)
-# def handle_error(error):
-#     # print(error)
-#     _error = str(error).split(' ')[0]
-#     return render_template('error.html', error=_error)
-#
-#
-# @stream_blueprint.route('/raise-error')
-# def raise_error():
-#     abort(500)
+@stream_blueprint.errorhandler(Exception)
+def handle_error(error):
+    # print(error)
+    _error = str(error).split(' ')[0]
+    return render_template('error.html', error=_error)
+
+
+@stream_blueprint.route('/raise-error')
+def raise_error():
+    abort(500)
 
 
 @stream_blueprint.route('/playoffs')
@@ -564,11 +570,33 @@ def charts():
 
 @panel_blueprint.route('/panel')
 def panel():
-    _matchdata = matchdata().get_json()
+    # _matchdata = matchdata().get_json()
+    _matchdata = get_match_data(current_app)
+    _match_id = _matchdata['match']['id']
+    _competition_id = Match.query.filter_by(id=_match_id).first().competitions
+    _competition_elements = get_competition_elements(_competition_id)
     _seconds = current_app.config['TIME_DATA']['seconds']
     _added_seconds = current_app.config['TIME_DATA']['added_seconds']
     _time_data = {'seconds': _seconds, 'added_seconds': _added_seconds}
-    return render_template('panel.html', matchdata=_matchdata, time_data=_time_data)
+
+    return render_template('panel.html',
+                           matchdata=_matchdata,
+                           time_data=_time_data,
+                           competition_elements=_competition_elements)
+
+
+def get_competition_elements(_competitions_id):
+    match _competitions_id:
+        case 1:
+            _matchdata = get_match_data(current_app)
+            return render_template('elements/nalf_panel_elements.html', matchdata=_matchdata)
+        case 5:
+            _data = {
+                'matchdata': get_match_data(current_app)
+            }
+            return render_template('elements/mzpn_panel_elements.html', data=_data)
+        case _:
+            return render_template('elements/empty_panel_elements.html')
 
 
 @panel_blueprint.route('/matchdata')
@@ -621,7 +649,8 @@ def get_match_data(app):
                                         'extra_time_period_length': match.extra_time_period_length,
                                         # 'periods_end_times': get_periods_end_times(match),
                                         'current_period': match.current_period,
-                                        'period_time_limit': get_period_time_limit(match),
+                                        'period_start_time': get_period_start_time(match),
+                                        'period_end_time': get_period_end_time(match),
                                         'is_timer_active': match.is_timer_active,
                                         'panel_timer_display_mode':
                                             get_timer_display_mode(match.panel_timer_display_mode),
@@ -675,10 +704,12 @@ def get_is_timer_ascending(match, db_value):
 #     return periods_end_times
 
 
-def get_period_time_limit(match):
-    print(match_schema.dump(match))
-    print(match.current_period)
-    return Period.query.filter_by(id=match.current_period).first().end_time
+def get_period_start_time(_match):
+    return Period.query.filter_by(id=_match.current_period).first().start_time
+
+
+def get_period_end_time(_match):
+    return Period.query.filter_by(id=_match.current_period).first().end_time
 
 
 @panel_blueprint.route('/update-value', methods=['POST'])
@@ -780,9 +811,12 @@ def drop_replay(action_type):
     current_app.config['OBS_DROP_REPLAY'] = True
     _action_type = int(action_type)
     obs_ws = current_app.config['obs_ws']
-    socketio = current_app.config['SOCKETIO']
+    _socketio = current_app.config['SOCKETIO']
     _replay_file = get_replay_file_name(_action_type)
     current_app.config['REPLAY_FILE_NAME'] = _replay_file
+    record_time = current_app.config['RECORD_TIME']
+    matchdata = current_app.config['MATCHDATA']
+    goal_set = current_app.config['ACTIONS_SETS']['goal_set']
     action_data = {
         'seconds': current_app.config['TIME_DATA']['seconds'],
         'added_seconds': current_app.config['TIME_DATA']['added_seconds'],
@@ -791,27 +825,65 @@ def drop_replay(action_type):
         'action_id': int(_action_type),
         'player_id': None,
         'team_id': None,
-        'actual': 1,
+        'actual': 0,
         'is_hided': 0,
         'replay_file': _replay_file,
-        'record_time': current_app.config['RECORD_TIME']
+        'record_time': get_record_time(record_time),
+        'replay_start_time': get_replay_start_time(get_record_time(record_time)),
+        'replay_end_time': get_record_time(record_time)
     }
     current_app.config['ACTION_DATA'] = action_data
+    for data in action_data:
+        print(data, action_data[data])
+    insert_action_to_db(action_data)
 
     if _action_type == 0:
-        socketio.start_background_task(obs_ws.drop_replay, instant=True)
+        _process_replay(get_matchdata_id_by_replay_file_name(action_data['replay_file']))
+        _socketio.start_background_task(obs_ws.drop_replay, instant=True)
         _action_type = 1
     else:
-        socketio.start_background_task(obs_ws.drop_replay)
+        _socketio.start_background_task(obs_ws.drop_replay)
 
     if _action_type in current_app.config['ACTIONS_SETS']['no_team_set']:
         print('no team')
-        insert_action_to_db(action_data)
         return '', 204
-    matchdata = current_app.config['MATCHDATA']
-    goal_set = current_app.config['ACTIONS_SETS']['goal_set']
     return render_template('ws-controller-fill-action-data.html',
                            action_data=action_data, matchdata=matchdata, goal_set=goal_set)
+
+
+@panel_blueprint.route('/update-action-data', methods=['POST'])
+def update_action_data():
+    data = request.get_json()
+    player_id = data.get('playerId')
+    team_id = data.get('teamId')
+    replay_file = data.get('replayFile')
+
+    # Znalezienie rekordu na podstawie replay_file
+    match_data = MatchesData.query.filter_by(replay_file=replay_file).first()
+
+    if match_data:
+        match_data.player_id = player_id
+        match_data.team_id = team_id
+        db.session.commit()
+        return jsonify({'status': 'OK'})
+    else:
+        return jsonify({'status': 'Error', 'message': 'Record not found'}), 404
+
+
+def get_record_time(_record_time):
+    if _record_time is None:
+        return 0
+    return int(_record_time)
+
+
+def get_replay_start_time(record_time):
+    if int(record_time) > 10:
+        return int(record_time) - 10
+    return 0
+
+
+def get_matchdata_id_by_replay_file_name(_replay_file_name):
+    return MatchesData.query.filter_by(replay_file=_replay_file_name).first().id
 
 
 def save_dropped_replay(action_data):
@@ -824,9 +896,11 @@ def save_dropped_replay(action_data):
 
 
 def insert_action_to_db(action_data):
-    all_match_data = MatchesData.query.all()
-    for data in all_match_data:
-        data.actual = 0
+    if action_data['action_id'] == 0:
+        all_match_data = MatchesData.query.all()
+        for data in all_match_data:
+            data.actual = 0
+        action_data['action_id'] = 1
     match_data = MatchesData(
         seconds=action_data['seconds'],
         added_seconds=action_data['added_seconds'],
@@ -838,7 +912,9 @@ def insert_action_to_db(action_data):
         actual=action_data['actual'],
         is_hided=action_data['is_hided'],
         replay_file=action_data['replay_file'],
-        record_time=action_data['record_time']
+        record_time=action_data['record_time'],
+        replay_start_time=action_data['replay_start_time'],
+        replay_end_time=action_data['replay_end_time']
     )
     db.session.add(match_data)
     db.session.commit()
@@ -855,6 +931,8 @@ def get_replay_file_name(action_type):
 
 
 def get_type_of_action(param):
+    if param == 0:
+        param = 1
     _action = MatchAction.query.filter_by(id=param).first()
     return _action.desc_polish
 
@@ -1022,7 +1100,7 @@ def get_all_teams(competition_id):
 @panel_blueprint.route('/get-team/<team_id>')
 def get_team(team_id):
     team = Team.query.filter_by(id=team_id).first()
-    return team_schema.dump((team))
+    return team_schema.dump(team)
 
 
 @panel_blueprint.route('/update-lineup', methods=['POST'])
@@ -1085,6 +1163,38 @@ def update_time():
         return jsonify(Match.query.filter_by(actual=1).first().seconds)
 
 
+@panel_blueprint.route('/update-replay-time', methods=['POST'])
+def update_replay_time():
+    if request.method == 'POST':
+        value_type = request.get_json()['valueType']
+        difference = request.get_json()['difference']
+        replay_id = request.get_json()['replayId']
+        replay = MatchesData.query.filter_by(id=replay_id).first()
+        if value_type == 'replay-start-time':
+            seconds = change_replay_time(replay.replay_start_time, difference)
+            replay.replay_start_time = seconds
+        else:
+            seconds = change_replay_time(replay.replay_end_time, difference)
+            replay.replay_end_time = seconds
+        db.session.commit()
+        return jsonify({'seconds': seconds})
+
+
+def change_replay_time(base_time, difference):
+    with current_app.app_context():
+        replays_dir = current_app.config['REPLAYS_FILES_DIRECTORY']
+        match_identifier = current_app.config['MATCH_IDENTIFIER']
+        c1_video_replay_file = os.path.join(replays_dir, match_identifier, f'C1_{match_identifier}_output.mp4')
+        video_length = get_video_duration(c1_video_replay_file)
+        _time = base_time + difference
+        if _time < 0:
+            return 0
+        elif _time > video_length:
+            return video_length
+        else:
+            return _time
+
+
 @panel_blueprint.route('/get_files')
 def get_files():
     directory = 'static/video/replays'
@@ -1104,79 +1214,19 @@ def get_files():
 def get_replays():
     _match = Match.query.filter_by(actual=1).first()
     _replays_db = MatchesData.query.filter(MatchesData.match_id == _match.id, MatchesData.replay_file.isnot(None)).all()
-    # for _replay in _replays:
-    # print(len(_replays))
-    # print(match_data_schema.dump(_replay))
-    '''
-    _data = {'id': 2925,
-             'seconds': 108,
-             'added_seconds': 0,
-             'match_id': 98,
-             'action_id': 1,
-             'player_id': 125,
-             'team_id': 6,
-             'record_time': 0,
-             'actual': 0,
-             'player':
-                 {'id': 125,
-                  'full_name': 'Klęk Kamil',
-                  'team': 6,
-                  'position': '0',
-                  'matches': 12,
-                  'goals': 21,
-                  'assists': 5,
-                  'yellow_cards': 1,
-                  'red_cards': 0,
-                  'own_goals': 0,
-                  'best_five': 3,
-                  'first_name': 'Kamil',
-                  'last_name': 'Klęk',
-                  'default_nr': 99,
-                  'squad': 1,
-                  'is_active': 1,
-                  'captain': '',
-                  'link': 'https://nalffutsal.pl/?sp_player=kamil-klek'
-                  },
-             'action':
-                 {'id': 1,
-                  'desc_polish': 'GOL',
-                  'action_icon': 'goal.png'
-                  },
-             'team':
-                 {'id': 6,
-                  'full_name': 'IGLOMEN&RodzinneRestauracje',
-                  'competitions': 1,
-                  'link': 'bidvest-krakow',
-                  'short_name': 'IGL',
-                  'home_tricot_color_number': 1,
-                  'home_color_1': '#801c71',
-                  'home_color_2': '#00ff00',
-                  'home_color_3': '#42d2d2',
-                  'color_for_ui': '',
-                  'away_color_1': '#ffffff',
-                  'away_color_2': '#ffffff',
-                  'away_color_3': '#ffffff',
-                  'selected_tricot': 1,
-                  'bibs_color': '#adeb31',
-                  'away_tricot_color_number': 3,
-                  'logo_file': 'IGLOMENRR.png',
-                  'penalty_points': 0,
-                  'name_16': 'Iglomen&RR'
-                  },
-             'is_hided': 0,
-             'replay_file': '20240619_205206___0-1_GOL_.mkv'
-             }
-    '''
     _replays = []
     for _replay in _replays_db:
         _repl = match_data_schema.dump(_replay)
+        if _repl['actual']:
+            current_app.config['REPLAY_ID'] = _repl['id']
+            _process_replay(current_app.config['REPLAY_ID'])
         _replays.append(
             {'id': _repl['id'],
              'seconds': _repl['seconds'],
              'added_seconds': _repl['added_seconds'],
              'formatted_seconds': get_formatted_time(_repl['seconds'], _repl['added_seconds']),
-             'replay_end_time': _repl['record_time'],
-             'replay_start_time': get_replay_start_time(_repl['record_time']),
+             'replay_start_time': _repl['replay_start_time'],
+             'replay_end_time': _repl['replay_end_time'],
              'actual': _repl['actual'],
              'player': get_value('full_name', _repl['player']),
              'action': _repl['action']['desc_polish'],
@@ -1184,32 +1234,32 @@ def get_replays():
              'record_time': _repl['record_time'],
              'replay_file': _repl['replay_file'],
              'replay_file_path': get_replay_path(_repl['replay_file']),
-             'is_edited': 0
+             'replay_source': 'C0'
              }
         )
-        print({'id': _repl['id'],
-               'seconds': _repl['seconds'],
-               'added_seconds': _repl['added_seconds'],
-               'formatted_seconds': get_formatted_time(_repl['seconds'], _repl['added_seconds']),
-               'replay_end_time': _repl['record_time'],
-               'replay_start_time': get_replay_start_time(_repl['record_time']),
-               'actual': _repl['actual'],
-               'player': get_value('full_name', _repl['player']),
-               'action': _repl['action']['desc_polish'],
-               'team': get_value('short_name', _repl['team']),
-               'replay_file': get_replay_path(_repl['replay_file'])
-               })
 
-    # directory = 'static/video/replays'
-    # files = [file for file in os.listdir(directory) if file.endswith('.mkv')]
     new_content = render_template('replays-panel.html', replays=_replays)
     return jsonify({'content': new_content})
 
 
-def get_replay_start_time(record_time):
-    if record_time >= 10:
-        return record_time - 10
-    return 0
+@panel_blueprint.route('/periods-panel')
+def periods_panel():
+    _match = Match.query.filter_by(actual=1).first()
+    _matchdata = get_match_data(current_app)
+    _periods = Period.query.filter_by(match_id=_match.id).order_by(Period.start_time).all()
+    _data = {
+        'periods': _periods,
+        'matchdata': _matchdata
+    }
+
+    new_content = render_template('periods-panel.html', data=_data)
+    return jsonify({'content': new_content})
+
+
+# def get_replay_start_time(record_time):
+#     if record_time >= 10:
+#         return record_time - 10
+#     return 0
 
 def get_value(_key, _dict):
     if _dict is None:
@@ -1227,15 +1277,15 @@ def get_replay_path(replay_file):
 def get_formatted_time(_seconds, _added_seconds, _format='min:sec'):
     match _format:
         case 'min:sec':
-            mins = int((_seconds - _added_seconds) / 60)
-            secs = int((_seconds - _added_seconds) % 60)
-            if _added_seconds > 0:
-                _added_mins = int(_added_seconds / 60)
-                _added_secs = int(_added_seconds % 60)
-                return f'{mins}+ {_added_mins}:{'{:02}'.format(_added_secs)}'
+            mins = int((_seconds) / 60)
+            secs = int((_seconds) % 60)
             return f'{mins}:{'{:02}'.format(secs)}'
-
-
+        case 'min':
+            mins = int((_seconds - _added_seconds) / 60) + 1
+            if _added_seconds > 0:
+                _added_mins = int(_added_seconds / 60) + 1
+                return f"{mins}+{_added_mins}'"
+            return f"{mins}'"
 
 
 @panel_blueprint.route('/process_file/<filename>')
@@ -1248,6 +1298,43 @@ def process_file(filename):
         target_file.write(source_file.read())
 
     return send_file(target_path, as_attachment=True)
+
+
+@panel_blueprint.route('/process-replay', methods=['POST'])
+def process_replay():
+    if request.method == 'POST':
+        replay_data = request.get_json()['data']
+        current_app.config['REPLAY_SOURCE'] = replay_data['data-replay-source']
+        print(replay_data)
+
+        current_app.config['REPLAY_ID'] = int(replay_data['data-replay-id'])
+        _process_replay(current_app.config['REPLAY_ID'], current_app.config['REPLAY_SOURCE'])
+    return jsonify({'status': 'OK'})
+
+
+def _process_replay(_replay_id, replay_source='C0'):
+    _match_id = Match.query.filter_by(actual=1).first().id
+    _match_data = MatchesData.query.filter_by(match_id=_match_id).all()
+    _replays_db = MatchesData.query.filter(MatchesData.match_id == _match_id,
+                                           MatchesData.replay_file.isnot(None)).all()
+
+    _replay_db = MatchesData.query.filter_by(id=_replay_id).first()
+    for item in _match_data:
+        item.actual = 0
+    _replay_db.actual = 1
+    db.session.commit()
+    # with current_app.app_context():
+    obs_ws = current_app.config['obs_ws']
+    if replay_source == 'C0':
+        replay_path = get_replay_path(_replay_db.replay_file)
+        print(get_replay_file_duration(replay_path))
+        current_app.config['VIDEO_LENGTH']['C0'] = get_replay_file_duration(replay_path)
+        print("current_app.config['VIDEO_LENGTH']['C0']:", current_app.config['VIDEO_LENGTH']['C0'])
+    else:
+        replay_path = os.path.join(current_app.config['REPLAYS_FILES_DIRECTORY'],
+                                   current_app.config['MATCH_IDENTIFIER'],
+                                   f'{replay_source}_{current_app.config['MATCH_IDENTIFIER']}_output.mp4')
+    obs_ws.process_replay(replay_path)
 
 
 @panel_blueprint.route('/actual-match-data/<team>', methods=['GET', 'POST'])
@@ -1376,9 +1463,26 @@ def select_replay():
         return jsonify({'status': 'OK'})
 
 
-@panel_blueprint.route('/get-recorded-video-length/<camera_prefix>')
-def get_recorded_video_length(camera_prefix):
+@panel_blueprint.route('/set-replay-file/<camera_prefix>')
+def set_replay_file(camera_prefix):
+    _process_replay(current_app.config['REPLAY_ID'], camera_prefix)
     return jsonify({'video_length': current_app.config['VIDEO_LENGTH'][camera_prefix]})
+
+
+# def get_recorded_video_length(camera_prefix):
+#     current_app.config['REPLAY_SOURCE'] = camera_prefix
+#     return jsonify({'video_length': current_app.config['VIDEO_LENGTH'][camera_prefix]})
+
+
+@panel_blueprint.route('/round-panel')
+def round_panel():
+    data = {
+        'current_round': current_app.config['CURRENT_ROUND'],
+        'division': Division.query.filter_by(id=10).first()
+    }
+    new_content = render_template('mzpn/round-panel.html', data=data)
+    return jsonify({'content': new_content})
+
 
 
 @settings_blueprint.route('/matches-settings', methods=['GET'])
@@ -1430,7 +1534,6 @@ def add_nalf_league_matches(page_id):
     scraper = NALFleagueMatchesScraper(page_id)
     data_objects = scraper.scrape_matches()
     matches = data_objects['matches']
-    print('matches', matches)
     division = data_objects['division'].split()[1].lower()
     for match in matches:
         _match = LeagueMatches.query.filter_by(event_id=match['event_id']).first()
@@ -1457,6 +1560,67 @@ def add_nalf_league_matches(page_id):
             _match.date = match['date']
         db.session.commit()
     return jsonify({'message': f'Pobrano wyniki Dywizji {division.upper()}'})
+
+
+@settings_blueprint.route('/scrape-mzpn-data', methods=['POST'])
+def scrape_mzpn_data():
+    url = request.get_json()['mzpnUrl']
+    data = MzpnScraper.get_data_from_web(url)
+    # _round = 1
+    # _table = render_template('/mzpn/table.html', data=data['table'])
+    # _results = render_template('/mzpn/schedule.html',
+    #                            data=data['schedule'][f'Kolejka {_round}'],
+    #                            round=_round)
+    # with open(f'templates/table.html', 'w', encoding='utf-8') as txt_file:
+    #     txt_file.writelines(_table)
+    # with open(f'templates/results.html', 'w', encoding='utf-8') as txt_file:
+    #     txt_file.writelines(_results)
+    _date = datetime.now().strftime("%Y%m%d-%H%M%S")
+    root_path = current_app.root_path
+    mzpn_path = os.path.join(root_path, 'static', 'json', 'mzpn')
+    create_folder(mzpn_path)
+    create_file(os.path.join(mzpn_path, 'mzpn_schedule.json'))
+    create_file(os.path.join(mzpn_path, f'mzpn_table_{_date}.json'))
+    create_file(os.path.join(mzpn_path, f'mzpn_table.json'))
+    save_txt_file(os.path.join(mzpn_path, 'mzpn_schedule.json'), json.dumps(data['schedule']))
+    save_txt_file(os.path.join(mzpn_path, f'mzpn_table_{_date}.json'), json.dumps(data['table']))
+    save_txt_file(os.path.join(mzpn_path, 'mzpn_table.json'), json.dumps(data['table']))
+    return jsonify({'message': 'Pobrano wyniki ze strony MZPN'})
+
+
+@settings_blueprint.route('/render-mzpn-data/<round_nr>')
+def render_mzpn_data(round_nr):
+    root_path = current_app.root_path
+    mzpn_path = os.path.join(root_path, 'static', 'json', 'mzpn')
+    schedule_file = os.path.join(mzpn_path, 'mzpn_schedule.json')
+    table_file = os.path.join(mzpn_path, 'mzpn_table.json')
+
+    with open(schedule_file, 'r') as json_file:
+        data = json.load(json_file)
+    _results = render_template('/mzpn/schedule.html',
+                               data=data[f'Kolejka {round_nr}'],
+                               round=round_nr)
+    with open(f'templates/results.html', 'w', encoding='utf-8') as txt_file:
+        txt_file.writelines(_results)
+
+    with open(table_file, 'r') as json_file:
+        data = json.load(json_file)
+    _table = render_template('/mzpn/table.html', data=data)
+    with open(f'templates/table.html', 'w', encoding='utf-8') as txt_file:
+        txt_file.writelines(_table)
+
+    return jsonify({'message': 'Wyrenderowano wyniki'})
+
+
+def check_team_position(team_id: int):
+    _match = Match.query.filter_by(actual=1).first()
+
+    if _match.team_a == team_id and _match.team_b != team_id:
+        return 'team_a'
+    elif _match.team_a != team_id and _match.team_b == team_id:
+        return 'team_b'
+    else:
+        return 'Error'
 
 
 def get_team(team_name):
@@ -1496,10 +1660,12 @@ def create_team():
             away_color_1=request.form.get('home_color_1'),
             away_color_2=request.form.get('home_color_2'),
             away_color_3=request.form.get('home_color_3'),
+            bibs_color='#0BFC03',
             color_for_ui='#D3D3D3',
             selected_tricot=1,
             logo_file=request.form.get('logo_file'),
-            penalty_points=0
+            penalty_points=0,
+            name_16=request.form.get('name_16')
         )
 
         db.session.add(new_team)
@@ -1513,8 +1679,13 @@ def create_team():
 
 @settings_blueprint.route('/creatematch', methods=['GET', 'POST'])
 def creatematch():
-    form = MatchForm(request.form)
-    form.competitions.default = 1
+    _competitions_id = request.args.get('competition_id')
+    if _competitions_id:
+        form = MatchForm(request.form, competition_id=_competitions_id)
+    else:
+        form = MatchForm(request.form)
+
+    # form.competitions.default = _competitions_id
     form.process()
 
     form_content = CreateEditMatch.form_content
@@ -1557,8 +1728,8 @@ def creatematch():
             )
 
             new_match.period.append(new_period)
-            if _period == 0:
-                new_match.current_period = new_period.id
+            # if _period == 0:
+            #     new_match.current_period = new_period.id
 
         # # Dodaj cameramen do meczu
         for cameraman_id in cameramen:
@@ -1578,6 +1749,10 @@ def creatematch():
 
         # Zapisz zmiany w bazie danych
         db.session.commit()
+
+        first_period = Period.query.filter_by(match_id=new_match.id).order_by(Period.id).first()
+        new_match.current_period = first_period.id
+        db.session.commit()
         create_replays_folders(new_match)
         _set_actual_match(new_match)
         return redirect(url_for('settings.nalf'))
@@ -1591,7 +1766,7 @@ def create_replays_folders(_match):
         replays_folder = current_app.config['REPLAYS_FILES_DIRECTORY']
         match_replays_folder = os.path.join(replays_folder, match_identifier)
         create_folder(match_replays_folder)
-        match_replays_arch_folder = os.path.join(replays_folder, 'arch', match_identifier)
+        match_replays_arch_folder = os.path.join(replays_folder, 'arch')
         create_folder(match_replays_arch_folder)
 
 
@@ -1715,14 +1890,29 @@ def is_future(date_time):
 
 @settings_blueprint.route('/competition-teams')
 def competition_teams():
-    _competition_teams = Team.query.filter_by(competitions=1).order_by('full_name')
-    return render_template('competition-teams.html', teams=_competition_teams)
+    _competitions_id = request.args.get('competition_id')
+    if _competitions_id:
+        _competition_teams = Team.query.filter_by(competitions=_competitions_id).order_by('full_name')
+    else:
+        _competition_teams = Team.query.filter_by(competitions=1).order_by('full_name')
+    competitions = Competitions.query.all()
+
+    return render_template('competition-teams.html',
+                           teams=_competition_teams,
+                           competitions=competitions)
+
+
+def is_nalf_team(_team):
+    if _team.competitions == 1:
+        return True
+    return False
 
 
 @settings_blueprint.route('/edit-team/<edit_type>/<int:team_id>', methods=['GET', 'POST'])
 def edit_team(edit_type, team_id):
     if request.method == 'POST':
         _data = request.form.to_dict()
+
         if 'submit_players' in _data:
             save_players_to_database(_data)
         elif 'submit_colors' in _data:
@@ -1735,10 +1925,80 @@ def edit_team(edit_type, team_id):
     players = Player.query.filter_by(team=team_id).order_by(Player.position.desc(),
                                                             Player.default_nr)  # Pobierz graczy z bazy danych
     # .order_by(desc(players.position))
+    _is_nalf_team = is_nalf_team(team)
     if edit_type == 'edit':
-        return render_template('edit_team.html', edit_type=edit_type, team_id=team_id, team=team, players=players)
+        return render_template('edit_team.html',
+                               edit_type=edit_type,
+                               team_id=team_id,
+                               team=team,
+                               is_nalf_team=_is_nalf_team,
+                               players=players)
     elif edit_type == 'set':
-        return render_template('set-lineup.html', edit_type=edit_type, team_id=team_id, team=team, players=players)
+        return render_template('set-lineup.html',
+                               edit_type=edit_type,
+                               team_id=team_id,
+                               team=team,
+                               is_nalf_team=is_nalf_team,
+                               players=players)
+
+
+@settings_blueprint.route('/load_players_from_file', methods=['POST'])
+def load_players_from_file():
+    _request = [request.files, int(request.values['team'])]
+    if 'file' not in _request[0]:
+        return jsonify({"error": "No file part"}), 400
+
+    file = _request[0]['file']
+    if file.filename == '':
+        return jsonify({"error": "No selected file"}), 400
+
+    file_extension = file.filename.split('.')[-1].lower()
+    team_id = _request[1]
+    try:
+        if file_extension in ['txt', 'csv']:
+            data = process_csv_file(file, team_id)
+        elif file_extension in ['xml']:
+            data = pd.read_xml(file)
+        elif file_extension in ['xls', 'xlsx']:
+            data = pd.read_excel(file)
+        elif file_extension in ['ods']:
+            data = pd.read_excel(file, engine='odf')
+        elif file_extension in ['xsl']:
+            data = pd.read_xml(file)
+        else:
+            return jsonify({"error": "Unsupported file type"}), 400
+        insert_file_data_to_db(data)
+        return jsonify({'status': 'OK'})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+def insert_file_data_to_db(_players):
+    for player in _players:
+        db_player = Player.query.filter(Player.full_name == player['full_name'], Player.team == player['team']).first()
+        if not db_player:
+            db_player = Player(
+                full_name=player['full_name'],
+                team=player['team'],
+                position=player['position'],
+                matches=0,
+                goals=0,
+                assists=0,
+                yellow_cards=0,
+                red_cards=0,
+                own_goals=0,
+                best_five=0,
+                best_player=0,
+                first_name=player['first_name'],
+                last_name=player['last_name'],
+                default_nr=player['default_nr'],
+                squad=1,
+                is_active=1,
+                captain=player['captain'],
+                link=None,
+            )
+            db.session.add(db_player)
+            db.session.commit()
 
 
 # @settings_blueprint.route('/set-lineup/<int:team_id>', methods=['GET', 'POST'])
@@ -1758,41 +2018,43 @@ def edit_team(edit_type, team_id):
 #     return render_template('set-lineup.html', team_id=team_id, team=team, players=players)
 
 def save_players_to_database(player_data):
+    print(player_data)
     players_ids = []
-    players_data = {}
+    players_data = []
 
     for key, value in player_data.items():
         # Sprawdź, czy pole zawiera dane gracza
-
-        if '[' in key and ']' in key:
-            player_id = key.split('[')[0].split('_')[1]
-            players_ids.append(player_id)
+        print('key, value:', key, value)
+        if "['" in key and "']" in key:
+            player_id = key.split("['")[0].split('_')[1]
+            players_ids.append(int(player_id))
     players_ids = set(players_ids)
 
     for plyr_id in players_ids:
         _plyr_data = {}
 
         for key, value in player_data.items():
-            if '[captain_hidden]' in key:
+            if "['captain_hidden']" in key:
                 key = key.replace('_hidden', '')
             if f'player_{plyr_id}' in key:
-                _key = key.split('[')[1][:-1]
+                _key = key.split("['")[1][:-2]
                 _plyr_data.update({_key: value})
 
-        players_data.update({plyr_id: _plyr_data})
+        players_data.append(_plyr_data)
+    print(players_data)
 
     # # Zapisz dane do bazy danych
-    for key in players_data:
-        player = Player.query.filter_by(id=key).first()
+    for _player in players_data:
+        player = Player.query.filter_by(id=int(_player['player_id'])).first()
         if player:
             # print(players_data[key], flush=True)
             # Aktualizuj dane istniejącego gracza
-            player.squad = players_data[key].get('squad', '0')
-            player.default_nr = players_data[key].get('default_nr', 0)
-            player.first_name = players_data[key].get('first_name', 'Imię')
-            player.last_name = players_data[key].get('last_name', 'Nazwisko')
-            player.position = players_data[key].get('position', 0)
-            player.captain = players_data[key].get('captain', 0)
+            player.squad = _player.get('squad', 0)
+            player.default_nr = _player.get('default_nr', 0)
+            player.first_name = _player.get('first_name', '')
+            player.last_name = _player.get('last_name', '')
+            player.position = _player.get('position', 0)
+            player.captain = _player.get('captain', 0)
 
         db.session.commit()
 
@@ -2154,6 +2416,164 @@ def get_statistics(team):
     return jsonify({'content': new_content})
 
 
+@settings_blueprint.route('/get-substitutions/<team_id>')
+def get_substitutions(team_id):
+    _actual_match = Match.query.filter_by(actual=1).first()
+    # _team_id = get_team_id_by_description(team, _actual_match)
+    _team = Team.query.filter_by(id=team_id).first()
+    _substitutions = Substitution.query.filter(Substitution.match_id == _actual_match.id,
+                                               Substitution.team_id == team_id).all()
+    _data = {
+        'team': _team,
+        'substitutions': _substitutions
+    }
+    new_content = render_template('substitutions-panel.html', data=_data)
+    return jsonify({'content': new_content})
+
+
+@settings_blueprint.route('/add-substitution/<team_id>')
+def add_substitution(team_id):
+    _actual_match = Match.query.filter_by(actual=1).first()
+    _team = Team.query.filter_by(id=team_id).first()
+    _squad = Player.query.filter(Player.team == team_id, Player.squad == 1).all()
+    _subs = Player.query.filter(Player.team == team_id, Player.squad == 0).all()
+    _data = {
+        'squad': _squad,
+        'subs': _subs,
+        'team': _team
+    }
+    new_content = render_template('add-substitution.html', data=_data)
+    return jsonify({'content': new_content})
+
+
+@settings_blueprint.route('/insert-substitution', methods=['POST'])
+def insert_substitution():
+    _data = request.json
+    _match = Match.query.filter_by(actual=1).first()
+    _team_id = int(_data['teamId'])
+    _player_out_id = int(_data['playerOutId'])
+    _player_in_id = int(_data['playerInId'])
+    _time = None
+    _is_to_display = 1
+    new_substitution = Substitution(match_id=_match.id
+                                    , team_id=_team_id
+                                    , player_out_id=_player_out_id
+                                    , player_in_id=_player_in_id
+                                    , time=_time
+                                    , is_to_display=_is_to_display)
+    db.session.add(new_substitution)
+    db.session.commit()
+    return jsonify({'status': 'OK'})
+
+
+@settings_blueprint.route('/delete-substitution', methods=['DELETE'])
+def delete_substitution():
+    _substitution = Substitution.query.filter_by(id=int(request.json['substitutionId'])).first()
+    db.session.delete(_substitution)
+    db.session.commit()
+    return jsonify({'status': 'OK'})
+
+
+@settings_blueprint.route('/edit-substitution/<substitution_id>')
+def edit_substitution(substitution_id):
+    _substitution = Substitution.query.filter_by(id=substitution_id).first()
+    _team = Team.query.filter_by(id=_substitution.team_id).first()
+    _squad = get_squad_before_substitution(_substitution)
+    _subs = get_subs_before_substitution(_substitution)
+    _player_out = Player.query.filter_by(id=_substitution.player_out_id).first()
+    _player_in = Player.query.filter_by(id=_substitution.player_in_id).first()
+    _data = {
+        'squad': _squad,
+        'subs': _subs,
+        'team': _team,
+        'player_out': _player_out,
+        'player_in': _player_in
+    }
+    new_content = render_template('edit-substitution.html', data=_data)
+    return jsonify({'content': new_content})
+
+
+def get_squad_before_substitution(_substitution):
+    _team = Team.query.filter_by(id=_substitution.team_id).first()
+    _squad = Player.query.filter(Player.team == _team.id, Player.squad == 1).all()
+    if _substitution.is_to_display:
+        return _squad
+    else:
+        _player_out = Player.query.filter_by(id=_substitution.player_out_id).first()
+        _player_in = Player.query.filter_by(id=_substitution.player_in_id).first()
+        for player in _squad:
+            if player.id == _player_in.id:
+                _squad.remove(player)
+        _squad.append(_player_out)
+        return sorted(_squad, key=lambda x: (x['position'], x['default_nr']), reverse=True)
+
+
+def get_subs_before_substitution(_substitution):
+    _team = Team.query.filter_by(id=_substitution.team_id).first()
+    _subs = Player.query.filter(Player.team == _team.id, Player.squad == 0).all()
+    if _substitution.is_to_display:
+        return _subs
+    else:
+        _player_out = Player.query.filter_by(id=_substitution.player_out_id).first()
+        _player_in = Player.query.filter_by(id=_substitution.player_in_id).first()
+        for player in _subs:
+            if player.id == _player_out.id:
+                _subs.remove(player)
+        _subs.append(_player_in)
+        return sorted(_subs, key=lambda x: (x['position'], x['default_nr']), reverse=True)
+
+
+@settings_blueprint.route('/confirm-substitutions')
+def confirm_substitutions():
+    _match = Match.query.filter_by(actual=1).first()
+    _team_a_id = _match.team_a
+    _team_b_id = _match.team_b
+    _team_a = Team.query.filter_by(id=_team_a_id).first()
+    _team_b = Team.query.filter_by(id=_team_b_id).first()
+    _time = current_app.config['TIME_DATA']
+    _team_a_substitutions = Substitution.query.filter(Substitution.match_id == _match.id,
+                                                      Substitution.team_id == _team_a_id,
+                                                      Substitution.is_to_display == 1).all()
+    _team_b_substitutions = Substitution.query.filter(Substitution.match_id == _match.id,
+                                                      Substitution.team_id == _team_b_id,
+                                                      Substitution.is_to_display == 1).all()
+    render_substitution_html(_team_a_substitutions, _team_a, 'team_a', _time)
+    render_substitution_html(_team_b_substitutions, _team_b, 'team_b', _time)
+
+    for substitution in _team_a_substitutions:
+        substitute_players(substitution)
+        substitution.is_to_display = set_is_to_display_property()
+
+    for substitution in _team_b_substitutions:
+        substitute_players(substitution)
+        substitution.is_to_display = set_is_to_display_property()
+
+    return jsonify({'status': 'OK'})
+
+
+def substitute_players(_substitution):
+    player_in = Player.query.filter_by(id=_substitution.player_in_id).first()
+    player_in.squad = 1
+    player_out = Player.query.filter_by(id=_substitution.player_out_id).first()
+    player_out.squad = 0
+
+
+def set_is_to_display_property(to_is_to_display=False):
+    if to_is_to_display:
+        return 1
+    else:
+        return 0
+
+
+def render_substitution_html(_substitutions, _team, team_letter_name, _time):
+    _time_minutes = format_time(_time, 'min')
+    print('_time_minutes', _time_minutes)
+    content = render_template('mzpn/substitution.html',
+                              substitutions=_substitutions, team=_team, time=_time_minutes)
+    file_path = os.path.join(current_app.root_path, 'templates', 'mzpn', f'substitution_{team_letter_name}.html')
+    save_txt_file(file_path, content)
+
+
 def _get_average_per_match(_type, _data):
     _goals = _data[0][_type]
     _matches = _data[0]['matches']
@@ -2307,6 +2727,29 @@ def playoffs_edit():
 @settings_blueprint.route('/edit-match-periods')
 def edit_match_periods():
     pass
+
+
+@settings_blueprint.route('/change-period', methods=['POST'])
+def change_period():
+    new_period_id = int(request.json['periodId'])
+    new_period = Period.query.filter_by(id=new_period_id).first()
+    _match = Match.query.filter_by(actual=1).first()
+    _match.current_period = new_period_id
+    _match.seconds = new_period.start_time
+    _match.added_seconds = 0
+    db.session.commit()
+    current_app.config['TIME_DATA']['seconds'] = new_period.start_time
+    current_app.config['TIME_DATA']['added_seconds'] = 0
+    get_match_data(current_app)
+    return jsonify({'status': 'OK'})
+
+
+@settings_blueprint.route('/show-added-time/<added_time>')
+def show_added_time(added_time):
+    if int(added_time) > 0:
+        current_app.config['SOCKETIO'].emit('show_added_time', {'added_time': int(added_time)})
+    return jsonify({'status': 'OK'})
+
 
 
 @obswebsocketpy_blueprint.route('/ws-controller')

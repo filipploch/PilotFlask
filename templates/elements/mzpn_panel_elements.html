@@ -1,0 +1,20 @@
+    <div class="menu-description">Dane z MZPN</div>
+    <button class="team-button"
+            onclick="loadContent('/round-panel', 'sidebar')">Otwórz</button><br>
+</div>
+<div class="menu-buttons-group">
+    <div id="substitution-buttons" class="menu-description">Zmiany<br>
+        <button id="substitution-button-teama"
+                class="team-button"
+                onclick="loadContent('/get-substitutions/{{ data.matchdata.teama.id }}', 'sidebar')">
+                {{ data.matchdata.teama.short_name }}</button>
+        <button id="substitution-button-teamb"
+                class="team-button"
+                onclick="loadContent('/get-substitutions/{{ data.matchdata.teamb.id }}', 'sidebar')">
+                {{ data.matchdata.teamb.short_name }}</button><br>
+    </div>
+</div>
+<div class="menu-buttons-group">
+    <div class="menu-description">Pobierz statystyki</div>
+    <button class="team-button" onclick="">XXX</button>
+    <button class="team-button" onclick="">XXX</button><br>

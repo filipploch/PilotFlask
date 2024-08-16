@@ -86,15 +86,22 @@
       <tbody>
         {% for player in players %}
         <tr id="player_{{ player.id }}">
-          <td class="invisible"><input type="text" name="player_{{ player.id }}[player_id]" value="{{ player.id }}"></td>
-          <td><input type="checkbox" name="player_{{ player.id }}[squad]" value="1" {% if player.squad == 1 %}checked{% endif %}></td>
-          <td><input class="number" type="text" name="player_{{ player.id }}[default_nr]" value="{{ player.default_nr }}"></td>
-          <td><input type="text" name="player_{{ player.id }}[first_name]" value="{{ player.first_name }}"></td>
-          <td><input type="text" name="player_{{ player.id }}[last_name]" value="{{ player.last_name }}"></td>
-          <td><input type="checkbox" name="player_{{ player.id }}[position]" value="{{ player.position }}" {% if player.position == '1' %}checked{% endif %}></td>
+          <td class="invisible"><input type="text" name="player_{{ player.id }}['player_id']" value="{{ player.id }}"></td>
+          <td><input type="checkbox" name="player_{{ player.id }}['squad']" onchange="toggleCheckbox(this);"
+                     value="{{ player.squad }}" {% if player.squad == 1 %}checked{% endif %}></td>
+          <td><input class="number" type="text" name="player_{{ player.id }}['default_nr']" value="{{ player.default_nr }}"></td>
+          <td><input type="text" name="player_{{ player.id }}['first_name']" value="{{ player.first_name }}"></td>
+          <td><input type="text" name="player_{{ player.id }}['last_name']" value="{{ player.last_name }}"></td>
+          <td><input type="checkbox" name="player_{{ player.id }}['position']" onchange="toggleCheckbox(this);"
+                     value="{{ player.position }}" {% if player.position == '1' %}checked{% endif %}></td>
           <td>
-            <input type="radio" id="player_{{ player.id }}_captain" data-custom="player_{{ player.id }}[captain]" name="captain" value="{{ player.captain }}" {% if player.captain == 1 %}checked{% endif %}>
-            <input type="hidden" name="player_{{ player.id }}[captain_hidden]" id="player_{{ player.id }}_captain_hidden" value="">
+            <input type="radio" id="player_{{ player.id }}_captain" data-custom="player_{{ player.id }}['captain']"
+                   name="captain" class="radio-captain radio-captain_{{ player.id }}" data-player-id="{{ player.id }}"
+                   value="{{ player.captain }}" {% if player.captain == 1 %}checked{% endif %}>
+            <input type="hidden" name="player_{{ player.id }}['captain_hidden']"
+                   class="radio-captain radio-captain_{{ player.id }}" data-player-id="{{ player.id }}"
+                   id="player_{{ player.id }}_captain_hidden"
+                   value="{{ player.captain }}" {% if player.captain == 1 %}checked{% endif %}">
           </td>
 
 
@@ -109,7 +116,21 @@
     </div>
   </form>
   <div>
+    {% if is_nalf_team %}
       <input class="btn btn-primary" type="button" onclick="updatePlayers({{ team.id }})" value="Update">
+    {% else %}
+      <input class="btn btn-primary"
+             type="button"
+             onclick="loadPlayersFromFile()"
+             value="Z pliku">
+      <input type="file"
+             id="fileInput"
+             data-team-id="{{ team.id }}"
+             style="display: none;"
+             accept=".txt,.csv,.xml,.xls,.xlsx,.ods,.xsl"
+
+      >
+    {% endif %}
   </div>
 </div>
 </div>
@@ -118,21 +139,31 @@
 
 {% block footer_script %}
 <script>
-   let radios = document.getElementsByName("captain");
-
-  for (var i = 0; i < radios.length; i++) {
-    radios[i].addEventListener("click", function () {
-      if (this.checked) {
-        this.value = "1";
-        var customData = this.dataset.custom;
-
-        // Aktualizacja wartości ukrytego pola z pełnym name
-        document.getElementById(this.id + '_hidden').value = "1";
-      } else {
-        this.value = "0";
-      }
+  let radios = Array.from(document.querySelectorAll('.radio-captain'));
+    radios.forEach((radio) => {
+        radio.addEventListener("click", function () {
+          radios.forEach((radio) => {
+            radio.value = 0;
+          });
+          this.value = 1;
+          let playerId = this.getAttribute('data-player-id');
+          let hiddenCaptain = document.getElementById(`player_${playerId}_captain_hidden`);
+          hiddenCaptain.value = 1;
+        });
     });
-  }
+
+
+    function toggleCheckbox(element) {
+      console.log(element.checked);
+      if (element.checked === false) {
+        element.checked = false;
+        element.value = '0';
+      } else {
+        element.checked = true;
+        element.value = '1';
+      }
+    }
+
 
     async function updatePlayers(teamId) {
         var teamData = {"teamId": teamId};
@@ -176,4 +207,34 @@
     }
 }
 </script>
+    <script>
+        function loadPlayersFromFile() {
+            document.getElementById('fileInput').click();
+        }
+
+        document.getElementById('fileInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                let teamId = document.getElementById('fileInput').getAttribute('data-team-id');
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('team', teamId);
+                fetch('/load_players_from_file', {
+                    method: 'POST',
+                    header: {'content-type':'text/plain'},
+                    body: formData
+                })
+                .then(response => {
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    console.error('Wystąpił błąd podczas zapisywania zawodników w bazie danych.');
+                }
+                })
+                .catch(error => {
+                console.error('Error:', error);
+                });
+            }
+        });
+    </script>
 {% endblock %}

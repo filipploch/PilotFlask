@@ -1,0 +1,13 @@
+    <div class="menu-description">Pobierz wyniki</div>
+    <button class="team-button" onclick="scrapeMatches(34)">Dyw. A</button>
+    <button class="team-button" onclick="scrapeMatches(52)">Dyw. B</button><br>
+</div>
+<div class="menu-buttons-group">
+    <div class="menu-description">Wyświetl wyniki</div>
+    <button class="team-button" onclick="loadContent('/show-matches-by-date/controller/', 'sidebar', 'a')">Dyw. A</button>
+    <button class="team-button" onclick="loadContent('/show-matches-by-date/controller/', 'sidebar', 'b')">Dyw. B</button><br>
+</div>
+<div class="menu-buttons-group">
+    <div class="menu-description">Pobierz statystyki</div>
+    <button class="team-button" onclick="loadContent('/get-statistics/teama', 'sidebar')">{{ matchdata.teama.short_name }}</button>
+    <button class="team-button" onclick="loadContent('/get-statistics/teamb', 'sidebar')">{{ matchdata.teamb.short_name }}</button><br>

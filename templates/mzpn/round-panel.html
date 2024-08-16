@@ -1,0 +1,26 @@
+    <div id="sidebar-head">
+        <div id="round-data" data-current-round="">KOLEJKA:</div>
+        <div id="message"></div>
+    </div>
+    <div id="action-id" class="invisible-text"></div>
+    <div id="sidebar-body">
+        <div id="sidebar-body-div">
+            <div id="elements" style="overflow-y: auto;">
+                <div class="menu-description">Dane z MZPN</div>
+                <button class="team-button"
+                        data-league-url="{{ data.division.url }}"
+                        onclick="scrapeMzpnData(this);">Pobierz</button><br>
+
+                <div class="menu-description">Renderuj<br>wyniki i tabelę</div>
+                <input id="round-nr" type="number" min="1" value="{{ data.current_round }}"><br>
+                <button class="team-button"
+                        onclick="renderMzpnData();">Renderuj</button><br>
+
+            </div>
+        </div>
+    </div>
+    <div id="sidebar-footer">
+        <button id="sidebar-cancel-button" onclick="clearSidebar();">Zamknij</button>
+    </div>
+
+

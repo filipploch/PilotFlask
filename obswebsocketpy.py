@@ -8,7 +8,7 @@ import os
 from datetime import datetime
 from models import Match, MatchAction
 from video_recorder import VideoRecorder, CameraIdxFinder, AdditionalVirtualCameras
-from utils.file_utils import copy_file
+from utils.file_utils import copy_file, move_file, get_replay_playback_time
 from threading import Thread
 
 
@@ -116,7 +116,7 @@ class OBSWebsocket:
         elif virtual_camera_name.startswith('OBS-Camera'):
             camera_prefix = f'C{int(virtual_camera_name.split("OBS-Camera")[1])}'
         else:
-            camera_prefix = 'CX'
+            camera_prefix = 'C0'
         return camera_prefix
 
     def close_websocket(self):
@@ -155,21 +155,37 @@ class OBSWebsocket:
         return record_file_directory
 
     def drop_replay(self, instant=False):
-        self.ws.call(requests.SaveReplayBuffer())
-        time.sleep(4)
-        if instant:
-            self.play_instant_replay()
-        self.save_dropped_replay()
+        with self.app.app_context():
+            action_data = self.app.config['ACTION_DATA']
+            self.ws.call(requests.SaveReplayBuffer())
+            time.sleep(4)
+            self.save_dropped_replay(action_data)
+            if instant:
+                instant_replay_thread = self.socketio.start_background_task(self.play_instant_replay)
+                instant_replay_thread.join()
+            self.arch_dropped_replay(action_data)
 
-    def save_dropped_replay(self):
-        action_data = self.app.config['ACTION_DATA']
-        _file_name = str({action_data['replay_file']})
+    def save_dropped_replay(self, _data):
+        action_data = _data
+        _file_name = action_data['replay_file']
         _match_replays_dir = self.app.config['MATCH_IDENTIFIER']
         source_path = os.path.join('static', 'video', 'processed', f'replay_stream.mkv')
-        destination_path1 = os.path.join('static', 'video', 'replays', _match_replays_dir, _file_name)
-        destination_path2 = os.path.join('static', 'video', 'replays', 'arch', _match_replays_dir, _file_name)
-        copy_file(source_path, destination_path1)
-        copy_file(source_path, destination_path2)
+        destination_path = os.path.join('static', 'video', 'replays', _match_replays_dir, _file_name)
+        print('save_dropped_replay')
+        print('source_path', source_path)
+        print('destination_path', destination_path)
+        move_file(source_path, destination_path)
+
+    def arch_dropped_replay(self, _data):
+        action_data = _data
+        _file_name = action_data['replay_file']
+        _match_replays_dir = self.app.config['MATCH_IDENTIFIER']
+        source_path = os.path.join('static', 'video', 'replays', _match_replays_dir, _file_name)
+        destination_path = os.path.join('static', 'video', 'replays', 'arch', _file_name)
+        print('arch_dropped_replay')
+        print('source_path', source_path)
+        print('destination_path', destination_path)
+        copy_file(source_path, destination_path)
 
     # def prepare_instant_replay(self):
     #     source_path = os.path.join('static', 'video', 'processed', f'replay_stream.mkv')
@@ -179,13 +195,47 @@ class OBSWebsocket:
     def save_replay(self, type_of_action, action_time=None):
         self._save_replay(type_of_action, action_time)
 
+    # def process_replay(self, replay_path):
+    #     self.ws.call(requests.SetInputSettings(**{'inputName': 'Replay',
+    #                                               'inputSettings': {
+    #                                                   'close_when_inactive': True,
+    #                                                   'is_local_file': True,
+    #                                                   'local_file': replay_path,
+    #                                                   'looping': False,
+    #                                                   'seek': 100000,
+    #                                                   'seekable': True,
+    #                                                   'speed_percent': 90
+    #                                               },
+    #                                               'overlay': True}))
+
+    def process_replay(self, replay_file_path):
+        self.ws.call(requests.SetInputSettings(**{'inputName': 'Replay',
+                                                  'inputSettings': {
+                                                      'local_file': replay_file_path
+                                                  },
+                                                  }))
+
     def play_replay(self):
+        if self.app.config['REPLAY_SOURCE'] == 'C0':
+            replay_scene_duration = int(self.app.config['VIDEO_LENGTH']['C0'])
+            replay_start_time = 0
+        else:
+            replay_start_time = self.app.config['ACTION_DATA']['replay_start_time']
+            replay_end_time = self.app.config['ACTION_DATA']['replay_end_time']
+            replay_scene_duration = get_replay_playback_time(replay_end_time - replay_start_time)
         self.show_scene('POWTÓRKA')
+        self.set_replay_start_time(replay_start_time)
         self.mute_input('Replay')
-        sleep(10)
+        sleep(replay_scene_duration)
         self.show_scene('MECZ')
 
+
+    def set_replay_start_time(self, replay_start_time):
+        self.ws.call(requests.SetMediaInputCursor(**{'inputName': 'Replay',
+                                                     'mediaCursor': replay_start_time}))
+
     def play_instant_replay(self, action_time=None):
+        self.app.config['REPLAY_SOURCE'] = 'C0'
         self.play_replay()
         self.show_source('MECZ', 'AKCJA_INFO')
         sleep(10)

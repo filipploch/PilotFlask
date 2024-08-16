@@ -10,10 +10,10 @@
 
     <div class="stats-tile">
         <div class="stats-tile-description">MECZE I PUNKTY</div>
-        <div class="stats-tile-value bc-green">21</div>
+        <div class="stats-tile-value bc-green">24</div>
         <div class="stats-tile-content">
-            <div class="stats-tile-content-row">13
-            (6-3-4)
+            <div class="stats-tile-content-row">14
+            (7-3-4)
             </div>
         </div>
     </div>
@@ -22,12 +22,6 @@
         <div class="stats-tile-description">FORMA</div>
         <div class="stats-tile-content">
             <div class="stats-tile-content-row">
-                
-                
-                <span class="form-draw form-tile stats-value">R</span>
-                
-                
-                
                 
                 
                 <span class="form-lost form-tile stats-value">P</span>
@@ -51,6 +45,12 @@
                 <span class="form-draw form-tile stats-value">R</span>
                 
                 
+                
+                
+                
+                <span class="form-win form-tile stats-value">W</span>
+                
+                
             </div>
         </div>
     </div>
@@ -60,7 +60,7 @@
         <div class="stats-tile-description">ŚREDNIA PUNKTÓW NA MECZ</div>
         <div class="stats-tile-content">
             <div class="stats-tile-content-row">
-                1.62
+                1.71
             </div>
         </div>
     </div>

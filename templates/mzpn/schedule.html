@@ -1,0 +1,33 @@
+{% extends "garca-base-bars.html" %}
+{% block style %}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/base-stream.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/garcaSchedule.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/tableAnimation.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/garcaRotateTable.css')}}">
+{% endblock %}
+{% block content %}
+    <div id="timeline">
+        <table class="timeline_table">
+            <tr id="content-title"><td colspan="20"
+                                       class="text-overflow title-row">
+                V LIGA MAŁOPOLSKA ZACHODNIA - {{ round }}. KOLEJKA</td></tr>
+            {% for result in data %}
+                {% if loop.index % 2 == 0 %}
+                    <tr class="odd row{{ loop.index }}">
+                {% else %}
+                    <tr class="even row{{ loop.index }}">
+                {% endif %}
+                <td class="date">{{ result.date }}</td>
+                <td class="time">{{ result.time }}</td>
+                <td class="homeTeam">{{ result.home }}</td>
+                <td class="matchResult">
+                    {% if result.result[0] != '' and result.result[1] != '' %}
+                    {{ result.result[0] }}:{{ result.result[1] }}
+                    {% endif %}
+                </td>
+                <td class="awayTeam">{{ result.away }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

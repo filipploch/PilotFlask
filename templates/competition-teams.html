@@ -8,11 +8,24 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/match-settings.css') }}">
 {% endblock %}
 
+{% block header_script %}
+<script src="{{ url_for('static', filename='js/common.js') }}"></script>
+{% endblock %}
+
 {% block sitename %}
     Drużyny
 {% endblock %}
 
 {% block content %}
+    <div>
+        <label class="form-label" for="competitions">Rozgrywki</label>
+        <select class="form-control" id="competitions" name="competitions"
+                onchange="fetchGet('http://127.0.0.1:5555/competition-teams')" required="">
+            {% for competition in competitions %}
+            <option value="{{ competition.id }}">{{ competition.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
  <div class="list-group">
         {% for team in teams %}
                     <a href="{{ url_for('settings.edit_team', team_id=team.id, edit_type='edit') }}" class="list-group-item">

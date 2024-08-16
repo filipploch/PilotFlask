@@ -20,7 +20,6 @@ class Timer:
     def control_timer(self):
         with self.app.app_context():
             t0 = time.time()
-            fraction_time_flag = True
             while True:
                 t1 = t0 + self.app.config['FRACTION_TIME']
                 _match = self.app.config['MATCHDATA']['match']
@@ -32,10 +31,10 @@ class Timer:
                 is_added_time_allowed = self.app.config['MATCHDATA']['match']['is_added_time_allowed']
                 time_limit = self.get_time_limit(self.app.config['MATCHDATA']['match'])
                 if timer_state == 0:
-                    if fraction_time_flag:
+                    if self.app.config['TIMER_CONTROL']:
                         self.app.config['FRACTION_TIME'] = 1 - (time.time() - t0)
                         self.save_time_to_db()
-                        fraction_time_flag = False
+                        self.app.config['TIMER_CONTROL'] = False
                     t0 = time.time()
                 elif timer_state == 1 and time.time() >= t1:
                     self.timer_add_time(seconds=seconds,
@@ -45,12 +44,12 @@ class Timer:
                                         difference=1)
                     t0 = time.time()
                     self.app.config['FRACTION_TIME'] = 1
-                    fraction_time_flag = True
+                    self.app.config['TIMER_CONTROL'] = True
                 elif timer_state == 2:
                     self.timer_reset()
                     t0 = time.time()
                     self.app.config['FRACTION_TIME'] = 1
-                    fraction_time_flag = True
+                    self.app.config['TIMER_CONTROL'] = False
 
     # def get_time_limit(self, match):
     #     periods_end_times = match['periods_end_times']
@@ -72,7 +71,7 @@ class Timer:
             added_seconds = 0
         else:
             if is_added_time_allowed:
-                added_seconds = seconds - time_limit
+                added_seconds = seconds - time_limit - 1
         self.app.config['TIME_DATA']['seconds'] = seconds
         self.app.config['TIME_DATA']['added_seconds'] = added_seconds
         self.socketio.emit('update_time', {'seconds': seconds, 'added_seconds': added_seconds})
@@ -83,10 +82,13 @@ class Timer:
             db.session.commit()
 
     def timer_reset(self):
-        self.app.config['TIME_DATA']['seconds'] = 0
+        self.app.config['TIME_DATA']['seconds'] = self.app.config['MATCHDATA']['match']['period_start_time']
         self.app.config['TIME_DATA']['added_seconds'] = 0
-        self.save_time_to_db()
-        self.socketio.emit('update_time', {'seconds': 0, 'added_seconds': 0})
+        if self.app.config['TIMER_CONTROL']:
+            self.save_time_to_db()
+        self.app.config['TIMER_CONTROL'] = False
+        self.socketio.emit('update_time', {'seconds': self.app.config['TIME_DATA']['seconds'],
+                                           'added_seconds': 0})
 
     def save_time_to_db(self):
         match = Match.query.filter_by(actual=1).first()

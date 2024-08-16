@@ -1,27 +1,39 @@
     <div id="sidebar-head">
-        <div id="replay-source-buttons">
+        <div id="replay-source-buttons" data-is-selected="0">
             <button id="replay-source-button-stream"
-                    class="replay-source-button button-enable"
-                    data-camera-prefix="CX"
+                    class="replay-source-button element-disable"
+                    data-camera-prefix="C0"
                     onclick="replaySetSource(this)">Stream</button>
             <button id="replay-source-button-camera1"
-                    class="replay-source-button"
+                    class="replay-source-button element-disable"
                     data-camera-prefix="C1"
                     onclick="replaySetSource(this)">Kam 1</button>
             <button id="replay-source-button-camera2"
-                    class="replay-source-button"
+                    class="replay-source-button element-disable"
                     data-camera-prefix="C2"
                     onclick="replaySetSource(this)">Kam 2</button>
         </div>
         <div id="selected-replay">
             <div id="selected-replay-editor">
-                <button class="small-button" onclick="" ondblclick=""><</button>
+                <button class="small-button"
+                        onclick="updateReplayTime(this, -1);"
+                        ondblclick="updateReplayTime(this, -4);"
+                        data-value-type="replay-start-time"><</button>
                 <label id="replay-start-time" class="replay-time-data"></label>
-                <button class="small-button" onclick="" ondblclick="">></button>
-                <label id="selected-replay-data" data-replay-element-id=""> | </label>
-                <button class="small-button" onclick="" ondblclick=""><</button>
+                <button class="small-button"
+                        onclick="updateReplayTime(this, 1);"
+                        ondblclick="updateReplayTime(this, 4);"
+                        data-value-type="replay-start-time">></button>
+                <label id="selected-replay-data" data-replay-id="" data-replay-source="C0"> | </label>
+                <button class="small-button"
+                        onclick="updateReplayTime(this, -1);"
+                        ondblclick="updateReplayTime(this, -4);"
+                        data-value-type="replay-end-time"><</button>
                 <label id="replay-end-time" class="replay-time-data"></label>
-                <button class="small-button" onclick="" ondblclick="">></button>
+                <button class="small-button"
+                        onclick="updateReplayTime(this, 1);"
+                        ondblclick="updateReplayTime(this, 4);"
+                        data-value-type="replay-end-time">></button>
                 <button class="small-button" ondblclick="replaysProcessReplay()">&#9654;</button>
             </div>
             <div id="selected-replay-description"></div>
@@ -30,12 +42,12 @@
     <div id="action-id" class="invisible-text"></div>
     <div id="sidebar-body">
         <div id="sidebar-body-div">
-            <div id="elements">
+            <div id="elements" style="overflow-y: auto;">
                 {% for replay in replays %}
                 <div
                     id="replay-{{ loop.index }}-element"
                     class="replay-element"
-                    data-id="{{ replay.id }}"
+                    data-replay-id="{{ replay.id }}"
                     data-action="{{ replay.action }}"
                     data-actual="{{ replay.actual }}"
                     data-player="{{ replay.player }}"
@@ -45,17 +57,17 @@
                     data-replay-start-time="{{ replay.replay_start_time }}"
                     data-replay-end-time="{{ replay.replay_end_time }}"
                     data-record-time="{{ replay.record_time }}"
-                    data-is-edited="{{ replay.is_edited }}"
+                    data-replay-source="{{ replay.replay_source }}"
                     onmouseover="replaysShowInfo(this)"
                     onmouseout="replaysClearInfo()"
-                    onclick="replaysSelectReplay(this.id)"
-                    ondblclick="replaysProcessReplay(this.id)"
+                    onclick="replaysSelectReplay(this.id, 'selected-replay')"
+                    ondblclick="replaysProcessReplay()"
                 >{{ replay.formatted_seconds }} {{ replay.replay_file[16:-4] }}</div>
                 {% if replay.actual == 1 %}
                     <img src="{{ url_for('static', filename='images/empty_dot.png') }}"
                          alt=""
                          style="display: none;"
-                         onload="replaysSelectReplay('replay-{{ loop.index }}-element')">
+                         onload="replaysSelectReplay('replay-{{ loop.index }}-element', 'actual-replay'); replaysScrollToEnd('elements')">
                 {% endif %}
                 {% endfor %}
 

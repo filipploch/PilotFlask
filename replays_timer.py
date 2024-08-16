@@ -1,6 +1,6 @@
 import time
 import os
-from utils.file_utils import get_video_length
+from utils.file_utils import get_video_duration
 
 
 class ReplaysTimer:
@@ -27,7 +27,7 @@ class ReplaysTimer:
         _directory = self.app.config['REPLAYS_FILES_DIRECTORY']
         _video_path = f"{_directory}\\{_recording_filename}"
         if os.path.exists(_video_path):
-            print('video_length:', get_video_length(_video_path))
-            return get_video_length(_video_path)
+            print('video_length:', get_video_duration(_video_path))
+            return get_video_duration(_video_path)
         print('video_length:', 0)
         return 0

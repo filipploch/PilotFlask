@@ -39,6 +39,25 @@ body
 	width: 110px;
 }
 
+.added-time-item {
+  position: absolute;
+  top: 2px;
+  left: 0px;
+  height: 29px;
+  background-color: red;
+  color: white;
+  padding: 5px 10px 15px 10px;
+  text-align: center;
+  z-index: -1;
+  font-size: 35px;
+  width: 65px;
+}
+
+.added-time-item-animation {
+    animation: showAddedTime 1s;
+    animation-fill-mode: both;
+}
+
 .team-item{
 	width: 80px;
 }
@@ -380,4 +399,10 @@ body
 
 .invisible_text{
     color: rgba(255,255,255,0);
+}
+
+@keyframes showAddedTime
+{
+  0% { left: 0px; }
+  100% { left: -85px; }
 }

@@ -12,7 +12,7 @@ import os
 import ffmpeg
 import shutil
 import threading
-from utils.file_utils import get_video_length
+from utils.file_utils import get_video_duration
 
 
 class CameraIdxFinder:
@@ -50,11 +50,11 @@ class VideoRecorder:
         self.frame_queue = []
         self.segment_number = 0
         self.segment_duration = 30
-        self.video_files_list = f'{self.segments_dir}\\{self.camera_prefix}_video_files_list'
-        self.temp_file = os.path.join(self.replays_dir, f'{self.camera_prefix}_temp.mp4')
+        self.video_files_list = os.path.join(self.segments_dir, f'{self.camera_prefix}_video_files_list.txt')
+        self.temp_file = os.path.join(self.segments_dir, f'{self.camera_prefix}_temp.mp4')
 
         # Ensure the output directory exists
-        os.makedirs(self.replays_dir, exist_ok=True)
+        os.makedirs(self.segments_dir, exist_ok=True)
 
     def record_video(self):
         idx = 0
@@ -113,7 +113,7 @@ class VideoRecorder:
                              (self.replays_dir,
                               f'{self.camera_prefix}_{self.app.config["MATCH_IDENTIFIER"]}_output.mp4'))
 
-        with open(f'{self.video_files_list}.txt', 'w') as f:
+        with open(self.video_files_list, 'w') as f:
             f.write('')
             f.write(f"file '{output_video_path}'\n")
             f.write(f"file '{input_video_path}'")
@@ -124,7 +124,7 @@ class VideoRecorder:
                 '-y',
                 '-f', 'concat',
                 '-safe', '0',
-                '-i', f'{self.video_files_list}.txt',
+                '-i', self.video_files_list,
                 '-c', 'copy', self.temp_file
             ]
             subprocess.run(ffmpeg_concat_command)
@@ -137,4 +137,4 @@ class VideoRecorder:
         else:
             os.rename(input_video_path, output_video_path)
 
-        self.app.config['VIDEO_LENGTH'][self.camera_prefix] = get_video_length(output_video_path)
+        self.app.config['VIDEO_LENGTH'][self.camera_prefix] = get_video_duration(output_video_path)

@@ -49,6 +49,11 @@ function updateValueById(value, divId){
 
 
 		function changeSide() {
+		    changeSideScoreboard()
+            changeSideSubstitutions()
+		}
+
+		function changeSideScoreboard() {
 			var scoreboard = document.querySelector("#scoreboard");
 			var teams = document.querySelector("#teams");
 			var a = document.getElementById("fouls-a-group");
@@ -71,6 +76,22 @@ function updateValueById(value, divId){
 			teamChildren.forEach(function (child) {
 				teams.appendChild(child);
 			});
+		}
+
+        function changeSideSubstitutions() {
+            if (document.querySelector('#substitution-buttons') !== 'undefined') {
+                let substitution = document.querySelector('#substitution-buttons');
+                let substitutionButtonA = document.getElementById('substitution-button-teama');
+                let substitutionButtonB = document.getElementById('substitution-button-teamb');
+
+
+                let substitutionChildren = Array.from(substitution.children);
+                substitutionChildren.reverse();
+
+                substitutionChildren.forEach(function (child) {
+                    substitution.appendChild(child);
+                });
+            }
 		}
 
 		function pressChangeSideBtn() {
@@ -219,14 +240,12 @@ function updateValueById(value, divId){
 						method: 'POST',
 						headers: { 'Content-Type': 'application/json' },
 						body: JSON.stringify(action_data)					})
-						// .then(response => response.json())
 						.then(action_data => {
 							console.log('Element został zapisany:', action_data);
 						})
 						.catch(error => {
 							console.error('Wystąpił błąd podczas zapisywania elementu:', error);
-						})
-						;
+						});
 					}
 				}
 
@@ -538,6 +557,42 @@ function editData(dataId) {
         }
 
 
+function scrapeMzpnData(element) {
+    let mzpnUrl = element.getAttribute('data-league-url');
+    fetch('/scrape-mzpn-data', {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({'mzpnUrl': mzpnUrl}),
+    })
+        .then(response => response.json())
+        .then(data => {
+            let messageElement = document.getElementById('message');
+            messageElement.innerHTML = data.message;
+            console.log('data:', data);
+        })
+        .catch(error => {
+        console.error('Wystąpił błąd podczas komunikacji z serwerem:', error);
+        });
+    }
+
+
+function renderMzpnData() {
+    let roundNr = document.getElementById('round-nr').value
+    fetch(`/render-mzpn-data/${roundNr}`)
+        .then(response => response.json())
+        .then(data => {
+            let messageElement = document.getElementById('message');
+            messageElement.innerHTML = data.message;
+            console.log('data:', data);
+        })
+        .catch(error => {
+        console.error('Wystąpił błąd podczas komunikacji z serwerem:', error);
+        });
+    }
+
+
 function setChecked(checkboxId, actual) {
 	if (actual == true) {
         checkbox = document.getElementById(checkboxId);
@@ -557,6 +612,185 @@ function setChecked(checkboxId, actual) {
 		}).catch(function (error) {
 			console.error(error);
 		});}
+
+function showAllSubstitutions(element) {
+    let confirmedSubstitutions = Array.from(document.querySelectorAll('.confirmed'));
+    let processedSubstitutionButton = document.querySelector('#proceeded-substitutions-button');
+    confirmedSubstitutions.forEach((confirmed) => {
+        classListRemove(confirmed.id, 'invisible');
+    });
+    classListAdd(element.id, 'invisible');
+    classListRemove(processedSubstitutionButton.id, 'invisible');
+
+}
+
+function showProceededSubstitutions(element) {
+    let confirmedSubstitutions = Array.from(document.querySelectorAll('.confirmed'));
+    let allSubstitutionButton = document.querySelector('#all-substitutions-button');
+    confirmedSubstitutions.forEach((confirmed) => {
+        classListAdd(confirmed.id, 'invisible');
+    });
+    classListAdd(element.id, 'invisible');
+    classListRemove(allSubstitutionButton.id, 'invisible');
+}
+
+function selectPlayerOut(element) {
+    let selectedPlayerOutElement = document.querySelector('#selected-player-out');
+    selectedPlayerOutElement.innerText = element.textContent;
+    selectedPlayerOutElement.setAttribute('data-player-out', element.getAttribute('data-player-id'));
+    let selectedPlayerInElement = document.querySelector('#selected-player-in');
+    if (selectedPlayerInElement.innerText !== '') {
+        hideSubstitutionsLists();
+    } else {
+        showSubstitutionList();
+    }
+}
+
+function selectPlayerIn(element) {
+    let selectedPlayerOutElement = document.querySelector('#selected-player-out');
+    let selectedPlayerInElement = document.querySelector('#selected-player-in');
+    selectedPlayerInElement.innerText = element.textContent;
+    selectedPlayerInElement.setAttribute('data-player-in', element.getAttribute('data-player-id'));
+        if (selectedPlayerOutElement.innerText !== '') {
+        hideSubstitutionsLists();
+    } else {
+        showSquadList();
+    }
+}
+
+function showSquadList() {
+    let squadList = document.querySelector('#squad-list');
+    let substitutionList = document.querySelector('#substitution-list');
+    classListRemove(squadList.id, 'invisible');
+    classListAdd(substitutionList.id, 'invisible');
+}
+
+function showSubstitutionList() {
+    let squadList = document.querySelector('#squad-list');
+    let substitutionList = document.querySelector('#substitution-list');
+    classListRemove(substitutionList.id, 'invisible');
+    classListAdd(squadList.id, 'invisible');
+}
+
+function hideSubstitutionsLists() {
+    let squadList = document.querySelector('#squad-list');
+    let substitutionList = document.querySelector('#substitution-list');
+    classListAdd(substitutionList.id, 'invisible');
+    classListAdd(squadList.id, 'invisible');
+}
+
+function insertSubstitution() {
+    let playerOutId = document.querySelector('#selected-player-out').getAttribute('data-player-out');
+    let playerInId = document.querySelector('#selected-player-in').getAttribute('data-player-in');
+    let teamId = document.querySelector('#substitution-data').getAttribute('data-team-id');
+    if (playerOutId !== '' && playerInId !== '') {
+        data = {
+            'playerOutId': playerOutId,
+            'playerInId': playerInId,
+            'teamId': teamId
+        }
+        fetch(`/insert-substitution`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        }).then(response => {
+            if (response.ok) {
+                loadContent(`/get-substitutions/${teamId}`, 'sidebar');
+                console.log('Czas zapisany w bazie danych.');
+            } else {
+                console.error('Wystąpił błąd podczas zapisywania czasu w bazie danych.');
+            }
+        }).catch(error => {
+            console.error('Wystąpił błąd podczas zapisywania elementu:', error);
+        });
+    }
+}
+
+function deleteSubstitution(substitutionId) {
+    let teamId = document.querySelector('#substitution-data').getAttribute('data-team-id');
+    data = {
+        'substitutionId': substitutionId
+    }
+    fetch('/delete-substitution', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    }).then(response => {
+        if (response.ok) {
+            loadContent(`/get-substitutions/${teamId}`, 'sidebar');
+            console.log('Czas zapisany w bazie danych.');
+        } else {
+            console.error('Wystąpił błąd podczas zapisywania czasu w bazie danych.');
+        }
+    }).catch(error => {
+        console.error('Wystąpił błąd podczas zapisywania elementu:', error);
+    });
+}
+
+function confirmSubstitutions() {
+    fetch('/confirm-substitutions').then(response => {
+            if (response.ok) {
+                console.log('Zmiana zawodnika zapisana w bazie danych.');
+                clearSidebar();
+            } else {
+                console.error('Wystąpił błąd podczas zapisywania zmiany zawodnikau w bazie danych.');
+            }
+        }).catch(error => {
+            console.error('Wystąpił błąd podczas zapisywania elementu:', error);
+        });
+}
+
+function changePeriod(difference) {
+    let gamePeriods = Array.from(document.querySelectorAll('.game-period'));
+    let currentPeriodIndex = gamePeriods.findIndex(element => element.getAttribute('data-is-current') === '1');
+    let newPeriodIndex = currentPeriodIndex + difference;
+    if (newPeriodIndex >= 0 && newPeriodIndex < gamePeriods.length) {
+        gamePeriods.forEach((gamePeriod) => {
+            classListAdd(gamePeriod.id, 'invisible');
+            gamePeriod.setAttribute('data-is-current', 0)
+        });
+        let newPeriod = gamePeriods[newPeriodIndex];
+        classListRemove(newPeriod.id, 'invisible')
+        newPeriod.setAttribute('data-is-current', 1)
+    }
+
+}
+
+function confirmNewPeriod() {
+    let gamePeriods = Array.from(document.querySelectorAll('.game-period'));
+    let currentPeriodIndex = gamePeriods.findIndex(element => element.getAttribute('data-is-current') === '1');
+    let currentPeriod = gamePeriods[currentPeriodIndex];
+    let data = {
+        'periodId': currentPeriod.getAttribute('data-period-id')
+    }
+    fetch('/change-period', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    }).then(response => {
+        if (response.ok) {
+            clearSidebar();
+        } else {
+            console.error('Wystąpił błąd podczas zapisywania czasu w bazie danych.');
+        }
+    }).catch(error => {
+        console.error('Wystąpił błąd podczas zapisywania elementu:', error);
+    });
+}
+
+function setAddedTime() {
+    let addedTime = document.getElementById('added-minutes').value
+    fetch(`/show-added-time/${addedTime}`)
+    .then(response => {
+        if (response.ok) {
+            clearSidebar();
+        } else {
+            console.error('Wystąpił błąd podczas ustawiania dodatkowego czasu.');
+        }
+    }).catch(error => {
+        console.error('Wystąpił błąd podczas wysyłania żądania:', error);
+    });
+}
 
     window.onload = function () {
         updateTimer();

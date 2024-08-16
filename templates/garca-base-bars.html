@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html lang="pl">
+<head>
+	<meta charset="ISO-8859" />
+	<meta http-equiv="X-UA-Compatible"/>
+	<link rel="stylesheet" href="{{url_for('static', filename='css/base-bars.css')}}">
+	{% block style %}{% endblock %}
+	{% block headscripts %}{% endblock %}
+	<!-- <script src="js/teams.js"></script>
+	<script src="js/processing.js"></script> -->
+
+</head>
+
+<body>
+	<div id="container">
+		<div id="team_screen_content">
+            {% block content %}
+            {% endblock %}
+        </div>
+
+	</div>
+	{% block scripts %}{% endblock %}
+</body>
+</html>

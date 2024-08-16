@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import SelectField, IntegerField, SelectMultipleField, StringField, BooleanField, SubmitField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, Length
 from wtforms.widgets import ColorInput
 from models import Team, Staff, Stadium, Competitions, Division, TimerDisplayMode
 import os
@@ -11,6 +11,10 @@ class MatchForm(FlaskForm):
     team_b = SelectField('Drużyna B', validators=[DataRequired()], choices=[('', '')])
     periods = IntegerField('ilość części meczu', validators=[DataRequired()])
     period_length = IntegerField('długość części meczu (s)', validators=[DataRequired()])
+    panel_timer_display_mode = SelectField('format czasu (panel)', validators=[DataRequired()], choices=[('', '')])
+    is_panel_timer_ascending = BooleanField('czy czas rosnąco? (panel)')
+    stream_timer_display_mode = SelectField('format czasu (stream)', validators=[DataRequired()], choices=[('', '')])
+    is_stream_timer_ascending = BooleanField('czy czas rosnąco? (stream)')
     is_actual = BooleanField('Aktualny mecz')
     is_added_time_allowed = BooleanField('Czas dodatkowy')
     extra_time_periods = IntegerField('ilość części dogrywki', validators=[DataRequired()])
@@ -25,14 +29,38 @@ class MatchForm(FlaskForm):
 
     def __init__(self, *args, **kwargs):
         super(MatchForm, self).__init__(*args, **kwargs)
-        self.team_a.choices = [('', '')] + [(team.id, team.full_name) for team in Team.query.order_by('full_name').all()]
-        self.team_b.choices = [('', '')] + [(team.id, team.full_name) for team in Team.query.order_by('full_name').all()]
-        self.cameramen.choices = [(staff.id, staff.first_name + ' ' + staff.last_name) for staff in Staff.query.order_by('last_name').all()]
-        self.commentators.choices = [(staff.id, staff.first_name + ' ' + staff.last_name) for staff in Staff.query.order_by('last_name').all()]
-        self.referees.choices = [(staff.id, staff.first_name + ' ' + staff.last_name) for staff in Staff.query.order_by('last_name').all()]
-        self.stadium.choices = [(stadium.id, stadium.name + ' ' + stadium.address) for stadium in Stadium.query.order_by('name').all()]
-        self.competitions.choices = [(competitions.id, competitions.name) for competitions in Competitions.query.order_by('name').all()]
-        self.division.choices = [(division.id, division.name) for division in Division.query.order_by('name').all()]
+        competition_id = 1
+        for key, value in kwargs.items():
+            if key == 'competition_id':
+                competition_id = int(str(value))
+        _competition = Competitions.query.filter_by(id=competition_id).first()
+        self.team_a.choices = [('', '')] + [(team.id, team.full_name) for team in Team.query.filter_by(
+            competitions=competition_id).order_by('full_name').all()]
+        self.team_b.choices = [('', '')] + [(team.id, team.full_name) for team in Team.query.filter_by(
+            competitions=competition_id).order_by('full_name').all()]
+        self.cameramen.choices = [(staff.id, staff.first_name + ' ' + staff.last_name) for staff in
+                                  Staff.query.order_by('last_name').all()]
+        self.commentators.choices = [(staff.id, staff.first_name + ' ' + staff.last_name) for staff in
+                                     Staff.query.order_by('last_name').all()]
+        self.referees.choices = [(staff.id, staff.first_name + ' ' + staff.last_name) for staff in
+                                 Staff.query.order_by('last_name').all()]
+        self.stadium.choices = [(stadium.id, stadium.name + ' ' + stadium.address) for stadium in
+                                Stadium.query.order_by('name').all()]
+        self.competitions.choices = [(competitions.id, competitions.name) for competitions in
+                                     Competitions.query.order_by('name').all()]
+        self.competitions.default = competition_id
+        self.division.choices = [(division.id, division.name) for division in
+                                 Division.query.filter_by(competition_id=competition_id).order_by('id').all()]
+        self.period_length.default = _competition.period_length
+        self.panel_timer_display_mode.choices = [(display_mode.id, display_mode.format) for display_mode in
+                                                 TimerDisplayMode.query.order_by('id').all()]
+        self.panel_timer_display_mode.default = _competition.panel_timer_display_mode
+        self.is_panel_timer_ascending.default = _competition.is_panel_timer_ascending
+        self.stream_timer_display_mode.choices = [(display_mode.id, display_mode.format) for display_mode in
+                                                  TimerDisplayMode.query.order_by('id').all()]
+        self.stream_timer_display_mode.default = _competition.stream_timer_display_mode
+        self.is_stream_timer_ascending.default = _competition.is_stream_timer_ascending
+        self.is_added_time_allowed.default = _competition.is_added_time_allowed
 
 
 class CreateTeamForm(FlaskForm):
@@ -45,8 +73,10 @@ class CreateTeamForm(FlaskForm):
     away_color_1 = StringField('Kolory stroju 2', widget=ColorInput())
     away_color_2 = StringField(widget=ColorInput())
     away_color_3 = StringField(widget=ColorInput())
+    bibs_color = StringField('Lebijka', widget=ColorInput(), default='#0F0')
     logo_file = SelectField('Wybierz logo')
     competitions = SelectField('Rozgrywki', validators=[DataRequired()])
+    name_16 = StringField('Nazwa 16', validators=[DataRequired(), Length(min=3, max=16)])
 
     def __init__(self, *args, **kwargs):
         super(CreateTeamForm, self).__init__(*args, **kwargs)

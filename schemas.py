@@ -2,7 +2,7 @@ from flask_marshmallow import Marshmallow
 from marshmallow import fields
 from marshmallow_sqlalchemy.fields import Nested
 from models import (Player, Match, MatchesData, Team, MatchAction, Stadium, Staff, Division, LeagueMatches,
-                    TimerDisplayMode, Period)
+                    TimerDisplayMode, Period, Competitions)
 
 ma = Marshmallow()
 
@@ -59,8 +59,9 @@ match_action_schema = MatchActionSchema()
 class MatchesDataSchema(ma.Schema):
     class Meta:
         model = MatchesData
-        fields = ('id', 'seconds', 'added_seconds', 'current_period', 'match_id', 'action_id', 'player_id','team_id',
-                  'record_time', 'actual', 'player', 'action', 'team', 'is_hided', 'replay_file')
+        fields = ('id', 'seconds', 'added_seconds', 'current_period', 'match_id', 'action_id', 'player_id', 'team_id',
+                  'record_time', 'actual', 'player', 'action', 'team', 'is_hided', 'replay_file', 'replay_start_time',
+                  'replay_end_time')
 
     player = Nested(player_schema)
     action = Nested(match_action_schema)
@@ -83,7 +84,7 @@ staff_schema = StaffSchema(many=True)
 class DivisionSchema(ma.Schema):
     class Meta:
         model = Division
-        fields = ('id', 'name', 'is_cup')
+        fields = ('id', 'name', 'is_cup', 'url')
 
 
 division_schema = DivisionSchema()
@@ -142,3 +143,20 @@ class TimerDisplayModeSchema(ma.Schema):
 
 
 timer_display_mode_schema = TimerDisplayModeSchema()
+
+
+class CompetitionsSchema(ma.Schema):
+    class Meta:
+        model = Competitions
+        fields = ('id', 'name', 'period_length', 'panel_timer_display_mode', 'is_panel_timer_ascending',
+                  'stream_timer_display_mode', 'is_stream_timer_ascending', 'is_added_time_allowed')
+
+
+class SubstitutionSchema(ma.Schema):
+    class Meta:
+        model = Competitions
+        fields = ('id', 'match', 'team', 'player_out', 'player_in', 'time', 'is_to_display')
+
+
+substitution_schema = SubstitutionSchema()
+substitutions_schema = SubstitutionSchema(many=True)

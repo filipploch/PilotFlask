@@ -11,16 +11,30 @@
 {% endblock %}
 {% block content %}
 
-<div id="action-data" class="invisible" data-action-data='{{ action_data | tojson | safe }}'></div>
+<div id="action-data"
+     class="invisible"
+     data-team-id=""
+     data-player-id=""
+     data-replay-file="{{ action_data.replay_file }}"
+     data-action-data='{{ action_data | tojson | safe }}'>
+
+</div>
 <div id="goal-set" class="invisible" data-goal-set='{{ goal_set | tojson | safe }}'></div>
 <div id="ws-edit-frame-content">
 
-    <div id="ws-edit-frame-title">Kto strzelał/faulował?</div>
+    <div id="ws-edit-frame-title">
+        {% if action_data.action_id in goal_set %}
+        Kto zdobył gola?
+        {% else %}
+        Kto strzelał/faulował?
+        {% endif %}
+    </div>
     <div id="ws-teams-buttons">
         <button
             id="ws-select-team-a-btn"
             class="ws-select-team-button unpressed"
             type="button"
+            data-team-id="{{ matchdata['teama'].id }}"
             onclick="setSelectTeamButtonPressed(this);">
             {{ matchdata['teama'].short_name }}
         </button>
@@ -28,6 +42,7 @@
             id="ws-select-team-b-btn"
             class="ws-select-team-button unpressed"
             type="button"
+            data-team-id="{{ matchdata['teamb'].id }}"
             onclick="setSelectTeamButtonPressed(this);">
             {{ matchdata['teamb'].short_name }}
         </button>
@@ -50,7 +65,8 @@
     <div id="team-a-squad" class="team-squad invisible">
         {% for _player in matchdata.teama.players %}
             {% if _player.squad %}
-            <div class="player" data-player-id="_player.id">
+            <div class="player"
+                 data-player-id="{{ _player.id }}" ondblclick="setActionDataPlayer(this);">
                 {{ _player.default_nr }}. {{ _player.first_name }} {{ _player.last_name }}
             </div>
             {% endif %}
@@ -59,7 +75,7 @@
     <div id="team-b-squad" class="team-squad invisible">
         {% for _player in matchdata.teamb.players %}
             {% if _player.squad %}
-            <div class="player" data-player-id="_player.id">
+            <div class="player" data-player-id="{{ _player.id }}">
                 {{ _player.default_nr }}. {{ _player.first_name }} {{ _player.last_name }}
             </div>
             {% endif %}
@@ -72,6 +88,9 @@
 <script>
     function setSelectTeamButtonPressed(element) {
         let selectTeamButtons = document.querySelectorAll('.ws-select-team-button');
+        let teamId = element.getAttribute('data-team-id');
+        let actionData = document.querySelector('#action-data');
+        actionData.setAttribute('data-team-id', teamId);
         selectTeamButtons.forEach(function(div) {
           classListRemove(div.id, 'pressed');
           classListAdd(div.id, 'unpressed');
@@ -79,6 +98,38 @@
         classListAdd(element.id, 'pressed');
         showSquad();
     }
+
+    function setActionDataPlayer(element) {
+        let playerId = element.getAttribute('data-player-id');
+        let actionData = document.querySelector('#action-data');
+        let teamId = actionData.getAttribute('data-team-id');
+        let replayFile = actionData.getAttribute('data-replay-file');
+
+        // Wysłanie danych do endpointu
+        fetch('/update-action-data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                playerId: playerId,
+                teamId: teamId,
+                replayFile: replayFile
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'OK') {
+                console.log('Data sent successfully!');
+            } else {
+                console.error('Error sending data:', data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
 
     function toggleOwnGoalButtonPressed() {
         let ownGoalButton = document.querySelector('#ws-select-own-goal-btn');

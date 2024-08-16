@@ -285,6 +285,18 @@
 		    color: darkgray;
 		}
 
+		.substitution-list {
+		    height: calc(50% + 115px);
+		}
+
+		.player-out {
+		    color: #ff9ea8;
+		}
+
+		.player-in {
+		    color: #c8ff7a;
+		}
+
 		@keyframes pulse {
 			0%, 100% {
     			background-color: rgba(255, 0, 0, 1);

@@ -33,7 +33,7 @@ function getFormattedTime(target, seconds, addedSeconds, optionalDisplayMode) {
 function getMinSecFormat(seconds, addedSeconds, displayMode, isTimerAscending, matchdata){
     let isAddedTimeAllowed = matchdata.match.is_added_time_allowed;
     let currentPeriod = matchdata.match.current_period;
-    let periodTimeLimit = matchdata.match.period_time_limit;
+    let periodTimeLimit = matchdata.match.period_end_time;
     let formattedTime;
     let mins;
     let secs;
@@ -41,11 +41,11 @@ function getMinSecFormat(seconds, addedSeconds, displayMode, isTimerAscending, m
     if (isTimerAscending) {
         mins = Math.floor(seconds / 60);
         secs = Math.floor(seconds % 60);
-        if (seconds > periodTimeLimit){
-            addedMins = Math.floor(addedSeconds / 60);
-            addedSecs = Math.floor(addedSeconds % 60);
-            return `+${addedMins}:${addedSecs.toString().padStart(2, '0')}`
-        }
+//        if (seconds > periodTimeLimit){
+//            addedMins = Math.floor(addedSeconds / 60);
+//            addedSecs = Math.floor(addedSeconds % 60);
+//            return `+${addedMins}:${addedSecs.toString().padStart(2, '0')}`
+//        }
 
     } else {
         mins = Math.floor((periodTimeLimit - seconds + 1) / 60);
@@ -57,7 +57,7 @@ function getMinSecFormat(seconds, addedSeconds, displayMode, isTimerAscending, m
 function getMinFormat(seconds, addedSeconds, displayMode, isTimerAscending, matchdata){
     let isAddedTimeAllowed = matchdata.match.is_added_time_allowed;
     let currentPeriod = matchdata.match.current_period;
-    let periodTimeLimit = matchdata.match.period_time_limit;
+    let periodTimeLimit = matchdata.match.period_end_time;
     let formattedTime;
     let mins;
     if (isTimerAscending) {
@@ -77,7 +77,7 @@ function getMinFormat(seconds, addedSeconds, displayMode, isTimerAscending, matc
 function getSecFormat(seconds, addedSeconds, displayMode, isTimerAscending, matchdata){
     let isAddedTimeAllowed = matchdata.match.is_added_time_allowed;
     let currentPeriod = matchdata.match.current_period;
-    let periodTimeLimit = matchdata.match.period_time_limit;
+    let periodTimeLimit = matchdata.match.period_end_time;
     let formattedTime;
     let secs;
     if (isTimerAscending) {

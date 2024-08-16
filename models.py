@@ -6,10 +6,12 @@ class MatchPeriod(db.Model):
     match_id = db.Column(db.Integer, db.ForeignKey('matches.id'), primary_key=True)
     period_id = db.Column(db.Integer, db.ForeignKey('periods.id'), primary_key=True)
 
+
 class MatchCommentator(db.Model):
     __tablename__ = 'match_commentator'
     match_id = db.Column(db.Integer, db.ForeignKey('matches.id'), primary_key=True)
     staff_id = db.Column(db.Integer, db.ForeignKey('staff.id'), primary_key=True)
+
 
 class MatchCameraman(db.Model):
     __tablename__ = 'match_cameraman'
@@ -90,7 +92,7 @@ class Player(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     full_name = db.Column(db.String)
-    team = db.Column(db.Integer, db.ForeignKey('teams.id'), nullable=False)
+    team = db.Column(db.Integer, db.ForeignKey('teams.id'))
     position = db.Column(db.String)
     matches = db.Column(db.Integer)
     goals = db.Column(db.Integer)
@@ -120,16 +122,17 @@ class MatchesData(db.Model):
     match_id = db.Column(db.Integer)
     team_id = db.Column(db.Integer, db.ForeignKey('teams.id'))
     record_time = db.Column(db.Integer, nullable=True, default=0)
+    replay_start_time = db.Column(db.Integer, default=0)
+    replay_end_time = db.Column(db.Integer, default=0)
     player = db.relationship('Player', backref='matches_data', lazy=True)
     team = db.relationship('Team', backref='matches_data', lazy=True)
     action = db.relationship('MatchAction', backref='matches_data', lazy=True)
     actual = db.Column(db.Integer)
     is_hided = db.Column(db.Integer)
     replay_file = db.Column(db.String)
-    record_time = db.Column(db.Integer)
 
     def __init__(self, action_id, player_id, team_id, seconds, added_seconds, current_period, match_id,
-                 actual, is_hided, replay_file, record_time):
+                 actual, is_hided, replay_file, record_time, replay_start_time, replay_end_time):
         self.action_id = action_id
         self.player_id = player_id
         self.team_id = team_id
@@ -141,6 +144,8 @@ class MatchesData(db.Model):
         self.is_hided = is_hided
         self.replay_file = replay_file
         self.record_time = record_time
+        self.replay_start_time = replay_start_time
+        self.replay_end_time = replay_end_time
 
 
 class Period(db.Model):
@@ -203,6 +208,12 @@ class Competitions(db.Model):
     __tablename__ = 'competitions'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
+    period_length = db.Column(db.Integer)
+    panel_timer_display_mode = db.Column(db.Integer, default=2)
+    is_panel_timer_ascending = db.Column(db.Integer, default=0)
+    stream_timer_display_mode = db.Column(db.Integer, default=2)
+    is_stream_timer_ascending = db.Column(db.Integer, default=1)
+    is_added_time_allowed = db.Column(db.Integer, default=0)
 
 
 class Division(db.Model):
@@ -211,6 +222,7 @@ class Division(db.Model):
     competition_id = db.Column(db.Integer, db.ForeignKey('competitions.id'), nullable=False)
     name = db.Column(db.String)
     is_cup = db.Column(db.Integer, nullable=False, default=0)
+    url = db.Column(db.String)
 
 
 class LeagueMatches(db.Model):
@@ -239,3 +251,20 @@ class TimerDisplayMode(db.Model):
     __tablename__ = 'timer_display_mode'
     id = db.Column(db.Integer, primary_key=True)
     format = db.Column(db.String, nullable=False)
+
+
+class Substitution(db.Model):
+    __tablename__ = 'substitutions'
+    id = db.Column(db.Integer, primary_key=True)
+    match_id = db.Column(db.Integer, db.ForeignKey('matches.id'))
+    team_id = db.Column(db.Integer, db.ForeignKey('teams.id'))
+    player_out_id = db.Column(db.Integer, db.ForeignKey('players.id'))
+    player_in_id = db.Column(db.Integer, db.ForeignKey('players.id'))
+    time = db.Column(db.Integer)
+    is_to_display = db.Column(db.Integer)
+
+    player_in = db.relationship('Player', foreign_keys=[player_in_id])
+    player_out = db.relationship('Player', foreign_keys=[player_out_id])
+    match = db.relationship('Match', foreign_keys=[match_id])
+    team = db.relationship('Team', foreign_keys=[team_id])
+

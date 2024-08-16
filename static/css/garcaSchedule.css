@@ -1,0 +1,91 @@
+
+
+
+
+#table_a {
+/*    position: relative;*/
+
+}
+
+
+#tab_a {
+    font-size: 30px;
+    color: white;
+}
+
+table.timeline_table {
+    width: 90%;
+}
+
+
+td {
+    text-align: center;
+    padding: 7px;
+}
+
+td.date {
+    width: 15%;
+}
+
+td.time {
+    width: 5%;
+}
+
+td.homeTeam {
+    text-align: right;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-weight: 700;
+    width: 30%;
+}
+
+td.matchResult {
+    text-align: center;
+    width: 5%;
+}
+
+.awayTeam {
+    text-align: left;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-weight: 700;
+    width: 30%;
+}
+
+.class_header {
+    background-color: rgba(79, 16, 16, 1);
+    color: White;
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 2px;
+    font-size: 28px;
+}
+
+.odd {
+    background-color: rgba(160, 60, 60, 0.7);
+}
+
+.even {
+    background-color: rgba(115, 15, 15, 0.7);
+}
+
+table{
+	border-spacing: 0px;
+	color: white;
+	margin: 0 auto;
+}
+
+
+
+
+
+#timeline {
+    position: relative;
+    font-size: 30px;
+    transform: translateY(-50%);
+    top: 60%;
+}
+
+.title-row {
+    background-color: rgb(38, 8, 8);
+}

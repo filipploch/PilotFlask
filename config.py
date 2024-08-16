@@ -29,11 +29,14 @@ class Config:
                     'goal_set': [1, 4]}
     PROCESSED_FILES_DIRECTORY = 'C:\\Users\\Filip\\PycharmProjects\\PilotFlask\\static\\video\\processed'
     REPLAYS_FILES_DIRECTORY = 'C:\\Users\\Filip\\PycharmProjects\\PilotFlask\\static\\video\\replays'
-    REPLAYS_FILES_ARCH_DIRECTORY = 'C:\\Users\\Filip\\PycharmProjects\\PilotFlask\\static\\video\\replays\\arch'
+    # REPLAYS_FILES_ARCH_DIRECTORY = 'C:\\Users\\Filip\\PycharmProjects\\PilotFlask\\static\\video\\replays\\arch'
     OBS_DROP_REPLAY = False
     RECORD_TIME = None
     REPLAY_FILE_TYPE = '.mkv'
-    VIDEO_LENGTH = {'C1': 0, 'C2': 0}
+    VIDEO_LENGTH = {'C0': 0, 'C1': 0, 'C2': 0}
+    REPLAY_SOURCE = 'C0'
+    TIMER_CONTROL = False
+    CURRENT_ROUND = 2
 
 
 class DevelopmentConfig(Config):
