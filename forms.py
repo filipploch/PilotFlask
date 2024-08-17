@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import SelectField, IntegerField, SelectMultipleField, StringField, BooleanField, SubmitField
 from wtforms.validators import DataRequired, Length
 from wtforms.widgets import ColorInput
-from models import Team, Staff, Stadium, Competitions, Division, TimerDisplayMode
+from models import Team, Staff, Stadium, Competitions, Division, TimerDisplayMode, Player
 import os
 
 
@@ -10,7 +10,7 @@ class MatchForm(FlaskForm):
     team_a = SelectField('Drużyna A', validators=[DataRequired()], choices=[('', '')])
     team_b = SelectField('Drużyna B', validators=[DataRequired()], choices=[('', '')])
     periods = IntegerField('ilość części meczu', validators=[DataRequired()])
-    period_length = IntegerField('długość części meczu (s)', validators=[DataRequired()])
+    period_length = StringField('długość części meczu (s)', validators=[DataRequired()])
     panel_timer_display_mode = SelectField('format czasu (panel)', validators=[DataRequired()], choices=[('', '')])
     is_panel_timer_ascending = BooleanField('czy czas rosnąco? (panel)')
     stream_timer_display_mode = SelectField('format czasu (stream)', validators=[DataRequired()], choices=[('', '')])
@@ -114,3 +114,11 @@ class TimerDisplayModeForm(FlaskForm):
 class MatchPeriodForm(FlaskForm):
     length = IntegerField('Period length', validators=[DataRequired()])
     submit = SubmitField('Dodaj')
+
+
+class PlayerForm(FlaskForm):
+    default_nr = StringField('Numer')
+    first_name = StringField('Imię', validators=[DataRequired])
+    last_name = StringField('Nazwisko', validators=[DataRequired])
+    is_goalkeeper = BooleanField('Bramkarz')
+    is_captain = BooleanField('Kapitan')

@@ -1782,7 +1782,7 @@ def get_period_name(period, periods):
     elif periods == 1:
         return 'mecz'
     else:
-        return f'część {period + 1} z {periods}'
+        return f'część {period + 1}. z {periods}'
 
 
 def get_start_time(period_nr, period_length):
@@ -1791,6 +1791,21 @@ def get_start_time(period_nr, period_length):
 
 def get_end_time(period_nr, period_length):
     return (int(period_nr) + 1) * int(period_length) - 1
+
+
+def get_period_length(_period_length):
+    if _period_length.isdigit():
+        return int(_period_length)
+    elif 'm' in _period_length and 's' in _period_length:
+        if _period_length.split('m')[0].isdigit() and _period_length.split('m')[1].split('s')[0].isdigit():
+            return int(_period_length.split('m')[0]) * 60 + int(_period_length.split('m')[1].split('s')[0])
+        else:
+            return 1200
+    elif 'm' in _period_length:
+        if _period_length.split('m')[0].isdigit():
+            return int(_period_length.split('m')[0]) * 60
+        else:
+            return 1200
 
 
 @settings_blueprint.route('/edit-match/<int:match_id>', methods=['GET', 'POST'])
@@ -1810,7 +1825,7 @@ def edit_match(match_id):
     selected_commentators = [commentator.staff_id for commentator in commentators]
     date_time = Match.query.filter_by(id=match_id).first().date
 
-    form = MatchForm(obj=match)
+    form = MatchForm(obj=match, competition_id=match.competitions)
     form.date_time = MatchForm(date_time=date_time)
 
     form_content = CreateEditMatch.form_content
@@ -1818,7 +1833,7 @@ def edit_match(match_id):
     if request.method == 'POST':
         match.team_a = form.team_a.data
         match.team_b = form.team_b.data
-        match.period_length = form.period_length.data
+        match.period_length = get_period_length(form.period_length.data)
         match.actual = form.is_actual.data
         cameramen = form.cameramen.data
         commentators = form.commentators.data
