@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Transmition</title>
+    <style>
+        body {
+            margin: 0px;
+            padding: 0px;
+            overflow: hidden;
+        }
+
+        #container {
+            width: 100vw;
+            height: 100vh;
+        }
+
+        #logo-container {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+        }
+
+        .strip {
+            position: relative;
+            width: 100vw;
+            height: 10vh;
+            left: -100%;
+        }
+
+        .strip-brown {
+            background-color: #8a4827;
+        }
+
+        .strip-white {
+            background-color: white;
+        }
+
+        #logo-div {
+            width: 100vw;
+            height: 80vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            top: calc((100vh - 90vh)/2);
+            position: absolute;
+            animation: fadeLogo 2s both;
+        }
+
+        @keyframes fadeLogo {
+            0% {opacity: 0}
+            20% {opacity: 0}
+            50% {opacity: 1}
+            70% {opacity: 1}
+            100% {opacity: 0}
+        }
+
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div class="strip strip-brown"></div>
+        <div class="strip strip-white"></div>
+        <div class="strip strip-brown"></div>
+        <div class="strip strip-white"></div>
+        <div class="strip strip-brown"></div>
+        <div class="strip strip-white"></div>
+        <div class="strip strip-brown"></div>
+        <div class="strip strip-white"></div>
+        <div class="strip strip-brown"></div>
+        <div class="strip strip-white"></div>
+    </div>
+    <div id="logo-container">
+        <div id="logo-div">
+            <img src="logo.png" alt="Logo" style="max-width: 100%; max-height: 100%;">
+        </div>
+    </div>
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Pobranie wszystkich elementów z klasą "strip"
+        const strips = document.querySelectorAll('.strip');
+
+        // Iteracja po każdym elemencie strip
+        strips.forEach((strip, index) => {
+            // Losowanie wartości a, b, c
+            const a = Math.floor(Math.random() * 20) + 1;  // wartość z zakresu 1-20
+            const b = Math.floor(Math.random() * 6) + 45;  // wartość z zakresu 55-60
+            const c = Math.floor(Math.random() * 6) + 70;  // wartość z zakresu 80-85
+
+            // Nazwa animacji dla konkretnego elementu
+            const animationName = `showStrip${index + 1}`;
+
+            // Dodanie stylu do elementu
+            strip.style.animation = `${animationName} 2s both`;
+            strip.style.animationDelay = `200ms`;
+
+            // Tworzenie reguł @keyframes
+            const keyframes = `
+            @keyframes ${animationName} {
+                0% { left: -100%; opacity: 0; }
+                ${a}% { left: -100%; opacity: 0; }
+                ${b}% { left: 0; opacity: 1; }
+                ${c}% { left: 0; opacity: 1; }
+                100% { left: 100%; opacity: 0; }
+            }`;
+
+            // Dodanie reguł @keyframes do dokumentu
+            const styleSheet = document.styleSheets[0];
+            styleSheet.insertRule(keyframes, styleSheet.cssRules.length);
+        });
+    });
+
+</script>
+</html>

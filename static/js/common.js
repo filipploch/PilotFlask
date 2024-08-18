@@ -61,3 +61,11 @@ function fetchGet(_url) {
     url.searchParams.append('competition_id', selectedValue);
     location.href = url;
 }
+
+//function toggleCheckbox(element) {
+//    if (element.checked) {
+//        element.setAttribute('value', 1);
+//    } else {
+//        element.setAttribute('value', 0);
+//    }
+//}

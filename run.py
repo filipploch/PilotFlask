@@ -1996,14 +1996,14 @@ def insert_file_data_to_db(_players):
                 full_name=player['full_name'],
                 team=player['team'],
                 position=player['position'],
-                matches=0,
-                goals=0,
-                assists=0,
-                yellow_cards=0,
-                red_cards=0,
-                own_goals=0,
-                best_five=0,
-                best_player=0,
+                # matches=0,
+                # goals=0,
+                # assists=0,
+                # yellow_cards=0,
+                # red_cards=0,
+                # own_goals=0,
+                # best_five=0,
+                # best_player=0,
                 first_name=player['first_name'],
                 last_name=player['last_name'],
                 default_nr=player['default_nr'],
@@ -2451,9 +2451,9 @@ def add_substitution(team_id):
     _actual_match = Match.query.filter_by(actual=1).first()
     _team = Team.query.filter_by(id=team_id).first()
     _squad = Player.query.filter(Player.team == team_id, Player.squad == 1).all()
-    _subs = Player.query.filter(Player.team == team_id, Player.squad == 0).all()
+    _subs = Player.query.filter(Player.team == team_id, Player.squad == 1).all()
     _data = {
-        'squad': _squad,
+        '_squad': _squad,
         'subs': _subs,
         'team': _team
     }
@@ -2525,7 +2525,7 @@ def get_squad_before_substitution(_substitution):
 
 def get_subs_before_substitution(_substitution):
     _team = Team.query.filter_by(id=_substitution.team_id).first()
-    _subs = Player.query.filter(Player.team == _team.id, Player.squad == 0).all()
+    _subs = Player.query.filter(Player.team == _team.id, Player.squad == 1).all()
     if _substitution.is_to_display:
         return _subs
     else:
@@ -2763,6 +2763,50 @@ def change_period():
 def show_added_time(added_time):
     if int(added_time) > 0:
         current_app.config['SOCKETIO'].emit('show_added_time', {'added_time': int(added_time)})
+    return jsonify({'status': 'OK'})
+
+
+@settings_blueprint.route('/add-player', methods=['POST'])
+def add_player():
+    _player_data = request.json
+    new_player = Player(
+        team=_player_data['teamId'],
+        first_name=_player_data['firstName'],
+        last_name=_player_data['lastName'],
+        full_name=get_fullname(_player_data),
+        default_nr=_player_data['number'],
+        position=int(_player_data['isGoalkeeper']),
+        captain=get_captain(_player_data),
+        squad=0,
+        is_active=1,
+        link=None,
+    )
+    db.session.add(new_player)
+    db.session.commit()
+    return jsonify({'status': 'OK'})
+
+
+def get_fullname(_player_data):
+    return f'{_player_data['lastName']} {_player_data['firstName']}'
+
+
+def get_captain(_player_data):
+    if int(_player_data['isCaptain']):
+        _team = Team.query.filter_by(id=int(_player_data['teamId'])).first()
+        _players = Player.query.filter_by(team=int(_player_data['teamId'])).all()
+        for _player in _players:
+            _player.captain = 0
+        db.session.commit()
+        return 1
+    return 0
+
+
+@settings_blueprint.route('/delete-player', methods=['POST'])
+def delete_player():
+    _player_id = request.json['playerId']
+    _player = Player.query.filter_by(id=_player_id).first()
+    db.session.delete(_player)
+    db.session.commit()
     return jsonify({'status': 'OK'})
 
 

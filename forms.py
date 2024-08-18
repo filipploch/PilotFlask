@@ -118,7 +118,7 @@ class MatchPeriodForm(FlaskForm):
 
 class PlayerForm(FlaskForm):
     default_nr = StringField('Numer')
-    first_name = StringField('Imię', validators=[DataRequired])
-    last_name = StringField('Nazwisko', validators=[DataRequired])
+    first_name = StringField('Imię', validators=[DataRequired()])
+    last_name = StringField('Nazwisko', validators=[DataRequired()])
     is_goalkeeper = BooleanField('Bramkarz')
     is_captain = BooleanField('Kapitan')

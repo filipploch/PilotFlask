@@ -5,7 +5,12 @@
 {% endblock %}
 
 {% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/edit-team.css') }}">
+{% endblock %}
+
+{% block header_script %}
+  <script src="{{ url_for('static', filename='js/common.js') }}"></script>
 {% endblock %}
 
 {% block sitename %}
@@ -74,7 +79,7 @@
     <table>
       <thead>
         <tr>
-          <th class="invisible">Id</th>
+          <th style="display: none;">Id</th>
           <th>&#160 Gra &#160</th>
           <th>Nr</th>
           <th>Imię</th>
@@ -86,7 +91,7 @@
       <tbody>
         {% for player in players %}
         <tr id="player_{{ player.id }}">
-          <td class="invisible"><input type="text" name="player_{{ player.id }}['player_id']" value="{{ player.id }}"></td>
+          <td style="display: none;"><input type="text" name="player_{{ player.id }}['player_id']" value="{{ player.id }}"></td>
           <td><input type="checkbox" name="player_{{ player.id }}['squad']" onchange="toggleCheckbox(this);"
                      value="{{ player.squad }}" {% if player.squad == 1 %}checked{% endif %}></td>
           <td><input class="number" type="text" name="player_{{ player.id }}['default_nr']" value="{{ player.default_nr }}"></td>
@@ -103,6 +108,11 @@
                    id="player_{{ player.id }}_captain_hidden"
                    value="{{ player.captain }}" {% if player.captain == 1 %}checked{% endif %}">
           </td>
+          <td><input type="button"
+                     value="x"
+                     style="color: white; background-color: red; font-weight: 900; margin-left: 3px;"
+                     ondblclick="deletePlayer(this);"
+                     data-player-id="{{ player.id }}"></td>
 
 
 
@@ -113,6 +123,7 @@
     
     <div class="form-group">
         <input class="btn btn-primary" id="submit_players" name="submit_players" type="submit" value="Zapisz">
+        <input class="btn btn-primary" id="add_player" onclick="showAddPlayerElement();" type="button" value="Dodaj">
     </div>
   </form>
   <div>
@@ -134,10 +145,27 @@
   </div>
 </div>
 </div>
+    <div id="add-player-element" class="popup-window invisible" data-team-id="{{ team.id }}">
+      <input type="button" value="x" onclick="hideAddPlayerElement();"
+             style="position: absolute; right: 20px; top: 5px;">
+      <div>DODAJ ZAWODNIKA</div>
+      <div>Imię:<br>
+        <input id="add-player-first-name" type="text" class="add-player-input"></div>
+      <div>Nazwisko:<br>
+        <input id="add-player-last-name" type="text" class="add-player-input"></div>
+      <div>Numer:<br>
+        <input id="add-player-number" type="text" class="add-player-input"></div>
+      <div>Bramkarz:<br>
+        <input id="add-player-is-goalkeeper" type="checkbox" class="add-player-input" onclick="toggleCheckbox(this);" value="0"></div>
+      <div>Kapitan:<br>
+        <input id="add-player-is-captain" type="checkbox" class="add-player-input" onclick="toggleCheckbox(this);" value="0"></div>
+      <input type="button" value="Dodaj" onclick="addPlayer();">
+    </div>
 </div>
 {% endblock %}
 
 {% block footer_script %}
+<script src="{{ url_for('static', filename='js/edit-team.js') }}"></script>
 <script>
   let radios = Array.from(document.querySelectorAll('.radio-captain'));
     radios.forEach((radio) => {

@@ -22,14 +22,14 @@ class NALFplayersUpdater:
                 db_player.first_name = db_player.full_name.split()[-1]
                 db_player.last_name = " ".join(db_player.full_name.split()[0:-1])
                 db_player.position = player['is_goalkeeper']
-                db_player.matches = player['matches']
-                db_player.goals = player['goals']
-                db_player.assists = player['assists']
-                db_player.yellow_cards = player['yellow_cards']
-                db_player.red_cards = player['red_cards']
-                db_player.own_goals = player['own_goals']
-                db_player.best_five = player['best_five']
-                db_player.best_player = player['best_player']
+                # db_player.matches = player['matches']
+                # db_player.goals = player['goals']
+                # db_player.assists = player['assists']
+                # db_player.yellow_cards = player['yellow_cards']
+                # db_player.red_cards = player['red_cards']
+                # db_player.own_goals = player['own_goals']
+                # db_player.best_five = player['best_five']
+                # db_player.best_player = player['best_player']
                 db_player.link = player['link']
                 updated_list.append(db_player)
                 self._remove_player(start_list, db_player)
@@ -40,14 +40,14 @@ class NALFplayersUpdater:
                     full_name=player['full_name'],
                     team=local_db_team_id,
                     position=player['is_goalkeeper'],
-                    matches=player['matches'],
-                    goals=player['goals'],
-                    assists=player['assists'],
-                    yellow_cards=player['yellow_cards'],
-                    red_cards=player['red_cards'],
-                    own_goals=player['own_goals'],
-                    best_five=player['best_five'],
-                    best_player=player['best_player'],
+                    # matches=player['matches'],
+                    # goals=player['goals'],
+                    # assists=player['assists'],
+                    # yellow_cards=player['yellow_cards'],
+                    # red_cards=player['red_cards'],
+                    # own_goals=player['own_goals'],
+                    # best_five=player['best_five'],
+                    # best_player=player['best_player'],
                     first_name=player['full_name'].split()[1],
                     last_name=player['full_name'].split()[0],
                     default_nr=0,

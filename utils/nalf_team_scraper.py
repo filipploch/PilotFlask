@@ -18,14 +18,14 @@ class NALFteamScraper(Scraper):
                 'link': row.find('td', class_='data-name').find('a').get('href'),
                 'team': row.find('td', class_='data-team').find('a').get('href'),
                 'is_goalkeeper': self._get_is_goalkeeper(row),
-                'matches': int(row.find('td', class_='data-appearances').text),
-                'goals': int(row.find('td', class_='data-goals').text),
-                'assists': int(row.find('td', class_='data-assists').text),
-                'yellow_cards': int(row.find('td', class_='data-yellowcards').text),
-                'red_cards': int(row.find('td', class_='data-redcards').text),
-                'own_goals': int(row.find('td', class_='data-owngoals').text),
-                'best_five': int(self._get_data(row, 'data-pitkakolejki')),
-                'best_player': int(self._get_data(row, 'data-zawodnikkolejki')),
+                # 'matches': int(row.find('td', class_='data-appearances').text),
+                # 'goals': int(row.find('td', class_='data-goals').text),
+                # 'assists': int(row.find('td', class_='data-assists').text),
+                # 'yellow_cards': int(row.find('td', class_='data-yellowcards').text),
+                # 'red_cards': int(row.find('td', class_='data-redcards').text),
+                # 'own_goals': int(row.find('td', class_='data-owngoals').text),
+                # 'best_five': int(self._get_data(row, 'data-pitkakolejki')),
+                # 'best_player': int(self._get_data(row, 'data-zawodnikkolejki')),
             }
             #
             # # Dodaj obiekt do listy

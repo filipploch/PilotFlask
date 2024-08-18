@@ -11,9 +11,9 @@ class PlayerSchema(ma.Schema):
     class Meta:
         model = Player
         fields = ('id', 'full_name', 'team', 'position',
-                  'matches', 'goals', 'assists',
-                  'yellow_cards', 'red_cards', 'own_goals',
-                  'best_five', 'best_players',
+                  # 'matches', 'goals', 'assists',
+                  # 'yellow_cards', 'red_cards', 'own_goals',
+                  # 'best_five', 'best_players',
                   'first_name', 'last_name', 'default_nr',
                   'squad', 'is_active', 'captain', 'link')
 
