@@ -90,11 +90,17 @@
       </thead>
       <tbody>
         {% for player in players %}
-        <tr id="player_{{ player.id }}">
+        <tr id="player_{{ player.id }}" data-is-active="{{ player.is_active }}"
+            data-player-id="{{ player.id }}" class="player-elements">
           <td style="display: none;"><input type="text" name="player_{{ player.id }}['player_id']" value="{{ player.id }}"></td>
           <td><input type="checkbox" name="player_{{ player.id }}['squad']" onchange="toggleCheckbox(this);"
-                     value="{{ player.squad }}" {% if player.squad == 1 %}checked{% endif %}></td>
+                     ondblclick="toggleIsActive(this);" data-player-id="{{ player.id }}"
+                     id="player_{{ player.id }}_squad_checkbox"
+                     value="{{ player.squad }}" {% if player.squad == 1 %}checked{% endif %}>
+          <input type="checkbox" ondblclick="toggleIsActive(this);" data-player-id="{{ player.id }}"
+                     id="player_{{ player.id }}_hidden_checkbox" style="display: none;"></td>
           <td><input class="number" type="text" name="player_{{ player.id }}['default_nr']" value="{{ player.default_nr }}"></td>
+          <td style="display: none;"><input id="player_{{ player.id }}_is_active" type="hidden" name="player_{{ player.id }}['is_active']" value="{{ player.is_active }}"></td>
           <td><input type="text" name="player_{{ player.id }}['first_name']" value="{{ player.first_name }}"></td>
           <td><input type="text" name="player_{{ player.id }}['last_name']" value="{{ player.last_name }}"></td>
           <td><input type="checkbox" name="player_{{ player.id }}['position']" onchange="toggleCheckbox(this);"
@@ -110,7 +116,7 @@
           </td>
           <td><input type="button"
                      value="x"
-                     style="color: white; background-color: red; font-weight: 900; margin-left: 3px;"
+                     style="color: red; background-color: white; font-weight: 900; margin-left: 3px;"
                      ondblclick="deletePlayer(this);"
                      data-player-id="{{ player.id }}"></td>
 

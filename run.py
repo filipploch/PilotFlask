@@ -338,9 +338,15 @@ def get_players_by_id(data):
 def lineup(team):
     _team_id = matchdata().get_json()[team]['id']
     _team = Team.query.filter_by(id=_team_id).first()
-    _lineup = [player for player in _team.players if player.squad]
+    _lineup = [player for player in _team.players if player.is_active and player.squad]
+    _reserve = [player for player in _team.players if player.is_active and not player.squad]
     _logo = _team.logo_file
-    return render_template('lineup.html', _lineup=_lineup, _logo=_logo)
+    _data = {
+        'lineup': _lineup,
+        'reserve': _reserve,
+        'logo': _logo
+    }
+    return render_template('lineup.html', data=_data)
 
 
 @stream_blueprint.route('/table')
@@ -353,7 +359,7 @@ def results():
     return render_template('results.html')
 
 
-@stream_blueprint.route('/controller-lineup/<team>')
+@stream_blueprint.route('/controller-lineup/<team>')  #todo template
 def panel_lineup(team):
     _team_id = matchdata().get_json()[team]['id']
     _team = Team.query.filter_by(id=_team_id).first()
@@ -366,11 +372,22 @@ def panel_lineup(team):
                 'team-id': _team.id,
                 'team-full-name': _team.full_name,
                 'team-short-name': _team.short_name,
-                } for player in _team.players if player.squad]
+                } for player in _team.players if player.is_active and player.squad]
+
+    _reserve = [{'id': player.id,
+                 'first-name': player.first_name,
+                 'last-name': player.last_name,
+                 'nr': player.default_nr,
+                 'is-gk': player.position,
+                 'is-captain': player.captain,
+                 'team-id': _team.id,
+                 'team-full-name': _team.full_name,
+                 'team-short-name': _team.short_name,
+                 } for player in _team.players if player.is_active and not player.squad]
     return jsonify(_lineup)
 
 
-@stream_blueprint.route('/controller-lineup-edit/<team>')
+@stream_blueprint.route('/controller-lineup-edit/<team>')  #todo template
 def panel_lineup_edit(team):
     _team_id = matchdata().get_json()[team]['id']
     _team = Team.query.filter_by(id=_team_id).first()
@@ -384,7 +401,18 @@ def panel_lineup_edit(team):
                 'team-id': _team.id,
                 'team-full-name': _team.full_name,
                 'team-short-name': _team.short_name,
-                } for player in _team.players]
+                } for player in _team.players if player.is_active and player.squad]
+    _reserve = [{'id': player.id,
+                 'squad': player.squad,
+                 'first-name': player.first_name,
+                 'last-name': player.last_name,
+                 'nr': player.default_nr,
+                 'is-gk': player.position,
+                 'is-captain': player.captain,
+                 'team-id': _team.id,
+                 'team-full-name': _team.full_name,
+                 'team-short-name': _team.short_name,
+                 } for player in _team.players if player.is_active and not player.squad]
     return jsonify(_lineup)
 
 
@@ -566,6 +594,26 @@ def playoffs():
 @stream_blueprint.route('/charts')
 def charts():
     return render_template('charts.html')
+
+
+@stream_blueprint.route('/show-substitution/<team_id>')
+def show_substitution(team_id):
+    _matchdata = matchdata().get_json()
+    print('int(team_id):', int(team_id), type(int(team_id)))
+    print("_matchdata['teama']['id']:", _matchdata['teama']['id'], type(_matchdata['teama']['id']))
+    if int(team_id) == _matchdata['teama']['id']:
+        file_name = 'substitution_team_a.html'
+    elif int(team_id) == _matchdata['teamb']['id']:
+        file_name = 'substitution_team_b.html'
+    else:
+        file_name = 'substitution.html'
+    print('file_name:', file_name, type(file_name))
+    substitution_path = os.path.join(current_app.root_path, 'templates', 'mzpn', file_name)
+    print('substitution_path:', substitution_path, type(substitution_path))
+    obs_ws = current_app.config['obs_ws']
+    obs_ws.process_substitution(substitution_path)
+    return '', 204
+
 
 
 @panel_blueprint.route('/panel')
@@ -1103,11 +1151,12 @@ def get_team(team_id):
     return team_schema.dump(team)
 
 
-@panel_blueprint.route('/update-lineup', methods=['POST'])
+@panel_blueprint.route('/update-lineup', methods=['POST'])  #todo js POST request
 def update_lineup():
     _player = request.get_json()
     player = Player.query.filter_by(id=_player['id']).first()
     player.squad = _player['squad']
+    player.is_active = _player['is_active']
     player.default_nr = _player['default_nr']
     player.first_name = _player['first_name']
     player.last_name = _player['last_name']
@@ -1482,7 +1531,6 @@ def round_panel():
     }
     new_content = render_template('mzpn/round-panel.html', data=data)
     return jsonify({'content': new_content})
-
 
 
 @settings_blueprint.route('/matches-settings', methods=['GET'])
@@ -1936,10 +1984,12 @@ def edit_team(edit_type, team_id):
             return redirect(url_for('settings.edit_team', edit_type=edit_type, team_id=team_id))
         elif edit_type == 'set':
             return redirect(url_for('settings.edit_team', edit_type='set', team_id=team_id))
+
     team = Team.query.filter_by(id=team_id).first()
-    players = Player.query.filter_by(team=team_id).order_by(Player.position.desc(),
-                                                            Player.default_nr)  # Pobierz graczy z bazy danych
-    # .order_by(desc(players.position))
+    players = (Player.query.filter_by(team=team_id).order_by(Player.is_active.desc(),
+                                                             Player.squad.desc(),
+                                                             Player.position.desc(),
+                                                             Player.default_nr))  # Pobierz graczy z bazy danych
     _is_nalf_team = is_nalf_team(team)
     if edit_type == 'edit':
         return render_template('edit_team.html',
@@ -2056,7 +2106,7 @@ def save_players_to_database(player_data):
                 _plyr_data.update({_key: value})
 
         players_data.append(_plyr_data)
-    print(players_data)
+    print('players_data:', players_data)
 
     # # Zapisz dane do bazy danych
     for _player in players_data:
@@ -2065,6 +2115,7 @@ def save_players_to_database(player_data):
             # print(players_data[key], flush=True)
             # Aktualizuj dane istniejącego gracza
             player.squad = _player.get('squad', 0)
+            player.is_active = _player.get('is_active', 0)
             player.default_nr = _player.get('default_nr', 0)
             player.first_name = _player.get('first_name', '')
             player.last_name = _player.get('last_name', '')
@@ -2450,10 +2501,10 @@ def get_substitutions(team_id):
 def add_substitution(team_id):
     _actual_match = Match.query.filter_by(actual=1).first()
     _team = Team.query.filter_by(id=team_id).first()
-    _squad = Player.query.filter(Player.team == team_id, Player.squad == 1).all()
-    _subs = Player.query.filter(Player.team == team_id, Player.squad == 1).all()
+    _squad = Player.query.filter(Player.team == team_id, Player.is_active == 1, Player.squad == 1).all()
+    _subs = Player.query.filter(Player.team == team_id, Player.is_active == 1, Player.squad == 0).all()
     _data = {
-        '_squad': _squad,
+        'squad': _squad,
         'subs': _subs,
         'team': _team
     }
@@ -2510,7 +2561,7 @@ def edit_substitution(substitution_id):
 
 def get_squad_before_substitution(_substitution):
     _team = Team.query.filter_by(id=_substitution.team_id).first()
-    _squad = Player.query.filter(Player.team == _team.id, Player.squad == 1).all()
+    _squad = Player.query.filter(Player.team == _team.id, Player.is_active == 1, Player.squad == 1).all()
     if _substitution.is_to_display:
         return _squad
     else:
@@ -2525,7 +2576,7 @@ def get_squad_before_substitution(_substitution):
 
 def get_subs_before_substitution(_substitution):
     _team = Team.query.filter_by(id=_substitution.team_id).first()
-    _subs = Player.query.filter(Player.team == _team.id, Player.squad == 1).all()
+    _subs = Player.query.filter(Player.team == _team.id, Player.is_active == 1, Player.squad == 0).all()
     if _substitution.is_to_display:
         return _subs
     else:
@@ -2557,11 +2608,12 @@ def confirm_substitutions():
 
     for substitution in _team_a_substitutions:
         substitute_players(substitution)
-        substitution.is_to_display = set_is_to_display_property()
+        substitution.is_to_display = set_is_to_display_property(False)
 
     for substitution in _team_b_substitutions:
         substitute_players(substitution)
-        substitution.is_to_display = set_is_to_display_property()
+        substitution.is_to_display = set_is_to_display_property(False)
+    db.session.commit()
 
     return jsonify({'status': 'OK'})
 
@@ -2809,6 +2861,17 @@ def delete_player():
     db.session.commit()
     return jsonify({'status': 'OK'})
 
+
+@settings_blueprint.route('/toggle-is-active', methods=['POST'])
+def toggle_is_active():
+    _player_id = request.json['playerId']
+    _player = Player.query.filter_by(id=_player_id).first()
+    if _player.is_active == 0:
+        _player.is_active = 1
+    else:
+        _player.is_active = 0
+    db.session.commit()
+    return jsonify({'is_active': _player.is_active})
 
 
 @obswebsocketpy_blueprint.route('/ws-controller')

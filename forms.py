@@ -94,6 +94,7 @@ class CreateTeamForm(FlaskForm):
 
 
 class EditTeamForm(FlaskForm):
+    is_active = BooleanField('Kadra meczowa')
     squad = BooleanField('Squad')
     default_nr = StringField('Default Number', validators=[DataRequired()])
     first_name = StringField('First Name', validators=[DataRequired()])
@@ -117,6 +118,8 @@ class MatchPeriodForm(FlaskForm):
 
 
 class PlayerForm(FlaskForm):
+    is_active = BooleanField('Czy w kadrze meczowej')
+    squad = BooleanField('Czy wyjściowy skład')
     default_nr = StringField('Numer')
     first_name = StringField('Imię', validators=[DataRequired()])
     last_name = StringField('Nazwisko', validators=[DataRequired()])

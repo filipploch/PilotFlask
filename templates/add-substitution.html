@@ -7,7 +7,7 @@
     <div id="sidebar-body" style="overflow: hidden;">
         <div id="sidebar-body-div">
             <div id="elements">
-                <div id="squad-list" style="overflow-y: auto;" class="substitution-list">
+                <div id="squad-list" style="overflow-y: auto;" class="substitution-list invisible">
                     {% for player in data.squad %}
                     <div
                         id="player-out-{{ loop.index }}-element"
@@ -17,7 +17,7 @@
                     >{{ player.default_nr }}. {{ player.full_name }}</div>
                     {% endfor %}
                 </div>
-                <div id="substitution-list" style="overflow-y: auto;" class="substitution-list invisible">
+                <div id="substitution-list" style="overflow-y: auto;" class="substitution-list">
                     {% for player in data.subs %}
                     <div
                         id="player-in-{{ loop.index }}-element"

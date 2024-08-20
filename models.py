@@ -83,7 +83,7 @@ class Team(db.Model):
     players = db.relationship('Player',
                               backref='teams',
                               lazy=True,
-                              order_by="[desc(Player.position), Player.default_nr]")
+                              order_by="[desc(Player.is_active), desc(Player.position), Player.default_nr]")
     name_16 = db.Column(db.String, nullable=False, unique=True)
 
 

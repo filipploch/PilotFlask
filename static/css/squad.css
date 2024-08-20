@@ -22,9 +22,18 @@ td
 }
 
 
+#reserve {
+  position: absolute;
+  bottom: 40px;
+  left: 10px;
+  animation: showReserve 1s 8000ms both;
+  padding: 0 20px;
+}
 
-
-
+.reserve-player {
+    white-space: nowrap;
+    margin-right: 20px;
+}
 
 
 .team_logo{
@@ -288,11 +297,9 @@ td
 
 #squad
 {
-	font-size: 30px;
 	position: absolute;
 	left: 50px;
 	top: 50%;
-	color: white;
     transform: translateY(-55%);
 	/*background-color: rgba(56, 56, 56, 0.7);*/
 	/*-webkit-animation: squad_anim 1s;*/
@@ -323,6 +330,8 @@ td
 	left: 50%;
 	top: 114px;
 	background-color: rgba(0,0,128,0.7);
+    font-size: 30px;
+	color: white;
 	-webkit-animation: squadBackgroundSlideInOut 30s;
 	-webkit-animation-fill-mode: both;
 }
@@ -346,3 +355,7 @@ td
 	100% {right: -300px; top: 100px;}
 }
 
+@keyframes showReserve {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}

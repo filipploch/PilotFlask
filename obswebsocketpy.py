@@ -283,6 +283,21 @@ class OBSWebsocket:
             _result = f'{_match.score_a}-{_match.score_b}'
             self.app.config['REPLAY_FILE_NAME'] = f'{_date}_{_result}_{_type_of_action}'
 
+    def process_substitution(self, substitution_file_path):
+        self.ws.call(requests.SetInputSettings(**{'inputName': 'Zmiana',
+                                                  'inputSettings': {
+                                                      'local_file': substitution_file_path
+                                                  },
+                                                  }))
+        print('substitution_file_path', substitution_file_path, type(substitution_file_path))
+        show_substitution_thread = self.socketio.start_background_task(self._show_substitution)
+        show_substitution_thread.join()
+
+    def _show_substitution(self):
+        self.show_source('MECZ', 'ZMIANA')
+        sleep(25)
+        self.show_source('MECZ', 'ZMIANA', visible=False)
+
     def start_stop_stream(self):
         _stream_status_request = self.ws.call(requests.GetStreamStatus())
         _stream_status = _stream_status_request.datain['outputActive']

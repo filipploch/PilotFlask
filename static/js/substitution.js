@@ -17,3 +17,4 @@
     parent.style.width = maxWidth * 1 + 'px';
     parent.style.height = totalHeight * 1 + 'px';
   };
+

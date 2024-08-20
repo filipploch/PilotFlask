@@ -235,7 +235,8 @@ body {
     <div id="container">
         <div id="substitutions-container">
             <div id="substitutions">
-                <div id="substitution-header" class="substitution-row">{{ time }}' ZMIANA ({{ team.short_name }})</div>
+                <div id="substitution-header"
+                     class="substitution substitution-row">{{ time }}' ZMIANA ({{ team.short_name }})</div>
                 {% for substitution in substitutions %}
                 <div class="substitution">
                     <div class="substitution-row player-out substitution-player">
@@ -261,7 +262,7 @@ body {
 <script>
   window.onload = function() {
     const parent = document.getElementById('substitutions-container');
-    const children = parent.getElementsByClassName('substitution-row');
+    const children = parent.getElementsByClassName('substitution');
     let maxWidth = 0;
     let totalHeight = 0;
 
@@ -279,5 +280,6 @@ body {
     parent.style.height = totalHeight * 1 + 'px';
   };
 </script>
+
 </body>
 </html>

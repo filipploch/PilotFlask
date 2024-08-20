@@ -10,12 +10,12 @@
 
     <div id="screen_content">
         <div id="logoBackground">
-            <img src="/static/images/logos/{{ _logo }}" id="logo_squad">
+            <img src="/static/images/logos/{{ data.logo }}" id="logo_squad">
         </div>
         <div id="squadBackground">
             <div id="squad">
                 <table id="matchSquad">
-                    {% for player in _lineup %}
+                    {% for player in data.lineup %}
                         <tr class="row" id="row{{ loop.index }}">
                             <td>{{ player.default_nr }}</td>
                             <td class="playerName">{{ player.first_name }} {{ player.last_name }}</td>
@@ -28,6 +28,12 @@
                         </tr>
                     {%endfor%}
                 </table>
+            </div>
+            <div id="reserve">
+                {% for player in data.reserve %}
+                    <span class="reserve-player">{{ player.default_nr }}. {{ player.first_name }} {{ player.last_name }}
+                        {% if player.position == "1" %} (B) {% endif %} </span>
+                {%endfor%}
             </div>
         </div>
     </div>

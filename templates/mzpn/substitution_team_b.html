@@ -235,7 +235,8 @@ body {
     <div id="container">
         <div id="substitutions-container">
             <div id="substitutions">
-                <div id="substitution-header" class="substitution-row">45+1' ZMIANA (TEM)</div>
+                <div id="substitution-header"
+                     class="substitution substitution-row">0' ZMIANA (TEM)</div>
                 
             </div>
         </div>
@@ -244,7 +245,7 @@ body {
 <script>
   window.onload = function() {
     const parent = document.getElementById('substitutions-container');
-    const children = parent.getElementsByClassName('substitution-row');
+    const children = parent.getElementsByClassName('substitution');
     let maxWidth = 0;
     let totalHeight = 0;
 
@@ -262,5 +263,6 @@ body {
     parent.style.height = totalHeight * 1 + 'px';
   };
 </script>
+
 </body>
 </html>

@@ -792,6 +792,10 @@ function setAddedTime() {
     });
 }
 
+function showSubstitution(team) {
+    fetch(`show-substitution/${team}`);
+}
+
     window.onload = function () {
         updateTimer();
         setTimerElementActive(matchdata.match.is_timer_active);

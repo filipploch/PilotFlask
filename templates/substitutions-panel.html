@@ -17,9 +17,9 @@
                     id="substitution-{{ loop.index }}-element"
                     class="substitution-element
                     {% if substitution.is_to_display %}
-                     undisplayed
+                     unconfirmed
                     {% else %}
-                     invisible displayed
+                     invisible confirmed
                     {% endif %}
                     "
                 >
@@ -45,6 +45,7 @@
     </div>
     <div id="sidebar-footer">
         <button ondblclick="confirmSubstitutions()">Potwierdź wszystkie</button>
+        <button onclick="showSubstitution({{ data.team.id }});">Wyświetl</button>
         <button id="sidebar-cancel-button" onclick="clearSidebar();">Zamknij</button>
     </div>
 

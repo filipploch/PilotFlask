@@ -235,38 +235,22 @@ body {
     <div id="container">
         <div id="substitutions-container">
             <div id="substitutions">
-                <div id="substitution-header" class="substitution-row">45+1' ZMIANA (GAR)</div>
+                <div id="substitution-header"
+                     class="substitution substitution-row">0' ZMIANA (GAR)</div>
                 
                 <div class="substitution">
                     <div class="substitution-row player-out substitution-player">
                         <div class="substitution-out-icon substitution-icon">&#9660</div>
-                        <div class="player-number">2.</div>
-                        <div class="player-name">
-                            Ziemowit Różycki
-                        </div>
-                    </div>
-                    <div class="substitution-row player-in substitution-player">
-                        <div class="substitution-in-icon substitution-icon">&#9650</div>
                         <div class="player-number">22.</div>
                         <div class="player-name">
-                            Feliks Mizgaj
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="substitution">
-                    <div class="substitution-row player-out substitution-player">
-                        <div class="substitution-out-icon substitution-icon">&#9660</div>
-                        <div class="player-number">11.</div>
-                        <div class="player-name">
-                            Marcin Mamrot
+                            Feliks Grzybowski
                         </div>
                     </div>
                     <div class="substitution-row player-in substitution-player">
                         <div class="substitution-in-icon substitution-icon">&#9650</div>
-                        <div class="player-number">14.</div>
+                        <div class="player-number">20.</div>
                         <div class="player-name">
-                            Zygmunt Konstantynopolitańczykiewicz
+                            Kacper Nieckula
                         </div>
                     </div>
                 </div>
@@ -278,7 +262,7 @@ body {
 <script>
   window.onload = function() {
     const parent = document.getElementById('substitutions-container');
-    const children = parent.getElementsByClassName('substitution-row');
+    const children = parent.getElementsByClassName('substitution');
     let maxWidth = 0;
     let totalHeight = 0;
 
@@ -296,5 +280,6 @@ body {
     parent.style.height = totalHeight * 1 + 'px';
   };
 </script>
+
 </body>
 </html>

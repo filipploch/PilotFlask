@@ -129,7 +129,7 @@ def get_replay_file_duration(file_path):
         return 11
 
 
-def process_csv_file(_file, _team_id: int, _keys: list = None):
+def process_csv_file(_file, _team_id: int, _keys: list = None): #todo is_active key
     if not _keys:
         _keys = ['default_nr', 'first_name', 'last_name', 'position', 'captain', 'team', 'full_name', 'squad']
     _players = []
